@@ -18,10 +18,5 @@ namespace TiendaDeInformatica.Modelos.Productos
         public bool PoseeCooler { get; set; }
 
         public int ConsumoWatts { get; set; }
-
-
-        public Procesador()
-        {
-        }
     }
 }

@@ -82,9 +82,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modelos\Caracteristicas\AlmacenamientoConexion.cs" />
+    <Compile Include="Modelos\Caracteristicas\AlmacenamientoTecnologia.cs" />
+    <Compile Include="Modelos\Caracteristicas\AlmacenamientoTipo.cs" />
+    <Compile Include="Modelos\Caracteristicas\CoolerTipo.cs" />
+    <Compile Include="Modelos\Caracteristicas\FuenteTipo.cs" />
+    <Compile Include="Modelos\Caracteristicas\FuenteTipoCable.cs" />
+    <Compile Include="Modelos\Caracteristicas\FuenteTipoCertificacion.cs" />
     <Compile Include="Modelos\Caracteristicas\GPUChipset.cs" />
     <Compile Include="Modelos\Caracteristicas\GPURayTracing.cs" />
     <Compile Include="Modelos\Caracteristicas\GPUInterfaz.cs" />
+    <Compile Include="Modelos\Caracteristicas\MotherChipset.cs" />
+    <Compile Include="Modelos\Caracteristicas\MotherTipo.cs" />
     <Compile Include="Modelos\Caracteristicas\RAMFormato.cs" />
     <Compile Include="Modelos\Caracteristicas\GPUTecnologiaVRAM.cs" />
     <Compile Include="Modelos\Caracteristicas\RAMTecnologia.cs" />
@@ -97,8 +106,13 @@
     <Compile Include="Modelos\Menu\SubItem.cs" />
     <Compile Include="Modelos\Presupuesto.cs" />
     <Compile Include="Modelos\Producto.cs" />
+    <Compile Include="Modelos\Productos\Almacenamiento.cs" />
+    <Compile Include="Modelos\Productos\Fuente.cs" />
+    <Compile Include="Modelos\Productos\Gabinete.cs" />
     <Compile Include="Modelos\Productos\MemoriaRAM.cs" />
+    <Compile Include="Modelos\Productos\Motherboard.cs" />
     <Compile Include="Modelos\Productos\PlacaDeVideo.cs" />
+    <Compile Include="Modelos\Productos\Cooler.cs" />
     <Compile Include="Modelos\Productos\Procesador.cs" />
     <Compile Include="Vistas\Controles de Usuario\ItemUserControl.xaml.cs">
       <DependentUpon>ItemUserControl.xaml</DependentUpon>

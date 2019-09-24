@@ -18,10 +18,5 @@ namespace TiendaDeInformatica.Modelos.Productos
         public RGB TipoDeRGB { get; set; }
 
         public int ConsumoWatts { get; set; }
-
-
-        public MemoriaRAM()
-        {
-        }
     }
 }

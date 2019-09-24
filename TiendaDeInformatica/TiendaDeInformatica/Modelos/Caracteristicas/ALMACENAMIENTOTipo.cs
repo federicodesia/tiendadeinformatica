@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TiendaDeInformatica.Modelos
+namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
-    public class Marca
+   public class AlmacenamientoTipo
     {
-        public int Id { get; set; }
         public string Nombre { get; set; }
     }
 }
