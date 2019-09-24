@@ -72,9 +72,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modelos\Caracteristicas\GPUChipset.cs" />
+    <Compile Include="Modelos\Caracteristicas\GPURayTracing.cs" />
+    <Compile Include="Modelos\Caracteristicas\GPUInterfaz.cs" />
+    <Compile Include="Modelos\Caracteristicas\RAMFormato.cs" />
+    <Compile Include="Modelos\Caracteristicas\GPUTecnologiaVRAM.cs" />
+    <Compile Include="Modelos\Caracteristicas\RAMTecnologia.cs" />
+    <Compile Include="Modelos\Caracteristicas\CPULinea.cs" />
+    <Compile Include="Modelos\Caracteristicas\RGB.cs" />
+    <Compile Include="Modelos\Caracteristicas\CPUSocket.cs" />
+    <Compile Include="Modelos\Marca.cs" />
     <Compile Include="Modelos\Cliente.cs" />
     <Compile Include="Modelos\Presupuesto.cs" />
     <Compile Include="Modelos\Producto.cs" />
+    <Compile Include="Modelos\Productos\MemoriaRAM.cs" />
+    <Compile Include="Modelos\Productos\PlacaDeVideo.cs" />
     <Compile Include="Modelos\Productos\Procesador.cs" />
     <Compile Include="Vistas\Ventanas\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -8,7 +8,9 @@ namespace TiendaDeInformatica.Modelos
 {
     public abstract class Producto
     {
-        public string Nombre { get; set; }
+        public Marca Marca { get; set; }
+        public string Modelo { get; set; }
+        public int Cantidad { get; set; }
         public decimal Precio { get; set; }
     }
 }
