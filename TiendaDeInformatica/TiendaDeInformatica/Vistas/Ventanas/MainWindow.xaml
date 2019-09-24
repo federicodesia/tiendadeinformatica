@@ -8,6 +8,10 @@
         mc:Ignorable="d"
         Title="Tienda de Informática" Height="450" Width="800" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen">
     <Grid Background="#1F1F1F">
-        <Controls:HamburgerMenu x:Name="Menu" Foreground="White" PaneBackground="#282828" IsPaneOpen="True" DisplayMode="CompactInline" OpenPaneLength="200" CompactPaneLength="48"/>
+        <Grid Background="#282828" Width="220" HorizontalAlignment="Left">
+            <ScrollViewer HorizontalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="Menu"/>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>
