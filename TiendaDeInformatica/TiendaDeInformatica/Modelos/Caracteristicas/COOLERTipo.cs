@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class CoolerTipo
     {
+        // Por aire, líquido...
         public string Nombre { get; set; }
     }
 }

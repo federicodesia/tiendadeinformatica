@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class GPURayTracing
     {
+        // RayTracing, DLSS...
         public string Nombre { get; set; }
     }
 }

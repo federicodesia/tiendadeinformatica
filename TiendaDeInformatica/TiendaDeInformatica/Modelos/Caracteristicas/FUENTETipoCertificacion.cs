@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
    public class FuenteTipoCertificacion
     {
+        // 80plus, 80plus Bronze...
         public string Nombre { get; set; }
     }
 }

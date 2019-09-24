@@ -9,11 +9,11 @@ namespace TiendaDeInformatica.Modelos.Productos
 {
    public class Fuente : Producto
     {
-        public FuenteTipoCertificacion TipoCertificacion { get; set; }
         public FuenteTipo TipoDeFuente { get; set; }
-        public int LargoMM { get; set; }
+        public FuenteTipoCertificacion TipoDeCertificacion { get; set; }
+        public FuenteTipoCableado TipoDeCableado { get; set; }
+        public int LargoMm { get; set; }
         public int Watts { get; set; }
-        public FuenteTipoCable TipoDeCable { get; set; }
         public RGB TipoDeRGB { get; set; }
     }
 }

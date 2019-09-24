@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class GPUInterfaz
     {
+        // PCIe 3.0, PCIe 4.0...
         public string Nombre { get; set; }
     }
 }

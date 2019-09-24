@@ -87,7 +87,7 @@
     <Compile Include="Modelos\Caracteristicas\AlmacenamientoTipo.cs" />
     <Compile Include="Modelos\Caracteristicas\CoolerTipo.cs" />
     <Compile Include="Modelos\Caracteristicas\FuenteTipo.cs" />
-    <Compile Include="Modelos\Caracteristicas\FuenteTipoCable.cs" />
+    <Compile Include="Modelos\Caracteristicas\FuenteTipoCableado.cs" />
     <Compile Include="Modelos\Caracteristicas\FuenteTipoCertificacion.cs" />
     <Compile Include="Modelos\Caracteristicas\GPUChipset.cs" />
     <Compile Include="Modelos\Caracteristicas\GPURayTracing.cs" />

@@ -14,6 +14,8 @@ namespace TiendaDeInformatica.Modelos
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaModificacion { get; set; }
         public decimal PrecioTotal { get; set; }
-        //public List<> Productos { get; set; }
+        
+
+        // Falta agregar la lista de productos (Cantidad y Producto).
     }
 }

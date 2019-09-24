@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
   public class FuenteTipo
     {
+        // ATX, SFX...
         public string Nombre { get; set; }
     }
 }

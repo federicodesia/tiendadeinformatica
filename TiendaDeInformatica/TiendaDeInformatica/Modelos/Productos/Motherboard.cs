@@ -10,14 +10,14 @@ namespace TiendaDeInformatica.Modelos.Productos
     public class Motherboard : Producto
     {
         public MotherTipo Tipo { get; set; }
+        public CPUSocket Socket { get; set; }
         public MotherChipset Chipset { get; set; }
-        public int ZocalosRAM { get; set; }
+        public int SlotsDeRAM { get; set; }
         public RAMFormato FormatoRAM { get; set; }
         public RAMTecnologia TecnologiaRAM { get; set; }
         public int ConexionesSATA { get; set;}
-        public int PCIExpressX16 { get; set;}
-        public CPUSocket Socket { get; set; }
-        public RGB TipoDeRGB { get; set; }
+        public int ConexionesPCIExpressX16 { get; set;}
         public int ConexionesM2 { get; set; }
+        public RGB TipoDeRGB { get; set; }
     }
 }

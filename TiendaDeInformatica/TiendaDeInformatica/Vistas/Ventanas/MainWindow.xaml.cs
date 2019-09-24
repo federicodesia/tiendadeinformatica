@@ -25,7 +25,7 @@ namespace TiendaDeInformatica
             InitializeComponent();
 
             var PresupuestosSubItems = new List<SubItem>();
-            var Presupuestos = new Item("Presupuestos", PresupuestosSubItems, null);
+            var Presupuestos = new Item("Presupuestos", PresupuestosSubItems, "ItemPresupuestos.png");
             Menu.Children.Add(new ItemUserControl(Presupuestos));
 
             var ArmadoDePCSubItems = new List<SubItem>();
@@ -36,7 +36,7 @@ namespace TiendaDeInformatica
             ArmadoDePCSubItems.Add(new SubItem("Almacenamiento"));
             ArmadoDePCSubItems.Add(new SubItem("Fuentes"));
             ArmadoDePCSubItems.Add(new SubItem("Gabinetes"));
-            var ArmadoDePC = new Item("Armado de PC", ArmadoDePCSubItems, null);
+            var ArmadoDePC = new Item("Armado de PC", ArmadoDePCSubItems, "ItemArmadoDePC.png");
             Menu.Children.Add(new ItemUserControl(ArmadoDePC));
 
             var PerifericosSubItems = new List<SubItem>();
@@ -45,13 +45,13 @@ namespace TiendaDeInformatica
             PerifericosSubItems.Add(new SubItem("Mousepads"));
             PerifericosSubItems.Add(new SubItem("Monitores"));
             PerifericosSubItems.Add(new SubItem("Parlantes"));
-            var Productos = new Item("Periféricos", PerifericosSubItems, null);
+            var Productos = new Item("Periféricos", PerifericosSubItems, "ItemPerifericos.png");
             Menu.Children.Add(new ItemUserControl(Productos));
 
             var OtrosProductosSubItems = new List<SubItem>();
             OtrosProductosSubItems.Add(new SubItem("Pendrives"));
             OtrosProductosSubItems.Add(new SubItem("Discos externos"));
-            var OtrosProductos = new Item("Otros productos", OtrosProductosSubItems, null);
+            var OtrosProductos = new Item("Otros productos", OtrosProductosSubItems, "ItemOtrosProductos.png");
             Menu.Children.Add(new ItemUserControl(OtrosProductos));
         }
     }

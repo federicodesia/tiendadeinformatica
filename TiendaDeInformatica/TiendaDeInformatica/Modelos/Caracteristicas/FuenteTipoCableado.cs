@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
-    public class FuenteTipoCable
+    public class FuenteTipoCableado
     {
+        // Modular, Semi-Modular...
         public string Nombre { get; set; }
     }
 }

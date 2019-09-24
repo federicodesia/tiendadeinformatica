@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class RGB
     {
+        // Normal 12v, Addressable 5v...
         public string Nombre { get; set; }
     }
 }

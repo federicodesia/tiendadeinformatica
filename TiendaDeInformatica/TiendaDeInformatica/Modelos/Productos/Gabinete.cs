@@ -9,18 +9,17 @@ namespace TiendaDeInformatica.Modelos.Productos
 {
     public class Gabinete : Producto
     {
-        public List<MotherTipo> TiposSoportados { get; set; }
-        public int Bahias25pulgadas { get; set; }
-        public int Bahias35pulgadas { get; set; }
-        public int AlturaMaximaCooler { get; set; }
-        public int VentiladoresFrontalesMM { get; set; }
-        public int VentiladoresTraserosMM { get; set; }
-        public int VentiladoresSuperioresMM { get; set; }
-        public int VentiladoresInferioresMM { get; set; }
-        public int LargoMaximoGPUSoportadoMM { get; set; }
+        public List<MotherTipo> TiposDePlacaMadreSoportados { get; set; }
+        public int Bahias25Pulgadas { get; set; }
+        public int Bahias35Pulgadas { get; set; }
+        public int VentiladoresFrontalesMm { get; set; }
+        public int VentiladoresTraserosMm { get; set; }
+        public int VentiladoresSuperioresMm { get; set; }
+        public int VentiladoresInferioresMm { get; set; }
+        public int AlturaMaximaCoolerSoportadoMm { get; set; }
+        public int LargoMaximoGPUSoportadaMm { get; set; }
+        public int LargoMaximoFuenteSoportadaMM { get; set; }
         public int VentiladoresIncluidos { get; set; }
         public RGB TipoDeRGB { get; set; }
-        public int LargoMaximoFuenteMM { get; set; }
-
     }
 }

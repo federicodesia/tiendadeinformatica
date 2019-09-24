@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
    public class AlmacenamientoTipo
     {
+        // HDD, SSD...
         public string Nombre { get; set; }
     }
 }

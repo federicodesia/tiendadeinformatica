@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class GPUTecnologiaVRAM
     {
+        // GDDR5, GDDR6...
         public string Nombre { get; set; }
     }
 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario"
              mc:Ignorable="d">
     <Grid>
-        <Image x:Name="Imagen" Width="24" Height="24" HorizontalAlignment="Left" Margin="24,0,0,0"/>
+        <Image x:Name="Imagen" Width="24" Height="24" HorizontalAlignment="Left" Margin="24,0,0,0" Source="{Binding Path=Icon}"/>
         <ListBoxItem x:Name="ListViewItemMenu" Content="{Binding Path=Header}" Padding="37 14" FontSize="15" Foreground="White"/>
         <Expander x:Name="ExpanderMenu" Header="{Binding Path=Header}" IsExpanded="False" Width="220" HorizontalAlignment="Right" Background="{x:Null}" Foreground="White">
             <ListView x:Name="ListViewMenu" ItemsSource="{Binding Path=SubItems}" FontSize="13" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="16 0 16 0">

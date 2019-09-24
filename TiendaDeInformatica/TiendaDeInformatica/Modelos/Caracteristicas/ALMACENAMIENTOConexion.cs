@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class AlmacenamientoConexion
     {
+        // SATA, M.2...
         public string Nombre { get; set; }
     }
 }

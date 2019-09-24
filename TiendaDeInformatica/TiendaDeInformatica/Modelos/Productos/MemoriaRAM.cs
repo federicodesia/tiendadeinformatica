@@ -16,7 +16,6 @@ namespace TiendaDeInformatica.Modelos.Productos
         public int FrecuenciaMHz { get; set; }
         public bool PoseeDisipador { get; set; }
         public RGB TipoDeRGB { get; set; }
-
         public int ConsumoWatts { get; set; }
     }
 }

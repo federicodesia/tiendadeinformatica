@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class CPUSocket
     {
+        // 1151, AM4...
         public string Nombre { get; set; }
     }
 }

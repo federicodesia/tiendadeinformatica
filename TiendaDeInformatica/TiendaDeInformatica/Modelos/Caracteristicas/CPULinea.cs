@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class CPULinea
     {
+        // Core i3, Ryzen 3...
         public string Nombre { get; set; }
     }
 }

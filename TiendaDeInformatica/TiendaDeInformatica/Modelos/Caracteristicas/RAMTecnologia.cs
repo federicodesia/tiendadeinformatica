@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class RAMTecnologia
     {
+        // DDR3, DDR4...
         public string Nombre { get; set; }
     }
 }

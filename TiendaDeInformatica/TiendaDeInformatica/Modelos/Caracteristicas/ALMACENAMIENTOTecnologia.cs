@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
    public class AlmacenamientoTecnologia
     {
+        // SATA, NVME...
         public string Nombre { get; set; }
     }
 }

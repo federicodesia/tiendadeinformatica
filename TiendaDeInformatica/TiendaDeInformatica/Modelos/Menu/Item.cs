@@ -9,22 +9,22 @@ namespace TiendaDeInformatica.Modelos.Menu
 {
     public class Item
     {
-        public Item(string header, List<SubItem> subItems, Image icon)
+        public Item(string header, List<SubItem> subItems, string icon)
         {
             Header = header;
             SubItems = subItems;
-            Icon = icon;
+            Icon = "/MyProject;component/Vistas/Imagenes/Menu/"+icon;
         }
 
-        public Item(string header, UserControl screen, Image icon)
+        public Item(string header, UserControl screen, string icon)
         {
             Header = header;
             Screen = screen;
-            Icon = icon;
+            Icon = "/MyProject;component/Vistas/Imagenes/Menu/"+icon;
         }
 
         public string Header { get; private set; }
-        public Image Icon { get; private set; }
+        public string Icon { get; private set; }
         public List<SubItem> SubItems { get; private set; }
         public UserControl Screen { get; private set; }
     }

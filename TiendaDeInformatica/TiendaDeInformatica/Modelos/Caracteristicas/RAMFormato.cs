@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class RAMFormato
     {
+        // DIMM, SODIMM...
         public string Nombre { get; set; }
     }
 }

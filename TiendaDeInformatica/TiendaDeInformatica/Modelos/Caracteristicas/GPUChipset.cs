@@ -8,6 +8,7 @@ namespace TiendaDeInformatica.Modelos.Caracteristicas
 {
     public class GPUChipset
     {
+        // GT 1030, GTX 1060...
         public string Nombre { get; set; }
     }
 }
