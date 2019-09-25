@@ -6,11 +6,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TiendaDeInformatica"
         mc:Ignorable="d"
-        Title="Tienda de Informática" Height="450" Width="800" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen">
-    <Grid Background="#1F1F1F">
+        Title="Tienda de Informática" Height="500" Width="900" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen">
+    <Grid Background="#121212">
         <Grid Background="#282828" Width="220" HorizontalAlignment="Left">
             <ScrollViewer HorizontalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="Menu"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid Background="#121212" Margin="220,0,0,0">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="16 16 16 0">
+                <StackPanel x:Name="Contenido" Orientation="Vertical"/>
             </ScrollViewer>
         </Grid>
     </Grid>

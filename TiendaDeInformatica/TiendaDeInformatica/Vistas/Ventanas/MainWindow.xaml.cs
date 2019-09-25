@@ -53,6 +53,12 @@ namespace TiendaDeInformatica
             OtrosProductosSubItems.Add(new SubItem("Discos externos"));
             var OtrosProductos = new Item("Otros productos", OtrosProductosSubItems, "ItemOtrosProductos.png");
             Menu.Children.Add(new ItemUserControl(OtrosProductos));
+
+            for(int i=0; i < 4; i++)
+            {
+                Presupuesto presupuesto = new Presupuesto();
+                Contenido.Children.Add(presupuesto);
+            }
         }
     }
 }
