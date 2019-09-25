@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario"
              mc:Ignorable="d" 
-             d:DesignHeight="112" d:DesignWidth="672"
-             MinHeight="112" MaxHeight="112" MinWidth="572">
+             d:DesignHeight="100" d:DesignWidth="672"
+             MinHeight="100" MaxHeight="100" MinWidth="572">
     <UserControl.Effect>
         <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5"/>
     </UserControl.Effect>
@@ -18,24 +18,24 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Text="Presupuesto #000001" Foreground="White" FontSize="15" FontFamily="Roboto" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <TextBlock Text="Presupuesto #000001" Foreground="#E2E2E2" FontSize="15" FontFamily="Roboto" FontWeight="SemiBold" VerticalAlignment="Center"/>
                     <TextBlock Text="creado el 24/9/19 18:00" Foreground="#cfcfcf" FontSize="12" FontFamily="Roboto" Margin="4,4,0,2" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Modificado por ultima vez el 24/9/19 18:20" Foreground="#cfcfcf" FontSize="12" FontFamily="Roboto" Margin="3,4,0,2" VerticalAlignment="Center"/>
+                    <TextBlock Text="Modificado por ult. vez el 24/9/19 18:20" Foreground="#cfcfcf" FontSize="12" FontFamily="Roboto" Margin="3,4,0,2" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
 
-            <Grid Height="39" Margin="0 8 0 0">
+            <Grid Height="35" Margin="0 8 0 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Text="Cliente: Nombre y Apellido" Foreground="White" FontSize="12" FontFamily="Roboto" VerticalAlignment="Center"/>
+                    <TextBlock Text="Cliente: Nombre y Apellido" Foreground="#E2E2E2" FontSize="12" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="$45.000" Foreground="White" FontSize="18" FontWeight="SemiBold" FontFamily="Roboto" VerticalAlignment="Center"/>
+                    <TextBlock Text="$45.000" Foreground="#E2E2E2" FontSize="18" FontWeight="SemiBold" FontFamily="Roboto" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
