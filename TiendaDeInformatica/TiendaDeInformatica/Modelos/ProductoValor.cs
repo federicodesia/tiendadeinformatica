@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace TiendaDeInformatica.Modelos
 {
-    public class Marca
+    public class ProductoValor
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public List<Producto> Productos { get; set; }
+        public Producto Producto { get; set; }
+        public Valor Valor { get; set; }
     }
 }
