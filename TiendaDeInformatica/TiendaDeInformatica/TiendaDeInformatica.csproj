@@ -198,6 +198,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controladores\ControladorCliente.cs" />
+    <Compile Include="Controladores\ControladorEmpresa.cs" />
     <Compile Include="Datos\Migraciones\20190930212430_Inicial.cs" />
     <Compile Include="Datos\Migraciones\20190930212430_Inicial.designer.cs">
       <DependentUpon>20190930212430_Inicial.cs</DependentUpon>

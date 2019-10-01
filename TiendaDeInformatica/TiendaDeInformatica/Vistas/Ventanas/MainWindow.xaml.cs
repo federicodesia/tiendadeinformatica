@@ -61,6 +61,7 @@ namespace TiendaDeInformatica
                 Contenido.Children.Add(presupuesto);
             }
             ControladorCliente.AgregarCliente("pepito","ramirez","545168","444444");
+            ControladorEmpresa.AgregarEmpresa("SANCOR", "Facundo", "Aguel", "444751586", "7777");
         }
     }
 }
