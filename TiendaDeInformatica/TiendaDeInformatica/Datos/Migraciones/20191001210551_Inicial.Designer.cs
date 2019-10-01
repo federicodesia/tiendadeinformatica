@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20190930212430_Inicial")]
+    [Migration("20191001210551_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,31 +52,13 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<string>("Nombre");
 
+                    b.Property<string>("NombreDeLaEmpresa");
+
                     b.Property<string>("Telefono");
 
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
-                });
-
-            modelBuilder.Entity("TiendaDeInformatica.Modelos.Empresa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ApellidoDelResponsable");
-
-                    b.Property<string>("CUIT");
-
-                    b.Property<string>("Nombre");
-
-                    b.Property<string>("NombreDelResponsable");
-
-                    b.Property<string>("Telefono");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Empresas");
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Marca", b =>
@@ -111,8 +93,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
-
-                    b.HasIndex("EmpresaId");
 
                     b.ToTable("Presupuestos");
                 });
@@ -168,11 +148,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.HasOne("TiendaDeInformatica.Modelos.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TiendaDeInformatica.Modelos.Empresa", "Empresa")
-                        .WithMany()
-                        .HasForeignKey("EmpresaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

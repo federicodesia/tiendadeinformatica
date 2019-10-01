@@ -198,16 +198,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controladores\ControladorCliente.cs" />
-    <Compile Include="Controladores\ControladorEmpresa.cs" />
-    <Compile Include="Datos\Migraciones\20190930212430_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20190930212430_Inicial.designer.cs">
-      <DependentUpon>20190930212430_Inicial.cs</DependentUpon>
+    <Compile Include="Datos\Migraciones\20191001210551_Inicial.cs" />
+    <Compile Include="Datos\Migraciones\20191001210551_Inicial.designer.cs">
+      <DependentUpon>20191001210551_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
     <Compile Include="Modelos\Atributo.cs" />
     <Compile Include="Modelos\AtributoTipoProducto.cs" />
-    <Compile Include="Modelos\Empresa.cs" />
     <Compile Include="Modelos\Marca.cs" />
     <Compile Include="Modelos\Cliente.cs" />
     <Compile Include="Modelos\Menu\Item.cs" />

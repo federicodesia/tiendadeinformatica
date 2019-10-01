@@ -30,7 +30,6 @@ namespace TiendaDeInformatica.Datos
         }
 
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<Empresa> Empresas { get; set; }
         public DbSet<Marca> Marcas { get; set; }
         public DbSet<Valor> Valores { get; set; }
         public DbSet<Presupuesto> Presupuestos { get; set; }

@@ -13,5 +13,6 @@ namespace TiendaDeInformatica.Modelos
         public string Apellido { get; set; }
         public string CUIT { get; set; }
         public string Telefono { get; set; }
+        public string NombreDeLaEmpresa { get; set; }
     }
 }

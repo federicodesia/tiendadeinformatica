@@ -17,7 +17,7 @@ namespace TiendaDeInformatica.Controladores
             List<Cliente> Clientes = new List<Cliente>();
         }
 
-       public static void AgregarCliente(string nombre, string apellido, string cuit, string telefono)
+       public static void AgregarCliente(string nombre, string apellido, string cuit, string telefono, string nombredelaempresa)
         {
             using (var context = new MyDbContext())
             {
@@ -26,11 +26,28 @@ namespace TiendaDeInformatica.Controladores
                     Nombre = nombre,
                     Apellido = apellido,
                     CUIT = cuit,
-                    Telefono = telefono
+                    Telefono = telefono,
+                    NombreDeLaEmpresa = nombredelaempresa
                 };
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
             }
         }
+        public static void ModificarCliente(Cliente cliente, string nombre, string apellido, string cuit, string telefono, string nombredelaempresa)
+        {
+            using (var context = new MyDbContext())
+            {
+                //var clienteDb = context.Clientes.Find(cliente.Id);
+                context.Attach(cliente);
+                cliente.Nombre = nombre;
+                cliente.Apellido = apellido;
+                cliente.CUIT = cuit;
+                cliente.Telefono = telefono;
+                cliente.NombreDeLaEmpresa = nombredelaempresa;
+                context.SaveChanges();
+            }
+            
+        }
+
     }
 }

@@ -60,8 +60,17 @@ namespace TiendaDeInformatica
                 Presupuesto presupuesto = new Presupuesto();
                 Contenido.Children.Add(presupuesto);
             }
-            ControladorCliente.AgregarCliente("pepito","ramirez","545168","444444");
-            ControladorEmpresa.AgregarEmpresa("SANCOR", "Facundo", "Aguel", "444751586", "7777");
+          
+            Modelos.Cliente cliente = new Modelos.Cliente()
+            {
+                Id = 2,
+                Nombre = "Pepito",
+                Apellido = "Rámirez",
+                CUIT = "545168",
+                Telefono = "444444",
+                NombreDeLaEmpresa = "Ryzen"
+            };
+            ControladorCliente.ModificarCliente(cliente, "Facha", "De Ruta", "2222", "333", "FachaSRL");
         }
     }
 }

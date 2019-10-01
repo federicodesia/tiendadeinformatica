@@ -29,28 +29,12 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     Nombre = table.Column<string>(nullable: true),
                     Apellido = table.Column<string>(nullable: true),
                     CUIT = table.Column<string>(nullable: true),
-                    Telefono = table.Column<string>(nullable: true)
+                    Telefono = table.Column<string>(nullable: true),
+                    NombreDeLaEmpresa = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clientes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Empresas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: true),
-                    NombreDelResponsable = table.Column<string>(nullable: true),
-                    ApellidoDelResponsable = table.Column<string>(nullable: true),
-                    CUIT = table.Column<string>(nullable: true),
-                    Telefono = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Empresas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,12 +110,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         principalTable: "Clientes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Presupuestos_Empresas_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,11 +141,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Presupuestos_EmpresaId",
-                table: "Presupuestos",
-                column: "EmpresaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Productos_MarcaId",
                 table: "Productos",
                 column: "MarcaId");
@@ -194,9 +167,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
             migrationBuilder.DropTable(
                 name: "Clientes");
-
-            migrationBuilder.DropTable(
-                name: "Empresas");
 
             migrationBuilder.DropTable(
                 name: "Marcas");
