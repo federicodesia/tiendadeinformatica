@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos.Menu;
 using TiendaDeInformatica.Vistas.Controles_de_Usuario;
 
@@ -59,6 +60,7 @@ namespace TiendaDeInformatica
                 Presupuesto presupuesto = new Presupuesto();
                 Contenido.Children.Add(presupuesto);
             }
+            ControladorCliente.AgregarCliente("pepito","ramirez","545168","444444");
         }
     }
 }

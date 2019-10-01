@@ -10,10 +10,12 @@ namespace TiendaDeInformatica.Datos
 {
     public class MyDbContext : DbContext
     {
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Filename=BaseDeDatos.db");
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AtributoTipoProducto>()
