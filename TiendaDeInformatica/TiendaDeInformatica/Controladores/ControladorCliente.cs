@@ -12,8 +12,10 @@ namespace TiendaDeInformatica.Controladores
 {
     public class ControladorCliente
     {
-       public ControladorCliente()
+        public List<Cliente> Clientes { get; set; }
+        public ControladorCliente()
         {
+            //GetClientes();
             List<Cliente> Clientes = new List<Cliente>();
         }
 
@@ -37,16 +39,37 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                //var clienteDb = context.Clientes.Find(cliente.Id);
-                context.Attach(cliente);
-                cliente.Nombre = nombre;
-                cliente.Apellido = apellido;
-                cliente.CUIT = cuit;
-                cliente.Telefono = telefono;
-                cliente.NombreDeLaEmpresa = nombredelaempresa;
+                Cliente clienteDb = context.Clientes.Find(cliente.Id);
+                //context.Attach(cliente);
+                clienteDb.Nombre = nombre;
+                clienteDb.Apellido = apellido;
+                clienteDb.CUIT = cuit;
+                clienteDb.Telefono = telefono;
+                clienteDb.NombreDeLaEmpresa = nombredelaempresa;
                 context.SaveChanges();
             }
             
+        }
+        public static void EliminarCliente(Cliente cliente)
+        {
+            using (var context = new MyDbContext())
+            {
+                Cliente clienteDb = context.Clientes.Find(cliente.Id);
+                context.Clientes.Remove(clienteDb);
+                context.SaveChanges();
+            }
+        }
+        public static void GetClientes(Cliente cliente) //Método para obtener la lista de clientes desde la base de datos.
+        {
+            using (var context = new MyDbContext())
+            {
+                if (context.Clientes.Find(cliente.Id) != null)
+                { 
+                List<Cliente> Clientes = context.Clientes.ToList();
+                context.SaveChanges();
+                }
+
+            }
         }
 
     }
