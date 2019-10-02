@@ -15,7 +15,6 @@ namespace TiendaDeInformatica.Controladores
         public List<Cliente> Clientes { get; set; }
         public ControladorCliente()
         {
-            //GetClientes();
             List<Cliente> Clientes = new List<Cliente>();
         }
 
@@ -59,16 +58,11 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void GetClientes(Cliente cliente) //Método para obtener la lista de clientes desde la base de datos.
+        public static List<Cliente> GetClientes() //Método para obtener lista de clientes.
         {
             using (var context = new MyDbContext())
             {
-                if (context.Clientes.Find(cliente.Id) != null)
-                { 
-                List<Cliente> Clientes = context.Clientes.ToList();
-                context.SaveChanges();
-                }
-
+                return context.Clientes.ToList();
             }
         }
 
