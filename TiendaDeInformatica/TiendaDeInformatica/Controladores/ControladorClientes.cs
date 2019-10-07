@@ -10,10 +10,10 @@ using Microsoft.Data.Sqlite;
 
 namespace TiendaDeInformatica.Controladores
 {
-    public class ControladorCliente
+    public class ControladorClientes
     {
         public List<Cliente> Clientes { get; set; }
-        public ControladorCliente()
+        public ControladorClientes()
         {
             List<Cliente> Clientes = new List<Cliente>();
         }
