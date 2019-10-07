@@ -198,12 +198,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controladores\ControladorCliente.cs" />
-    <Compile Include="Datos\Migraciones\20191001210551_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20191001210551_Inicial.designer.cs">
-      <DependentUpon>20191001210551_Inicial.cs</DependentUpon>
+    <Compile Include="Converters\ByteToBitmapImageConverter.cs" />
+    <Compile Include="Datos\Migraciones\20191007204616_Initial.cs" />
+    <Compile Include="Datos\Migraciones\20191007204616_Initial.designer.cs">
+      <DependentUpon>20191007204616_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Modelos\Atributo.cs" />
     <Compile Include="Modelos\AtributoTipoProducto.cs" />
     <Compile Include="Modelos\Marca.cs" />

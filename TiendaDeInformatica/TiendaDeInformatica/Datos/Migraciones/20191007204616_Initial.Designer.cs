@@ -9,8 +9,8 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20191001210551_Inicial")]
-    partial class Inicial
+    [Migration("20191007204616_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<string>("CUIT");
 
+                    b.Property<byte[]>("Imagen");
+
                     b.Property<string>("Nombre");
 
                     b.Property<string>("NombreDeLaEmpresa");
@@ -79,8 +81,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClienteId");
-
-                    b.Property<int>("EmpresaId");
 
                     b.Property<DateTime>("FechaCreacion");
 

@@ -71,6 +71,7 @@ namespace TiendaDeInformatica
                 NombreDeLaEmpresa = "Ryzen"
             };
             ControladorCliente.ModificarCliente(cliente, "Facha", "De Ruta", "2222", "333", "FachaSRL");
+    
         }
     }
 }

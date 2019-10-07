@@ -48,6 +48,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<string>("CUIT");
 
+                    b.Property<byte[]>("Imagen");
+
                     b.Property<string>("Nombre");
 
                     b.Property<string>("NombreDeLaEmpresa");
@@ -77,8 +79,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClienteId");
-
-                    b.Property<int>("EmpresaId");
 
                     b.Property<DateTime>("FechaCreacion");
 
