@@ -198,14 +198,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controladores\ControladorCliente.cs" />
-    <Compile Include="Converters\ByteToBitmapImageConverter.cs" />
     <Compile Include="Datos\Migraciones\20191007204616_Initial.cs" />
     <Compile Include="Datos\Migraciones\20191007204616_Initial.designer.cs">
       <DependentUpon>20191007204616_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\ConvertidorDeImagen.cs" />
     <Compile Include="Modelos\Atributo.cs" />
     <Compile Include="Modelos\AtributoTipoProducto.cs" />
     <Compile Include="Modelos\Marca.cs" />
@@ -266,7 +265,9 @@
   <ItemGroup>
     <Resource Include="Vistas\Imagenes\Menu\ItemPresupuestos.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TiendaDeInformatica.Controladores;
+using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos.Menu;
 using TiendaDeInformatica.Vistas.Controles_de_Usuario;
 
@@ -61,16 +62,11 @@ namespace TiendaDeInformatica
                 Contenido.Children.Add(presupuesto);
             }
           
-            Modelos.Cliente cliente = new Modelos.Cliente()
-            {
-                Id = 2,
-                Nombre = "Pepito",
-                Apellido = "Rámirez",
-                CUIT = "545168",
-                Telefono = "444444",
-                NombreDeLaEmpresa = "Ryzen"
-            };
-            ControladorCliente.ModificarCliente(cliente, "Facha", "De Ruta", "2222", "333", "FachaSRL");
+           ControladorCliente.AgregarCliente("Pepillo", "Perez", "222", "58452", "atr", "D:\\index.jpg");
+            var lista = ControladorCliente.GetClientes();
+            var imagenDb = ConvertidorDeImagen.ByteArrayToImage(lista.First().Imagen);
+
+            Imagen. = imagenDb;
     
         }
     }

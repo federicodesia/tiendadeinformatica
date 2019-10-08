@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="Tienda de Informática" Height="500" Width="900" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen">
     <Grid Background="#121212">
+        <Image x:Name="Imagen" Height="100" Width="100"/>
         <Grid Background="#282828" Width="220" HorizontalAlignment="Left">
             <ScrollViewer HorizontalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="Menu"/>

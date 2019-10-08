@@ -7,6 +7,7 @@ using TiendaDeInformatica.Modelos;
 using Microsoft.EntityFrameworkCore;
 using TiendaDeInformatica.Datos;
 using Microsoft.Data.Sqlite;
+using System.IO;
 
 namespace TiendaDeInformatica.Controladores
 {
@@ -18,7 +19,7 @@ namespace TiendaDeInformatica.Controladores
             List<Cliente> Clientes = new List<Cliente>();
         }
 
-       public static void AgregarCliente(string nombre, string apellido, string cuit, string telefono, string nombredelaempresa)
+       public static void AgregarCliente(string nombre, string apellido, string cuit, string telefono, string nombredelaempresa, string imagen)
         {
             using (var context = new MyDbContext())
             {
@@ -28,8 +29,9 @@ namespace TiendaDeInformatica.Controladores
                     Apellido = apellido,
                     CUIT = cuit,
                     Telefono = telefono,
-                    NombreDeLaEmpresa = nombredelaempresa
-                };
+                    NombreDeLaEmpresa = nombredelaempresa,
+                    Imagen = ConvertImageToByte(new FileInfo(imagen))
+            };
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
             }
@@ -64,6 +66,10 @@ namespace TiendaDeInformatica.Controladores
             {
                 return context.Clientes.ToList();
             }
+        }
+        public static byte[] ConvertImageToByte(FileInfo file)
+        {
+            return File.ReadAllBytes(file.FullName);
         }
 
     }
