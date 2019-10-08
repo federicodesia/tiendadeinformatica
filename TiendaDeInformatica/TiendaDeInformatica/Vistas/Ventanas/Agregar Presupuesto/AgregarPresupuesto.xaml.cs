@@ -24,7 +24,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
         {
             InitializeComponent();
 
-            //PresupuestoID_TextBlock.Text = "Nuevo presupuesto #" + (ControladorPresupuestos.ObtenerPresupuestos().Count + 1).ToString();
+            //Cambiar la ID del nuevo cliente que se muestra en la vista
             FechaDeExpiracion_DatePicker.BlackoutDates.AddDatesInPast();
             ActualizarComboBoxClientes();
 
@@ -33,11 +33,12 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
-            int CantidadDeClientes = ControladorClientes.GetClientes().Count;
+            int CantidadDeClientes = ControladorClientes.ObtenerListaDeClientes().Count;
             AgregarCliente agregarCliente = new AgregarCliente();
             agregarCliente.ShowDialog();
+
             ActualizarComboBoxClientes();
-            if (ControladorClientes.GetClientes().Count > CantidadDeClientes)
+            if (ControladorClientes.ObtenerListaDeClientes().Count > CantidadDeClientes)
             {
                 _ = MostrarPopupAsync();
             }
@@ -66,11 +67,11 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
             {
                 if (FechaDeExpiracion_CheckBox.IsChecked == false)
                 {
-                    //ControladorPresupuestos.AgregarPresupuesto(cliente, DateTime.MaxValue);
+                    //Agregar presupuesto sin fecha de expiración
                 }
                 else
                 {
-                    //ControladorPresupuestos.AgregarPresupuesto(cliente, FechaDeExpiracion_DatePicker.SelectedDate.Value);
+                    //Agregar presupuesto con fecha de expiración
                 }
                 this.Close();
             }
@@ -87,7 +88,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
         private void ActualizarComboBoxClientes()
         {
             BuscarCliente_ComboBox.Items.Clear();
-            foreach (Cliente cliente in ControladorClientes.GetClientes())
+            foreach (Cliente cliente in ControladorClientes.ObtenerListaDeClientes())
             {
                 BuscarCliente_ComboBox.Items.Add(cliente);
             }
@@ -133,10 +134,13 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
             if (clienteSeleccionado == null)
             {
                 string Busqueda = BuscarCliente_ComboBox.Text.ToUpper();
+                string empresa = "";
                 BuscarCliente_ComboBox.Items.Clear();
-                foreach (Cliente cliente in ControladorClientes.GetClientes())
-                {
-                    if (cliente.NombreDeLaEmpresa.ToUpper().StartsWith(Busqueda) || cliente.Nombre.ToUpper().StartsWith(Busqueda) || cliente.Apellido.ToUpper().StartsWith(Busqueda) || cliente.Telefono.ToUpper().StartsWith(Busqueda) || cliente.CUIT.ToUpper().StartsWith(Busqueda))
+                foreach (Cliente cliente in ControladorClientes.ObtenerListaDeClientes())
+                {                    
+                    if (!string.IsNullOrWhiteSpace(cliente.NombreDeLaEmpresa))
+                        empresa = cliente.NombreDeLaEmpresa;
+                    if (empresa.ToUpper().StartsWith(Busqueda) || cliente.Nombre.ToUpper().StartsWith(Busqueda) || cliente.Apellido.ToUpper().StartsWith(Busqueda) || cliente.Telefono.ToUpper().StartsWith(Busqueda) || cliente.CUIT.ToUpper().StartsWith(Busqueda))
                     {
                         BuscarCliente_ComboBox.Items.Add(cliente);
                     }

@@ -22,7 +22,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente
         public AgregarCliente()
         {
             InitializeComponent();
-            ClienteID_TextBlock.Text = "Nuevo cliente #" + (ControladorClientes.GetClientes().Count + 1).ToString();
+            ClienteID_TextBlock.Text = "Nuevo cliente #" + (ControladorClientes.ObtenerListaDeClientes().Count + 1).ToString();
             this.DataContext = this;
         }
 
@@ -30,11 +30,13 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente
         {
             if (TabMenu_EmpresaButton.IsChecked == true && new NombreEmpresa().Validate(NombreDeLaEmpresa_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null) && ObtenerResultadoReglasDeValidacion() == true)
             {
-                //Agregar cliente (empresa)
+                ControladorClientes.AgregarCliente(NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, CUIT_TextBox.Text, Telefono_TextBox.Text);
+                this.Close();
             }
             else if (TabMenu_PersonaButton.IsChecked == true && ObtenerResultadoReglasDeValidacion() == true)
             {
-                //Agregar cliente (persona)
+                ControladorClientes.AgregarCliente(null, Nombre_TextBox.Text, Apellido_TextBox.Text, CUIT_TextBox.Text, Telefono_TextBox.Text);
+                this.Close();
             }
             else
             {

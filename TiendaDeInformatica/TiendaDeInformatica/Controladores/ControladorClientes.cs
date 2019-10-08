@@ -18,33 +18,33 @@ namespace TiendaDeInformatica.Controladores
             List<Cliente> Clientes = new List<Cliente>();
         }
 
-       public static void AgregarCliente(string nombre, string apellido, string cuit, string telefono, string nombredelaempresa)
+       public static void AgregarCliente(string nombreDeLaEmpresa, string nombre, string apellido, string cuit, string telefono)
         {
             using (var context = new MyDbContext())
             {
                 Cliente cliente = new Cliente()
                 {
+                    NombreDeLaEmpresa = nombreDeLaEmpresa,
                     Nombre = nombre,
                     Apellido = apellido,
                     CUIT = cuit,
-                    Telefono = telefono,
-                    NombreDeLaEmpresa = nombredelaempresa
+                    Telefono = telefono
                 };
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
             }
         }
-        public static void ModificarCliente(Cliente cliente, string nombre, string apellido, string cuit, string telefono, string nombredelaempresa)
+
+        public static void ModificarCliente(Cliente cliente, string nombreDeLaEmpresa, string nombre, string apellido, string cuit, string telefono)
         {
             using (var context = new MyDbContext())
             {
                 Cliente clienteDb = context.Clientes.Find(cliente.Id);
-                //context.Attach(cliente);
+                clienteDb.NombreDeLaEmpresa = nombreDeLaEmpresa;
                 clienteDb.Nombre = nombre;
                 clienteDb.Apellido = apellido;
                 clienteDb.CUIT = cuit;
                 clienteDb.Telefono = telefono;
-                clienteDb.NombreDeLaEmpresa = nombredelaempresa;
                 context.SaveChanges();
             }
             
@@ -58,7 +58,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static List<Cliente> GetClientes() //Método para obtener lista de clientes.
+        public static List<Cliente> ObtenerListaDeClientes()
         {
             using (var context = new MyDbContext())
             {
