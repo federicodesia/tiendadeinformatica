@@ -26,7 +26,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
 
             FechaDeExpiracion_DatePicker.BlackoutDates.AddDatesInPast();
             ActualizarComboBoxClientes();
-
+            PresupuestoID_TextBlock.Text = "Nuevo presupuesto #" + (ControladorPresupuestos.ObtenerListaDePresupuestos().Count + 1).ToString();
             this.DataContext = this;
         }
 

@@ -15,8 +15,8 @@ namespace TiendaDeInformatica.Modelos
         public int Cantidad { get; set; }
         public decimal Precio { get; set; }     
         public TipoProducto Tipo { get; set; }
-
-        // Falta agregar la imagen del producto.
+        public byte[] Imagen { get; set; }
+        
     }
 
     public enum TipoProducto

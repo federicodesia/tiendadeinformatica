@@ -207,12 +207,14 @@
     </Compile>
     <Compile Include="Controladores\ControladorClientes.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
+    <Compile Include="Controladores\ControladorProductos.cs" />
     <Compile Include="Datos\Migraciones\20191015201957_Inicial.cs" />
     <Compile Include="Datos\Migraciones\20191015201957_Inicial.designer.cs">
       <DependentUpon>20191015201957_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
+    <Compile Include="Helpers\ConvertirImagen.cs" />
     <Compile Include="Modelos\Atributo.cs" />
     <Compile Include="Modelos\AtributoTipoProducto.cs" />
     <Compile Include="Modelos\Marca.cs" />
