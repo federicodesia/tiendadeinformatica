@@ -206,9 +206,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controladores\ControladorClientes.cs" />
-    <Compile Include="Datos\Migraciones\20191001210551_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20191001210551_Inicial.designer.cs">
-      <DependentUpon>20191001210551_Inicial.cs</DependentUpon>
+    <Compile Include="Controladores\ControladorPresupuestos.cs" />
+    <Compile Include="Datos\Migraciones\20191015201957_Inicial.cs" />
+    <Compile Include="Datos\Migraciones\20191015201957_Inicial.designer.cs">
+      <DependentUpon>20191015201957_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />

@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20191001210551_Inicial")]
+    [Migration("20191015201957_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,11 +80,9 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<int>("ClienteId");
 
-                    b.Property<int>("EmpresaId");
-
                     b.Property<DateTime>("FechaCreacion");
 
-                    b.Property<DateTime>("FechaDeExpiracion");
+                    b.Property<DateTime?>("FechaDeExpiracion");
 
                     b.Property<DateTime>("FechaModificacion");
 

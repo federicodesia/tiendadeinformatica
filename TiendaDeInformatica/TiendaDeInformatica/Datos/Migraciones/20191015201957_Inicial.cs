@@ -95,10 +95,9 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ClienteId = table.Column<int>(nullable: false),
-                    EmpresaId = table.Column<int>(nullable: false),
                     FechaCreacion = table.Column<DateTime>(nullable: false),
                     FechaModificacion = table.Column<DateTime>(nullable: false),
-                    FechaDeExpiracion = table.Column<DateTime>(nullable: false),
+                    FechaDeExpiracion = table.Column<DateTime>(nullable: true),
                     PrecioTotal = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>

@@ -24,7 +24,6 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
         {
             InitializeComponent();
 
-            //Cambiar la ID del nuevo cliente que se muestra en la vista
             FechaDeExpiracion_DatePicker.BlackoutDates.AddDatesInPast();
             ActualizarComboBoxClientes();
 
@@ -67,11 +66,11 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
             {
                 if (FechaDeExpiracion_CheckBox.IsChecked == false)
                 {
-                    //Agregar presupuesto sin fecha de expiración
+                    ControladorPresupuestos.AgregarPresupuesto(cliente, null);
                 }
                 else
                 {
-                    //Agregar presupuesto con fecha de expiración
+                    ControladorPresupuestos.AgregarPresupuesto(cliente, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
                 }
                 this.Close();
             }

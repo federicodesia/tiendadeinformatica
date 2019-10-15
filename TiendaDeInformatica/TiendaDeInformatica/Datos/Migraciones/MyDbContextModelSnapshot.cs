@@ -78,11 +78,9 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<int>("ClienteId");
 
-                    b.Property<int>("EmpresaId");
-
                     b.Property<DateTime>("FechaCreacion");
 
-                    b.Property<DateTime>("FechaDeExpiracion");
+                    b.Property<DateTime?>("FechaDeExpiracion");
 
                     b.Property<DateTime>("FechaModificacion");
 
