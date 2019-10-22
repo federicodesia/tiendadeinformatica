@@ -69,26 +69,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 });
 
             migrationBuilder.CreateTable(
-                name: "Valores",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: true),
-                    AtributoId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Valores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Valores_Atributos_AtributoId",
-                        column: x => x.AtributoId,
-                        principalTable: "Atributos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Presupuestos",
                 columns: table => new
                 {
@@ -121,7 +101,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     Modelo = table.Column<string>(nullable: true),
                     Cantidad = table.Column<int>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false),
-                    Tipo = table.Column<int>(nullable: false)
+                    Tipo = table.Column<int>(nullable: false),
+                    Imagen = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,6 +113,33 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         principalTable: "Marcas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Valores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(nullable: true),
+                    AtributoId = table.Column<int>(nullable: false),
+                    ProductoId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Valores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Valores_Atributos_AtributoId",
+                        column: x => x.AtributoId,
+                        principalTable: "Atributos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Valores_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -148,6 +156,11 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 name: "IX_Valores_AtributoId",
                 table: "Valores",
                 column: "AtributoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Valores_ProductoId",
+                table: "Valores",
+                column: "ProductoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -159,19 +172,19 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 name: "Presupuestos");
 
             migrationBuilder.DropTable(
-                name: "Productos");
-
-            migrationBuilder.DropTable(
                 name: "Valores");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
 
             migrationBuilder.DropTable(
-                name: "Marcas");
+                name: "Atributos");
 
             migrationBuilder.DropTable(
-                name: "Atributos");
+                name: "Productos");
+
+            migrationBuilder.DropTable(
+                name: "Marcas");
         }
     }
 }

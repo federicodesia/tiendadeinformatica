@@ -27,6 +27,17 @@ namespace TiendaDeInformatica.Datos
             .HasConversion(
                 v => v.ToString(),
                 v => (TipoProducto)Enum.Parse(typeof(TipoProducto), v));
+
+            modelBuilder.Entity<ProductoValor>()
+                .HasKey(pv => new { pv.ValorId, pv.ProductoId });
+            modelBuilder.Entity<ProductoValor>()
+                .HasOne(pv => pv.Producto)
+                .WithMany(v => v.Valores)
+                .HasForeignKey(pv => pv.ProductoId);
+            modelBuilder.Entity<ProductoValor>()
+                .HasOne(pv => pv.Valor)
+                .WithMany(p => p.Productos)
+                .HasForeignKey(v => v.ValorId);
         }
 
         public DbSet<Cliente> Clientes { get; set; }

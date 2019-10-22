@@ -27,4 +27,5 @@ namespace TiendaDeInformatica.Helpers
 
             return bitmapImage;
         }
+    }
 }

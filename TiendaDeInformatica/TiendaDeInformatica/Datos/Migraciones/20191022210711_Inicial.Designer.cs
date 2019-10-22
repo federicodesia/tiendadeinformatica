@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20191015201957_Inicial")]
+    [Migration("20191022210711_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,6 +102,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<int>("Cantidad");
 
+                    b.Property<byte[]>("Imagen");
+
                     b.Property<int>("MarcaId");
 
                     b.Property<string>("Modelo");
@@ -122,13 +124,17 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AtributoId");
+                    b.Property<int>("AtributoId");
 
                     b.Property<string>("Nombre");
+
+                    b.Property<int?>("ProductoId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AtributoId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("Valores");
                 });
@@ -159,9 +165,14 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Valor", b =>
                 {
-                    b.HasOne("TiendaDeInformatica.Modelos.Atributo")
+                    b.HasOne("TiendaDeInformatica.Modelos.Atributo", "Atributo")
                         .WithMany("Valores")
-                        .HasForeignKey("AtributoId");
+                        .HasForeignKey("AtributoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TiendaDeInformatica.Modelos.Producto")
+                        .WithMany("Valores")
+                        .HasForeignKey("ProductoId");
                 });
 #pragma warning restore 612, 618
         }
