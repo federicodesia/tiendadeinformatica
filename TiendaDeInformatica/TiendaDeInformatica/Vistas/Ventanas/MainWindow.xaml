@@ -13,8 +13,9 @@
         <Grid x:Name="MenuIzquierdo" Background="#282828" Width="220" HorizontalAlignment="Left">
 
         </Grid>
-        <Grid x:Name="MenuSuperior" Background="#282828" Height="56" VerticalAlignment="Top" Margin="220 0 0 0">
+        <StackPanel Orientation="Horizontal" x:Name="MenuSuperior" Background="#282828" Height="56" VerticalAlignment="Top" Margin="220 0 0 0" HorizontalAlignment="Center">
             <Button Content="Agregar presupuesto" Width="200" Click="NuevoPresupuesto_Button_Click"/>
-        </Grid>
+            <Button Content="Agregar producto" Width="200" Click="NuevoProducto_Button_Click" Margin="16 0 0 0"/>
+        </StackPanel>
     </Grid>
 </Controls:MetroWindow>
