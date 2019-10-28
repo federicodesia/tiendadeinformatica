@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto"
-        xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validación"
+    xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validacion"
+    xmlns:localDialogs="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
     mc:Ignorable="d"
         Title="Agregar producto" Height="450" Width="380" Background="#303030"
         WindowStartupLocation="CenterScreen" WindowTitleBrush="#512DA8" TitleCharacterCasing="Normal"
@@ -65,6 +66,13 @@
                     </Grid.ColumnDefinitions>
                     <materialDesign:PackIcon Grid.Column="0" Kind="TextShort" Foreground="{Binding ElementName=Modelo_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
                     <TextBox x:Name="Modelo_TextBox" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Modelo" Foreground="#E2E2E2">
+                        <TextBox.Text>
+                            <Binding Path="Modelo_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <domainReglasDeValidacion:Modelo/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </Grid>
 
@@ -76,6 +84,13 @@
                     </Grid.ColumnDefinitions>
                     <materialDesign:PackIcon Grid.Column="0" Kind="Dollar" Foreground="{Binding ElementName=Precio_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
                     <TextBox x:Name="Precio_TextBox" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Precio" Foreground="#E2E2E2">
+                        <TextBox.Text>
+                            <Binding Path="Precio_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <domainReglasDeValidacion:Precio/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
                     </TextBox>
                 </Grid>
             </StackPanel>
@@ -85,5 +100,15 @@
             <Button x:Name="Cancelar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CANCELAR" Click="Cancelar_Button_Click"/>
             <Button x:Name="Crear_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CREAR" Click="Crear_Button_Click"/>
         </StackPanel>
+
+        <materialDesign:Snackbar x:Name="MarcaCreada_Snackbar" VerticalAlignment="Bottom" Margin="16" Background="White" ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionMidButton}">
+            <materialDesign:SnackbarMessage Content="Marca creada correctamente!" ActionContent="ACEPTAR" ActionClick="AgregarMarca_Button_ActionClick"/>
+        </materialDesign:Snackbar>
+
+        <materialDesign:DialogHost x:Name="Dialog" Opacity="0.75">
+            <materialDesign:DialogHost.DialogContent>
+                <localDialogs:AlertaCerrar x:Name="Dialog_AlertaCerrar"/>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </Controls:MetroWindow>

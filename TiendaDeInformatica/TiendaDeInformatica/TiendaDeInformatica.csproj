@@ -255,8 +255,10 @@
     <Compile Include="Vistas\Ventanas\Agregar Producto\AgregarProducto.xaml.cs">
       <DependentUpon>AgregarProducto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validación\MarcaSeleccionada.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validación\TipoProductoSeleccionado.cs" />
+    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\Precio.cs" />
+    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\Modelo.cs" />
+    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\MarcaSeleccionada.cs" />
+    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\TipoProductoSeleccionado.cs" />
     <Compile Include="Vistas\Ventanas\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

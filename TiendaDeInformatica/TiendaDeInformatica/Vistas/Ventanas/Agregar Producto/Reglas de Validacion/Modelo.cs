@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using TiendaDeInformatica.Modelos;
 
-namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validación
+namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validacion
 {
-    public class TipoProductoSeleccionado : ValidationRule
+    public class Modelo : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value is TipoProducto)
+            string _string = value as string;
+            if (_string == null || string.IsNullOrEmpty(_string))
             {
-                return new ValidationResult(true, null);
+                return new ValidationResult(false, "Ingresa un modelo");
             }
-            return new ValidationResult(false, "Selecciona un tipo de producto");
+            return new ValidationResult(true, null);
         }
     }
 }

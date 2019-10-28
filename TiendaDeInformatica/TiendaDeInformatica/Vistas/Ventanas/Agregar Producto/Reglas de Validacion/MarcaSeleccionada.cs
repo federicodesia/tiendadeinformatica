@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using TiendaDeInformatica.Modelos;
 
-namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validación
+namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validacion
 {
     public class MarcaSeleccionada : ValidationRule
     {
