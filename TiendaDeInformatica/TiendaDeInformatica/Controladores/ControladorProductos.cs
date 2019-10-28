@@ -30,6 +30,8 @@ namespace TiendaDeInformatica.Controladores
                     Tipo = tipo,
                     Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen))
                 };
+                context.Productos.Add(producto);
+                context.SaveChanges();
             }
         }
         public static void ModificarProducto(Producto producto, Marca marca, string modelo, int cantidad, decimal precio, TipoProducto tipo, string imagen)

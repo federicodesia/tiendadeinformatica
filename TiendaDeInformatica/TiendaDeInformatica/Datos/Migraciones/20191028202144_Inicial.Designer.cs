@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20191022210711_Inicial")]
+    [Migration("20191028202144_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,19 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.ToTable("Productos");
                 });
 
+            modelBuilder.Entity("TiendaDeInformatica.Modelos.ProductoValor", b =>
+                {
+                    b.Property<int>("ValorId");
+
+                    b.Property<int>("ProductoId");
+
+                    b.HasKey("ValorId", "ProductoId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("ProductoValor");
+                });
+
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Valor", b =>
                 {
                     b.Property<int>("Id")
@@ -128,13 +141,9 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<string>("Nombre");
 
-                    b.Property<int?>("ProductoId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AtributoId");
-
-                    b.HasIndex("ProductoId");
 
                     b.ToTable("Valores");
                 });
@@ -163,16 +172,25 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("TiendaDeInformatica.Modelos.ProductoValor", b =>
+                {
+                    b.HasOne("TiendaDeInformatica.Modelos.Producto", "Producto")
+                        .WithMany("Valores")
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TiendaDeInformatica.Modelos.Valor", "Valor")
+                        .WithMany("Productos")
+                        .HasForeignKey("ValorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Valor", b =>
                 {
                     b.HasOne("TiendaDeInformatica.Modelos.Atributo", "Atributo")
                         .WithMany("Valores")
                         .HasForeignKey("AtributoId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TiendaDeInformatica.Modelos.Producto")
-                        .WithMany("Valores")
-                        .HasForeignKey("ProductoId");
                 });
 #pragma warning restore 612, 618
         }

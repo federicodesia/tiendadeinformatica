@@ -211,12 +211,12 @@
     </Compile>
     <Compile Include="Controladores\ControladorAtributos.cs" />
     <Compile Include="Controladores\ControladorClientes.cs" />
+    <Compile Include="Controladores\ControladorMarcas.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
     <Compile Include="Controladores\ControladorProductos.cs" />
-    <Compile Include="Controladores\ControladorValores.cs" />
-    <Compile Include="Datos\Migraciones\20191022210711_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20191022210711_Inicial.designer.cs">
-      <DependentUpon>20191022210711_Inicial.cs</DependentUpon>
+    <Compile Include="Datos\Migraciones\20191028202144_Inicial.cs" />
+    <Compile Include="Datos\Migraciones\20191028202144_Inicial.designer.cs">
+      <DependentUpon>20191028202144_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
