@@ -69,6 +69,26 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 });
 
             migrationBuilder.CreateTable(
+                name: "Valores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(nullable: true),
+                    AtributoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Valores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Valores_Atributos_AtributoId",
+                        column: x => x.AtributoId,
+                        principalTable: "Atributos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Presupuestos",
                 columns: table => new
                 {
@@ -116,30 +136,27 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 });
 
             migrationBuilder.CreateTable(
-                name: "Valores",
+                name: "ProductoValor",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: true),
-                    AtributoId = table.Column<int>(nullable: false),
-                    ProductoId = table.Column<int>(nullable: true)
+                    ProductoId = table.Column<int>(nullable: false),
+                    ValorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Valores", x => x.Id);
+                    table.PrimaryKey("PK_ProductoValor", x => new { x.ValorId, x.ProductoId });
                     table.ForeignKey(
-                        name: "FK_Valores_Atributos_AtributoId",
-                        column: x => x.AtributoId,
-                        principalTable: "Atributos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Valores_Productos_ProductoId",
+                        name: "FK_ProductoValor_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductoValor_Valores_ValorId",
+                        column: x => x.ValorId,
+                        principalTable: "Valores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -153,14 +170,14 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 column: "MarcaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductoValor_ProductoId",
+                table: "ProductoValor",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Valores_AtributoId",
                 table: "Valores",
                 column: "AtributoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Valores_ProductoId",
-                table: "Valores",
-                column: "ProductoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -172,19 +189,22 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 name: "Presupuestos");
 
             migrationBuilder.DropTable(
-                name: "Valores");
+                name: "ProductoValor");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
 
             migrationBuilder.DropTable(
-                name: "Atributos");
-
-            migrationBuilder.DropTable(
                 name: "Productos");
 
             migrationBuilder.DropTable(
+                name: "Valores");
+
+            migrationBuilder.DropTable(
                 name: "Marcas");
+
+            migrationBuilder.DropTable(
+                name: "Atributos");
         }
     }
 }

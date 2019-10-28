@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
 using TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto;
 
@@ -8,7 +9,7 @@ namespace TiendaDeInformatica
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         private void NuevoPresupuesto_Button_Click(object sender, System.Windows.RoutedEventArgs e)

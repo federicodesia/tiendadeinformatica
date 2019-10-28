@@ -16,27 +16,25 @@ namespace TiendaDeInformatica.Controladores
             Atributos = new List<Atributo>();
         }
         
-        public static void AgregarAtributo(string nombre, List<AtributoTipoProducto> atributoTipoProducto)
+        public static void AgregarAtributo(string nombre)
         {
             using (var context = new MyDbContext())
             {
                 Atributo atributo = new Atributo()
                 {
                     Nombre = nombre,
-                    TiposProductos = atributoTipoProducto,
                     Valores = new List<Valor>()
                 };
                 context.Atributos.Add(atributo);
                 context.SaveChanges();
             }
         }
-        public static void ModificarAtributo(Atributo atributo, string nombre, List<AtributoTipoProducto> atributoTipoProducto)
+        public static void ModificarAtributo(Atributo atributo, string nombre)
         {
             using (var context = new MyDbContext())
             {
                 Atributo atributoDb = context.Atributos.Find(atributo.Id);
                 atributoDb.Nombre = nombre;
-                atributoDb.TiposProductos = atributoTipoProducto;
                 context.SaveChanges();
             }
         }
@@ -54,6 +52,54 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 return context.Atributos.ToList();
+            }
+        }
+        public static void AgregarValor(Atributo atributo, string nombre)
+        {
+            using (var context = new MyDbContext())
+            {
+                Valor valor = new Valor()
+                {
+                    Nombre = nombre,
+                    AtributoId = atributo.Id
+                };
+                context.Valores.Add(valor);
+                context.SaveChanges();
+            }
+        }
+        public static void ModificarValor(Valor valor, string nombre)
+        {
+            using (var context = new MyDbContext())
+            {
+                Valor valorDb = context.Valores.Find(valor.Id);
+                valorDb.Nombre = nombre;
+                context.SaveChanges();
+            }
+        }
+        public static void EliminarValor(Valor valor)
+        {
+            using (var context = new MyDbContext())
+            {
+                Valor valorDb = context.Valores.Find(valor.Id);
+                context.Valores.Remove(valor);
+                context.SaveChanges();
+            }
+
+        }
+        public static List<Valor> ObtenerListaDeValores()
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Valores.ToList();
+            }
+        }
+        public static void EliminarValorDeAtributo(Valor valor)
+        {
+            using (var context = new MyDbContext())
+            {
+                Valor valorDb = context.Valores.Find(valor.Id);
+                context.Valores.Remove(valor);
+                context.SaveChanges();
             }
         }
 
