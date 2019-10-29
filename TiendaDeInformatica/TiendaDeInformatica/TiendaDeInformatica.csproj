@@ -193,6 +193,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Vistas\Ventanas\Agregar Marca\AgregarMarca.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Vistas\Ventanas\Agregar Presupuesto\AgregarPresupuesto.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -214,9 +218,9 @@
     <Compile Include="Controladores\ControladorMarcas.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
     <Compile Include="Controladores\ControladorProductos.cs" />
-    <Compile Include="Datos\Migraciones\20191028202144_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20191028202144_Inicial.designer.cs">
-      <DependentUpon>20191028202144_Inicial.cs</DependentUpon>
+    <Compile Include="Datos\Migraciones\20191029120126_Inicial.cs" />
+    <Compile Include="Datos\Migraciones\20191029120126_Inicial.designer.cs">
+      <DependentUpon>20191029120126_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
@@ -245,6 +249,9 @@
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\NombreApellido.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\NombreEmpresa.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\Telefono.cs" />
+    <Compile Include="Vistas\Ventanas\Agregar Marca\AgregarMarca.xaml.cs">
+      <DependentUpon>AgregarMarca.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Ventanas\Agregar Presupuesto\AgregarPresupuesto.xaml.cs">
       <DependentUpon>AgregarPresupuesto.xaml</DependentUpon>
     </Compile>
@@ -256,7 +263,7 @@
       <DependentUpon>AgregarProducto.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\Precio.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\Modelo.cs" />
+    <Compile Include="Vistas\Ventanas\Reglas de Validacion Generales\CampoVacio.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\MarcaSeleccionada.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\TipoProductoSeleccionado.cs" />
     <Compile Include="Vistas\Ventanas\MainWindow.xaml.cs">
@@ -291,7 +298,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="index.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

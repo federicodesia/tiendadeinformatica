@@ -10,6 +10,7 @@ namespace TiendaDeInformatica.Modelos
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public byte[] Imagen { get; set; }
         public List<Producto> Productos { get; set; }
     }
 }

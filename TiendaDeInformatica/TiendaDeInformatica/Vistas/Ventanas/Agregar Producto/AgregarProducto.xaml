@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto"
     xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validacion"
     xmlns:localDialogs="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
+    xmlns:domainReglasDeValidacionGenerales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Reglas_de_Validacion_Generales"
     mc:Ignorable="d"
         Title="Agregar producto" Height="450" Width="380" Background="#303030"
         WindowStartupLocation="CenterScreen" WindowTitleBrush="#512DA8" TitleCharacterCasing="Normal"
@@ -69,7 +70,7 @@
                         <TextBox.Text>
                             <Binding Path="Modelo_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
-                                    <domainReglasDeValidacion:Modelo/>
+                                    <domainReglasDeValidacionGenerales:CampoVacio/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>

@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20191028202144_Inicial")]
+    [Migration("20191029120126_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<byte[]>("Imagen");
+
                     b.Property<string>("Nombre");
 
                     b.HasKey("Id");
@@ -110,7 +112,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<decimal>("Precio");
 
-                    b.Property<int>("Tipo");
+                    b.Property<int?>("Tipo");
 
                     b.HasKey("Id");
 

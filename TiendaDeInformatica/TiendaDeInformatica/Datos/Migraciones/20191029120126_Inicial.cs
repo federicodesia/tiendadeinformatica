@@ -43,7 +43,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: true)
+                    Nombre = table.Column<string>(nullable: true),
+                    Imagen = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -121,7 +122,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     Modelo = table.Column<string>(nullable: true),
                     Cantidad = table.Column<int>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false),
-                    Tipo = table.Column<int>(nullable: false),
+                    Tipo = table.Column<int>(nullable: true),
                     Imagen = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>

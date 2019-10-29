@@ -64,6 +64,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<byte[]>("Imagen");
+
                     b.Property<string>("Nombre");
 
                     b.HasKey("Id");
@@ -108,7 +110,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<decimal>("Precio");
 
-                    b.Property<int>("Tipo");
+                    b.Property<int?>("Tipo");
 
                     b.HasKey("Id");
 

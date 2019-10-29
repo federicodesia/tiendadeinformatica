@@ -14,7 +14,7 @@ namespace TiendaDeInformatica.Modelos
         public string Modelo { get; set; }
         public int Cantidad { get; set; }
         public decimal Precio { get; set; }
-        public TipoProducto Tipo { get; set; }
+        public TipoProducto? Tipo { get; set; }
         public byte[] Imagen { get; set; }
 
         public List<ProductoValor> Valores { get; set; }

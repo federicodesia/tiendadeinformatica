@@ -15,7 +15,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
+using TiendaDeInformatica.Vistas.Ventanas.Agregar_Marca;
 using TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validacion;
+using TiendaDeInformatica.Vistas.Ventanas.Reglas_de_Validacion_Generales;
 
 namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
 {
@@ -51,7 +53,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
 
             if (new TipoProductoSeleccionado().Validate(tipoProducto, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && new MarcaSeleccionada().Validate(marca, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
-                && new Modelo().Validate(Modelo_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
+                && new CampoVacio().Validate(Modelo_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && new Precio().Validate(Precio_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
                 // Llamar al controlador de productos y agregarlo.
@@ -103,11 +105,8 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
             int CantidadDeMarcas = ControladorMarcas.ObtenerListaDeMarcas().Count;
-
-            //Falta crear la vista para agregar marcas
-            //AgregarMarca agregarMarca = new AgregarMarca();
-            //agregarMarca.ShowDialog();
-
+            AgregarMarca agregarMarca = new AgregarMarca();
+            agregarMarca.ShowDialog();
             ActualizarComboBoxMarcas();
             if (ControladorMarcas.ObtenerListaDeMarcas().Count > CantidadDeMarcas)
             {
