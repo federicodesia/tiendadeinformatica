@@ -27,11 +27,13 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Marca
     public partial class AgregarMarca : MetroWindow
     {
         public string Nombre_TextBox_Text { get; set; }
+        public string RutaDeLaImagen { get; set; }
 
 
         public AgregarMarca()
         {
             InitializeComponent();
+            MarcaID_TextBlock.Text = "Nueva marca #" + (ControladorMarcas.ObtenerListaDeMarcas().Count + 1).ToString();
             this.DataContext = this;
         }
 
@@ -44,7 +46,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Marca
         {
             if (new CampoVacio().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
-                ControladorMarcas.AgregarMarca(Nombre_TextBox.Text, null);
+                ControladorMarcas.AgregarMarca(Nombre_TextBox.Text, RutaDeLaImagen);
                 this.Close();
             }
             else
@@ -72,6 +74,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Marca
             var result = ofd.ShowDialog();
             if (result == false) return;
             Imagen_Image.Source = new BitmapImage(new Uri(ofd.FileName));
+            RutaDeLaImagen = ofd.FileName;
         }
     }
 }

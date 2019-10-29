@@ -37,6 +37,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
             InitializeComponent();
 
             BuscarTipoProducto_ComboBox.ItemsSource = Enum.GetValues(typeof(TipoProducto));
+            
             ActualizarComboBoxMarcas();
             this.DataContext = this;
         }
@@ -112,6 +113,11 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
             {
                 _ = MostrarPopupAsync();
             }
+        }
+
+        private void BuscarTipoProducto_ComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            BuscarTipoProducto_ComboBox.SelectedIndex = -1;
         }
     }
 }

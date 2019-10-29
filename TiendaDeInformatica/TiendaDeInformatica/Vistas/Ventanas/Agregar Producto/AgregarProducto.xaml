@@ -27,7 +27,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <materialDesign:PackIcon Grid.Column="0" Kind="PackageVariant" Foreground="{Binding ElementName=BuscarTipoProducto_ComboBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
-                    <ComboBox Grid.Column="1" x:Name="BuscarTipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar el tipo de producto" IsEditable="True" IsTextSearchEnabled="False" Foreground="#E3E3E3">
+                    <ComboBox Grid.Column="1" x:Name="BuscarTipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar el tipo de producto" IsEditable="True" IsTextSearchEnabled="True" Foreground="#E3E3E3" Loaded="BuscarTipoProducto_ComboBox_Loaded">
                         <ComboBox.SelectedItem>
                             <Binding Path="BuscarTipoProducto_ComboBox_SelectedItem" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -45,7 +45,7 @@
                         <ColumnDefinition Width="46"/>
                     </Grid.ColumnDefinitions>
                     <materialDesign:PackIcon Grid.Column="0" Kind="Wunderlist" Foreground="{Binding ElementName=BuscarMarca_ComboBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
-                    <ComboBox Grid.Column="1" x:Name="BuscarMarca_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar marca" IsEditable="True" IsTextSearchEnabled="False" Foreground="#E3E3E3">
+                    <ComboBox Grid.Column="1" TextSearch.TextPath="Nombre" x:Name="BuscarMarca_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar marca" IsEditable="True" IsTextSearchEnabled="False" Foreground="#E3E3E3">
                         <ComboBox.SelectedItem>
                             <Binding Path="BuscarMarca_ComboBox_SelectedItem" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -53,6 +53,15 @@
                                 </Binding.ValidationRules>
                             </Binding>
                         </ComboBox.SelectedItem>
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" MaxWidth="296">
+                                    <Image x:Name="Imagen_Image" Source="{Binding Imagen}" Height="24" Width="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock FontWeight="Bold" Margin="10 0 0 0" VerticalAlignment="Center" Text="{Binding Nombre}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
 
                     <Button x:Name="AgregarMarca_Button" Grid.Column="2" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar marca" Height="38" Width="38" HorizontalAlignment="Right" Click="AgregarMarca_Button_Click">
