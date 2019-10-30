@@ -29,7 +29,7 @@
                     <materialDesign:PackIcon Grid.Column="0" Kind="PackageVariant" Foreground="{Binding ElementName=BuscarTipoProducto_ComboBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
                     <ComboBox Grid.Column="1" x:Name="BuscarTipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar el tipo de producto" IsEditable="True" IsTextSearchEnabled="True" Foreground="#E3E3E3" Loaded="BuscarTipoProducto_ComboBox_Loaded">
                         <ComboBox.SelectedItem>
-                            <Binding Path="BuscarTipoProducto_ComboBox_SelectedItem" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="BuscarTipoProducto_ComboBox_SelectedItem" UpdateSourceTrigger="LostFocus">
                                 <Binding.ValidationRules>
                                     <domainReglasDeValidacion:TipoProductoSeleccionado/>
                                 </Binding.ValidationRules>

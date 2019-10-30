@@ -36,8 +36,10 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
         {
             InitializeComponent();
 
-            BuscarTipoProducto_ComboBox.ItemsSource = Enum.GetValues(typeof(TipoProducto));
-            
+            TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+            IEnumerable<TipoProducto> tipoProductosOrdenados = tipoProductos.OrderBy(v => v.ToString());
+            BuscarTipoProducto_ComboBox.ItemsSource = tipoProductosOrdenados;
+
             ActualizarComboBoxMarcas();
             this.DataContext = this;
         }
@@ -97,7 +99,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
         private void ActualizarComboBoxMarcas()
         {
             BuscarMarca_ComboBox.Items.Clear();
-            foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
+            foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas().OrderBy(v => v.Nombre).ToList())
             {
                 BuscarMarca_ComboBox.Items.Add(marca);
             }
