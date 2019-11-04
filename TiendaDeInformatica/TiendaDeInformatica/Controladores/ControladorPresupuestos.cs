@@ -27,7 +27,8 @@ namespace TiendaDeInformatica.Controladores
                     FechaCreacion = DateTime.Now,
                     FechaModificacion = DateTime.Now,
                     FechaDeExpiracion = fechaDeExpiracion,
-                    PrecioTotal = 0
+                    PrecioTotal = 0,
+                    Productos = new List<PresupuestoProducto>()
                 };
                 context.Presupuestos.Add(presupuesto);
                 context.SaveChanges();

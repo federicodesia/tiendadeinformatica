@@ -218,9 +218,9 @@
     <Compile Include="Controladores\ControladorMarcas.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
     <Compile Include="Controladores\ControladorProductos.cs" />
-    <Compile Include="Datos\Migraciones\20191029120126_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20191029120126_Inicial.designer.cs">
-      <DependentUpon>20191029120126_Inicial.cs</DependentUpon>
+    <Compile Include="Datos\Migraciones\20191104181737_Inicial.cs" />
+    <Compile Include="Datos\Migraciones\20191104181737_Inicial.designer.cs">
+      <DependentUpon>20191104181737_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\MyDbContext.cs" />
@@ -230,6 +230,7 @@
     <Compile Include="Modelos\Marca.cs" />
     <Compile Include="Modelos\Cliente.cs" />
     <Compile Include="Modelos\Presupuesto.cs" />
+    <Compile Include="Modelos\PresupuestoProducto.cs" />
     <Compile Include="Modelos\Producto.cs" />
     <Compile Include="Modelos\ProductoValor.cs" />
     <Compile Include="Modelos\Valor.cs" />
@@ -298,9 +299,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="index.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

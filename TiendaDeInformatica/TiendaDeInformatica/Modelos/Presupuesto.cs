@@ -15,8 +15,7 @@ namespace TiendaDeInformatica.Modelos
         public DateTime FechaModificacion { get; set; }
         public DateTime? FechaDeExpiracion { get; set; }
         public decimal PrecioTotal { get; set; }
-        
 
-        // Falta agregar la lista de productos (Cantidad y Producto).
+        public List<PresupuestoProducto> Productos { get; set; }
     }
 }

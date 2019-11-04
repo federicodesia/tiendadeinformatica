@@ -120,7 +120,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         .Annotation("Sqlite:Autoincrement", true),
                     MarcaId = table.Column<int>(nullable: false),
                     Modelo = table.Column<string>(nullable: true),
-                    Cantidad = table.Column<int>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false),
                     Tipo = table.Column<int>(nullable: true),
                     Imagen = table.Column<byte[]>(nullable: true)
@@ -132,6 +131,33 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         name: "FK_Productos_Marcas_MarcaId",
                         column: x => x.MarcaId,
                         principalTable: "Marcas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PresupuestoProducto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PresupuestoId = table.Column<int>(nullable: false),
+                    ProductoId = table.Column<int>(nullable: false),
+                    Cantidad = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PresupuestoProducto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PresupuestoProducto_Presupuestos_PresupuestoId",
+                        column: x => x.PresupuestoId,
+                        principalTable: "Presupuestos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PresupuestoProducto_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -161,6 +187,16 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_PresupuestoProducto_PresupuestoId",
+                table: "PresupuestoProducto",
+                column: "PresupuestoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PresupuestoProducto_ProductoId",
+                table: "PresupuestoProducto",
+                column: "ProductoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Presupuestos_ClienteId",
                 table: "Presupuestos",
                 column: "ClienteId");
@@ -187,19 +223,22 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 name: "AtributoTipoProducto");
 
             migrationBuilder.DropTable(
-                name: "Presupuestos");
+                name: "PresupuestoProducto");
 
             migrationBuilder.DropTable(
                 name: "ProductoValor");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Presupuestos");
 
             migrationBuilder.DropTable(
                 name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Valores");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "Marcas");

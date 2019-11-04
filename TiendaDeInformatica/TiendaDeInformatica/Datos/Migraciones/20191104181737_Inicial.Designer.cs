@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20191029120126_Inicial")]
+    [Migration("20191104181737_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,12 +97,30 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.ToTable("Presupuestos");
                 });
 
-            modelBuilder.Entity("TiendaDeInformatica.Modelos.Producto", b =>
+            modelBuilder.Entity("TiendaDeInformatica.Modelos.PresupuestoProducto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Cantidad");
+
+                    b.Property<int>("PresupuestoId");
+
+                    b.Property<int>("ProductoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PresupuestoId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("PresupuestoProducto");
+                });
+
+            modelBuilder.Entity("TiendaDeInformatica.Modelos.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<byte[]>("Imagen");
 
@@ -163,6 +181,19 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.HasOne("TiendaDeInformatica.Modelos.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TiendaDeInformatica.Modelos.PresupuestoProducto", b =>
+                {
+                    b.HasOne("TiendaDeInformatica.Modelos.Presupuesto", "Presupuesto")
+                        .WithMany("Productos")
+                        .HasForeignKey("PresupuestoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TiendaDeInformatica.Modelos.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
