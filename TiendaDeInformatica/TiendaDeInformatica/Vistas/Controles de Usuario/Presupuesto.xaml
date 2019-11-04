@@ -12,7 +12,7 @@
         <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5"/>
     </UserControl.Effect>
     <Border CornerRadius="2" Padding="1" Background="#673AB7" Margin="8 4 8 4">
-        <Border CornerRadius="2" Padding="14" Background="#282828" Margin="4 4 8 4">
+        <Border CornerRadius="2" Padding="14" Background="#282828" Margin="4 4 4 4">
             <StackPanel Orientation="Vertical">
                 <Grid Height="21" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
