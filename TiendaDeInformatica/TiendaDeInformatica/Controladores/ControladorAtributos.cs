@@ -43,7 +43,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 Atributo atributoDb = context.Atributos.Find(atributo.Id);
-                context.Atributos.Remove(atributo);
+                context.Atributos.Remove(atributoDb);
                 context.SaveChanges();
             }
         }
@@ -81,7 +81,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 Valor valorDb = context.Valores.Find(valor.Id);
-                context.Valores.Remove(valor);
+                context.Valores.Remove(valorDb);
                 context.SaveChanges();
             }
 
@@ -98,7 +98,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 Valor valorDb = context.Valores.Find(valor.Id);
-                context.Valores.Remove(valor);
+                context.Valores.Remove(valorDb);
                 context.SaveChanges();
             }
         }

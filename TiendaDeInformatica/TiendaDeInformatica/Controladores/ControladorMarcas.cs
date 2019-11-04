@@ -51,7 +51,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 Marca marcaDb = context.Marcas.Find(marca.Id);
-                context.Marcas.Remove(marca);
+                context.Marcas.Remove(marcaDb);
                 context.SaveChanges();
             }
         }
