@@ -50,7 +50,8 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                context.Productos.Remove(producto);
+                Producto productoDb = context.Productos.Find(producto.Id);
+                context.Productos.Remove(productoDb);
                 context.SaveChanges();
             }
         }
@@ -61,5 +62,30 @@ namespace TiendaDeInformatica.Controladores
                 return context.Productos.ToList();
             }
         }
+
+        public static void AgregarAtributoATipoProducto(Atributo atributo, TipoProducto tipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                AtributoTipoProducto atributoTipoProducto = new AtributoTipoProducto()
+                {
+                    TipoProducto = tipoProducto,
+                    AtributoId = atributo.Id
+                };
+                context.Add(atributoTipoProducto);
+                context.SaveChanges();
+            }
+        }
+        public static void BorrarAtributoDeTipoProducto(Atributo atributo, TipoProducto tipoProducto, AtributoTipoProducto atributoTipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                AtributoTipoProducto atributoTipoProductoDb = context.Set<AtributoTipoProducto>().Find(atributo.Id);
+                context.Remove(atributoTipoProductoDb);
+                context.SaveChanges();
+
+            }
+        }
+        
     }
 }

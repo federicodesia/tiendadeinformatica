@@ -50,7 +50,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 Presupuesto presupuestoDb = context.Presupuestos.Find(presupuesto.Id);
-                context.Presupuestos.Remove(presupuesto);
+                context.Presupuestos.Remove(presupuestoDb);
                 context.SaveChanges();
             }
         }
@@ -60,6 +60,31 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 return context.Presupuestos.ToList();
+            }
+        }
+
+        public static void AgregarProductoAPresupuesto(Presupuesto presupuesto, Producto producto, int cantidad)
+        {
+            using (var context = new MyDbContext())
+            {
+                PresupuestoProducto presupuestoProducto = new PresupuestoProducto()
+                {
+                    ProductoId = producto.Id,
+                    Cantidad = cantidad,
+                    PresupuestoId = presupuesto.Id
+                };
+                context.Add(presupuestoProducto);
+                context.SaveChanges();
+            }
+        }
+        
+        public static void EliminarProductoDelPresupuesto(Presupuesto presupuesto, PresupuestoProducto presupuestoProducto, Producto producto)
+        {
+            using (var context = new MyDbContext())
+            {
+                PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(producto.Id);
+                context.Remove(presupuestoProductoDb);
+                context.SaveChanges();
             }
         }
     }
