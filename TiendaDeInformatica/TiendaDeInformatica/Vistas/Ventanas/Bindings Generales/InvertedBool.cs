@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.Bindings
+namespace TiendaDeInformatica.Vistas.Ventanas.Bindings_Generales
 {
     public class InvertedBool : IValueConverter
     {

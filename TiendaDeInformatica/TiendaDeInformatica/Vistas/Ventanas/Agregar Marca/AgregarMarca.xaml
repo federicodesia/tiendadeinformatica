@@ -43,12 +43,11 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Grid.Column="0" Kind="ImagePlus" Foreground="{Binding ElementName=Nombre_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+                    <materialDesign:PackIcon Grid.Column="0" Kind="ImagePlus" Foreground="#9F9F9F" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,6"/>
                     <Button Grid.Column="1" x:Name="SeleccionarImagen_Button" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Seleccionar una imágen" Click="SeleccionarImagen_Button_Click"/>
                     <Border Grid.Column="2" Height="32" Width="32" BorderThickness="1" BorderBrush="#404040" Background="#333333" HorizontalAlignment="Right">
                         <Image x:Name="Imagen_Image"/>
                     </Border>
-                    
                 </Grid>
             </StackPanel>
         </StackPanel>

@@ -30,6 +30,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
         public Marca BuscarMarca_ComboBox_SelectedItem { get; set; }
         public string Modelo_TextBox_Text { get; set; }
         public string Precio_TextBox_Text { get; set; }
+        public string RutaDeLaImagen { get; set; }
 
 
         public AgregarProducto()
@@ -51,7 +52,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
 
         private void Crear_Button_Click(object sender, RoutedEventArgs e)
         {
-            TipoProducto? tipoProducto = BuscarTipoProducto_ComboBox.SelectedItem as TipoProducto?;
+            TipoProducto tipoProducto = (TipoProducto)BuscarTipoProducto_ComboBox.SelectedItem;
             Marca marca = BuscarMarca_ComboBox.SelectedItem as Marca;
 
             if (new TipoProductoSeleccionado().Validate(tipoProducto, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
@@ -59,7 +60,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
                 && new CampoVacio().Validate(Modelo_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && new Precio().Validate(Precio_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
-                // Llamar al controlador de productos y agregarlo.
+                ControladorProductos.AgregarProducto(marca, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), tipoProducto, RutaDeLaImagen);
                 this.Close();
             }
             else
@@ -120,6 +121,16 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
         private void BuscarTipoProducto_ComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             BuscarTipoProducto_ComboBox.SelectedIndex = -1;
+        }
+
+        private void SeleccionarImagen_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Filter = "Todas las imágenes|*.png;*.jpg;*.jpeg";
+            var result = ofd.ShowDialog();
+            if (result == false) return;
+            Imagen_Image.Source = new BitmapImage(new Uri(ofd.FileName));
+            RutaDeLaImagen = ofd.FileName;
         }
     }
 }

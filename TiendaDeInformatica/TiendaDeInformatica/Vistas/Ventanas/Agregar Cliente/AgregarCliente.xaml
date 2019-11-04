@@ -9,7 +9,8 @@
         xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.Bindings"
         xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.Reglas_de_Validacion"
         xmlns:localDialogs="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
-        mc:Ignorable="d"
+    xmlns:domainBindingsGenerales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Bindings_Generales"
+    mc:Ignorable="d"
         Title="Agregar cliente" Height="450" Width="380" Background="#303030"
         WindowStartupLocation="CenterScreen" WindowTitleBrush="#512DA8" TitleCharacterCasing="Normal"
         ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ResizeMode="CanMinimize">
@@ -19,7 +20,7 @@
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <domainBindings:BooleanToHintNombre x:Key="BooleanToHintNombre"/>
             <domainBindings:BooleanToHintApellido x:Key="BooleanToHintApellido"/>
-            <domainBindings:InvertedBool x:Key="InvertedBool"/>
+            <domainBindingsGenerales:InvertedBool x:Key="InvertedBool"/>
         </Grid.Resources>
 
         <StackPanel Orientation="Vertical">

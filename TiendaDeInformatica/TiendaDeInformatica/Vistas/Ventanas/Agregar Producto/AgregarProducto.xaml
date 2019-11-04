@@ -9,18 +9,40 @@
     xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto.Reglas_de_Validacion"
     xmlns:localDialogs="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
     xmlns:domainReglasDeValidacionGenerales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Reglas_de_Validacion_Generales"
+    xmlns:domainBindingsGenerales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Bindings_Generales"
     mc:Ignorable="d"
-        Title="Agregar producto" Height="450" Width="380" Background="#303030"
+        Title="Agregar producto" Height="512" Width="380" Background="#303030"
         WindowStartupLocation="CenterScreen" WindowTitleBrush="#512DA8" TitleCharacterCasing="Normal"
         ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ResizeMode="CanMinimize">
 
     <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <domainBindingsGenerales:InvertedBool x:Key="InvertedBool"/>
+        </Grid.Resources>
+        
         <StackPanel Orientation="Vertical">
             <materialDesign:ColorZone Mode="PrimaryMid">
-                <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo producto" FontSize="16" Margin="16"/>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo producto" FontSize="16" Margin="16"/>
+                    <Grid VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Height="42">
+                            <RadioButton x:Name="TabMenu_PersonaButton" Style="{StaticResource MaterialDesignTabRadioButton}" Height="44" Content="BÁSICO" IsChecked="{Binding IsChecked, ElementName=TabMenu_EmpresaButton, Converter={StaticResource InvertedBool}}"/>
+                            <materialDesign:ColorZone x:Name="TabMenu_PersonaIndicator" Mode="PrimaryLight" Height="2" VerticalAlignment="Bottom" Visibility="{Binding IsChecked, ElementName=TabMenu_PersonaButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                        <Grid Grid.Column="1" Height="42">
+                            <RadioButton x:Name="TabMenu_EmpresaButton" Style="{StaticResource MaterialDesignTabRadioButton}" Height="44" Content="ATRIBUTOS" IsChecked="{Binding IsChecked, ElementName=TabMenu_ClienteButton, Converter={StaticResource InvertedBool}}"/>
+                            <materialDesign:ColorZone x:Name="TabMenu_EmpresaIndicator" Mode="PrimaryLight" Height="2" VerticalAlignment="Bottom" Visibility="{Binding IsChecked, ElementName=TabMenu_EmpresaButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
             </materialDesign:ColorZone>
 
-            <StackPanel Orientation="Vertical" Margin="16">
+            <StackPanel Visibility="{Binding IsChecked, ElementName=TabMenu_PersonaButton, Converter={StaticResource BooleanToVisibilityConverter}}" Orientation="Vertical" Margin="16">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="24"/>
@@ -102,6 +124,21 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
+                </Grid>
+
+                <Grid Margin="0 18 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:PackIcon Grid.Column="0" Kind="ImagePlus" Foreground="#9F9F9F" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+                    <Button Grid.Column="1" x:Name="SeleccionarImagen_Button" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Seleccionar una imágen" Click="SeleccionarImagen_Button_Click"/>
+                    <TextBlock  Grid.Column="2" Text="64x64" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 6 0" Foreground="Gray" FontSize="12"/>
+                    <Border Grid.Column="3" Height="64" Width="64" BorderThickness="1" BorderBrush="#404040" Background="#333333" HorizontalAlignment="Right">
+                        <Image x:Name="Imagen_Image"/>
+                    </Border>
                 </Grid>
             </StackPanel>
         </StackPanel>

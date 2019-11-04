@@ -244,7 +244,7 @@
       <DependentUpon>AgregarCliente.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Bindings\BooleanToHintApellido.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Bindings\InvertedBool.cs" />
+    <Compile Include="Vistas\Ventanas\Bindings Generales\InvertedBool.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Bindings\BooleanToHintNombre.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\CUIT.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\NombreApellido.cs" />
