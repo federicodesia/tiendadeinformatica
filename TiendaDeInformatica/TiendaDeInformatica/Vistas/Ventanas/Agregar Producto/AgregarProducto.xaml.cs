@@ -43,6 +43,16 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
 
             ActualizarComboBoxMarcas();
             this.DataContext = this;
+
+
+            // Prueba
+            var atributo=ControladorAtributos.AgregarAtributo("Socket");
+            Atributo_ComboBox.Items.Add(atributo);
+
+            var valor1 = ControladorAtributos.AgregarValor(atributo, "AM4");
+            var valor2= ControladorAtributos.AgregarValor(atributo, "1151");
+            Prueba_ListBox.Items.Add(valor1);
+            Prueba_ListBox.Items.Add(valor2);
         }
 
         private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
@@ -131,6 +141,16 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
             if (result == false) return;
             Imagen_Image.Source = new BitmapImage(new Uri(ofd.FileName));
             RutaDeLaImagen = ofd.FileName;
+        }
+
+        private void Prueba_Boton_Click(object sender, RoutedEventArgs e)
+        {
+            string Mensaje = "";
+            foreach(Valor valor in Prueba_ListBox.SelectedItems)
+            {
+                Mensaje = Mensaje + "\r\n- " + valor.Nombre;
+            }
+            MessageBox.Show(Mensaje);
         }
     }
 }

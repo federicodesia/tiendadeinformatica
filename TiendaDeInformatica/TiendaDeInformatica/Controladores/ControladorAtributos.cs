@@ -16,7 +16,7 @@ namespace TiendaDeInformatica.Controladores
             Atributos = new List<Atributo>();
         }
         
-        public static void AgregarAtributo(string nombre)
+        public static Atributo AgregarAtributo(string nombre)
         {
             using (var context = new MyDbContext())
             {
@@ -27,6 +27,7 @@ namespace TiendaDeInformatica.Controladores
                 };
                 context.Atributos.Add(atributo);
                 context.SaveChanges();
+                return atributo;
             }
         }
         public static void ModificarAtributo(Atributo atributo, string nombre)
@@ -54,7 +55,7 @@ namespace TiendaDeInformatica.Controladores
                 return context.Atributos.ToList();
             }
         }
-        public static void AgregarValor(Atributo atributo, string nombre)
+        public static Valor AgregarValor(Atributo atributo, string nombre)
         {
             using (var context = new MyDbContext())
             {
@@ -65,6 +66,7 @@ namespace TiendaDeInformatica.Controladores
                 };
                 context.Valores.Add(valor);
                 context.SaveChanges();
+                return valor;
             }
         }
         public static void ModificarValor(Valor valor, string nombre)

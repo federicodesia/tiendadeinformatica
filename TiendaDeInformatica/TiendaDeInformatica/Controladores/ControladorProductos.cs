@@ -27,7 +27,8 @@ namespace TiendaDeInformatica.Controladores
                     Modelo = modelo,
                     Precio = precio,
                     Tipo = tipo,
-                    Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen))
+                    Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen)),
+                    Valores=new List<ProductoValor>()
                 };
                 context.Productos.Add(producto);
                 context.SaveChanges();
