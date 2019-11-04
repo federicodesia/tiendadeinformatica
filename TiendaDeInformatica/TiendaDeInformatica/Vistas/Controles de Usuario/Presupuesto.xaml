@@ -12,7 +12,7 @@
         <DropShadowEffect Direction="0" ShadowDepth="0" Opacity="0.5"/>
     </UserControl.Effect>
     <Border CornerRadius="2" Padding="1" Background="#673AB7" Margin="8 4 8 4">
-        <Border CornerRadius="2" Padding="14" Background="#282828" Margin="4 4 8 4">
+        <Border CornerRadius="2" Padding="14" Background="#282828" Margin="4 4 4 4">
             <StackPanel Orientation="Vertical">
                 <Grid Height="21" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
@@ -20,7 +20,8 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock Text="Presupuesto #000001" Foreground="#E2E2E2" FontSize="15" FontFamily="Roboto" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Width="30" Height="20" Kind="EventWeek" Foreground="#E2E2E2" />
+                        <TextBlock Margin="5 4 5 4" Text="Presupuesto #000001" Foreground="#E2E2E2" FontSize="15" FontFamily="Roboto" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         <TextBlock Text="creado el 24/9/19 18:00" Foreground="#cfcfcf" FontSize="12" FontFamily="Roboto" Margin="4,4,0,2" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
