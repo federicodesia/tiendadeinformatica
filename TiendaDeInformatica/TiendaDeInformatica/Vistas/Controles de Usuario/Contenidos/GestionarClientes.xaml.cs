@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
+using TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente;
 
 namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 {
@@ -35,6 +36,14 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
             {
                 Clientes_ListBox.Items.Add(cliente);
             }
+        }
+
+        private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
+        {
+            int CantidadDeClientes = ControladorClientes.ObtenerListaDeClientes().Count;
+            AgregarCliente agregarCliente = new AgregarCliente();
+            agregarCliente.ShowDialog();
+            RefrescarListBox();
         }
     }
 }

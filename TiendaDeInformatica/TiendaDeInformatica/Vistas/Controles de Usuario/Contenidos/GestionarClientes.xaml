@@ -7,42 +7,57 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto.Bindings"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="#1F1F1F">
     <Grid>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <domainBindings:ComboBoxItemDescripcionVisibility x:Key="ComboBoxItemDescripcionVisibility"/>
             <domainBindings:KindConverter x:Key="KindConverter"/>
         </Grid.Resources>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="56"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Background="#">
-            <TextBlock Text="Gestionar Clientes" Foreground="Gray" FontSize="16" Margin="8 0 0 0"/>
-        </StackPanel>
+        <Grid Grid.Row="0" Background="#282828">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Margin="16 0 0 0" Text="Gestionar clientes" Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="16" VerticalAlignment="Center"/>
 
+            <Button x:Name="AgregarCliente_Button" Grid.Column="1" Margin="0 0 16 0" Style="{StaticResource MaterialDesignFlatButton}" Click="AgregarCliente_Button_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
+                    <TextBlock Text="Agregar cliente" Foreground="White" Style="{StaticResource MaterialDesignTitleTextBlock}" VerticalAlignment="Center" FontSize="13" Margin="8 0 0 0"/>
+                </StackPanel>
+            </Button>
+        </Grid>
 
-
-        <ListBox x:Name="Clientes_ListBox">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" MaxWidth="296">
-                        <Border CornerRadius="64" Height="32" Width="32" Background="DarkGray">
-                            <materialDesign:PackIcon Width="22" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="{Binding Tipo, Converter={StaticResource KindConverter}}" />
-                        </Border>
-                        <StackPanel Orientation="Vertical" Margin="10 0 0 0" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontWeight="Bold" Text="{Binding MostrarNombre}"/>
-                                <TextBlock Margin="4 0 0 0" Text="{Binding SeguidoMostrarNombre}"/>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="18">
+            <TextBlock Text="Lista de clientes:" Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="13" VerticalAlignment="Center"/>
+            <ScrollViewer IsManipulationEnabled="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListBox x:Name="Clientes_ListBox" Margin="0 18 0 0" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" MaxWidth="296">
+                                <Border CornerRadius="64" Height="32" Width="32" Background="DarkGray">
+                                    <materialDesign:PackIcon Width="22" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="{Binding Tipo, Converter={StaticResource KindConverter}}" />
+                                </Border>
+                                <StackPanel Orientation="Vertical" Margin="10 0 0 0" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Bold" Text="{Binding MostrarNombre}"/>
+                                        <TextBlock Margin="4 0 0 0" Text="{Binding SeguidoMostrarNombre}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Descripcion}" Visibility="{Binding Descripcion, Converter={StaticResource ComboBoxItemDescripcionVisibility}}"/>
+                                </StackPanel>
                             </StackPanel>
-                            <TextBlock Text="{Binding Descripcion}" Visibility="{Binding Descripcion, Converter={StaticResource ComboBoxItemDescripcionVisibility}}"/>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </StackPanel>
     </Grid>
 </UserControl>
