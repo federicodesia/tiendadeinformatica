@@ -7,15 +7,23 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TiendaDeInformatica"
         mc:Ignorable="d"
-        Title="Tienda de Informática" Height="500" Width="900" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen">
+        Title="Tienda de Informática" Height="500" Width="900" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen" Loaded="MetroWindow_Loaded">
 
     <Grid Background="#1F1F1F">
-        <Grid x:Name="MenuIzquierdo" Background="#282828" Width="220" HorizontalAlignment="Left">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="232"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid x:Name="MenuIzquierdo" Grid.Column="0" Background="#282828">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <Button Content="Agregar presupuesto" Width="200" Click="NuevoPresupuesto_Button_Click"/>
+                <Button Content="Agregar producto" Width="200" Click="NuevoProducto_Button_Click" Margin="0 16 0 0"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Contenido" Grid.Column="1">
 
         </Grid>
-        <StackPanel Orientation="Horizontal" x:Name="MenuSuperior" Background="#282828" Height="56" VerticalAlignment="Top" Margin="220 0 0 0" HorizontalAlignment="Center">
-            <Button Content="Agregar presupuesto" Width="200" Click="NuevoPresupuesto_Button_Click"/>
-            <Button Content="Agregar producto" Width="200" Click="NuevoProducto_Button_Click" Margin="16 0 0 0"/>
-        </StackPanel>
     </Grid>
 </Controls:MetroWindow>

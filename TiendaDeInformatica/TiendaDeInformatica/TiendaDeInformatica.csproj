@@ -181,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Vistas\Controles de Usuario\Contenidos\GestionarClientes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vistas\Controles de Usuario\Dialogs\AlertaCerrar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -234,6 +238,9 @@
     <Compile Include="Modelos\Producto.cs" />
     <Compile Include="Modelos\ProductoValor.cs" />
     <Compile Include="Modelos\Valor.cs" />
+    <Compile Include="Vistas\Controles de Usuario\Contenidos\GestionarClientes.xaml.cs">
+      <DependentUpon>GestionarClientes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Controles de Usuario\Dialogs\AlertaCerrar.xaml.cs">
       <DependentUpon>AlertaCerrar.xaml</DependentUpon>
     </Compile>
