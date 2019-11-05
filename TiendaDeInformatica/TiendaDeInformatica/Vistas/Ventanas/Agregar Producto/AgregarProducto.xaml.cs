@@ -62,14 +62,15 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
 
         private void Crear_Button_Click(object sender, RoutedEventArgs e)
         {
-            TipoProducto tipoProducto = (TipoProducto)BuscarTipoProducto_ComboBox.SelectedItem;
+            TipoProducto? tipoProductoNullable = BuscarTipoProducto_ComboBox.SelectedItem as TipoProducto?;
             Marca marca = BuscarMarca_ComboBox.SelectedItem as Marca;
 
-            if (new TipoProductoSeleccionado().Validate(tipoProducto, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
+            if (new TipoProductoSeleccionado().Validate(tipoProductoNullable, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && new MarcaSeleccionada().Validate(marca, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && new CampoVacio().Validate(Modelo_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && new Precio().Validate(Precio_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
+                TipoProducto tipoProducto = (TipoProducto)BuscarTipoProducto_ComboBox.SelectedItem;
                 ControladorProductos.AgregarProducto(marca, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), tipoProducto, RutaDeLaImagen);
                 this.Close();
             }
@@ -92,7 +93,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
 
         private void MostrarDialog()
         {
-            if ( BuscarTipoProducto_ComboBox.SelectedItem!=null || BuscarMarca_ComboBox.SelectedItem != null || Modelo_TextBox.Text!="" || Precio_TextBox.Text != "")
+            if (BuscarTipoProducto_ComboBox.SelectedItem!=null || BuscarMarca_ComboBox.SelectedItem != null || Modelo_TextBox.Text!="" || Precio_TextBox.Text != "" || RutaDeLaImagen!=null)
             {
                 Dialog.IsOpen = true;
             }
@@ -141,16 +142,14 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Producto
             if (result == false) return;
             Imagen_Image.Source = new BitmapImage(new Uri(ofd.FileName));
             RutaDeLaImagen = ofd.FileName;
+            EliminarImagen_Button.Visibility = Visibility.Visible;
         }
 
-        private void Prueba_Boton_Click(object sender, RoutedEventArgs e)
+        private void EliminarImagen_Button_Click(object sender, RoutedEventArgs e)
         {
-            string Mensaje = "";
-            foreach(Valor valor in Prueba_ListBox.SelectedItems)
-            {
-                Mensaje = Mensaje + "\r\n- " + valor.Nombre;
-            }
-            MessageBox.Show(Mensaje);
+            RutaDeLaImagen = null;
+            Imagen_Image.Source = null;
+            EliminarImagen_Button.Visibility = Visibility.Hidden;
         }
     }
 }
