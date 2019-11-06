@@ -54,6 +54,18 @@ namespace TiendaDeInformatica.Modelos
             }
         }
 
+        public string NombreDelResponsable
+        {
+            get
+            {
+                if (Tipo == "Empresa")
+                {
+                    return $"{Nombre} {Apellido}";
+                }
+                return "";
+            }
+        }
+
         public string Descripcion
         {
             get
