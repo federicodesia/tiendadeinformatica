@@ -31,10 +31,10 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 
         private void RefrescarListBox()
         {
-            Clientes_ListBox.Items.Clear();
+            Personas_DataGrid.Items.Clear();
             foreach(Cliente cliente in ControladorClientes.ObtenerListaDeClientes())
             {
-                Clientes_ListBox.Items.Add(cliente);
+                Personas_DataGrid.Items.Add(cliente);
             }
         }
 

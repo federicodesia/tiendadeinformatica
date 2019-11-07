@@ -31,7 +31,7 @@ namespace TiendaDeInformatica.Modelos
         {
             get
             {
-                if (Tipo=="Empresa")
+                if (Tipo == "Empresa")
                 {
                     return NombreDeLaEmpresa;
                 }

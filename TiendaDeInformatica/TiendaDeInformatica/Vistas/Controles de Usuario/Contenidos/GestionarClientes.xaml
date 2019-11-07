@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto.Bindings"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="#1F1F1F" x:Name="VistaGestionarClientes">
+             d:DesignHeight="469" d:DesignWidth="660" Background="#1F1F1F" x:Name="VistaGestionarClientes">
     <Grid>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -28,22 +28,45 @@
 
             <TextBlock Grid.Column="0" Margin="16 0 0 0" Text="Gestionar clientes" Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="16" VerticalAlignment="Center"/>
 
-            <Button x:Name="AgregarCliente_Button" Grid.Column="1" Margin="0 0 16 0" Style="{StaticResource MaterialDesignFlatButton}" Click="AgregarCliente_Button_Click">
+            <Button x:Name="AgregarCliente_Button" Grid.Column="1" Height="56"  Style="{StaticResource MaterialDesignFlatButton}" Click="AgregarCliente_Button_Click">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
-                    <TextBlock Text="Agregar cliente" Foreground="White" Style="{StaticResource MaterialDesignTitleTextBlock}" VerticalAlignment="Center" FontSize="13" Margin="8 0 0 0"/>
+                    <materialDesign:PackIcon Kind="Add" Foreground="#E2E2E2" Height="24" Width="24" VerticalAlignment="Center"/>
+                    <TextBlock Text="Agregar cliente" Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" VerticalAlignment="Center" FontSize="13" Margin="8 0 0 0"/>
                 </StackPanel>
             </Button>
         </Grid>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="18" VerticalAlignment="Stretch">
-            <TextBlock Text="Lista de clientes:"  Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="13"/>
-            <DataGrid x:Name="Clientes_ListBox" CanUserSortColumns="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0 18 0 0">
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="18">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <materialDesign:ColorZone Grid.Column="0" HorizontalAlignment="Left" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{DynamicResource MaterialDesignToolButton}">
+                            <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                        </Button>
+                        <TextBox Grid.Column="1" Margin="8 0 32 0" Foreground="#E2E2E2" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <ComboBox Grid.Column="1" HorizontalAlignment="Right" Width="156" SelectedIndex="0" materialDesign:HintAssist.Hint="Filtrar clientes   " Style="{StaticResource MaterialDesignFloatingHintComboBox}" Foreground="#E3E3E3">
+                    <ComboBoxItem>Personas</ComboBoxItem>
+                    <ComboBoxItem>Empresas</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+
+            <DataGrid x:Name="Personas_DataGrid" GridLinesVisibility="None" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".85" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0 18 0 0">
                 <DataGrid.Columns>
-                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding MostrarNombre}" Header="Nombre" Foreground="White" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding NombreDelResponsable}" Header="Nombre del responsable" Foreground="White" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding CUIT}" Header="CUIT" Foreground="White" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <materialDesign:MaterialDataGridTextColumn Binding="{Binding Telefono}" Header="Teléfono" Foreground="White" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding Nombre}" Header="Nombre" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding Apellido}" Header="Apellido" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
