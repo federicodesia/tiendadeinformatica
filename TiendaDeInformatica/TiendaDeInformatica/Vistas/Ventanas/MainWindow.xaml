@@ -25,7 +25,7 @@
                 
             </Grid>
 
-            <ListView x:Name="MenuIzquierdo" Grid.Row="1" SelectedIndex="0" SelectionChanged="MenuIzquierdo_SelectionChanged" Grid.RowSpan="2">
+            <ListView x:Name="MenuIzquierdo" Grid.Row="1" SelectedIndex="0" SelectionChanged="MenuIzquierdo_SelectionChanged" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
                 <ListViewItem Height="44">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="PersonSupervisor" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0"/>
