@@ -79,7 +79,17 @@
                             </Style.Triggers>
                         </Style>
                     </DataGrid.CellStyle>
-                    
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu Visibility="Collapsed" />
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Modificar" Click="ModificarCliente">
@@ -113,6 +123,16 @@
                             </Style.Triggers>
                         </Style>
                     </DataGrid.CellStyle>
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu Visibility="Collapsed" />
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
 
                     <DataGrid.ContextMenu>
                         <ContextMenu>

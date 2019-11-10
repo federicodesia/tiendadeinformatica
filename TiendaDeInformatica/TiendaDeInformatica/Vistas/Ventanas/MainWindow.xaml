@@ -15,7 +15,28 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="MenuIzquierdo" Grid.Column="0" Background="#282828">
+        <Grid Grid.Column="0" Background="#282828">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="Logo" Grid.Row="0" Background="#272727">
+                
+            </Grid>
+
+            <ListView x:Name="MenuIzquierdo" Grid.Row="1" SelectedIndex="0" SelectionChanged="MenuIzquierdo_SelectionChanged" Grid.RowSpan="2">
+                <ListViewItem Height="44">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="PersonSupervisor" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0"/>
+                        <TextBlock Text="Gestionar clientes" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem Height="28" IsEnabled="False">
+                    <Grid Height="1" Width="240" Background="#3E3E3E" Margin="-8 0 0 0"/>
+                </ListViewItem>
+            </ListView>
         </Grid>
 
         <Grid x:Name="Contenido" Grid.Column="1">

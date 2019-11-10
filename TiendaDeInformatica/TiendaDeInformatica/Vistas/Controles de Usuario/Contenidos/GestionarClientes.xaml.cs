@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
-using TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente;
+using TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente;
 
 namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 {
@@ -53,7 +53,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
             int CantidadDeClientes = ControladorClientes.ObtenerListaDeClientes().Count;
-            AgregarCliente agregarCliente = new AgregarCliente();
+            CaracteristicasCliente agregarCliente = new CaracteristicasCliente(null);
             agregarCliente.ShowDialog();
             RefrescarListBox();
         }
@@ -145,6 +145,25 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 
         private void ModificarCliente(object sender, RoutedEventArgs e)
         {
+            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
+            {
+                Cliente cliente = Personas_DataGrid.SelectedItem as Cliente;
+                if (cliente != null)
+                {
+                    CaracteristicasCliente agregarCliente = new CaracteristicasCliente(cliente);
+                    agregarCliente.ShowDialog();
+                }
+            }
+            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+            {
+                Cliente cliente = Empresas_DataGrid.SelectedItem as Cliente;
+                if (cliente != null)
+                {
+                    CaracteristicasCliente agregarCliente = new CaracteristicasCliente(cliente);
+                    agregarCliente.ShowDialog();
+                }
+            }
+            RefrescarListBox();
         }
     }
 }

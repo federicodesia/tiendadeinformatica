@@ -1,19 +1,19 @@
 ﻿<Controls:MetroWindow
-    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" x:Class="TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.AgregarCliente"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" x:Class="TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente.CaracteristicasCliente"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente"
-        xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.Bindings"
-        xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.Reglas_de_Validacion"
+        xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente"
+        xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente.Bindings"
+        xmlns:domainReglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente.Reglas_de_Validacion"
         xmlns:localDialogs="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
     xmlns:domainBindingsGenerales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Bindings_Generales"
     mc:Ignorable="d"
         Title="Agregar cliente" Height="450" Width="380" Background="#303030"
         WindowStartupLocation="CenterScreen" WindowTitleBrush="#512DA8" TitleCharacterCasing="Normal"
-        ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ResizeMode="CanMinimize">
+        x:Name="VistaCaracteristicasCliente" ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ResizeMode="CanMinimize" Loaded="MetroWindow_Loaded" WindowTransitionsEnabled="False">
     
     <Grid>
         <Grid.Resources>
@@ -26,7 +26,7 @@
         <StackPanel Orientation="Vertical">
             <materialDesign:ColorZone Mode="PrimaryMid">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo cliente" FontSize="16" Margin="16"/>
+                    <TextBlock x:Name="Titulo_TextBlock" Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo cliente" FontSize="16" Margin="16"/>
                     <Grid VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

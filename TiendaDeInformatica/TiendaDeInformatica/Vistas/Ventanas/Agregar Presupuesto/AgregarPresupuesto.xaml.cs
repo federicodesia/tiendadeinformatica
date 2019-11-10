@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
-using TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente;
+using TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente;
 using TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto.Reglas_de_Validacion;
 
 namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
@@ -32,7 +32,7 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
             int CantidadDeClientes = ControladorClientes.ObtenerListaDeClientes().Count;
-            AgregarCliente agregarCliente = new AgregarCliente();
+            CaracteristicasCliente agregarCliente = new CaracteristicasCliente(null);
             agregarCliente.ShowDialog();
 
             ActualizarComboBoxClientes();

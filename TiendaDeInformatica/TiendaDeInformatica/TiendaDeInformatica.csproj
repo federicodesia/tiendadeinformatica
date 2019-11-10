@@ -193,7 +193,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vistas\Ventanas\Agregar Cliente\AgregarCliente.xaml">
+    <Page Include="Vistas\Ventanas\Caracteristicas Cliente\CaracteristicasCliente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,16 +247,16 @@
     <Compile Include="Vistas\Controles de Usuario\Presupuesto.xaml.cs">
       <DependentUpon>Presupuesto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\AgregarCliente.xaml.cs">
-      <DependentUpon>AgregarCliente.xaml</DependentUpon>
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\CaracteristicasCliente.xaml.cs">
+      <DependentUpon>CaracteristicasCliente.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Bindings\BooleanToHintApellido.cs" />
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Bindings\BooleanToHintApellido.cs" />
     <Compile Include="Vistas\Ventanas\Bindings Generales\InvertedBool.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Bindings\BooleanToHintNombre.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\CUIT.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\NombreApellido.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\NombreEmpresa.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Cliente\Reglas de Validacion\Telefono.cs" />
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Bindings\BooleanToHintNombre.cs" />
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\CUIT.cs" />
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\NombreApellido.cs" />
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\NombreEmpresa.cs" />
+    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\Telefono.cs" />
     <Compile Include="Vistas\Ventanas\Agregar Marca\AgregarMarca.xaml.cs">
       <DependentUpon>AgregarMarca.xaml</DependentUpon>
     </Compile>

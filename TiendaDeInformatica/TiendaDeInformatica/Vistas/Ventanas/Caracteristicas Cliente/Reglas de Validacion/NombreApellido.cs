@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Controls;
 
-namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente.Reglas_de_Validacion
+namespace TiendaDeInformatica.Vistas.Ventanas.Caracteristicas_Cliente.Reglas_de_Validacion
 {
     public class NombreApellido : ValidationRule
     {
