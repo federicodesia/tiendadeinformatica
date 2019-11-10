@@ -33,7 +33,6 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Marca
         public AgregarMarca()
         {
             InitializeComponent();
-            MarcaID_TextBlock.Text = "Nueva marca #" + (ControladorMarcas.ObtenerListaDeMarcas().Count + 1).ToString();
             this.DataContext = this;
         }
 

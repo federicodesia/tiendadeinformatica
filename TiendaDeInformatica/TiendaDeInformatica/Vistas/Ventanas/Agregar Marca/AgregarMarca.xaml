@@ -16,7 +16,7 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <materialDesign:ColorZone Mode="PrimaryMid">
-                <TextBlock x:Name="MarcaID_TextBlock" Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nueva marca #000001" FontSize="16" Margin="16"/>
+                <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nueva marca" FontSize="16" Margin="16"/>
             </materialDesign:ColorZone>
 
             <StackPanel Orientation="Vertical" Margin="16">

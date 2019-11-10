@@ -26,7 +26,7 @@
         <StackPanel Orientation="Vertical">
             <materialDesign:ColorZone Mode="PrimaryMid">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock x:Name="ClienteID_TextBlock" Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo cliente #000001" FontSize="16" Margin="16"/>
+                    <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo cliente" FontSize="16" Margin="16"/>
                     <Grid VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

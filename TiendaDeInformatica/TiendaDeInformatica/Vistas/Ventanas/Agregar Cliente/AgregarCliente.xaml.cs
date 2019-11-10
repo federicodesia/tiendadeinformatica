@@ -22,7 +22,6 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Cliente
         public AgregarCliente()
         {
             InitializeComponent();
-            ClienteID_TextBlock.Text = "Nuevo cliente #" + (ControladorClientes.ObtenerListaDeClientes().Count + 1).ToString();
             this.DataContext = this;
         }
 

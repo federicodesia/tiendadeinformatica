@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto.Bindings"
              mc:Ignorable="d" 
-             d:DesignHeight="469" d:DesignWidth="660" Background="#1F1F1F" x:Name="VistaGestionarClientes">
+             d:DesignHeight="500" d:DesignWidth="784" Background="#1F1F1F" x:Name="VistaGestionarClientes" Loaded="VistaGestionarClientes_Loaded">
     <Grid>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -42,7 +42,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <materialDesign:ColorZone Grid.Column="0" HorizontalAlignment="Left" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                <materialDesign:ColorZone Grid.Column="0" HorizontalAlignment="Left" Background="#303030" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1" materialDesign:ShadowAssist.ShadowDepth="Depth1">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -51,24 +51,85 @@
                         <Button Style="{DynamicResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
                         </Button>
-                        <TextBox Grid.Column="1" Margin="8 0 32 0" Foreground="#E2E2E2" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" x:Name="BuscarCliente_TextBox" Margin="8 0 32 0" Foreground="#E2E2E2" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" MinWidth="200" VerticalAlignment="Center" TextChanged="BuscarCliente_TextBox_TextChanged"/>
                     </Grid>
                 </materialDesign:ColorZone>
 
-                <ComboBox Grid.Column="1" HorizontalAlignment="Right" Width="156" SelectedIndex="0" materialDesign:HintAssist.Hint="Filtrar clientes   " Style="{StaticResource MaterialDesignFloatingHintComboBox}" Foreground="#E3E3E3">
+                <ComboBox Grid.Column="1" x:Name="FiltrarClientes_ComboBox" SelectionChanged="FiltrarClientes_ComboBox_SelectionChanged" HorizontalAlignment="Right" Width="156" SelectedIndex="0" materialDesign:HintAssist.Hint="Filtrar clientes   " Style="{StaticResource MaterialDesignFloatingHintComboBox}" Foreground="#E3E3E3">
                     <ComboBoxItem>Personas</ComboBoxItem>
                     <ComboBoxItem>Empresas</ComboBoxItem>
                 </ComboBox>
             </Grid>
 
-            <DataGrid x:Name="Personas_DataGrid" GridLinesVisibility="None" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".85" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0 18 0 0">
-                <DataGrid.Columns>
-                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding Nombre}" Header="Nombre" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding Apellido}" Header="Apellido" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <materialDesign:MaterialDataGridTextColumn Width="156" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid Margin="0 18 0 0">
+                <DataGrid x:Name="Personas_DataGrid" Visibility="Visible" GridLinesVisibility="None" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Nombre}" Header="Nombre" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Apellido}" Header="Apellido" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    </DataGrid.Columns>
+
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Modificar" Click="ModificarCliente">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="UserEdit" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Eliminar" Click="EliminarCliente">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Delete"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+
+                <DataGrid x:Name="Empresas_DataGrid" Visibility="Hidden" GridLinesVisibility="None" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding NombreDeLaEmpresa}" Header="Nombre de la empresa" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding NombreDelResponsable}" Header="Responsable" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    </DataGrid.Columns>
+
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Modificar" Click="ModificarCliente">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="UserEdit" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Eliminar" Click="EliminarCliente">
+                                <MenuItem.Icon>
+                                    <materialDesign:PackIcon Kind="Delete"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

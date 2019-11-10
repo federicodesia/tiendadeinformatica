@@ -23,7 +23,7 @@
 
         <StackPanel Orientation="Vertical">
             <materialDesign:ColorZone Mode="PrimaryMid">
-                <TextBlock x:Name="PresupuestoID_TextBlock" Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo presupuesto #000001" FontSize="16" Margin="16"/>
+                <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo presupuesto" FontSize="16" Margin="16"/>
             </materialDesign:ColorZone>
 
             <StackPanel Orientation="Vertical" Margin="16">

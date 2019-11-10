@@ -14,18 +14,6 @@ namespace TiendaDeInformatica
             InitializeComponent(); 
         }
 
-        private void NuevoPresupuesto_Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            AgregarPresupuesto agregarPresupuesto = new AgregarPresupuesto();
-            agregarPresupuesto.ShowDialog();
-        }
-
-        private void NuevoProducto_Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            AgregarProducto agregarProducto = new AgregarProducto();
-            agregarProducto.ShowDialog();
-        }
-
         private void MetroWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             Contenido.Children.Add(new GestionarClientes());

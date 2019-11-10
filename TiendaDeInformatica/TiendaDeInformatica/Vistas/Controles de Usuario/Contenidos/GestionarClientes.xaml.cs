@@ -23,6 +23,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
     /// </summary>
     public partial class GestionarClientes : UserControl
     {
+        private bool VistaCargada = false;
         public GestionarClientes()
         {
             InitializeComponent();
@@ -31,10 +32,21 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 
         private void RefrescarListBox()
         {
-            Personas_DataGrid.Items.Clear();
-            foreach(Cliente cliente in ControladorClientes.ObtenerListaDeClientes())
+            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
             {
-                Personas_DataGrid.Items.Add(cliente);
+                Personas_DataGrid.Items.Clear();
+                foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona")))
+                {
+                    Personas_DataGrid.Items.Add(cliente);
+                }
+            }
+            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+            {
+                Empresas_DataGrid.Items.Clear();
+                foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa")))
+                {
+                    Empresas_DataGrid.Items.Add(cliente);
+                }
             }
         }
 
@@ -44,6 +56,95 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
             AgregarCliente agregarCliente = new AgregarCliente();
             agregarCliente.ShowDialog();
             RefrescarListBox();
+        }
+
+        private void BuscarCliente_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (BuscarCliente_TextBox.Text != "")
+            {
+                string Busqueda = BuscarCliente_TextBox.Text.ToUpper();
+                if (FiltrarClientes_ComboBox.SelectedIndex == 0)
+                {
+                    Personas_DataGrid.Items.Clear();
+                    foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona")))
+                    {
+                        if (cliente.Nombre.ToUpper().StartsWith(Busqueda)
+                            || cliente.Apellido.ToUpper().StartsWith(Busqueda)
+                            || cliente.CUIT.ToUpper().StartsWith(Busqueda)
+                            || cliente.Telefono.ToUpper().StartsWith(Busqueda))
+                        {
+                            Personas_DataGrid.Items.Add(cliente);
+                        }
+                    }
+                }
+                else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+                {
+                    Empresas_DataGrid.Items.Clear();
+                    foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa")))
+                    {
+                        if (cliente.Nombre.ToUpper().StartsWith(Busqueda)
+                            || cliente.Apellido.ToUpper().StartsWith(Busqueda)
+                            || cliente.CUIT.ToUpper().StartsWith(Busqueda)
+                            || cliente.Telefono.ToUpper().StartsWith(Busqueda)
+                            || cliente.NombreDeLaEmpresa.ToUpper().StartsWith(Busqueda))
+                        {
+                            Empresas_DataGrid.Items.Add(cliente);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                RefrescarListBox();
+            }
+        }
+
+        private void FiltrarClientes_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (VistaCargada)
+            {
+                if (FiltrarClientes_ComboBox.SelectedIndex == 0)
+                {
+                    Empresas_DataGrid.Visibility = Visibility.Hidden;
+                    Personas_DataGrid.Visibility = Visibility.Visible;
+                }
+                else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+                {
+                    Personas_DataGrid.Visibility = Visibility.Hidden;
+                    Empresas_DataGrid.Visibility = Visibility.Visible;
+                }
+                RefrescarListBox();
+            }
+        }
+
+        private void VistaGestionarClientes_Loaded(object sender, RoutedEventArgs e)
+        {
+            VistaCargada = true;
+        }
+
+        private void EliminarCliente(object sender, RoutedEventArgs e)
+        {
+            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
+            {
+                Cliente cliente = Personas_DataGrid.SelectedItem as Cliente;
+                if (cliente != null)
+                {
+                    ControladorClientes.EliminarCliente(cliente);
+                }
+            }
+            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+            {
+                Cliente cliente = Empresas_DataGrid.SelectedItem as Cliente;
+                if (cliente != null)
+                {
+                    ControladorClientes.EliminarCliente(cliente);
+                }
+            }
+            RefrescarListBox();
+        }
+
+        private void ModificarCliente(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
