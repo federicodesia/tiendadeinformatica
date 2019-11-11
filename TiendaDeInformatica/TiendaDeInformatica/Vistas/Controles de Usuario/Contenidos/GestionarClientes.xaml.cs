@@ -58,6 +58,11 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
             CaracteristicasCliente agregarCliente = new CaracteristicasCliente(null);
             agregarCliente.ShowDialog();
             RefrescarListBox();
+
+            if(ControladorClientes.ObtenerListaDeClientes().Count> CantidadDeClientes)
+            {
+                _ = MostrarSnackBar("Cliente agregado correctamente!");
+            }
         }
 
         private void BuscarCliente_TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -143,6 +148,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
                 }
             }
             RefrescarListBox();
+            _ = MostrarSnackBar("Cliente eliminado correctamente!");
         }
 
         private void ModificarCliente(object sender, RoutedEventArgs e)
@@ -154,6 +160,11 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
                 {
                     CaracteristicasCliente agregarCliente = new CaracteristicasCliente(cliente);
                     agregarCliente.ShowDialog();
+
+                    if (cliente != ControladorClientes.ObtenerListaDeClientes().Where(c => c.Id == cliente.Id))
+                    {
+                        _ = MostrarSnackBar("Cliente modificado correctamente!");
+                    }
                 }
             }
             else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
@@ -163,6 +174,11 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
                 {
                     CaracteristicasCliente agregarCliente = new CaracteristicasCliente(cliente);
                     agregarCliente.ShowDialog();
+
+                    if (cliente != ControladorClientes.ObtenerListaDeClientes().Where(c => c.Id == cliente.Id))
+                    {
+                        _ = MostrarSnackBar("Cliente modificado correctamente!");
+                    }
                 }
             }
             RefrescarListBox();
