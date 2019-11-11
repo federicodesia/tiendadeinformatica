@@ -30,7 +30,7 @@ namespace TiendaDeInformatica
                 switch (index)
                 {
                     case 0:
-                        // Agregar control de usuario Gestionar Presupuestos
+                        Contenido.Children.Add(new GestionarPresupuestos());
                         break;
                     case 1:
                         Contenido.Children.Add(new GestionarClientes());
