@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -21,7 +23,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
     /// <summary>
     /// Lógica de interacción para GestionarClientes.xaml
     /// </summary>
-    public partial class GestionarClientes : UserControl
+    public partial class GestionarClientes : System.Windows.Controls.UserControl
     {
         private bool VistaCargada = false;
         public GestionarClientes()
@@ -164,6 +166,84 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
                 }
             }
             RefrescarListBox();
+        }
+
+        private void Exportar_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string textoGuardar = "Lista de clientes:\r\n";
+            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
+            {
+                if ((ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona")).Count() > 0)
+                {
+                    foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona")))
+                    {
+                        textoGuardar = textoGuardar + $"\r\n- {cliente.Nombre} {cliente.Apellido}";
+                        if (cliente.Telefono != "")
+                        {
+                            textoGuardar = textoGuardar + $", Teléfono: {cliente.Telefono}";
+                        }
+                        if (cliente.CUIT != "")
+                        {
+                            textoGuardar = textoGuardar + $", CUIT: {cliente.CUIT}";
+                        }
+                    }
+                }
+                else
+                {
+                    textoGuardar = textoGuardar = "\r\nNo hay ninguna persona en la lista de clientes";
+                }
+
+            }
+            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+            {
+                if((ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa")).Count() > 0)
+                {
+                    foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa")))
+                    {
+                        textoGuardar = textoGuardar + $"\r\n- {cliente.NombreDeLaEmpresa} (Responsable: {cliente.NombreDelResponsable})";
+                        if (cliente.Telefono != "")
+                        {
+                            textoGuardar = textoGuardar + $", Teléfono: {cliente.Telefono}";
+                        }
+                        if (cliente.CUIT != "")
+                        {
+                            textoGuardar = textoGuardar + $", CUIT: {cliente.CUIT}";
+                        }
+                    }
+                }
+                else
+                {
+                    textoGuardar = textoGuardar = "\r\nNo hay ninguna empresa en la lista de clientes";
+                }
+            }
+
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Archivos de texto (*.txt)|*.txt"
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter escritor = new StreamWriter(dialog.FileName))
+                {
+                    escritor.Write(textoGuardar);
+                }
+                _ = MostrarSnackBar("Lista exportada correctamente!");
+            }
+        }
+
+        private void SnackbarMessage_ActionClick(object sender, RoutedEventArgs e)
+        {
+            Mensaje_Snackbar.IsActive = false;
+        }
+
+        private async Task MostrarSnackBar(string mensaje)
+        {
+            Mensaje_Snackbar_Contenido.Content = mensaje;
+            await Task.Delay(500);
+            Mensaje_Snackbar.IsActive = true;
+            await Task.Delay(5000);
+            Mensaje_Snackbar.IsActive = false;
         }
     }
 }
