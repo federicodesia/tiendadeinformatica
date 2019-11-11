@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             Height="150" Width="300">
-    
-    <Grid Width="300" Height="150" VerticalAlignment="Center" HorizontalAlignment="Center">
+             Height="172" Width="332">
+
+    <Grid Width="324" Height="164" VerticalAlignment="Center" HorizontalAlignment="Center">
         <StackPanel Orientation="Horizontal" Margin="16">
             <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
             <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
@@ -17,8 +17,8 @@
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8">
-            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="Volver"/>
-            <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="Cerrar de igual manera" Click="CerrarDeIgualManera_Click"/>
+            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="VOLVER"/>
+            <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CERRAR IGUAL" Click="CerrarDeIgualManera_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

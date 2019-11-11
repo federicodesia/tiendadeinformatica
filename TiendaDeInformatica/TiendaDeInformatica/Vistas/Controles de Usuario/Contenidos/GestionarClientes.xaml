@@ -95,30 +95,28 @@
                             </Style>
                         </DataGrid.CellStyle>
 
-                        <DataGrid.ColumnHeaderStyle>
-                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                <Setter Property="ContextMenu">
-                                    <Setter.Value>
-                                        <ContextMenu Visibility="Collapsed" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DataGrid.ColumnHeaderStyle>
-
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Modificar" Click="ModificarCliente">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="UserEdit" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="Eliminar" Click="EliminarCliente">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Delete"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="RowMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <ContextMenu.Items>
+                                    <MenuItem Header="Modificar" Click="ModificarCliente">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="UserEdit" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Eliminar" Click="EliminarCliente">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="Delete"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu.Items>
                             </ContextMenu>
-                        </DataGrid.ContextMenu>
+                        </DataGrid.Resources>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow" >
+                                <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+                            </Style>
+                        </DataGrid.RowStyle>
                     </DataGrid>
 
                     <DataGrid x:Name="Empresas_DataGrid" Visibility="Hidden" ScrollViewer.CanContentScroll="False" GridLinesVisibility="None" Height="{Binding ActualHeight, ElementName=DataGrids_Grid}" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
@@ -139,30 +137,28 @@
                             </Style>
                         </DataGrid.CellStyle>
 
-                        <DataGrid.ColumnHeaderStyle>
-                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                                <Setter Property="ContextMenu">
-                                    <Setter.Value>
-                                        <ContextMenu Visibility="Collapsed" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DataGrid.ColumnHeaderStyle>
-
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Modificar" Click="ModificarCliente">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="UserEdit" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="Eliminar" Click="EliminarCliente">
-                                    <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Delete"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                        <DataGrid.Resources>
+                            <ContextMenu x:Key="RowMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                <ContextMenu.Items>
+                                    <MenuItem Header="Modificar" Click="ModificarCliente">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="UserEdit" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Eliminar" Click="EliminarCliente">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="Delete"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu.Items>
                             </ContextMenu>
-                        </DataGrid.ContextMenu>
+                        </DataGrid.Resources>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow" >
+                                <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+                            </Style>
+                        </DataGrid.RowStyle>
                     </DataGrid>
                 </Grid>
             </Grid>
@@ -171,5 +167,23 @@
         <materialDesign:Snackbar IsActive="False" x:Name="Mensaje_Snackbar" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="18 74 18 0" Background="White" ActionButtonStyle="{StaticResource MaterialDesignSnackbarActionMidButton}">
             <materialDesign:SnackbarMessage x:Name="Mensaje_Snackbar_Contenido" Content="Lista exportada correctamente!" ActionContent="ACEPTAR" ActionClick="SnackbarMessage_ActionClick"/>
         </materialDesign:Snackbar>
+
+        <materialDesign:DialogHost x:Name="ConfirmarBorrarCliente_Dialog" Opacity="0.75">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Width="324" Height="164" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="16">
+                        <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
+                        <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
+                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar este cliente?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
+                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los presupuestos asociados al mismo." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8">
+                        <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" x:Name="CancelarAlerta_Button"/>
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" x:Name="EliminarClienteDeIgualManera_Button" Click="EliminarClienteDeIgualManera_Button_Click"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </UserControl>

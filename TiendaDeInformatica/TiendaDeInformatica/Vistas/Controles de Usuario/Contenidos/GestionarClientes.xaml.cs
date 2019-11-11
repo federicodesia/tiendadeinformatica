@@ -131,24 +131,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 
         private void EliminarCliente(object sender, RoutedEventArgs e)
         {
-            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
-            {
-                Cliente cliente = Personas_DataGrid.SelectedItem as Cliente;
-                if (cliente != null)
-                {
-                    ControladorClientes.EliminarCliente(cliente);
-                }
-            }
-            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
-            {
-                Cliente cliente = Empresas_DataGrid.SelectedItem as Cliente;
-                if (cliente != null)
-                {
-                    ControladorClientes.EliminarCliente(cliente);
-                }
-            }
-            RefrescarListBox();
-            _ = MostrarSnackBar("Cliente eliminado correctamente!");
+            ConfirmarBorrarCliente_Dialog.IsOpen = true;
         }
 
         private void ModificarCliente(object sender, RoutedEventArgs e)
@@ -213,6 +196,29 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
             Mensaje_Snackbar.IsActive = true;
             await Task.Delay(5000);
             Mensaje_Snackbar.IsActive = false;
+        }
+
+        private void EliminarClienteDeIgualManera_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
+            {
+                Cliente cliente = Personas_DataGrid.SelectedItem as Cliente;
+                if (cliente != null)
+                {
+                    ControladorClientes.EliminarCliente(cliente);
+                }
+            }
+            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
+            {
+                Cliente cliente = Empresas_DataGrid.SelectedItem as Cliente;
+                if (cliente != null)
+                {
+                    ControladorClientes.EliminarCliente(cliente);
+                }
+            }
+            RefrescarListBox();
+            _ = MostrarSnackBar("Cliente eliminado correctamente!");
+            ConfirmarBorrarCliente_Dialog.IsOpen = false;
         }
     }
 }
