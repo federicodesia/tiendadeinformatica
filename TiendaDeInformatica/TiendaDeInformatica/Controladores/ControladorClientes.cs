@@ -66,5 +66,57 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
+        public static string ExportarListaDeClientes()
+        {
+            string texto = "";
+            using (var context = new MyDbContext())
+            {
+                texto = texto+"Lista de personas:\r\n";
+                List <Cliente> personas= context.Clientes.ToList().Where(c => c.Tipo == "Persona").ToList();
+                if (personas.Count>0)
+                {
+                    foreach (Cliente cliente in personas)
+                    {
+                        texto = texto + $"\r\n- {cliente.Nombre} {cliente.Apellido}";
+                        if (cliente.Telefono != "")
+                        {
+                            texto = texto + $", Teléfono: {cliente.Telefono}";
+                        }
+                        if (cliente.CUIT != "")
+                        {
+                            texto = texto + $", CUIT: {cliente.CUIT}";
+                        }
+                    }
+                }
+                else
+                {
+                    texto = texto + "\r\nNo hay personas en la lista de clientes.";
+                }
+
+                texto = texto+"\r\n\r\nLista de empresas:\r\n";
+                List<Cliente> empresas = context.Clientes.ToList().Where(c => c.Tipo == "Empresa").ToList();
+                if (empresas.Count > 0)
+                {
+                    foreach (Cliente cliente in empresas)
+                    {
+                        texto = texto + $"\r\n- {cliente.NombreDeLaEmpresa} (Responsable: {cliente.Nombre} {cliente.Apellido})";
+                        if (cliente.Telefono != "")
+                        {
+                            texto = texto + $", Teléfono: {cliente.Telefono}";
+                        }
+                        if (cliente.CUIT != "")
+                        {
+                            texto = texto + $", CUIT: {cliente.CUIT}";
+                        }
+                    }
+                }
+                else
+                {
+                    texto = texto + "\r\nNo hay empresas en la lista de clientes.";
+                }
+            }
+            return texto;
+        }
+
     }
 }

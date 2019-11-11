@@ -186,53 +186,6 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 
         private void Exportar_Button_Click(object sender, RoutedEventArgs e)
         {
-            string textoGuardar = "Lista de clientes:\r\n";
-            if (FiltrarClientes_ComboBox.SelectedIndex == 0)
-            {
-                if ((ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona")).Count() > 0)
-                {
-                    foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona")))
-                    {
-                        textoGuardar = textoGuardar + $"\r\n- {cliente.Nombre} {cliente.Apellido}";
-                        if (cliente.Telefono != "")
-                        {
-                            textoGuardar = textoGuardar + $", Teléfono: {cliente.Telefono}";
-                        }
-                        if (cliente.CUIT != "")
-                        {
-                            textoGuardar = textoGuardar + $", CUIT: {cliente.CUIT}";
-                        }
-                    }
-                }
-                else
-                {
-                    textoGuardar = textoGuardar = "\r\nNo hay ninguna persona en la lista de clientes";
-                }
-
-            }
-            else if (FiltrarClientes_ComboBox.SelectedIndex == 1)
-            {
-                if((ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa")).Count() > 0)
-                {
-                    foreach (Cliente cliente in (ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa")))
-                    {
-                        textoGuardar = textoGuardar + $"\r\n- {cliente.NombreDeLaEmpresa} (Responsable: {cliente.NombreDelResponsable})";
-                        if (cliente.Telefono != "")
-                        {
-                            textoGuardar = textoGuardar + $", Teléfono: {cliente.Telefono}";
-                        }
-                        if (cliente.CUIT != "")
-                        {
-                            textoGuardar = textoGuardar + $", CUIT: {cliente.CUIT}";
-                        }
-                    }
-                }
-                else
-                {
-                    textoGuardar = textoGuardar = "\r\nNo hay ninguna empresa en la lista de clientes";
-                }
-            }
-
             SaveFileDialog dialog = new SaveFileDialog()
             {
                 Filter = "Archivos de texto (*.txt)|*.txt"
@@ -242,7 +195,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
             {
                 using (StreamWriter escritor = new StreamWriter(dialog.FileName))
                 {
-                    escritor.Write(textoGuardar);
+                    escritor.Write(ControladorClientes.ExportarListaDeClientes());
                 }
                 _ = MostrarSnackBar("Lista exportada correctamente!");
             }
