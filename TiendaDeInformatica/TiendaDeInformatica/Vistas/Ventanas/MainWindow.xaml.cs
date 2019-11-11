@@ -26,10 +26,13 @@ namespace TiendaDeInformatica
             if (VistaCargada)
             {
                 int index = MenuIzquierdo.SelectedIndex;
+                Contenido.Children.Clear();
                 switch (index)
                 {
                     case 0:
-                        Contenido.Children.Clear();
+                        // Agregar control de usuario Gestionar Presupuestos
+                        break;
+                    case 1:
                         Contenido.Children.Add(new GestionarClientes());
                         break;
                     default:

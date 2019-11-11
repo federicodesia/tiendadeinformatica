@@ -58,6 +58,47 @@
             <Style x:Key="MaterialDesignSnackbarActionMidButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignSnackbarActionButton}">
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
             </Style>
+
+
+
+
+            <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="IsTabStop" Value="false"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Border x:Name="rectangle"
+                                SnapsToDevicePixels="True"
+                                Background="#4E4E4E"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+                <Setter Property="Width" Value="8"/>
+                <Setter Property="MinWidth" Value="{Binding Width, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="Transparent">
+                                <Border Padding="0 4">
+                                    <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="True" Width="8" HorizontalAlignment="Center">
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                        </Track.Thumb>
+                                    </Track>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

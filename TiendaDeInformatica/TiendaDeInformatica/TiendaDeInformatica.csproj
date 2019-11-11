@@ -247,6 +247,8 @@
     <Compile Include="Vistas\Controles de Usuario\Presupuesto.xaml.cs">
       <DependentUpon>Presupuesto.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Ventanas\Bindings Generales\ItemMenuFontWeightConverter.cs" />
+    <Compile Include="Vistas\Ventanas\Bindings Generales\ItemMenuKindColorConverter.cs" />
     <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\CaracteristicasCliente.xaml.cs">
       <DependentUpon>CaracteristicasCliente.xaml</DependentUpon>
     </Compile>

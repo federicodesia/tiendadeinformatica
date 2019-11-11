@@ -6,10 +6,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TiendaDeInformatica"
-        mc:Ignorable="d"
+                      xmlns:domainBindingsGenerales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Bindings_Generales"
+                      mc:Ignorable="d"
         Title="Tienda de Informática" Height="600" Width="1024" WindowTitleBrush="#2D2D2D" TitleCharacterCasing="Normal" WindowStartupLocation="CenterScreen" Loaded="MetroWindow_Loaded">
 
     <Grid Background="#1F1F1F">
+        <Grid.Resources>
+            <domainBindingsGenerales:ItemMenuKindColorConverter x:Key="ItemMenuKindColorConverter"/>
+            <domainBindingsGenerales:ItemMenuFontWeightConverter x:Key="ItemMenuFontWeightConverter"/>
+        </Grid.Resources>
+
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="*"/>
@@ -25,22 +32,45 @@
                 
             </Grid>
 
-            <ListView x:Name="MenuIzquierdo" Grid.Row="1" SelectedIndex="0" SelectionChanged="MenuIzquierdo_SelectionChanged" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
-                <ListViewItem Height="44">
+            <ListView x:Name="MenuIzquierdo" Grid.Row="1" SelectedIndex="1" SelectionChanged="MenuIzquierdo_SelectionChanged" Grid.RowSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
+                <ListViewItem Height="44" x:Name="GestionarPresupuestos_ListViewItem">
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="PersonSupervisor" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0"/>
-                        <TextBlock Text="Gestionar clientes" VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="FileDocument" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Foreground="{Binding IsSelected, ElementName=GestionarPresupuestos_ListViewItem, Converter={StaticResource ItemMenuKindColorConverter}}"/>
+                        <TextBlock Text="Presupuestos" VerticalAlignment="Center" FontWeight="{Binding IsSelected, ElementName=GestionarPresupuestos_ListViewItem, Converter={StaticResource ItemMenuFontWeightConverter}}"/>
                     </StackPanel>
                 </ListViewItem>
 
-                <ListViewItem Height="28" IsEnabled="False">
-                    <Grid Height="1" Width="240" Background="#3E3E3E" Margin="-8 0 0 0"/>
+                <ListViewItem Height="44" x:Name="GestionarClientes_ListViewItem">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="PersonSupervisor" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Foreground="{Binding IsSelected, ElementName=GestionarClientes_ListViewItem, Converter={StaticResource ItemMenuKindColorConverter}}"/>
+                        <TextBlock Text="Clientes" VerticalAlignment="Center" FontWeight="{Binding IsSelected, ElementName=GestionarClientes_ListViewItem, Converter={StaticResource ItemMenuFontWeightConverter}}"/>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem Height="44" x:Name="GestionarProductos_ListViewItem">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Foreground="{Binding IsSelected, ElementName=GestionarProductos_ListViewItem, Converter={StaticResource ItemMenuKindColorConverter}}"/>
+                        <TextBlock Text="Productos" VerticalAlignment="Center" FontWeight="{Binding IsSelected, ElementName=GestionarProductos_ListViewItem, Converter={StaticResource ItemMenuFontWeightConverter}}"/>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem Height="24" IsEnabled="False">
+                    <Grid Height="1" Width="240" Background="#3E3E3E" Margin="-8 0 -8 0"/>
+                </ListViewItem>
+                
+                <ListViewItem Height="44" x:Name="ConfiguracionGuiada_ListViewItem">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ProgressWrench" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Foreground="{Binding IsSelected, ElementName=ConfiguracionGuiada_ListViewItem, Converter={StaticResource ItemMenuKindColorConverter}}"/>
+                        <TextBlock Text="Configuración guiada" VerticalAlignment="Center" FontWeight="{Binding IsSelected, ElementName=ConfiguracionGuiada_ListViewItem, Converter={StaticResource ItemMenuFontWeightConverter}}"/>
+                    </StackPanel>
+                </ListViewItem>
+
+                <ListViewItem Height="24" IsEnabled="False">
+                    <Grid Height="1" Width="240" Background="#3E3E3E" Margin="-8 0 -8 0"/>
                 </ListViewItem>
             </ListView>
         </Grid>
 
-        <Grid x:Name="Contenido" Grid.Column="1">
-
-        </Grid>
+        <Grid x:Name="Contenido" Grid.Column="1"/>
     </Grid>
 </Controls:MetroWindow>

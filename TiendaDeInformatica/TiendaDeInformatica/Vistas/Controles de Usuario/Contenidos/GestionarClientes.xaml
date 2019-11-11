@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Margin="16 0 0 0" Text="Gestionar clientes" Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="16" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="0" Margin="24 0 0 0" Text="Gestionar clientes" Foreground="#E2E2E2" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="15" VerticalAlignment="Center"/>
 
             <Button x:Name="AgregarCliente_Button" Grid.Column="1" Height="56"  Style="{StaticResource MaterialDesignFlatButton}" Click="AgregarCliente_Button_Click">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -36,8 +36,13 @@
             </Button>
         </Grid>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="18">
-            <Grid>
+        <Grid Grid.Row="1" Margin="18">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -61,13 +66,13 @@
                 </ComboBox>
             </Grid>
 
-            <Grid Margin="0 18 0 0">
-                <DataGrid x:Name="Personas_DataGrid" Visibility="Visible" GridLinesVisibility="None" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
+            <Grid Grid.Row="1" Margin="0 18 0 0" x:Name="DataGrids_Grid">
+                <DataGrid x:Name="Personas_DataGrid" Visibility="Visible" ScrollViewer.CanContentScroll="False" GridLinesVisibility="None" Height="{Binding ActualHeight, ElementName=DataGrids_Grid}" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Nombre}" Header="Nombre" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Apellido}" Header="Apellido" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding Nombre}" Header="Nombre" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding Apellido}" Header="Apellido" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                     </DataGrid.Columns>
 
                     <DataGrid.CellStyle>
@@ -106,12 +111,12 @@
                     </DataGrid.ContextMenu>
                 </DataGrid>
 
-                <DataGrid x:Name="Empresas_DataGrid" Visibility="Hidden" GridLinesVisibility="None" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid x:Name="Empresas_DataGrid" Visibility="Hidden" ScrollViewer.CanContentScroll="False" GridLinesVisibility="None" Height="{Binding ActualHeight, ElementName=DataGrids_Grid}" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Foreground="#E2E2E2" Opacity=".9" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsReadOnly="True" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" AutoGenerateColumns="False" CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding NombreDeLaEmpresa}" Header="Nombre de la empresa" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding NombreDelResponsable}" Header="Responsable" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                        <materialDesign:MaterialDataGridTextColumn Width="*" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding NombreDeLaEmpresa}" Header="Nombre de la empresa" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding NombreDelResponsable}" Header="Responsable" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding Telefono}" Header="Teléfono" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                        <materialDesign:MaterialDataGridTextColumn Width="*" MinWidth="128" Binding="{Binding CUIT}" Header="CUIT" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                     </DataGrid.Columns>
 
                     <DataGrid.CellStyle>
@@ -150,6 +155,6 @@
                     </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
