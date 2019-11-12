@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TiendaDeInformatica.Controladores;
 
 namespace TiendaDeInformatica.Modelos
 {
@@ -17,5 +18,37 @@ namespace TiendaDeInformatica.Modelos
         public decimal PrecioTotal { get; set; }
 
         public List<PresupuestoProducto> Productos { get; set; }
+
+        public string ClienteMostrarNombre
+        {
+            get
+            {
+                return ControladorClientes.ObtenerCliente(ClienteId).MostrarNombre;
+            }
+        }
+
+        public string ClienteSeguidoMostrarNombre
+        {
+            get
+            {
+                return ControladorClientes.ObtenerCliente(ClienteId).SeguidoMostrarNombre;
+            }
+        }
+
+        public string ClienteTipo
+        {
+            get
+            {
+                return ControladorClientes.ObtenerCliente(ClienteId).Tipo;
+            }
+        }
+
+        public string ClienteDescripcion
+        {
+            get
+            {
+                return ControladorClientes.ObtenerCliente(ClienteId).Descripcion;
+            }
+        }
     }
 }

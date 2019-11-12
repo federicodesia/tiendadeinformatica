@@ -118,5 +118,13 @@ namespace TiendaDeInformatica.Controladores
             return texto;
         }
 
+        public static Cliente ObtenerCliente(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                Cliente clienteDb = context.Clientes.Find(id);
+                return clienteDb;
+            }
+        }
     }
 }

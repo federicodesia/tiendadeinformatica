@@ -18,7 +18,7 @@ namespace TiendaDeInformatica
         private void MetroWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             VistaCargada = true;
-            Contenido.Children.Add(new GestionarClientes());
+            Contenido.Children.Add(new GestionarPresupuestos());
         }
 
         private void MenuIzquierdo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

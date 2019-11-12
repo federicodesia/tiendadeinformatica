@@ -31,8 +31,8 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
         public GestionarPresupuestos()
         {
             InitializeComponent();
-            this.DataContext = this;
             RefrescarListBox();
+            this.DataContext = this;
         }
 
         private void VistaGestionarPresupuestos_Loaded(object sender, RoutedEventArgs e)

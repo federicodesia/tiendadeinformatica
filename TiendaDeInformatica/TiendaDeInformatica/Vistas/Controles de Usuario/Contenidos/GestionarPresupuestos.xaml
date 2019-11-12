@@ -71,7 +71,7 @@
                     <ListBox x:Name="Presupuestos_ListBox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Vertical" Margin="8 0 8 0">
+                                <StackPanel Orientation="Vertical" Margin="8">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -93,6 +93,33 @@
                                             <TextBlock Text="{Binding FechaModificacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Grid>
+
+                                    <Grid Height="48">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16 0 0 0">
+                                            <Border CornerRadius="64" Height="32" Width="32" Background="DarkGray">
+                                                <materialDesign:PackIcon Foreground="#CFCFCF" Width="22" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="{Binding ClienteTipo, Converter={StaticResource KindConverter}}" />
+                                            </Border>
+
+                                            
+                                            <StackPanel Orientation="Vertical" Margin="8 0 0 0" VerticalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Foreground="#CFCFCF" Text="{Binding ClienteMostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                                    <TextBlock Foreground="#CFCFCF" Margin="4 0 0 0" Text="{Binding ClienteSeguidoMostrarNombre}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                                </StackPanel>
+                                                <TextBlock Foreground="#CFCFCF" Text="{Binding ClienteDescripcion}" Style="{StaticResource MaterialDesignBody1TextBlock}" Visibility="{Binding ClienteDescripcion, Converter={StaticResource ComboBoxItemDescripcionVisibility}}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <TextBlock Text="$" Foreground="#CFCFCF" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding PrecioTotal}" Foreground="#CFCFCF" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -100,6 +127,8 @@
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Background" Value="#292929" />
+                                <Setter Property="Margin" Value="0 4 4 0"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
