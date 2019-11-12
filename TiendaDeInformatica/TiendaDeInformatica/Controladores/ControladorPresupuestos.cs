@@ -34,7 +34,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void ModificarPresupuesto(Cliente cliente, DateTime fechaDeExpiracion, Presupuesto presupuesto)
+        public static void ModificarPresupuesto(Cliente cliente, DateTime? fechaDeExpiracion, Presupuesto presupuesto)
         {
             using (var context = new MyDbContext())
             {

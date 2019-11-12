@@ -42,14 +42,14 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
 
         private void AgregarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            AgregarPresupuesto agregarPresupuesto = new AgregarPresupuesto();
+            AgregarPresupuesto agregarPresupuesto = new AgregarPresupuesto(null);
             agregarPresupuesto.ShowDialog();
             RefrescarListBox();
         }
 
         private void BuscarPorCliente_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            
         }
 
         private void RefrescarListBox()
@@ -59,6 +59,25 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
             {
                 Presupuestos_ListBox.Items.Add(presupuesto);
             }
+        }
+
+        private void ModificarPresupuesto(object sender, RoutedEventArgs e)
+        {
+            Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
+            if (presupuesto != null)
+            {
+                AgregarPresupuesto agregarPresupuesto = new AgregarPresupuesto(presupuesto);
+                agregarPresupuesto.ShowDialog();
+                RefrescarListBox();
+            }
+        }
+
+        private void EliminarPresupuesto(object sender, RoutedEventArgs e)
+        {
+            // Falta enviar alerta
+            Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
+            ControladorPresupuestos.EliminarPresupuesto(presupuesto);
+            RefrescarListBox();
         }
     }
 }

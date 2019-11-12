@@ -18,15 +18,25 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
     {
         public Cliente BuscarCliente_ComboBox_SelectedItem { get; set; }
         public string FechaDeExpiracion_DatePicker_SelectedDate { get; set; }
+        public Presupuesto presupuestoModificar { get; set; }
+        private bool VistaCargada = false;
 
 
-        public AgregarPresupuesto()
+        public AgregarPresupuesto(Presupuesto presupuesto)
         {
             InitializeComponent();
 
             FechaDeExpiracion_DatePicker.BlackoutDates.AddDatesInPast();
             ActualizarComboBoxClientes();
             this.DataContext = this;
+
+            presupuestoModificar = presupuesto;
+            if (presupuesto != null)
+            {
+                VistaAgregarPresupuesto.Title = "Modificar presupuesto";
+                Titulo_TextBlock.Text = "Modificar presupuesto";
+                Crear_Button.Content = "MODIFICAR";
+            }
         }
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
@@ -63,15 +73,30 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
             if (new ClienteSeleccionado().Validate(cliente, CultureInfo.CurrentCulture) == new ValidationResult(true, null)
                 && ((FechaDeExpiracion_CheckBox.IsChecked == true && new FechaExpiracion().Validate(FechaDeExpiracion_DatePicker.SelectedDate, CultureInfo.CurrentCulture) == new ValidationResult(true, null)) || FechaDeExpiracion_CheckBox.IsChecked == false))
             {
-                if (FechaDeExpiracion_CheckBox.IsChecked == false)
+                if (presupuestoModificar == null)
                 {
-                    ControladorPresupuestos.AgregarPresupuesto(cliente, null);
+                    if (FechaDeExpiracion_CheckBox.IsChecked == false)
+                    {
+                        ControladorPresupuestos.AgregarPresupuesto(cliente, null);
+                    }
+                    else
+                    {
+                        ControladorPresupuestos.AgregarPresupuesto(cliente, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
+                    }
+                    this.Close();
                 }
                 else
                 {
-                    ControladorPresupuestos.AgregarPresupuesto(cliente, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
+                    if (FechaDeExpiracion_CheckBox.IsChecked == false)
+                    {
+                        ControladorPresupuestos.ModificarPresupuesto(cliente, null, presupuestoModificar);
+                    }
+                    else
+                    {
+                        ControladorPresupuestos.ModificarPresupuesto(cliente, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault(), presupuestoModificar);
+                    }
+                    this.Close();
                 }
-                this.Close();
             }
             else
             {
@@ -143,6 +168,17 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
                         BuscarCliente_ComboBox.Items.Add(cliente);
                     }
                 }
+            }
+        }
+
+        private void VistaAgregarPresupuesto_Loaded(object sender, RoutedEventArgs e)
+        {
+            VistaCargada = true;
+            BuscarCliente_ComboBox.SelectedItem = presupuestoModificar.Cliente as Cliente;
+            if (presupuestoModificar.FechaDeExpiracion != null)
+            {
+                FechaDeExpiracion_CheckBox.IsChecked = true;
+                FechaDeExpiracion_DatePicker.SelectedDate = presupuestoModificar.FechaDeExpiracion;
             }
         }
     }
