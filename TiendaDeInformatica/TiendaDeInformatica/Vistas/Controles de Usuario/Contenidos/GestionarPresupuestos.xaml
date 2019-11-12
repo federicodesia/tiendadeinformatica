@@ -5,9 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:bindings_generales="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Bindings_Generales"
+             xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto.Bindings"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="784" Background="#1F1F1F" x:Name="VistaGestionarPresupuestos" Loaded="VistaGestionarPresupuestos_Loaded">
     <Grid>
+        <Grid.Resources>
+            <bindings_generales:PresupuestoCircleColor x:Key="PresupuestoCircleColor"/>
+            <bindings_generales:PresupuestoCircleToolTip x:Key="PresupuestoCircleToolTip"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <domainBindings:ComboBoxItemDescripcionVisibility x:Key="ComboBoxItemDescripcionVisibility"/>
+            <domainBindings:KindConverter x:Key="KindConverter"/>
+        </Grid.Resources>
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="56"/>
@@ -61,24 +71,26 @@
                     <ListBox x:Name="Presupuestos_ListBox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Vertical" Margin="8 0 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                                            <TextBlock Text="Presupuesto #" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Bottom"/>
-                                            <TextBlock Text="{Binding Id}" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Bottom"/>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Ellipse Width="6" Height="6" Fill="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoCircleColor}}" ToolTip="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoCircleToolTip}}" VerticalAlignment="Center" Margin="0 0 8 0"/>
 
-                                            <TextBlock Margin="0 3 0 0" Text=" creado el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Bottom"/>
-                                            <TextBlock Margin="0 3 0 0" Text="{Binding FechaCreacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Bottom"/>
+                                            <TextBlock Text="Presupuesto #" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Id}" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+
+                                            <TextBlock Margin="0 2 0 0" Text=" creado el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="0 2 0 0" Text="{Binding FechaCreacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
                                         </StackPanel>
 
-                                        <StackPanel Grid.Column="1" Margin="8 3 0 8" Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <TextBlock Text="Modificado por últ. vez el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Bottom"/>
-                                            <TextBlock Text="{Binding FechaModificacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Bottom"/>
+                                        <StackPanel Grid.Column="1" Margin="0 2 0 0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <TextBlock Text="Modificado por últ. vez el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding FechaModificacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>

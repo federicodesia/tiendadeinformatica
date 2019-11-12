@@ -30,6 +30,7 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
         {
             InitializeComponent();
             RefrescarListBox();
+            this.DataContext = this;
         }
 
         private void RefrescarListBox()

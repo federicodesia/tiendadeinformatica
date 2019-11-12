@@ -247,6 +247,8 @@
     <Compile Include="Vistas\Controles de Usuario\Dialogs\AlertaCerrar.xaml.cs">
       <DependentUpon>AlertaCerrar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Ventanas\Bindings Generales\PresupuestoCircleToolTip.cs" />
+    <Compile Include="Vistas\Ventanas\Bindings Generales\PresupuestoCircleColor.cs" />
     <Compile Include="Vistas\Ventanas\Bindings Generales\ItemMenuFontWeightConverter.cs" />
     <Compile Include="Vistas\Ventanas\Bindings Generales\ItemMenuKindColorConverter.cs" />
     <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\CaracteristicasCliente.xaml.cs">
