@@ -35,6 +35,9 @@ namespace TiendaDeInformatica
                     case 1:
                         Contenido.Children.Add(new GestionarClientes());
                         break;
+                    case 2:
+                        Contenido.Children.Add(new GestionarProductos());
+                        break;
                     default:
                         break;
                 }
