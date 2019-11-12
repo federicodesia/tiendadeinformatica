@@ -42,96 +42,124 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Margin="18">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="180"/>
+                </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <materialDesign:ColorZone Grid.Column="0" HorizontalAlignment="Left" Background="#303030" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1" materialDesign:ShadowAssist.ShadowDepth="Depth1">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Button Style="{DynamicResource MaterialDesignToolButton}">
-                                <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
-                            </Button>
-                            <TextBox Grid.Column="1" x:Name="BuscarPorCliente_TextBox" Margin="8 0 32 0" Foreground="#E2E2E2" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" MinWidth="200" VerticalAlignment="Center" TextChanged="BuscarPorCliente_TextBox_TextChanged"/>
-                        </Grid>
-                    </materialDesign:ColorZone>
+                <Grid Grid.Column="0" Margin="18">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <materialDesign:ColorZone Grid.Column="0" HorizontalAlignment="Left" Background="#303030" Mode="Standard" Padding="8 4 8 4" CornerRadius="2" Panel.ZIndex="1" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Magnify" Opacity=".56" />
+                                </Button>
+                                <TextBox Grid.Column="1" x:Name="BuscarPorCliente_TextBox" Margin="8 0 32 0" Foreground="#E2E2E2" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" MinWidth="200" VerticalAlignment="Center" TextChanged="BuscarPorCliente_TextBox_TextChanged"/>
+                            </Grid>
+                        </materialDesign:ColorZone>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="0 18 0 0" x:Name="Contenido">
+                        <ListBox x:Name="Presupuestos_ListBox" ScrollViewer.CanContentScroll="False">
+                            <ListBox.Resources>
+                                <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <ContextMenu.Items>
+                                        <MenuItem Header="Modificar" Click="ModificarPresupuesto">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="UserEdit" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Eliminar" Click="EliminarPresupuesto">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu.Items>
+                                </ContextMenu>
+                            </ListBox.Resources>
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" Margin="8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Ellipse Width="6" Height="6" Fill="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoCircleColor}}" ToolTip="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoCircleToolTip}}" VerticalAlignment="Center" Margin="0 0 8 0"/>
+
+                                                <TextBlock Text="Presupuesto #" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Id}" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+
+                                                <TextBlock Margin="0 2 0 0" Text=" creado el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="0 2 0 0" Text="{Binding FechaCreacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" Margin="0 2 0 0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <TextBlock Text="Modificado por últ. vez el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding FechaModificacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Height="48">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16 0 0 0">
+                                                <materialDesign:PackIcon Foreground="#CFCFCF" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="{Binding ClienteTipo, Converter={StaticResource KindConverter}}" />
+
+                                                <StackPanel Orientation="Vertical" Margin="8 0 0 0" VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Foreground="#CFCFCF" Text="{Binding ClienteMostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                                        <TextBlock Foreground="#CFCFCF" Margin="4 0 0 0" Text="{Binding ClienteSeguidoMostrarNombre}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                                    </StackPanel>
+                                                    <TextBlock Foreground="#CFCFCF" Text="{Binding ClienteDescripcion}" Style="{StaticResource MaterialDesignBody1TextBlock}" Visibility="{Binding ClienteDescripcion, Converter={StaticResource ComboBoxItemDescripcionVisibility}}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                <TextBlock Text="$" Foreground="#CFCFCF" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding PrecioTotal}" Foreground="#CFCFCF" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Background" Value="#292929" />
+                                    <Setter Property="Margin" Value="0 4 4 0"/>
+                                    <Setter Property="ContextMenu" Value="{StaticResource ItemMenu}" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Grid>
                 </Grid>
 
-                <Grid Grid.Row="1" Margin="0 18 0 0" x:Name="Contenido">
-                    <ListBox x:Name="Presupuestos_ListBox">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" Margin="8">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                            <Ellipse Width="6" Height="6" Fill="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoCircleColor}}" ToolTip="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoCircleToolTip}}" VerticalAlignment="Center" Margin="0 0 8 0"/>
-
-                                            <TextBlock Text="Presupuesto #" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Id}" Foreground="#E2E2E2" FontSize="15" Style="{StaticResource MaterialDesignTitleTextBlock}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-
-                                            <TextBlock Margin="0 2 0 0" Text=" creado el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="0 2 0 0" Text="{Binding FechaCreacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-
-                                        <StackPanel Grid.Column="1" Margin="0 2 0 0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                            <TextBlock Text="Modificado por últ. vez el " Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding FechaModificacion, StringFormat='dd/MM/yyyy HH:mm'}" Foreground="#CFCFCF" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <Grid Height="48">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="16 0 0 0">
-                                            <Border CornerRadius="64" Height="32" Width="32" Background="DarkGray">
-                                                <materialDesign:PackIcon Foreground="#CFCFCF" Width="22" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="{Binding ClienteTipo, Converter={StaticResource KindConverter}}" />
-                                            </Border>
-
-                                            
-                                            <StackPanel Orientation="Vertical" Margin="8 0 0 0" VerticalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Foreground="#CFCFCF" Text="{Binding ClienteMostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-                                                    <TextBlock Foreground="#CFCFCF" Margin="4 0 0 0" Text="{Binding ClienteSeguidoMostrarNombre}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                                                </StackPanel>
-                                                <TextBlock Foreground="#CFCFCF" Text="{Binding ClienteDescripcion}" Style="{StaticResource MaterialDesignBody1TextBlock}" Visibility="{Binding ClienteDescripcion, Converter={StaticResource ComboBoxItemDescripcionVisibility}}"/>
-                                            </StackPanel>
-                                        </StackPanel>
-
-                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                            <TextBlock Text="$" Foreground="#CFCFCF" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding PrecioTotal}" Foreground="#CFCFCF" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Background" Value="#292929" />
-                                <Setter Property="Margin" Value="0 4 4 0"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>
+                <Grid Grid.Column="1" Background="#252525">
+                    <StackPanel Orientation="Vertical" Margin="18">
+                        <TextBlock Foreground="#CFCFCF" Text="Filtros" FontSize="14" Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Grid>

@@ -10,10 +10,10 @@
         xmlns:localDialogs="clr-namespace:TiendaDeInformatica.Vistas.Controles_de_Usuario.Dialogs"
         xmlns:domainBindings="clr-namespace:TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto.Bindings"
         mc:Ignorable="d"
-        Title="Agregar presupuesto" Height="450" Width="380" Background="#303030"
+        Title="Agregar presupuesto" Height="450" Width="380" Background="#303030" x:Name="VistaAgregarPresupuesto"
         WindowStartupLocation="CenterScreen" WindowTitleBrush="#512DA8" TitleCharacterCasing="Normal"
-        ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ResizeMode="CanMinimize">
-    
+        ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ResizeMode="CanMinimize" Loaded="VistaAgregarPresupuesto_Loaded">
+
     <Grid>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -23,7 +23,7 @@
 
         <StackPanel Orientation="Vertical">
             <materialDesign:ColorZone Mode="PrimaryMid">
-                <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo presupuesto" FontSize="16" Margin="16"/>
+                <TextBlock x:Name="Titulo_TextBlock" Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo presupuesto" FontSize="16" Margin="16"/>
             </materialDesign:ColorZone>
 
             <StackPanel Orientation="Vertical" Margin="16">
