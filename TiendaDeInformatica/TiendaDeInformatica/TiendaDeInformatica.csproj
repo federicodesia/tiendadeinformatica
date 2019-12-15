@@ -181,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Vistas\Controles de Usuario\Contenidos\ConfiguracionGuiada.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vistas\Controles de Usuario\Contenidos\GestionarPresupuestos.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -242,6 +246,9 @@
     <Compile Include="Modelos\Producto.cs" />
     <Compile Include="Modelos\ProductoValor.cs" />
     <Compile Include="Modelos\Valor.cs" />
+    <Compile Include="Vistas\Controles de Usuario\Contenidos\ConfiguracionGuiada.xaml.cs">
+      <DependentUpon>ConfiguracionGuiada.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Controles de Usuario\Contenidos\GestionarPresupuestos.xaml.cs">
       <DependentUpon>GestionarPresupuestos.xaml</DependentUpon>
     </Compile>
