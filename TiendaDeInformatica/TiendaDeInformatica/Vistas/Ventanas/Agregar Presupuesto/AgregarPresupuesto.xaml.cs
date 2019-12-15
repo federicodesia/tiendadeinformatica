@@ -174,11 +174,14 @@ namespace TiendaDeInformatica.Vistas.Ventanas.Agregar_Presupuesto
         private void VistaAgregarPresupuesto_Loaded(object sender, RoutedEventArgs e)
         {
             VistaCargada = true;
-            BuscarCliente_ComboBox.SelectedItem = presupuestoModificar.Cliente as Cliente;
-            if (presupuestoModificar.FechaDeExpiracion != null)
+            if (BuscarCliente_ComboBox.SelectedItem != null)
             {
-                FechaDeExpiracion_CheckBox.IsChecked = true;
-                FechaDeExpiracion_DatePicker.SelectedDate = presupuestoModificar.FechaDeExpiracion;
+                BuscarCliente_ComboBox.SelectedItem = presupuestoModificar.Cliente as Cliente;
+                if (presupuestoModificar.FechaDeExpiracion != null)
+                {
+                    FechaDeExpiracion_CheckBox.IsChecked = true;
+                    FechaDeExpiracion_DatePicker.SelectedDate = presupuestoModificar.FechaDeExpiracion;
+                }
             }
         }
     }
