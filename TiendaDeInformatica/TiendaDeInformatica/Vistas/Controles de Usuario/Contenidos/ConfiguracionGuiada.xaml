@@ -7,8 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListBox x:Name="ConfiguracionGuiada_ListBox" Width="600" Height="250" DisplayMemberPath="Nombre" ></ListBox>
+        <ListBox x:Name="ConfiguracionGuiada_ListBox" Width="600" Height="250" DisplayMemberPath="Nombre" Visibility="Hidden" ></ListBox>
         <Label Content="Configuración Guiada - Arma tu PC" HorizontalAlignment="Left" Margin="128,40,0,0" VerticalAlignment="Top" Width="205"/>
+        <Label x:Name="NingunaMarca_Label" Content="No encontramos ninguna marca agregada a tu sistema,&#xD;&#xA; porfavor agrega una :)" FontStyle="Italic" FontSize="30" HorizontalAlignment="Left" Margin="52,148,0,0" VerticalAlignment="Top" Width="738" Height="292" Visibility="Visible"/>
 
     </Grid>
 </UserControl>

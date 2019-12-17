@@ -29,10 +29,21 @@ namespace TiendaDeInformatica.Vistas.Controles_de_Usuario.Contenidos
         }
         private void RefrescarListBox()
         {
-            ConfiguracionGuiada_ListBox.Items.Clear();
-            foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
+            int marcas = ControladorMarcas.ObtenerListaDeMarcas().Count();
+            if (marcas > 0)
+            { 
+                ConfiguracionGuiada_ListBox.Items.Clear();
+                ConfiguracionGuiada_ListBox.Visibility = Visibility.Visible;
+                NingunaMarca_Label.Visibility = Visibility.Hidden;
+                foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
+                {
+                    ConfiguracionGuiada_ListBox.Items.Add(marca);
+                }
+            }
+            else
             {
-                ConfiguracionGuiada_ListBox.Items.Add(marca);
+                ConfiguracionGuiada_ListBox.Visibility = Visibility.Hidden;
+                NingunaMarca_Label.Visibility = Visibility.Visible;
             }
         }
     }
