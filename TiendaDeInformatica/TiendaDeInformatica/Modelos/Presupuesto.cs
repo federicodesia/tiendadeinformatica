@@ -27,14 +27,6 @@ namespace TiendaDeInformatica.Modelos
             }
         }
 
-        public string ClienteSeguidoMostrarNombre
-        {
-            get
-            {
-                return ControladorClientes.ObtenerCliente(ClienteId).SeguidoMostrarNombre;
-            }
-        }
-
         public string ClienteTipo
         {
             get

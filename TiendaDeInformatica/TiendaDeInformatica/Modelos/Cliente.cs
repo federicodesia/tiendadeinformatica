@@ -42,18 +42,6 @@ namespace TiendaDeInformatica.Modelos
             }
         }
 
-        public string SeguidoMostrarNombre
-        {
-            get
-            {
-                if (Tipo == "Empresa")
-                {
-                    return $"({Nombre} {Apellido})";
-                }
-                return "";
-            }
-        }
-
         public string NombreDelResponsable
         {
             get
@@ -62,7 +50,7 @@ namespace TiendaDeInformatica.Modelos
                 {
                     return $"{Nombre} {Apellido}";
                 }
-                return "";
+                return null;
             }
         }
 
@@ -70,15 +58,15 @@ namespace TiendaDeInformatica.Modelos
         {
             get
             {
-                if (CUIT!="")
+                if (CUIT != null)
                 {
                     return CUIT;
                 }
-                else if (Telefono != "")
+                else if (Telefono != null)
                 {
                     return $"Tel. {Telefono}";
                 }
-                return "";
+                return null;
             }
         }
     }
