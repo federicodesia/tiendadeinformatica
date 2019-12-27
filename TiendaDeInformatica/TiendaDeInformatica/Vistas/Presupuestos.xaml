@@ -17,7 +17,7 @@
              FontFamily="Roboto"
              Background="Transparent"
              
-             x:Name="Presupuestos_Vista" Loaded="Presupuestos_Vista_Loaded">
+             x:Name="Presupuestos_Vista">
     <Grid>
         <Grid.Resources>
             <converters:PresupuestoCirculoColorConverter x:Key="PresupuestoCirculoColorConverter"/>

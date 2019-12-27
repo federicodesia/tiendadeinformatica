@@ -22,11 +22,8 @@ namespace TiendaDeInformatica.Vistas
         {
             InitializeComponent();
             _principal = principal;
-        }
 
-        private void Clientes_Vista_Loaded(object sender, RoutedEventArgs e)
-        {
-            RefrescarListaDeClientes();
+            RefrescarListaDeClientes(true);
         }
 
         //
@@ -41,7 +38,7 @@ namespace TiendaDeInformatica.Vistas
             caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
             caracteristicasCliente.ShowDialog();
-            RefrescarListaDeClientes();
+            RefrescarListaDeClientes(false);
         }
 
         //
@@ -69,7 +66,7 @@ namespace TiendaDeInformatica.Vistas
                 caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
                 caracteristicasCliente.ShowDialog();
-                RefrescarListaDeClientes();
+                RefrescarListaDeClientes(false);
             }
         }
 
@@ -85,7 +82,7 @@ namespace TiendaDeInformatica.Vistas
             if (cliente != null)
             {
                 ControladorClientes.EliminarCliente(cliente);
-                RefrescarListaDeClientes();
+                RefrescarListaDeClientes(false);
 
                 AlertaBorrarCliente_DialogHost.IsOpen = false;
                 _principal.OscurecerCompletamente(false);
@@ -106,7 +103,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefrescarListaDeClientes();
+            RefrescarListaDeClientes(false);
         }
 
         //
@@ -115,12 +112,12 @@ namespace TiendaDeInformatica.Vistas
 
         private void FiltroTipoCliente_RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            RefrescarListaDeClientes();
+            RefrescarListaDeClientes(false);
         }
 
-        private void RefrescarListaDeClientes()
+        private void RefrescarListaDeClientes(bool saltarVerificacion)
         {
-            if (Clientes_Vista.IsLoaded)
+            if (Clientes_Vista.IsLoaded || saltarVerificacion)
             {
                 List<Cliente> clientes = ControladorClientes.ObtenerListaDeClientes().ToList();
                 List<Cliente> resultados = BuscarCliente(FiltrarPorTipoDeCliente(clientes), BuscarCliente_TextBox.Text);

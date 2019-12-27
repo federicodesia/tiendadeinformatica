@@ -14,7 +14,7 @@
              FontSize="13"
              FontFamily="Roboto"
              
-             x:Name="Clientes_Vista" Loaded="Clientes_Vista_Loaded">
+             x:Name="Clientes_Vista">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
