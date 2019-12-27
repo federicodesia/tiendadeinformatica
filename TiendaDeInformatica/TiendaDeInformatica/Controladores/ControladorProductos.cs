@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
@@ -27,7 +24,7 @@ namespace TiendaDeInformatica.Controladores
                     Modelo = modelo,
                     Precio = precio,
                     Tipo = tipo,
-                    Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen)),
+                    Imagen = ConvertirImagen.ConvertImageToByteArray(imagen),
                     Valores=new List<ProductoValor>()
                 };
                 context.Productos.Add(producto);
@@ -43,7 +40,7 @@ namespace TiendaDeInformatica.Controladores
                 productoDb.Modelo = modelo;
                 productoDb.Precio = precio;
                 productoDb.Tipo = tipo;
-                productoDb.Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen));
+                productoDb.Imagen = ConvertirImagen.ConvertImageToByteArray(imagen);
                 context.SaveChanges();
             }
         }

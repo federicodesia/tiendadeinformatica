@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -11,18 +6,19 @@ namespace TiendaDeInformatica.Helpers
 {
     public class ConvertirImagen
     {
-        public static byte[] ConvertImageToByte(FileInfo file)
+        public static byte[] ConvertImageToByteArray(string rutaImagen)
         {
+            FileInfo file = new FileInfo(rutaImagen);
             return File.ReadAllBytes(file.FullName);
         }
 
-        public static ImageSource ByteArrayToImage(byte[] byteArrayIn)
+        public static ImageSource ConvertByteArrayToImage(byte[] byteArrayIn)
         {
-            MemoryStream ms = new MemoryStream(byteArrayIn);
+            MemoryStream memoryStream = new MemoryStream(byteArrayIn);
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-            bitmapImage.StreamSource = ms;
+            bitmapImage.StreamSource = memoryStream;
             bitmapImage.EndInit();
 
             return bitmapImage;

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
@@ -29,7 +25,7 @@ namespace TiendaDeInformatica.Controladores
                 };
                 if (imagen != null)
                 {
-                    marca.Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen));
+                    marca.Imagen = ConvertirImagen.ConvertImageToByteArray(imagen);
                 }
                 context.Marcas.Add(marca);
                 context.SaveChanges();
@@ -42,7 +38,7 @@ namespace TiendaDeInformatica.Controladores
             {
                 Marca marcaDb = context.Marcas.Find(marca.Id);
                 marcaDb.Nombre = nombre;
-                marcaDb.Imagen = ConvertirImagen.ConvertImageToByte(new FileInfo(imagen));
+                marcaDb.Imagen = ConvertirImagen.ConvertImageToByteArray(imagen);
                 context.SaveChanges();
             }
         }

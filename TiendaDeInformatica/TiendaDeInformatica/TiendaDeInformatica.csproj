@@ -181,43 +181,50 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Vistas\Controles de Usuario\Contenidos\ConfiguracionGuiada.xaml">
-      <SubType>Designer</SubType>
+    <Compile Include="Controladores\ControladorAtributos.cs" />
+    <Compile Include="Controladores\ControladorClientes.cs" />
+    <Compile Include="Controladores\ControladorMarcas.cs" />
+    <Compile Include="Controladores\ControladorPresupuestos.cs" />
+    <Compile Include="Controladores\ControladorProductos.cs" />
+    <Compile Include="Vistas\Clientes.xaml.cs">
+      <DependentUpon>Clientes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Marcas.xaml.cs">
+      <DependentUpon>Marcas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Presupuestos.xaml.cs">
+      <DependentUpon>Presupuestos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Productos.xaml.cs">
+      <DependentUpon>Productos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Reglas de Validacion\CampoVacio.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\ClienteSeleccionado.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\CUIT.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\FechaDeExpiracion.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
+    <Page Include="Vistas\Caracteristicas\CaracteristicasCliente.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vistas\Controles de Usuario\Contenidos\GestionarPresupuestos.xaml">
+    <Page Include="Vistas\Caracteristicas\CaracteristicasPresupuesto.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vistas\Controles de Usuario\Contenidos\GestionarClientes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vistas\Controles de Usuario\Contenidos\GestionarProductos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vistas\Controles de Usuario\Dialogs\AlertaCerrar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vistas\Ventanas\Caracteristicas Cliente\CaracteristicasCliente.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vistas\Ventanas\Agregar Marca\AgregarMarca.xaml">
+    <Page Include="Vistas\Clientes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vistas\Ventanas\Agregar Presupuesto\AgregarPresupuesto.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Vistas\Marcas.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vistas\Ventanas\Agregar Producto\AgregarProducto.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vistas\Ventanas\MainWindow.xaml">
+    <Page Include="Vistas\Presupuestos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vistas\Principal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -225,11 +232,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controladores\ControladorAtributos.cs" />
-    <Compile Include="Controladores\ControladorClientes.cs" />
-    <Compile Include="Controladores\ControladorMarcas.cs" />
-    <Compile Include="Controladores\ControladorPresupuestos.cs" />
-    <Compile Include="Controladores\ControladorProductos.cs" />
     <Compile Include="Datos\Migraciones\20191104181737_Inicial.cs" />
     <Compile Include="Datos\Migraciones\20191104181737_Inicial.designer.cs">
       <DependentUpon>20191104181737_Inicial.cs</DependentUpon>
@@ -246,56 +248,25 @@
     <Compile Include="Modelos\Producto.cs" />
     <Compile Include="Modelos\ProductoValor.cs" />
     <Compile Include="Modelos\Valor.cs" />
-    <Compile Include="Vistas\Controles de Usuario\Contenidos\ConfiguracionGuiada.xaml.cs">
-      <DependentUpon>ConfiguracionGuiada.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Controles de Usuario\Contenidos\GestionarPresupuestos.xaml.cs">
-      <DependentUpon>GestionarPresupuestos.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Controles de Usuario\Contenidos\GestionarClientes.xaml.cs">
-      <DependentUpon>GestionarClientes.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Controles de Usuario\Contenidos\GestionarProductos.xaml.cs">
-      <DependentUpon>GestionarProductos.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Controles de Usuario\Dialogs\AlertaCerrar.xaml.cs">
-      <DependentUpon>AlertaCerrar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Ventanas\Bindings Generales\PresupuestoCircleToolTip.cs" />
-    <Compile Include="Vistas\Ventanas\Bindings Generales\PresupuestoCircleColor.cs" />
-    <Compile Include="Vistas\Ventanas\Bindings Generales\ItemMenuFontWeightConverter.cs" />
-    <Compile Include="Vistas\Ventanas\Bindings Generales\ItemMenuKindColorConverter.cs" />
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\CaracteristicasCliente.xaml.cs">
+    <Compile Include="Settings.cs" />
+    <Compile Include="Vistas\Caracteristicas\CaracteristicasCliente.xaml.cs">
       <DependentUpon>CaracteristicasCliente.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Bindings\BooleanToHintApellido.cs" />
-    <Compile Include="Vistas\Ventanas\Bindings Generales\InvertedBool.cs" />
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Bindings\BooleanToHintNombre.cs" />
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\CUIT.cs" />
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\NombreApellido.cs" />
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\NombreEmpresa.cs" />
-    <Compile Include="Vistas\Ventanas\Caracteristicas Cliente\Reglas de Validacion\Telefono.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Marca\AgregarMarca.xaml.cs">
-      <DependentUpon>AgregarMarca.xaml</DependentUpon>
+    <Compile Include="Vistas\Caracteristicas\CaracteristicasPresupuesto.xaml.cs">
+      <DependentUpon>CaracteristicasPresupuesto.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Ventanas\Agregar Presupuesto\AgregarPresupuesto.xaml.cs">
-      <DependentUpon>AgregarPresupuesto.xaml</DependentUpon>
+    <Compile Include="Vistas\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Vistas\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Vistas\Converters\InvertedBoolConverter.cs" />
+    <Compile Include="Vistas\Converters\PresupuestoCirculoColorConverter.cs" />
+    <Compile Include="Vistas\Converters\PresupuestoCirculoToolTipConverter.cs" />
+    <Compile Include="Vistas\Principal.xaml.cs">
+      <DependentUpon>Principal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Ventanas\Agregar Presupuesto\Bindings\KindConverter.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Presupuesto\Bindings\ComboBoxItemDescripcionVisibility.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Presupuesto\Reglas de Validacion\ClienteSeleccionado.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Presupuesto\Reglas de Validacion\FechaExpiracion.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Producto\AgregarProducto.xaml.cs">
-      <DependentUpon>AgregarProducto.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\Precio.cs" />
-    <Compile Include="Vistas\Ventanas\Reglas de Validacion Generales\CampoVacio.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\MarcaSeleccionada.cs" />
-    <Compile Include="Vistas\Ventanas\Agregar Producto\Reglas de Validacion\TipoProductoSeleccionado.cs" />
-    <Compile Include="Vistas\Ventanas\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Vistas\Productos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

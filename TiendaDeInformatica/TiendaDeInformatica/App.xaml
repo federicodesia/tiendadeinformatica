@@ -3,18 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TiendaDeInformatica"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             StartupUri="Vistas/Ventanas/MainWindow.xaml">
+             xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             StartupUri="Vistas/Principal.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Purple.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="MaterialDesignSnackbarActionButton" TargetType="Button">
@@ -24,7 +22,7 @@
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Cursor" Value="Hand"/>
-                <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignSnackbarRipple}" />
+                <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignSnackbarRipple}" />
                 <Setter Property="TextBlock.FontWeight" Value="Medium"/>
                 <Setter Property="TextBlock.FontSize" Value="14"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -35,8 +33,8 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid x:Name="Root" Background="{TemplateBinding Background}">
-                                <materialDesign:Ripple Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"    
+                            <Grid x:Name="Root" Background="White">
+                                <wpf:Ripple Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"    
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                     Padding="{TemplateBinding Padding}" 
@@ -59,8 +57,107 @@
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
             </Style>
 
+            <Style TargetType="{x:Type Button}" x:Key="MaterialDesignPopupBoxButton">
+                <Setter Property="VerticalContentAlignment" Value="Bottom" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="Padding" Value="16 0 16 16" />
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition GeneratedDuration="0:0:0.3" To="Normal">
+                                                <VisualTransition.GeneratedEasingFunction>
+                                                    <CircleEase EasingMode="EaseOut"/>
+                                                </VisualTransition.GeneratedEasingFunction>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState Name="Normal"/>
+                                        <VisualState Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.48" Duration="0"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="MouseOverBorder" Opacity="0" Background="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"/>
+                                <wpf:Ripple Feedback="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
+                                    Focusable="False"
+                                    MinHeight="48"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"                                                                
+                                    Padding="{TemplateBinding Padding}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
+            <Style x:Key="MaterialDesignRadioButtonPaletaColores" TargetType="{x:Type RadioButton}">
+                <Setter Property="Background" Value="#673AB7" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Margin" Value="0 8 8 0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                            <Grid ClipToBounds="True" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="Disabled"/>
+                                    </VisualStateGroup>
 
+                                    <VisualStateGroup x:Name="CheckStates">
+                                        <VisualState x:Name="Checked">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0:0.3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckedStye" From="0" To="1" />
+                                                <DoubleAnimation Duration="0:0:0:0.3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalStyle" From="1" To="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unchecked">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0:0.3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckedStye" From="1" To="0" />
+                                                <DoubleAnimation Duration="0:0:0:0.3" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalStyle" From="0" To="1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Border x:Name="NormalStyle" Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="4" Background="{TemplateBinding Background}"/>
+
+                                <Border x:Name="CheckedStye" Width="34" Height="34" BorderThickness="2" BorderBrush="#5CA3FD" CornerRadius="4" Background="{TemplateBinding Background}">
+                                    <wpf:PackIcon Kind="CheckBold" Width="12" Height="12" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{TemplateBinding Foreground}"/>
+                                </Border>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesignListBoxItemMod" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontFamily" Value="Roboto" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
 
             <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -70,7 +167,8 @@
                         <ControlTemplate TargetType="{x:Type Thumb}">
                             <Border x:Name="rectangle"
                                 SnapsToDevicePixels="True"
-                                Background="#4E4E4E"
+                                Background="{DynamicResource MaterialDesignBody}"
+                                Opacity="0.15"
                                 Height="{TemplateBinding Height}"
                                 Width="{TemplateBinding Width}"/>
                         </ControlTemplate>
@@ -82,6 +180,7 @@
                 <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
                 <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
                 <Setter Property="Width" Value="8"/>
+                <Setter Property="Margin" Value="0 -4 0 0"/>
                 <Setter Property="MinWidth" Value="{Binding Width, RelativeSource={RelativeSource Self}}"/>
                 <Setter Property="Template">
                     <Setter.Value>
@@ -99,6 +198,754 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style x:Key="GroupBoxMod" TargetType="{x:Type GroupBox}">
+                <Setter Property="Padding" Value="9"/>
+            </Style>
+
+
+
+            <Style x:Key="MaterialDesignEmbeddedDialogHostMod" TargetType="{x:Type wpf:DialogHost}">
+                <Setter Property="wpf:ShadowAssist.ShadowDepth" Value="Depth5" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="wpf:DialogHost">
+                            <Grid x:Name="DialogHostRoot" Focusable="False">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="PopupStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="Closed" To="Open">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="0" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentCoverGrid" Storyboard.TargetProperty="Opacity">
+                                                        <EasingDoubleKeyFrame Value="0" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="0.56" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_PopupContentElement" Storyboard.TargetProperty="Opacity">
+                                                        <EasingDoubleKeyFrame Value="0" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CardScaleTransform" Storyboard.TargetProperty="ScaleX">
+                                                        <EasingDoubleKeyFrame Value="0" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CardScaleTransform" Storyboard.TargetProperty="ScaleY">
+                                                        <EasingDoubleKeyFrame Value="0" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                            <VisualTransition From="Open" To="Closed">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="0:0:0.3" />
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentCoverGrid" Storyboard.TargetProperty="Opacity">
+                                                        <EasingDoubleKeyFrame Value="0.56" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="0" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_PopupContentElement" Storyboard.TargetProperty="Opacity">
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.18" />
+                                                        <EasingDoubleKeyFrame Value="0" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CardScaleTransform" Storyboard.TargetProperty="ScaleX">
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.18" />
+                                                        <EasingDoubleKeyFrame Value="0.5" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CardScaleTransform" Storyboard.TargetProperty="ScaleY">
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0" />
+                                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.18" />
+                                                        <EasingDoubleKeyFrame Value="0.5" KeyTime="0:0:0.3">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut" />
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Open">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility" 
+                                                                       Duration="0">
+                                                    <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" KeyTime="0" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation Storyboard.TargetName="PART_ContentCoverGrid" Storyboard.TargetProperty="Opacity"
+                                                         Duration="0"
+                                                         To=".56" />
+                                                <DoubleAnimation Storyboard.TargetName="PART_PopupContentElement" Storyboard.TargetProperty="Opacity"
+                                                         Duration="0"
+                                                         To="1" />
+                                                <DoubleAnimation Storyboard.TargetName="CardScaleTransform" Storyboard.TargetProperty="ScaleX"
+                                                         Duration="0"
+                                                         To="1" />
+                                                <DoubleAnimation Storyboard.TargetName="CardScaleTransform" Storyboard.TargetProperty="ScaleY"
+                                                         Duration="0"
+                                                         To="1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Closed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_Popup" Storyboard.TargetProperty="Visibility"
+                                                                       Duration="0">
+                                                    <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" KeyTime="0" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation Storyboard.TargetName="PART_ContentCoverGrid" Storyboard.TargetProperty="Opacity"
+                                                         To="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter 
+                            x:Name="ContentPresenter" Opacity="1"
+                            Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" />
+
+                                <Grid x:Name="PART_ContentCoverGrid" Background="{Binding OverlayBackground, RelativeSource={RelativeSource TemplatedParent}}" 
+                              Opacity="0" IsHitTestVisible="False" Focusable="False">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <Trigger Property="Opacity" Value="0">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+
+                                <Grid x:Name="PART_Popup" wpf:ThemeAssist.Theme="{TemplateBinding DialogTheme}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <wpf:Card 
+                                x:Name="PART_PopupContentElement" 
+                                Margin="{TemplateBinding DialogMargin}"
+                                wpf:ShadowAssist.ShadowDepth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(wpf:ShadowAssist.ShadowDepth)}"
+                                UniformCornerRadius="4"
+                                TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                                TextElement.FontWeight="Regular"
+                                TextElement.FontSize="13"
+                                TextOptions.TextFormattingMode="Ideal"
+                                TextOptions.TextRenderingMode="Auto"
+                                FocusManager.IsFocusScope="False"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                Focusable="True"
+                                IsTabStop="False"
+                                Opacity="0"
+                                RenderTransformOrigin=".5,.5"
+                                Content="{TemplateBinding DialogContent}"
+                                ContentTemplate="{TemplateBinding DialogContentTemplate}"
+                                ContentTemplateSelector="{TemplateBinding DialogContentTemplateSelector}"
+                                ContentStringFormat="{TemplateBinding DialogContentStringFormat}">
+                                        <wpf:Card.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform x:Name="CardScaleTransform"
+                                                        ScaleX="0"
+                                                        ScaleY="0" />
+                                            </TransformGroup>
+                                        </wpf:Card.RenderTransform>
+                                    </wpf:Card>
+                                </Grid>
+
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsOpen" Value="True">
+                                    <Setter TargetName="ContentPresenter" Property="IsEnabled" Value="False" />
+                                    <Setter TargetName="PART_ContentCoverGrid" Property="IsHitTestVisible" Value="True" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesignCardsListBoxItemMod" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="8 0 8 12"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <wpf:Card Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                              ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                      wpf:ShadowAssist.ShadowDepth="Depth0">
+
+                                <wpf:Card.Style>
+                                    <Style TargetType="{x:Type Control}">
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect ShadowDepth="4" Opacity="0.08" BlurRadius="8"/>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <Style.Resources>
+                                            <Storyboard x:Key="MouseArriba">
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Effect).Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.25"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                            <Storyboard x:Key="MouseAbajo">
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Effect).Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.08"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </Style.Resources>
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard Storyboard="{StaticResource MouseArriba}"/>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard Storyboard="{StaticResource MouseAbajo}"/>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </wpf:Card.Style>
+                            </wpf:Card>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesignListBoxItemPresupuestoSeleccionado" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <wpf:Card Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                              ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                      wpf:ShadowAssist.ShadowEdges="None"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+
+
+
+
+
+
+            <Style x:Key="MaterialDesign.RangeSlider.Thumb"
+           
+           TargetType="Thumb">
+                <Setter Property="Template" Value="{StaticResource MaterialDesignSliderThumb}" />
+            </Style>
+
+            <Style x:Key="MaterialDesign.RangeSlider.HorizontalMiddleThumb"
+           
+           TargetType="{x:Type controls:MetroThumb}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="IsTabStop" Value="True" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type controls:MetroThumb}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Rectangle Height="2" Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesign.RangeSlider.VerticalMiddleThumb"
+           
+           TargetType="{x:Type controls:MetroThumb}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type controls:MetroThumb}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Rectangle Width="2" Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesign.RangeSlider.HorizontalTrack"
+           
+           TargetType="{x:Type RepeatButton}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Rectangle Height="2" Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesign.RangeSlider.VerticalTrack"
+           
+           TargetType="{x:Type RepeatButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Rectangle Width="2" Fill="{TemplateBinding Foreground}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <ControlTemplate x:Key="MaterialDesignMahAppsRangeSliderHorizontal"
+                     TargetType="controls:RangeSlider">
+                <Grid x:Name="PART_Container"
+              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+              Background="{TemplateBinding Background}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" MinHeight="{TemplateBinding controls:RangeSlider.MinHeight}" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TickBar x:Name="PART_TopTick"
+                     Grid.Row="0"
+                     Height="4"
+                     Fill="{TemplateBinding Foreground}"
+                     IsSelectionRangeEnabled="{TemplateBinding IsSelectionRangeEnabled}"
+                     Maximum="{TemplateBinding Maximum}"
+                     Minimum="{TemplateBinding Minimum}"
+                     Placement="Top"
+                     ReservedSpace="{DynamicResource MahApps.Sizes.Slider.HorizontalThumb.Width}"
+                     SelectionEnd="{TemplateBinding SelectionEnd}"
+                     SelectionStart="{TemplateBinding SelectionStart}"
+                     TickFrequency="{TemplateBinding TickFrequency}"
+                     Ticks="{TemplateBinding Ticks}"
+                     Visibility="Collapsed" />
+                    <TickBar x:Name="PART_BottomTick"
+                     Grid.Row="2"
+                     Height="4"
+                     Fill="{TemplateBinding Foreground}"
+                     IsSelectionRangeEnabled="{TemplateBinding IsSelectionRangeEnabled}"
+                     Maximum="{TemplateBinding Maximum}"
+                     Minimum="{TemplateBinding Minimum}"
+                     Placement="Bottom"
+                     ReservedSpace="{DynamicResource MahApps.Sizes.Slider.HorizontalThumb.Width}"
+                     SelectionEnd="{TemplateBinding SelectionEnd}"
+                     SelectionStart="{TemplateBinding SelectionStart}"
+                     TickFrequency="{TemplateBinding TickFrequency}"
+                     Ticks="{TemplateBinding Ticks}"
+                     Visibility="Collapsed" />
+                    <StackPanel x:Name="PART_RangeSliderContainer"
+                        Grid.Row="1"
+                        Background="Transparent"
+                        Orientation="Horizontal">
+                        <RepeatButton x:Name="PART_LeftEdge"
+                              Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillBrush)}"
+                              Style="{DynamicResource MaterialDesign.RangeSlider.HorizontalTrack}" />
+
+                        <controls:MetroThumb x:Name="PART_LeftThumb"
+                                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillBrush)}"
+                                     Cursor="Arrow"
+                                     Style="{DynamicResource MaterialDesign.RangeSlider.Thumb}" />
+                        <controls:MetroThumb x:Name="PART_MiddleThumb"
+                                     MinWidth="{TemplateBinding MinRangeWidth}"
+                                     Cursor="Hand"
+                                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillBrush)}"
+                                     Style="{DynamicResource MaterialDesign.RangeSlider.HorizontalMiddleThumb}" />
+                        <controls:MetroThumb x:Name="PART_RightThumb"
+                                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillBrush)}"
+                                     Cursor="Arrow"
+                                     Style="{DynamicResource MaterialDesign.RangeSlider.Thumb}" />
+
+                        <RepeatButton x:Name="PART_RightEdge"
+                              Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillBrush)}"
+                              Style="{DynamicResource MaterialDesign.RangeSlider.HorizontalTrack}" />
+                    </StackPanel>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="TickPlacement" Value="TopLeft">
+                        <Setter TargetName="PART_TopTick" Property="Visibility" Value="Visible" />
+                    </Trigger>
+                    <Trigger Property="TickPlacement" Value="BottomRight">
+                        <Setter TargetName="PART_BottomTick" Property="Visibility" Value="Visible" />
+                    </Trigger>
+                    <Trigger Property="TickPlacement" Value="Both">
+                        <Setter TargetName="PART_BottomTick" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="PART_TopTick" Property="Visibility" Value="Visible" />
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillHoverBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillHoverBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillHoverBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillHoverBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillHoverBrush)}" />
+                    </Trigger>
+                    <Trigger SourceName="PART_LeftEdge" Property="IsPressed" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                    </Trigger>
+                    <Trigger SourceName="PART_RightEdge" Property="IsPressed" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                    </Trigger>
+                    <Trigger SourceName="PART_MiddleThumb" Property="IsDragging" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillDisabledBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillDisabledBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillDisabledBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillDisabledBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillDisabledBrush)}" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="MaterialDesignRangeSliderVertical"
+                     TargetType="controls:RangeSlider">
+                <Grid x:Name="PART_Container"
+              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+              Background="{TemplateBinding Background}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="{TemplateBinding controls:RangeSlider.MinWidth}" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TickBar x:Name="PART_TopTick"
+                     Grid.Column="0"
+                     Width="4"
+                     Fill="{TemplateBinding Foreground}"
+                     IsSelectionRangeEnabled="{TemplateBinding IsSelectionRangeEnabled}"
+                     Maximum="{TemplateBinding Maximum}"
+                     Minimum="{TemplateBinding Minimum}"
+                     Placement="Left"
+                     ReservedSpace="{DynamicResource MahApps.Sizes.Slider.VerticalThumb.Height}"
+                     SelectionEnd="{TemplateBinding SelectionEnd}"
+                     SelectionStart="{TemplateBinding SelectionStart}"
+                     TickFrequency="{TemplateBinding TickFrequency}"
+                     Ticks="{TemplateBinding Ticks}"
+                     Visibility="Collapsed" />
+                    <TickBar x:Name="PART_BottomTick"
+                     Grid.Column="2"
+                     Width="4"
+                     Fill="{TemplateBinding Foreground}"
+                     IsSelectionRangeEnabled="{TemplateBinding IsSelectionRangeEnabled}"
+                     Maximum="{TemplateBinding Maximum}"
+                     Minimum="{TemplateBinding Minimum}"
+                     Placement="Right"
+                     ReservedSpace="{DynamicResource MahApps.Sizes.Slider.VerticalThumb.Height}"
+                     SelectionEnd="{TemplateBinding SelectionEnd}"
+                     SelectionStart="{TemplateBinding SelectionStart}"
+                     TickFrequency="{TemplateBinding TickFrequency}"
+                     Ticks="{TemplateBinding Ticks}"
+                     Visibility="Collapsed" />
+                    <StackPanel x:Name="PART_RangeSliderContainer"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        Orientation="Vertical">
+                        <RepeatButton x:Name="PART_RightEdge"
+                              Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillBrush)}"
+                              Style="{DynamicResource MaterialDesign.RangeSlider.VerticalTrack}" />
+
+                        <controls:MetroThumb x:Name="PART_RightThumb"
+                                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillBrush)}"
+                                     Cursor="Arrow"
+                                     Style="{DynamicResource MaterialDesign.RangeSlider.Thumb}" />
+                        <controls:MetroThumb x:Name="PART_MiddleThumb"
+                                     MinHeight="{TemplateBinding MinRangeWidth}"
+                                     Cursor="Hand"
+                                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillBrush)}"
+                                     Style="{StaticResource MaterialDesign.RangeSlider.VerticalMiddleThumb}" />
+                        <controls:MetroThumb x:Name="PART_LeftThumb"
+                                     Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillBrush)}"
+                                     Cursor="Arrow"
+                                     Style="{DynamicResource MaterialDesign.RangeSlider.Thumb}" />
+
+                        <RepeatButton x:Name="PART_LeftEdge"
+                              Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillBrush)}"
+                              Style="{DynamicResource MaterialDesign.RangeSlider.VerticalTrack}" />
+                    </StackPanel>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="TickPlacement" Value="TopLeft">
+                        <Setter TargetName="PART_TopTick" Property="Visibility" Value="Visible" />
+                    </Trigger>
+                    <Trigger Property="TickPlacement" Value="BottomRight">
+                        <Setter TargetName="PART_BottomTick" Property="Visibility" Value="Visible" />
+                    </Trigger>
+                    <Trigger Property="TickPlacement" Value="Both">
+                        <Setter TargetName="PART_BottomTick" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="PART_TopTick" Property="Visibility" Value="Visible" />
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillHoverBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillHoverBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillHoverBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillHoverBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillHoverBrush)}" />
+                    </Trigger>
+                    <Trigger SourceName="PART_LeftEdge" Property="IsPressed" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                    </Trigger>
+                    <Trigger SourceName="PART_RightEdge" Property="IsPressed" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                    </Trigger>
+                    <Trigger SourceName="PART_MiddleThumb" Property="IsDragging" Value="True">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillPressedBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillPressedBrush)}" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter TargetName="PART_LeftEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillDisabledBrush)}" />
+                        <Setter TargetName="PART_LeftThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillDisabledBrush)}" />
+                        <Setter TargetName="PART_MiddleThumb" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackValueFillDisabledBrush)}" />
+                        <Setter TargetName="PART_RightEdge" Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.TrackFillDisabledBrush)}" />
+                        <Setter TargetName="PART_RightThumb" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(controls:SliderHelper.ThumbFillDisabledBrush)}" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <Style TargetType="{x:Type controls:RangeSlider}" x:Key="MaterialDesignRangeSlider">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Margin" Value="6 0" />
+                <Setter Property="controls:SliderHelper.ThumbFillBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.ThumbFillDisabledBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.ThumbFillHoverBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.ThumbFillPressedBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.TrackFillBrush" Value="{DynamicResource MaterialDesignCheckBoxOff}" />
+                <Setter Property="controls:SliderHelper.TrackFillDisabledBrush" Value="{DynamicResource MaterialDesignCheckBoxDisabled}" />
+                <Setter Property="controls:SliderHelper.TrackFillHoverBrush" Value="{DynamicResource MaterialDesignCheckBoxOff}" />
+                <Setter Property="controls:SliderHelper.TrackFillPressedBrush" Value="{DynamicResource MaterialDesignCheckBoxOff}" />
+                <Setter Property="controls:SliderHelper.TrackValueFillBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.TrackValueFillDisabledBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.TrackValueFillHoverBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="controls:SliderHelper.TrackValueFillPressedBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Template" Value="{StaticResource MaterialDesignMahAppsRangeSliderHorizontal}" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Style.Triggers>
+                    <Trigger Property="Orientation" Value="Vertical">
+                        <Setter Property="Template" Value="{StaticResource MaterialDesignRangeSliderVertical}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Style x:Key="MaterialDesignActionToggleButtonVertical" TargetType="{x:Type ToggleButton}">
+                <Style.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="wpf:PackIcon" BasedOn="{StaticResource {x:Type wpf:PackIcon}}">
+                            <Setter Property="Width" Value="20" />
+                            <Setter Property="Height" Value="20" />
+                        </Style>
+                    </ResourceDictionary>
+                </Style.Resources>
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                <Setter Property="Width" Value="32"/>
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="wpf:ShadowAssist.ShadowDepth" Value="Depth0" />
+                <Setter Property="wpf:ToggleButtonAssist.OnContent" Value="{StaticResource CheckMarkIcon}" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="0.23" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="CheckStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="*" To="Checked">
+                                                <Storyboard FillBehavior="HoldEnd">
+                                                    <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OffScaleTransform">
+                                                        <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.0" />
+                                                        <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OnScaleTransform">
+                                                        <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                        <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.2" />
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                            <VisualTransition From="Checked" To="Unchecked">
+                                                <Storyboard FillBehavior="HoldEnd">
+                                                    <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OnScaleTransform">
+                                                        <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.0" />
+                                                        <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <DoubleAnimationUsingKeyFrames Duration="0:0:0.2" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OffScaleTransform">
+                                                        <LinearDoubleKeyFrame Value="0" KeyTime="0:0:0.1" />
+                                                        <LinearDoubleKeyFrame Value="1" KeyTime="0:0:0.2" />
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Checked">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OffScaleTransform"
+                                                         To="0" />
+                                                <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OnScaleTransform"
+                                                         To="1" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unchecked">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OffScaleTransform"
+                                                         To="1" />
+                                                <DoubleAnimation Duration="0" Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="OnScaleTransform"
+                                                         To="0" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Indeterminate">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="IndeterminateCheck"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid x:Name="OffGrid" RenderTransformOrigin=".5,.5" Background="{TemplateBinding Background}">
+                                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                              FlowDirection="LeftToRight"/>
+                                    <Grid.Clip>
+                                        <EllipseGeometry RadiusX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}" 
+                                                 RadiusY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}">
+                                            <EllipseGeometry.Center>
+                                                <MultiBinding Converter="{StaticResource PointValueConverter}">
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Width" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Height" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                                </MultiBinding>
+                                            </EllipseGeometry.Center>
+                                        </EllipseGeometry>
+                                    </Grid.Clip>
+                                    <Grid.RenderTransform>
+                                        <ScaleTransform x:Name="OffScaleTransform" ScaleX="1" ScaleY="1" />
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="OnGrid" RenderTransformOrigin=".5,.5" Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              FlowDirection="LeftToRight"
+                                              Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(wpf:ToggleButtonAssist.OnContent)}"
+                                              ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(wpf:ToggleButtonAssist.OnContentTemplate)}" />
+                                    <Grid.Clip>
+                                        <EllipseGeometry RadiusX="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}" 
+                                                 RadiusY="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Height, Converter={StaticResource DivisionMathConverter}, ConverterParameter=2.0}">
+                                            <EllipseGeometry.Center>
+                                                <MultiBinding Converter="{StaticResource PointValueConverter}">
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Width" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Height" Converter="{StaticResource DivisionMathConverter}" ConverterParameter="2.0" />
+                                                </MultiBinding>
+                                            </EllipseGeometry.Center>
+                                        </EllipseGeometry>
+                                    </Grid.Clip>
+                                    <Grid.RenderTransform>
+                                        <ScaleTransform x:Name="OnScaleTransform" ScaleX="1" ScaleY="0" />
+                                    </Grid.RenderTransform>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

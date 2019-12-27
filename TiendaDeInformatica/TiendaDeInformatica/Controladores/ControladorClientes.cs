@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiendaDeInformatica.Modelos;
-using Microsoft.EntityFrameworkCore;
 using TiendaDeInformatica.Datos;
-using Microsoft.Data.Sqlite;
+using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Controladores
 {
@@ -18,7 +13,7 @@ namespace TiendaDeInformatica.Controladores
             List<Cliente> Clientes = new List<Cliente>();
         }
 
-       public static void AgregarCliente(string nombreDeLaEmpresa, string nombre, string apellido, string cuit, string telefono)
+        public static void AgregarCliente(string nombreDeLaEmpresa, string nombre, string apellido, string telefono, string cuit)
         {
             using (var context = new MyDbContext())
             {
@@ -27,15 +22,15 @@ namespace TiendaDeInformatica.Controladores
                     NombreDeLaEmpresa = nombreDeLaEmpresa,
                     Nombre = nombre,
                     Apellido = apellido,
-                    CUIT = cuit,
-                    Telefono = telefono
+                    Telefono = telefono,
+                    CUIT = cuit
                 };
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
             }
         }
 
-        public static void ModificarCliente(Cliente cliente, string nombreDeLaEmpresa, string nombre, string apellido, string cuit, string telefono)
+        public static void ModificarCliente(Cliente cliente, string nombreDeLaEmpresa, string nombre, string apellido, string telefono, string cuit)
         {
             using (var context = new MyDbContext())
             {
@@ -43,11 +38,11 @@ namespace TiendaDeInformatica.Controladores
                 clienteDb.NombreDeLaEmpresa = nombreDeLaEmpresa;
                 clienteDb.Nombre = nombre;
                 clienteDb.Apellido = apellido;
-                clienteDb.CUIT = cuit;
                 clienteDb.Telefono = telefono;
+                clienteDb.CUIT = cuit;
                 context.SaveChanges();
             }
-            
+
         }
         public static void EliminarCliente(Cliente cliente)
         {
@@ -66,23 +61,31 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
+        public static Cliente ObtenerCliente(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Clientes.Find(id);
+            }
+        }
+
         public static string ExportarListaDeClientes()
         {
             string texto = "";
             using (var context = new MyDbContext())
             {
-                texto = texto+"Lista de personas:\r\n";
-                List <Cliente> personas= context.Clientes.ToList().Where(c => c.Tipo == "Persona").ToList();
-                if (personas.Count>0)
+                texto = texto + "Lista de personas:\r\n";
+                List<Cliente> personas = context.Clientes.ToList().Where(c => c.Tipo == "Persona").ToList();
+                if (personas.Count > 0)
                 {
                     foreach (Cliente cliente in personas)
                     {
                         texto = texto + $"\r\n- {cliente.Nombre} {cliente.Apellido}";
-                        if (cliente.Telefono != "")
+                        if (cliente.Telefono != null)
                         {
                             texto = texto + $", Teléfono: {cliente.Telefono}";
                         }
-                        if (cliente.CUIT != "")
+                        if (cliente.CUIT != null)
                         {
                             texto = texto + $", CUIT: {cliente.CUIT}";
                         }
@@ -93,18 +96,18 @@ namespace TiendaDeInformatica.Controladores
                     texto = texto + "\r\nNo hay personas en la lista de clientes.";
                 }
 
-                texto = texto+"\r\n\r\nLista de empresas:\r\n";
+                texto = texto + "\r\n\r\nLista de empresas:\r\n";
                 List<Cliente> empresas = context.Clientes.ToList().Where(c => c.Tipo == "Empresa").ToList();
                 if (empresas.Count > 0)
                 {
                     foreach (Cliente cliente in empresas)
                     {
                         texto = texto + $"\r\n- {cliente.NombreDeLaEmpresa} (Responsable: {cliente.Nombre} {cliente.Apellido})";
-                        if (cliente.Telefono != "")
+                        if (cliente.Telefono != null)
                         {
                             texto = texto + $", Teléfono: {cliente.Telefono}";
                         }
-                        if (cliente.CUIT != "")
+                        if (cliente.CUIT != null)
                         {
                             texto = texto + $", CUIT: {cliente.CUIT}";
                         }
@@ -116,15 +119,6 @@ namespace TiendaDeInformatica.Controladores
                 }
             }
             return texto;
-        }
-
-        public static Cliente ObtenerCliente(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                Cliente clienteDb = context.Clientes.Find(id);
-                return clienteDb;
-            }
         }
     }
 }

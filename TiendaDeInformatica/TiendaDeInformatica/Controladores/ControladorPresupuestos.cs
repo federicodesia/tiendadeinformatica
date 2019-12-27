@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Modelos;
 
@@ -34,17 +32,19 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void ModificarPresupuesto(Cliente cliente, DateTime? fechaDeExpiracion, Presupuesto presupuesto)
+
+        public static void ModificarPresupuesto(Presupuesto presupuesto, Cliente cliente, DateTime? fechaDeExpiracion)
         {
             using (var context = new MyDbContext())
             {
                 Presupuesto presupuestoDb = context.Presupuestos.Find(presupuesto.Id);
+                presupuestoDb.Cliente = cliente;
                 presupuestoDb.FechaModificacion = DateTime.Now;
                 presupuestoDb.FechaDeExpiracion = fechaDeExpiracion;
                 context.SaveChanges();
-
             }
         }
+
         public static void EliminarPresupuesto(Presupuesto presupuesto)
         {
             using (var context = new MyDbContext())
@@ -85,6 +85,14 @@ namespace TiendaDeInformatica.Controladores
                 PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(producto.Id);
                 context.Remove(presupuestoProductoDb);
                 context.SaveChanges();
+            }
+        }
+
+        public static Presupuesto ObtenerPresupuesto(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Presupuestos.Find(id);
             }
         }
     }
