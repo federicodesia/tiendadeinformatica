@@ -42,7 +42,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
                 // Cargar los datos de la marca
                 Nombre_TextBox.Text = _marcaModificar.Nombre;
-                Imagen_Image.Source = ConvertirImagen.ConvertByteArrayToImage(_marcaModificar.Imagen);
+                if (_marcaModificar.Imagen != null)
+                {
+                    ImagenSeleccionada = _marcaModificar.Imagen;
+                    Imagen_Image.Source = ConvertirImagen.ConvertByteArrayToImage(ImagenSeleccionada);
+                }
             }
 
             _principal.OscurecerCompletamente(true);

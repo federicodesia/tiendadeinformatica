@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using TiendaDeInformatica.Controladores;
@@ -23,7 +24,7 @@ namespace TiendaDeInformatica.Vistas
             RefrescarListaDeMarcas(true);
         }
 
-        private void AgregarMarca_Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
             CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null);
             caracteristicasMarca.Owner = System.Windows.Application.Current.MainWindow;
@@ -56,13 +57,13 @@ namespace TiendaDeInformatica.Vistas
 
         private UniformGrid itemsGrid;
 
-        private void Items_UniformGrid_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void Items_UniformGrid_Loaded(object sender, RoutedEventArgs e)
         {
             itemsGrid = sender as UniformGrid;
             AjustarFilasColumnas();
         }
 
-        private void Marcas_Vista_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        private void Marcas_Vista_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             AjustarFilasColumnas();
         }
@@ -77,6 +78,53 @@ namespace TiendaDeInformatica.Vistas
                 else
                     itemsGrid.Rows = Marcas_ListBox.Items.Count;
                 itemsGrid.Height = itemsGrid.Rows * 80;
+            }
+        }
+
+        //
+        // Opciones al hacer click derecho sobre una marca
+        //
+
+        private void ModificarMarca_Click(object sender, RoutedEventArgs e)
+        {
+            Marca marca = Marcas_ListBox.SelectedItem as Marca;
+            if (marca != null)
+            {
+                CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, marca);
+                caracteristicasMarca.Owner = Application.Current.MainWindow;
+
+                caracteristicasMarca.ShowDialog();
+                RefrescarListaDeMarcas(false);
+            }
+        }
+
+        private void EliminarMarca_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(true);
+            AlertaBorrarMarca_DialogHost.IsOpen = true;
+        }
+
+        //
+        // Alerta
+        //
+
+        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(false);
+            AlertaBorrarMarca_DialogHost.IsOpen = false;
+        }
+
+        private void EliminarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Marca marca = Marcas_ListBox.SelectedItem as Marca;
+            if (marca != null)
+            {
+                ControladorMarcas.EliminarMarca(marca);
+                RefrescarListaDeMarcas(false);
+
+                AlertaBorrarMarca_DialogHost.IsOpen = false;
+                _principal.OscurecerCompletamente(false);
+                _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
             }
         }
     }

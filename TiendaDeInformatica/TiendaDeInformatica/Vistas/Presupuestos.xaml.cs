@@ -95,7 +95,7 @@ namespace TiendaDeInformatica.Vistas
             Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
             if (presupuesto != null)
             {
-                ControladorPresupuestos.EliminarPresupuesto(Presupuestos_ListBox.SelectedItem as Presupuesto);
+                ControladorPresupuestos.EliminarPresupuesto(presupuesto);
                 RefrescarListaDePresupuestos(false);
 
                 AlertaBorrarPresupuesto_DialogHost.IsOpen = false;
