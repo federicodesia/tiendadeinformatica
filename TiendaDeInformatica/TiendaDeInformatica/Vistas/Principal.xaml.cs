@@ -224,8 +224,8 @@ namespace TiendaDeInformatica.Vistas
                         Contenido_Grid.Children.Add(new Clientes(this));
                         break;
                     case 2:
-                        //Contenido_Grid.Children.Add(new Marcas(this));
-                        //break;
+                        Contenido_Grid.Children.Add(new Marcas(this));
+                        break;
                     case 6:
                         Contenido_Grid.Children.Add(new Productos(this));
                         break;

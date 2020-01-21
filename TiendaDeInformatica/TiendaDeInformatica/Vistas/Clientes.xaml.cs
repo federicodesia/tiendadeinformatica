@@ -32,13 +32,11 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
-            /*int cantidadDeClientesAntes = ControladorClientes.ObtenerListaDeClientes().Count();
-
             CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, null, true);
             caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
             caracteristicasCliente.ShowDialog();
-            RefrescarListaDeClientes(false);*/
+            RefrescarListaDeClientes(false);
         }
 
         //
@@ -62,11 +60,11 @@ namespace TiendaDeInformatica.Vistas
 
             if (cliente != null)
             {
-                /*CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, cliente, true);
+                CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, cliente, true);
                 caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
                 caracteristicasCliente.ShowDialog();
-                RefrescarListaDeClientes(false);*/
+                RefrescarListaDeClientes(false);
             }
         }
 

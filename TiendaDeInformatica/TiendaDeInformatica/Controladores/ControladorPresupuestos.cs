@@ -38,7 +38,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 Presupuesto presupuestoDb = context.Presupuestos.Find(presupuesto.Id);
-                presupuestoDb.Cliente = cliente;
+                presupuestoDb.ClienteId = cliente.Id;
                 presupuestoDb.FechaModificacion = DateTime.Now;
                 presupuestoDb.FechaDeExpiracion = fechaDeExpiracion;
                 context.SaveChanges();

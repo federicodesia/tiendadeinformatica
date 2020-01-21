@@ -13,8 +13,8 @@ namespace TiendaDeInformatica.Controladores
         {
             Marcas = new List<Marca>();
         }
-        
-        public static void AgregarMarca(string nombre, string imagen)
+
+        public static void AgregarMarca(string nombre, byte[] imagen)
         {
             using (var context = new MyDbContext())
             {
@@ -23,22 +23,20 @@ namespace TiendaDeInformatica.Controladores
                     Nombre = nombre,
                     Productos = new List<Producto>()
                 };
-                if (imagen != null)
-                {
-                    marca.Imagen = ConvertirImagen.ConvertImageToByteArray(imagen);
-                }
+                marca.Imagen = imagen;
+
                 context.Marcas.Add(marca);
                 context.SaveChanges();
             }
             
         }
-        public static void ModificarMarca(Marca marca, string nombre, string imagen)
+        public static void ModificarMarca(Marca marca, string nombre, byte[] imagen)
         {
             using (var context = new MyDbContext())
             {
                 Marca marcaDb = context.Marcas.Find(marca.Id);
                 marcaDb.Nombre = nombre;
-                marcaDb.Imagen = ConvertirImagen.ConvertImageToByteArray(imagen);
+                marcaDb.Imagen = imagen;
                 context.SaveChanges();
             }
         }

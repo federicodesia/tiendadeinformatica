@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="TiendaDeInformatica.Vistas.Marcas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="569" d:DesignWidth="776"
+             
+             Background="Transparent"
+             Foreground="{DynamicResource MaterialDesignBody}"
+             FontWeight="Regular"
+             FontSize="13"
+             FontFamily="Roboto"
+             
+             x:Name="Marcas_Vista" SizeChanged="Marcas_Vista_SizeChanged">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="240"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Filtros -->
+                <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
+                    <StackPanel Margin="24">
+                        
+                    </StackPanel>
+                </Grid>
+
+                <!-- Contenido -->
+                <Grid Grid.Column="0" Margin="24">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Barra de búqueda -->
+                        <materialDesign:ColorZone Grid.Column="0" Background="{DynamicResource MaterialDesignCardBackground}" HorizontalAlignment="Left" Padding="8 4 8 4" CornerRadius="2">
+                            <materialDesign:ColorZone.Effect>
+                                <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
+                            </materialDesign:ColorZone.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Magnify"/>
+                                </Button>
+                                <TextBox Grid.Column="1" x:Name="BuscarPresupuestoPorCliente_TextBox" Margin="8 0 172 0" materialDesign:HintAssist.Hint="Buscar marca por nombre" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" VerticalAlignment="Center"/>
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                        <!-- Cantidad de resultados -->
+                        <StackPanel Grid.Column="2"  Orientation="Horizontal" VerticalAlignment="Center" Opacity="0.64">
+                            <TextBlock x:Name="CantidadDeResultados_TextBlock" Text="0"/>
+                            <TextBlock VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Text" Value=" resultados encontrados" />
+                                        <Style.Triggers>
+                                            <!-- Cambiar el texto dependiendo de la cantidad de resultados -->
+                                            <DataTrigger Binding="{Binding Text, ElementName=CantidadDeResultados_TextBlock}" Value="1">
+                                                <Setter Property="Text" Value=" resultado encontrado" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Contenido -->
+                    <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
+                        <ListBox x:Name="Marcas_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12">
+                            <!-- Opciones al hacer click derecho sobre un presupuesto -->
+                            <ListBox.Resources>
+                                <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <ContextMenu.Items>
+                                        <MenuItem Header="Modificar">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="UserEdit" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Eliminar">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu.Items>
+                                </ContextMenu>
+                            </ListBox.Resources>
+
+                            <!-- Formato de cada item -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="16"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Grid.Column="0" Height="32" Width="32" Source="{Binding Imagen}"/>
+
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="{Binding Nombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                            <TextBlock Text="0 productos" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <!-- Items en horizontal -->
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid x:Name="Items_UniformGrid" Loaded="Items_UniformGrid_Loaded" VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignCardsListBoxItemMod}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource ItemMenu}" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!-- Menú superior -->
+            <materialDesign:ColorZone Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2" materialDesign:ShadowAssist.ShadowEdges="Bottom">
+                <!-- 104 píxeles de espacio para las opciones generales -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="104"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="1" Background="{DynamicResource PrimaryHueMidBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Titulo -->
+                        <TextBlock Grid.Column="0" Margin="24,0,0,0" Text="Marcas" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+
+                        <!-- Opciones -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Height="56" x:Name="AgregarMarca_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="AgregarMarca_Button_Click">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Agregar marca" Foreground="White" VerticalAlignment="Center" FontWeight="Regular" FontSize="13" Margin="8 0 0 0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </materialDesign:ColorZone>
+        </Grid>
+    </Grid>
+</UserControl>
