@@ -34,7 +34,7 @@
                 </Grid>
 
                 <!-- Contenido -->
-                <Grid Grid.Column="0" Margin="24">
+                <Grid Grid.Column="0" Margin="24" x:Name="Contenido_Grid">
                     
                 </Grid>
             </Grid>
