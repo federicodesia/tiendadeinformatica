@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -27,7 +28,7 @@ namespace TiendaDeInformatica.Vistas
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
             CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null);
-            caracteristicasMarca.Owner = System.Windows.Application.Current.MainWindow;
+            caracteristicasMarca.Owner = Application.Current.MainWindow;
 
             caracteristicasMarca.ShowDialog();
             RefrescarListaDeMarcas(false);
@@ -43,10 +44,12 @@ namespace TiendaDeInformatica.Vistas
             {
                 Marcas_ListBox.Items.Clear();
 
-                foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
-                {
+                List<Marca> marcas = ControladorMarcas.ObtenerListaDeMarcas();
+                List<Marca> resultados = BuscarMarca(marcas, BuscarMarca_TextBox.Text);
+
+                foreach (Marca marca in resultados)
                     Marcas_ListBox.Items.Add(marca);
-                }
+
                 CantidadDeResultados_TextBlock.Text = Marcas_ListBox.Items.Count.ToString();
             }
         }
@@ -126,6 +129,31 @@ namespace TiendaDeInformatica.Vistas
                 _principal.OscurecerCompletamente(false);
                 _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
             }
+        }
+
+        //
+        // Buscar
+        //
+
+        private void BuscarMarca_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RefrescarListaDeMarcas(false);
+        }
+
+        private List<Marca> BuscarMarca(List<Marca> marcas, string busqueda)
+        {
+            if (busqueda != "")
+            {
+                busqueda = busqueda.ToUpper();
+                List<Marca> resultado = new List<Marca>();
+                foreach (Marca marca in marcas)
+                {
+                    if (marca.Nombre.ToUpper().StartsWith(busqueda))
+                        resultado.Add(marca);
+                }
+                return resultado;
+            }
+            return marcas;
         }
     }
 }

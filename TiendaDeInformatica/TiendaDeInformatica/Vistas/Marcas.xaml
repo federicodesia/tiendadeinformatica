@@ -63,7 +63,7 @@
                                 <Button Style="{DynamicResource MaterialDesignToolButton}">
                                     <materialDesign:PackIcon Kind="Magnify"/>
                                 </Button>
-                                <TextBox Grid.Column="1" x:Name="BuscarPresupuestoPorCliente_TextBox" Margin="8 0 172 0" materialDesign:HintAssist.Hint="Buscar marca por nombre" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" VerticalAlignment="Center"/>
+                                <TextBox Grid.Column="1" x:Name="BuscarMarca_TextBox" Margin="8 0 172 0" materialDesign:HintAssist.Hint="Buscar marca por nombre" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" VerticalAlignment="Center" TextChanged="BuscarMarca_TextBox_TextChanged"/>
                             </Grid>
                         </materialDesign:ColorZone>
 
