@@ -58,7 +58,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Icono -->
-                                    <materialDesign:PackIcon Grid.Column="0" Kind="Account" Foreground="{Binding ElementName=Nombre_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+                                    <materialDesign:PackIcon Grid.Column="0" Kind="Ticket" Foreground="{Binding ElementName=Nombre_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
 
                                     <!-- Nombre -->
                                     <TextBox x:Name="Nombre_TextBox" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nombre">
@@ -92,9 +92,9 @@
                                     <TextBlock Grid.Column="3" Text="48px" VerticalAlignment="Bottom" Margin="0 0 6 0" Opacity="0.58"/>
 
                                     <!-- Imagen -->
-                                    <Border Grid.Column="4" BorderThickness="1" BorderBrush="DarkGray" Height="48" Width="48">
+                                    <Border Grid.Column="4" BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}" Height="48" Width="48">
                                         <Grid>
-                                            <Grid Background="Black" Opacity="0.05"/>
+                                            <Grid Background="{DynamicResource MaterialDesignDivider}" Opacity="0.2"/>
                                             <Image x:Name="Imagen_Image"/>
                                         </Grid>
                                     </Border>
