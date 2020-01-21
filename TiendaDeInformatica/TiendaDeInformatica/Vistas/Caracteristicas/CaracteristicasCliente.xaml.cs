@@ -76,8 +76,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (_clienteModificar == null)
             {
                 // Crear Cliente
-                if (NombreDeLaEmpresa_TextBox.Text != null || Nombre_TextBox.Text != null || Apellido_TextBox.Text != null
-                    || Telefono_TextBox.Text != null || CUIT_TextBox.Text != null)
+                if (NombreDeLaEmpresa_TextBox.Text != "" || Nombre_TextBox.Text != "" || Apellido_TextBox.Text != ""
+                    || Telefono_TextBox.Text != "" || CUIT_TextBox.Text != "")
                 {
                     // Se realizaron cambios, y se mostrará la alerta
                     AlertaAlCerrar_Dialog.IsOpen = true;
@@ -91,13 +91,13 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             else
             {
                 // Modificar Cliente
-                if ((NombreDeLaEmpresa_TextBox.Text != null && _clienteModificar.NombreDeLaEmpresa == null)
+                if ((NombreDeLaEmpresa_TextBox.Text != "" && _clienteModificar.NombreDeLaEmpresa == null)
                     || (NombreDeLaEmpresa_TextBox.Text != _clienteModificar.NombreDeLaEmpresa && _clienteModificar.Tipo == "Empresa")
                     || (Nombre_TextBox.Text != _clienteModificar.Nombre)
                     || (Apellido_TextBox.Text != _clienteModificar.Apellido)
-                    || (Telefono_TextBox.Text != null && _clienteModificar.Telefono == null)
+                    || (Telefono_TextBox.Text != "" && _clienteModificar.Telefono == null)
                     || (Telefono_TextBox.Text != _clienteModificar.Telefono)
-                    || (CUIT_TextBox.Text != null && _clienteModificar.CUIT == null)
+                    || (CUIT_TextBox.Text != "" && _clienteModificar.CUIT == null)
                     || (CUIT_TextBox.Text != _clienteModificar.CUIT))
                 {
                     // Se realizaron cambios, y se mostrará la alerta
