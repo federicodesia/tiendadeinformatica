@@ -227,7 +227,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
-            int cantidadDeClientesAntes = ControladorClientes.ObtenerListaDeClientes().Count();
+            /*int cantidadDeClientesAntes = ControladorClientes.ObtenerListaDeClientes().Count();
 
             CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, null, false);
             caracteristicasCliente.Owner = Application.Current.MainWindow;
@@ -238,7 +238,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (ControladorClientes.ObtenerListaDeClientes().Count() > cantidadDeClientesAntes)
             {
                 _ = _principal.MostrarMensajeEnSnackbar("Cliente agregado correctamente!");
-            }
+            }*/
         }
     }
 }

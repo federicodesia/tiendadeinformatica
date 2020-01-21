@@ -189,9 +189,6 @@
     <Compile Include="Vistas\Clientes.xaml.cs">
       <DependentUpon>Clientes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vistas\Marcas.xaml.cs">
-      <DependentUpon>Marcas.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vistas\Presupuestos.xaml.cs">
       <DependentUpon>Presupuestos.xaml</DependentUpon>
     </Compile>
@@ -204,19 +201,11 @@
     <Compile Include="Vistas\Reglas de Validacion\FechaDeExpiracion.cs" />
     <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
     <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
-    <Page Include="Vistas\Caracteristicas\CaracteristicasCliente.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Vistas\Caracteristicas\CaracteristicasPresupuesto.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vistas\Clientes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vistas\Marcas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -249,9 +238,6 @@
     <Compile Include="Modelos\ProductoValor.cs" />
     <Compile Include="Modelos\Valor.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Vistas\Caracteristicas\CaracteristicasCliente.xaml.cs">
-      <DependentUpon>CaracteristicasCliente.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vistas\Caracteristicas\CaracteristicasPresupuesto.xaml.cs">
       <DependentUpon>CaracteristicasPresupuesto.xaml</DependentUpon>
     </Compile>
