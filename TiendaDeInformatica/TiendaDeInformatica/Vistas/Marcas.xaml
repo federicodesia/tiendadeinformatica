@@ -119,9 +119,9 @@
 
                                         <Image Grid.Column="0" Height="32" Width="32" Source="{Binding Imagen}"/>
 
-                                        <StackPanel Grid.Column="2">
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Center">
                                             <TextBlock Text="{Binding Nombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-                                            <TextBlock Text="0 productos" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                            <TextBlock Text="{Binding CantidadProductos}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
