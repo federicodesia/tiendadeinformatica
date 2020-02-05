@@ -24,6 +24,12 @@ namespace TiendaDeInformatica.Vistas
             _principal = principal;
 
             RefrescarListaDeMarcas(true);
+
+
+            TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+            IEnumerable<TipoProducto> tipoProductosOrdenados = tipoProductos.OrderBy(v => v.ToString());
+            Prueba_ListBox.ItemsSource = tipoProductosOrdenados;
+            Prueba_ListBox.SelectAll();
         }
 
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)

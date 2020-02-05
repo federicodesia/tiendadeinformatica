@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             
              mc:Ignorable="d" 
              d:DesignHeight="569" d:DesignWidth="776"
              
@@ -58,6 +59,19 @@
                                         </materialDesign:ToggleButtonAssist.OnContent>
                                     </ToggleButton>
                                 </Grid>
+                            </GroupBox>
+
+                            <!-- Tipo de producto -->
+                            <GroupBox BorderThickness="0" Header="Tipo de producto" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                                <ListView x:Name="Prueba_ListBox" SelectionMode="Multiple" Margin="-4 0 -8 0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                      IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                      FontWeight="Normal"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </GroupBox>
                         </StackPanel>
                     </ScrollViewer>
