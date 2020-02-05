@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -33,26 +34,7 @@ namespace TiendaDeInformatica.Vistas
             caracteristicasMarca.ShowDialog();
             RefrescarListaDeMarcas(false);
         }
-
-        //
-        // Refrescar la lista de marcas
-        //
-
-        private void RefrescarListaDeMarcas(bool saltearVerificacion)
-        {
-            if (Marcas_Vista.IsLoaded || saltearVerificacion)
-            {
-                Marcas_ListBox.Items.Clear();
-
-                List<Marca> marcas = ControladorMarcas.ObtenerListaDeMarcas();
-                List<Marca> resultados = BuscarMarca(marcas, BuscarMarca_TextBox.Text);
-
-                foreach (Marca marca in resultados)
-                    Marcas_ListBox.Items.Add(marca);
-
-                CantidadDeResultados_TextBlock.Text = Marcas_ListBox.Items.Count.ToString();
-            }
-        }
+        
 
         //
         // Ajustar las columnas y filas de la lista de marcas
@@ -132,6 +114,26 @@ namespace TiendaDeInformatica.Vistas
         }
 
         //
+        // Refrescar la lista de marcas
+        //
+
+        private void RefrescarListaDeMarcas(bool saltearVerificacion)
+        {
+            if (Marcas_Vista.IsLoaded || saltearVerificacion)
+            {
+                Marcas_ListBox.Items.Clear();
+
+                List<Marca> marcas = ControladorMarcas.ObtenerListaDeMarcas();
+                List<Marca> resultados = OrdenarMarcas(BuscarMarca(marcas, BuscarMarca_TextBox.Text));
+
+                foreach (Marca marca in resultados)
+                    Marcas_ListBox.Items.Add(marca);
+
+                CantidadDeResultados_TextBlock.Text = Marcas_ListBox.Items.Count.ToString();
+            }
+        }
+
+        //
         // Buscar
         //
 
@@ -152,6 +154,52 @@ namespace TiendaDeInformatica.Vistas
                         resultado.Add(marca);
                 }
                 return resultado;
+            }
+            return marcas;
+        }
+
+        //
+        // Filtros
+        //
+
+        private void OrdenarMarcas_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefrescarListaDeMarcas(false);
+        }
+
+        private void OrdenarMarcas_AscDesc_ToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDeMarcas(false);
+        }
+
+        private List<Marca> OrdenarMarcas(List<Marca> marcas)
+        {
+            if (OrdenarMarcas_ComboBox.SelectedIndex == 0)
+            {
+                // Alfabéticamente
+                marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+            }
+            else if (OrdenarMarcas_ComboBox.SelectedIndex == 1)
+            {
+                // Fecha de creación
+                marcas.OrderBy(m => m.Id).ToList();
+            }
+            else if (OrdenarMarcas_ComboBox.SelectedIndex == 2)
+            {
+                // Cantidad de productos
+                List<Marca> sinProductos = marcas.Where(m => m.Productos == null).ToList();
+                List<Marca> conProductos = marcas.Where(m => m.Productos != null).ToList();
+
+                sinProductos.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                conProductos.OrderBy(m => m.Productos.Count()).ToList();
+
+                marcas = sinProductos;
+                marcas.AddRange(conProductos);
+            }
+
+            if (OrdenarMarcas_AscDesc_ToggleButton.IsChecked.Value)
+            {
+                marcas.Reverse();
             }
             return marcas;
         }

@@ -66,7 +66,7 @@
                                         <TextBox.Text>
                                             <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
                                                 <Binding.ValidationRules>
-                                                    <reglasDeValidacion:SoloLetras/>
+                                                    <reglasDeValidacion:CampoVacio/>
                                                 </Binding.ValidationRules>
                                             </Binding>
                                         </TextBox.Text>
