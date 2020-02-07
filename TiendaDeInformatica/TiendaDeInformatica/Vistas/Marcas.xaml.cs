@@ -209,5 +209,14 @@ namespace TiendaDeInformatica.Vistas
             }
             return marcas;
         }
+
+        //
+        // Deshabilitar el uso del click derecho para seleccionar o deseleccionar un item del listbox
+        //
+
+        private void Prueba_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

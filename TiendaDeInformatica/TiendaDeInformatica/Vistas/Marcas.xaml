@@ -63,15 +63,23 @@
 
                             <!-- Tipo de producto -->
                             <GroupBox BorderThickness="0" Header="Tipo de producto" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
-                                <ListView x:Name="Prueba_ListBox" SelectionMode="Multiple" Margin="-4 0 -8 0">
-                                    <ListView.ItemTemplate>
+                                <ListBox x:Name="Prueba_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="Prueba_ListBox_PreviewMouseRightButtonDown">
+                                    <ListBox.ItemTemplate>
                                         <DataTemplate>
-                                            <CheckBox Content="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                      IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                      FontWeight="Normal"/>
+                                            <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"/>
+                                                    <TextBlock Text="                                "/>
+                                                </StackPanel>
+                                            </CheckBox>
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                    </ListBox.ItemTemplate>
+
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
                             </GroupBox>
                         </StackPanel>
                     </ScrollViewer>
