@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -116,18 +119,16 @@ namespace TiendaDeInformatica.Vistas
                 {
                     Personas_DataGrid.Items.Clear();
                     foreach (Cliente cliente in resultados)
-                    {
                         Personas_DataGrid.Items.Add(cliente);
-                    }
+
                     CantidadDeResultados_TextBlock.Text = Personas_DataGrid.Items.Count.ToString();
                 }
                 else
                 {
                     Empresas_DataGrid.Items.Clear();
                     foreach (Cliente cliente in resultados)
-                    {
                         Empresas_DataGrid.Items.Add(cliente);
-                    }
+
                     CantidadDeResultados_TextBlock.Text = Empresas_DataGrid.Items.Count.ToString();
                 }
             }
@@ -146,16 +147,15 @@ namespace TiendaDeInformatica.Vistas
         {
             if (busqueda != "")
             {
-                busqueda = busqueda.ToUpper();
+                busqueda = QuitarTildes(busqueda).ToUpper();
                 List<Cliente> resultado = new List<Cliente>();
                 foreach (Cliente cliente in clientes)
                 {
-                    if ((cliente.NombreDeLaEmpresa != null && cliente.NombreDeLaEmpresa.ToUpper().StartsWith(busqueda))
-                        || (cliente.NombreDelResponsable != null && cliente.NombreDelResponsable.ToUpper().StartsWith(busqueda))
+                    if ((cliente.NombreDelResponsable != null && QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
                         || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
                         || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
-                        || cliente.MostrarNombre.ToUpper().StartsWith(busqueda)
-                        || cliente.Apellido.ToUpper().StartsWith(busqueda)))
+                        || QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
+                        || QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
                     {
                         resultado.Add(cliente);
                     }
@@ -163,6 +163,11 @@ namespace TiendaDeInformatica.Vistas
                 return resultado;
             }
             return clientes;
+        }
+
+        public string QuitarTildes(string texto)
+        {
+            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
         }
 
         // ------------------------------------------------------ //
