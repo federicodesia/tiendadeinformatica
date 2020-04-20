@@ -63,7 +63,7 @@
 
                             <!-- Tipo de producto -->
                             <GroupBox BorderThickness="0" Header="Tipo de producto" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
-                                <ListBox x:Name="Prueba_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="Prueba_ListBox_PreviewMouseRightButtonDown">
+                                <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="Prueba_ListBox_PreviewMouseRightButtonDown">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
