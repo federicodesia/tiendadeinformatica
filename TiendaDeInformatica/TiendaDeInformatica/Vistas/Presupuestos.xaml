@@ -10,14 +10,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
              
-             
              Foreground="{DynamicResource MaterialDesignBody}"
              FontWeight="Regular"
              FontSize="13"
              FontFamily="Roboto"
              Background="Transparent"
              
-             x:Name="Presupuestos_Vista">
+             x:Name="Presupuestos_Vista" Loaded="Presupuestos_Vista_Loaded">
     <Grid>
         <Grid.Resources>
             <converters:PresupuestoCirculoColorConverter x:Key="PresupuestoCirculoColorConverter"/>
@@ -35,7 +34,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="240"/>
                 </Grid.ColumnDefinitions>
-
+                
                 <!-- Filtros -->
                 <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
                     <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
@@ -291,9 +290,9 @@
             <!-- Menú superior -->
             <materialDesign:ColorZone Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2" materialDesign:ShadowAssist.ShadowEdges="Bottom">
                 <Grid>
-                    <!-- 104 píxeles de espacio para las opciones generales -->
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <!-- 104 píxeles de espacio para las opciones generales -->
                         <ColumnDefinition Width="104"/>
                     </Grid.ColumnDefinitions>
 
@@ -308,6 +307,7 @@
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            
                             <Button Height="56" x:Name="AgregarPresupuesto_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="AgregarPresupuesto_Button_Click">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
@@ -326,22 +326,19 @@
                 <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <!-- Icono -->
+                        <!-- Icono, Título y Descripción -->
                         <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
 
                         <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                            <!-- Título -->
                             <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar este presupuesto?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-
-                            <!-- Descripción -->
                             <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los productos asociados al mismo." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Botones -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" x:Name="Cancelar_Button" Click="Cancelar_Button_Click"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" x:Name="EliminarPresupuesto_Button" Click="EliminarPresupuesto_Button_Click"/>
+                        <Button x:Name="CancelarEliminarPresupuesto_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarEliminarPresupuesto_Button_Click"/>
+                        <Button x:Name="EliminarPresupuesto_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" Click="EliminarPresupuesto_Button_Click"/>
                     </StackPanel>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>

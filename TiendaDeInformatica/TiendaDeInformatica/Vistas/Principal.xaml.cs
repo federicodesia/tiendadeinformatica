@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -44,9 +43,19 @@ namespace TiendaDeInformatica.Vistas
             Contenido_Grid.Children.Add(new Presupuestos(this));
         }
 
-        //
-        // Preferencias
-        //
+        // ------------------------------------------------------ //
+        //                       Preferencias                     //
+        // ------------------------------------------------------ //
+
+        private void TemaOscuro_Expander_Expanded(object sender, RoutedEventArgs e)
+        {
+            PersonalizarTema_Expander.IsExpanded = false;
+        }
+
+        private void PersonalizarTema_Expander_Expanded(object sender, RoutedEventArgs e)
+        {
+            TemaOscuro_Expander.IsExpanded = false;
+        }
 
         private void Preferencias_PopupBox_Closed(object sender, RoutedEventArgs e)
         {
@@ -58,16 +67,6 @@ namespace TiendaDeInformatica.Vistas
             TemaOscuro_Expander.IsExpanded = false;
             PersonalizarTema_Expander.IsExpanded = false;
             Colores_ToggleButton.IsChecked = false;
-        }
-
-        private void TemaOscuro_Expander_Expanded(object sender, RoutedEventArgs e)
-        {
-            PersonalizarTema_Expander.IsExpanded = false;
-        }
-
-        private void PersonalizarTema_Expander_Expanded(object sender, RoutedEventArgs e)
-        {
-            TemaOscuro_Expander.IsExpanded = false;
         }
 
         //
@@ -93,7 +92,7 @@ namespace TiendaDeInformatica.Vistas
         }
 
         //
-        // Color personalizado
+        // Color de tema personalizado
         //
 
         private void ColorTema_ColorPicker_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -173,15 +172,13 @@ namespace TiendaDeInformatica.Vistas
                     break;
                 }
                 else
-                {
                     radioButton.IsChecked = false;
-                }
             }
         }
 
-        //
-        // Logo
-        //
+        // ------------------------------------------------------ //
+        //                         Logo                           //
+        // ------------------------------------------------------ //
 
         private void AgregarModificarLogo_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -205,9 +202,9 @@ namespace TiendaDeInformatica.Vistas
             Properties.Settings.Default.Save();
         }
 
-        //
-        // Menú izquierdo
-        //
+        // ------------------------------------------------------ //
+        //                     Menú izquierdo                     //
+        // ------------------------------------------------------ //
 
         private void MenuIzquierdo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -235,18 +232,18 @@ namespace TiendaDeInformatica.Vistas
             }
         }
 
-        //
-        // Oscurecer Completamente
-        //
+        // ------------------------------------------------------ //
+        //                 Oscurecer completamente                //
+        // ------------------------------------------------------ //
 
         public void OscurecerCompletamente(bool estado)
         {
             OscurecerPantalla_DialogHost.IsOpen = estado;
         }
 
-        //
-        // Mensajes
-        //
+        // ------------------------------------------------------ //
+        //             Mensajes arriba a la izquierda             //
+        // ------------------------------------------------------ //
 
         public async Task MostrarMensajeEnSnackbar(string mensaje)
         {
@@ -262,9 +259,9 @@ namespace TiendaDeInformatica.Vistas
             Mensaje_Snackbar.IsActive = false;
         }
 
-        //
-        // Seleccionar presupuesto
-        //
+        // ------------------------------------------------------ //
+        //       Presupuesto seleccionado (falta completar)       //
+        // ------------------------------------------------------ //
 
 
         public Presupuesto PresupuestoSeleccionado { get; set; }

@@ -37,8 +37,7 @@
 
                 <!-- Menu superior -->
                 <Grid VerticalAlignment="Top" Height="56" HorizontalAlignment="Right" Background="{DynamicResource PrimaryHueMidBrush}" Width="108">
-                    
-                    
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <!-- Presupuesto seleccionado -->
                         <materialDesign:PopupBox x:Name="PresupuestoSeleccionado_PopupBox" PlacementMode="BottomAndAlignRightEdges" Margin="10" StaysOpen="True">
@@ -379,7 +378,7 @@
 
                         <!-- PopupBox -->
                         <materialDesign:PopupBox x:Name="Logo_PopupBox" PlacementMode="BottomAndAlignCentres" HorizontalAlignment="Center" Margin="10">
-                            <!-- Botón -->
+                            
                             <materialDesign:PopupBox.ToggleContent>
                                 <materialDesign:PackIcon Kind="PhotoCamera" Width="24" Height="24" Foreground="White"/>
                             </materialDesign:PopupBox.ToggleContent>
@@ -519,6 +518,7 @@
             </materialDesign:Snackbar>
         </Grid>
 
+        <!-- Oscurecer pantalla -->
         <materialDesign:DialogHost x:Name="OscurecerPantalla_DialogHost" Margin="0 -22 0 0">
             <materialDesign:DialogHost.DialogContent>
                 <Grid x:Name="OscurecerPantalla_Grid" Background="{DynamicResource MaterialDesignPaper}"/>

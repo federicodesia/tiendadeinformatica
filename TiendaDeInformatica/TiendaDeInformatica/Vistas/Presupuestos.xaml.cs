@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
 using TiendaDeInformatica.Vistas.Caracteristicas;
@@ -29,28 +21,29 @@ namespace TiendaDeInformatica.Vistas
         {
             InitializeComponent();
             _principal = principal;
-
-            RefrescarListaDePresupuestos(true);
         }
 
-        //
-        // Agregar presupuesto
-        //
+        private void Presupuestos_Vista_Loaded(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDePresupuestos();
+        }
+
+        // ------------------------------------------------------ //
+        //                  Agregar un presupuesto                //
+        // ------------------------------------------------------ //
 
         private void AgregarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            int cantidadDePresupuestosAntes = ControladorPresupuestos.ObtenerListaDePresupuestos().Count();
-
             CaracteristicasPresupuesto caracteristicasPresupuesto = new CaracteristicasPresupuesto(_principal, null);
             caracteristicasPresupuesto.Owner = Application.Current.MainWindow;
 
             caracteristicasPresupuesto.ShowDialog();
-            RefrescarListaDePresupuestos(false);
+            RefrescarListaDePresupuestos();
         }
 
-        //
-        // Opciones al hacer click derecho sobre un presupuesto
-        //
+        // ------------------------------------------------------ //
+        //  Opciones al hacer click derecho sobre un presupuesto  //
+        // ------------------------------------------------------ //
 
         private void ModificarPresupuesto(object sender, RoutedEventArgs e)
         {
@@ -61,7 +54,7 @@ namespace TiendaDeInformatica.Vistas
                 caracteristicasPresupuesto.Owner = Application.Current.MainWindow;
 
                 caracteristicasPresupuesto.ShowDialog();
-                RefrescarListaDePresupuestos(false);
+                RefrescarListaDePresupuestos();
             }
         }
 
@@ -80,15 +73,9 @@ namespace TiendaDeInformatica.Vistas
             }
         }
 
-        //
-        // Alerta
-        //
-
-        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
-        {
-            _principal.OscurecerCompletamente(false);
-            AlertaBorrarPresupuesto_DialogHost.IsOpen = false;
-        }
+        // ------------------------------------------------------ //
+        //            Alerta al eliminar un presupuesto           //
+        // ------------------------------------------------------ //
 
         private void EliminarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -96,7 +83,7 @@ namespace TiendaDeInformatica.Vistas
             if (presupuesto != null)
             {
                 ControladorPresupuestos.EliminarPresupuesto(presupuesto);
-                RefrescarListaDePresupuestos(false);
+                RefrescarListaDePresupuestos();
 
                 AlertaBorrarPresupuesto_DialogHost.IsOpen = false;
                 _principal.OscurecerCompletamente(false);
@@ -104,54 +91,19 @@ namespace TiendaDeInformatica.Vistas
             }
         }
 
-        //
-        // Buscar presupuesto por cliente
-        //
+        private void CancelarEliminarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(false);
+            AlertaBorrarPresupuesto_DialogHost.IsOpen = false;
+        }
+
+        // ------------------------------------------------------ //
+        //             Buscar presupuesto por el cliente          //
+        // ------------------------------------------------------ //
 
         private void BuscarPresupuestoPorCliente_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefrescarListaDePresupuestos(false);
-        }
-
-
-        //
-        // Filtros
-        //
-
-        private void ActualizarFiltros(object sender, RoutedEventArgs e)
-        {
-            RefrescarListaDePresupuestos(false);
-        }
-
-        private void FiltroPrecio_RangeSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            RefrescarListaDePresupuestos(false);
-        }
-
-        private void OrdenarPresupuestos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RefrescarListaDePresupuestos(false);
-        }
-
-        private void OrdenarPresupuestos_AscDesc_ToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
-        {
-            RefrescarListaDePresupuestos(false);
-        }
-
-        private void RefrescarListaDePresupuestos(bool saltearVerificacion)
-        {
-            if (Presupuestos_Vista.IsLoaded || saltearVerificacion)
-            {
-                Presupuestos_ListBox.Items.Clear();
-                List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
-                List<Presupuesto> resultados = OrdenarPresupuestos(FiltrarPresupuestosPorPrecio(FiltrarPresupuestosPorEstado(FiltrarPresupuestosPorTipoDeCliente(BuscarPresupuestoPorCliente(presupuestos, BuscarPresupuestoPorCliente_TextBox.Text)))));
-
-                foreach (Presupuesto presupuesto in resultados)
-                {
-                    Presupuestos_ListBox.Items.Add(presupuesto);
-                }
-                CantidadDeResultados_TextBlock.Text = Presupuestos_ListBox.Items.Count.ToString();
-            }
+            RefrescarListaDePresupuestos();
         }
 
         private List<Presupuesto> BuscarPresupuestoPorCliente(List<Presupuesto> presupuestos, string busqueda)
@@ -176,6 +128,39 @@ namespace TiendaDeInformatica.Vistas
                 return resultado;
             }
             return presupuestos;
+        }
+
+        // ------------------------------------------------------ //
+        //            Refrescar la lista de presupuestos          //
+        // ------------------------------------------------------ //
+
+        private void RefrescarListaDePresupuestos()
+        {
+            if (Presupuestos_Vista.IsLoaded)
+            {
+                Presupuestos_ListBox.Items.Clear();
+                List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
+                List<Presupuesto> resultados = OrdenarPresupuestos(FiltrarPresupuestosPorPrecio(FiltrarPresupuestosPorEstado(FiltrarPresupuestosPorTipoDeCliente(BuscarPresupuestoPorCliente(presupuestos, BuscarPresupuestoPorCliente_TextBox.Text)))));
+
+                foreach (Presupuesto presupuesto in resultados)
+                    Presupuestos_ListBox.Items.Add(presupuesto);
+
+                CantidadDeResultados_TextBlock.Text = Presupuestos_ListBox.Items.Count.ToString();
+            }
+        }
+
+        // ------------------------------------------------------ //
+        //                    Ordenar presupuestos                //
+        // ------------------------------------------------------ //
+
+        private void OrdenarPresupuestos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefrescarListaDePresupuestos();
+        }
+
+        private void OrdenarPresupuestos_AscDesc_ToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDePresupuestos();
         }
 
         private List<Presupuesto> OrdenarPresupuestos(List<Presupuesto> presupuestos)
@@ -208,10 +193,23 @@ namespace TiendaDeInformatica.Vistas
             }
 
             if (OrdenarPresupuestos_AscDesc_ToggleButton.IsChecked.Value)
-            {
                 presupuestos.Reverse();
-            }
+
             return presupuestos;
+        }
+
+        // ------------------------------------------------------ //
+        //                    Filtrar presupuestos                //
+        // ------------------------------------------------------ //
+
+        private void ActualizarFiltros(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDePresupuestos();
+        }
+
+        private void FiltroPrecio_RangeSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            RefrescarListaDePresupuestos();
         }
 
         private List<Presupuesto> FiltrarPresupuestosPorTipoDeCliente(List<Presupuesto> presupuestos)

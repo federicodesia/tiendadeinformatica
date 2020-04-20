@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,16 +38,14 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             {
                 // Cambiar el título y el botón
                 Titulo_TextBlock.Text = "Modificar presupuesto";
-                CrearModificar_Button.Content = "MODIFICAR";
+                AgregarModificar_Button.Content = "MODIFICAR";
 
                 // Cargar el cliente del presupuesto
                 foreach (Cliente cliente in ControladorClientes.ObtenerListaDeClientes())
                 {
                     BuscarCliente_ComboBox.Items.Add(cliente);
                     if (cliente.Id == _presupuestoModificar.ClienteId)
-                    {
                         BuscarCliente_ComboBox.SelectedItem = cliente as Cliente;
-                    }
                 }
 
                 if (_presupuestoModificar.FechaDeExpiracion != null)
@@ -59,31 +56,76 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 }
             }
             else
-            {
-                // Se va a crear un nuevo presupuesto
                 ActualizarListaDeClientes();
-            }
 
             _principal.OscurecerCompletamente(true);
             Contenido_DialogHost.IsOpen = true;
         }
 
-        //
-        // Actualizar la lista de clientes
-        //
+        // ------------------------------------------------------ //
+        //              Agregar o Modificar un presupuesto        //
+        // ------------------------------------------------------ //
+
+        private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ObtenerResultadoReglasDeValidacion())
+            {
+                // No hay errores
+                if (_presupuestoModificar == null)
+                {
+                    // Crear cliente
+                    if (FechaDeExpiracion_CheckBox.IsChecked == false)
+                        ControladorPresupuestos.AgregarPresupuesto(BuscarCliente_ComboBox_SelectedItem, null);
+                    else
+                        ControladorPresupuestos.AgregarPresupuesto(BuscarCliente_ComboBox_SelectedItem, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
+                    _ = _principal.MostrarMensajeEnSnackbar("Presupuesto agregado correctamente!");
+                }
+                else
+                {
+                    // Modificar cliente
+                    if (FechaDeExpiracion_CheckBox.IsChecked == false)
+                        ControladorPresupuestos.ModificarPresupuesto(_presupuestoModificar, BuscarCliente_ComboBox_SelectedItem, null);
+                    else
+                        ControladorPresupuestos.ModificarPresupuesto(_presupuestoModificar, BuscarCliente_ComboBox_SelectedItem, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
+                    _ = _principal.MostrarMensajeEnSnackbar("Presupuesto modificado correctamente!");
+                }
+                CerrarVentana();
+            }
+            else
+            {
+                // Hay errores. Actualizar los mensajes de error
+                BuscarCliente_ComboBox.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
+                FechaDeExpiracion_DatePicker.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
+            }
+        }
+
+        private bool ObtenerResultadoReglasDeValidacion()
+        {
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+            if (new ClienteSeleccionado().Validate(BuscarCliente_ComboBox_SelectedItem, currentCulture) == new ValidationResult(true, null)
+                && (FechaDeExpiracion_CheckBox.IsChecked.Value == true && new FechaDeExpiracion().Validate(FechaDeExpiracion_DatePicker.SelectedDate, currentCulture) == new ValidationResult(true, null) || FechaDeExpiracion_CheckBox.IsChecked.Value == false))
+            {
+                // No hay errores
+                return true;
+            }
+            // Hay errores
+            return false;
+        }
+
+        // ------------------------------------------------------ //
+        //             Actualizar la lista de clientes            //
+        // ------------------------------------------------------ //
 
         private void ActualizarListaDeClientes()
         {
             BuscarCliente_ComboBox.Items.Clear();
             foreach (Cliente cliente in ControladorClientes.ObtenerListaDeClientes())
-            {
                 BuscarCliente_ComboBox.Items.Add(cliente);
-            }
         }
 
-        //
-        // Estado de la fecha de expiración
-        //
+        // ------------------------------------------------------ //
+        //            Estado de la fecha de expiración            //
+        // ------------------------------------------------------ //
 
         private static bool _estadoFechaExpiracion;
         public static bool ObtenerEstadoFechaExpiracion()
@@ -101,9 +143,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             }
         }
 
-        //
-        // Cerrar
-        //
+        // ------------------------------------------------------ //
+        //  Alerta al cerrar la ventana sin guardar los cambios   //
+        // ------------------------------------------------------ //
 
         private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -163,67 +205,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             CerrarVentana();
         }
 
-        //
-        // Agregar o modificar presupuesto
-        //
-
-        private void CrearModificar_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (ObtenerResultadoReglasDeValidacion())
-            {
-                // No hay errores
-                if (_presupuestoModificar == null)
-                {
-                    // Crear cliente
-                    if (FechaDeExpiracion_CheckBox.IsChecked == false)
-                    {
-                        ControladorPresupuestos.AgregarPresupuesto(BuscarCliente_ComboBox_SelectedItem, null);
-                    }
-                    else
-                    {
-                        ControladorPresupuestos.AgregarPresupuesto(BuscarCliente_ComboBox_SelectedItem, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
-                    }
-                    _ = _principal.MostrarMensajeEnSnackbar("Presupuesto agregado correctamente!");
-                }
-                else
-                {
-                    // Modificar cliente
-                    if (FechaDeExpiracion_CheckBox.IsChecked == false)
-                    {
-                        ControladorPresupuestos.ModificarPresupuesto(_presupuestoModificar, BuscarCliente_ComboBox_SelectedItem, null);
-                    }
-                    else
-                    {
-                        ControladorPresupuestos.ModificarPresupuesto(_presupuestoModificar, BuscarCliente_ComboBox_SelectedItem, FechaDeExpiracion_DatePicker.SelectedDate.GetValueOrDefault());
-                    }
-                    _ = _principal.MostrarMensajeEnSnackbar("Presupuesto modificado correctamente!");
-                }
-                CerrarVentana();
-            }
-            else
-            {
-                // Hay errores. Actualizar los mensajes de error
-                BuscarCliente_ComboBox.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
-                FechaDeExpiracion_DatePicker.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
-            }
-        }
-
-        private bool ObtenerResultadoReglasDeValidacion()
-        {
-            CultureInfo currentCulture = CultureInfo.CurrentCulture;
-            if (new ClienteSeleccionado().Validate(BuscarCliente_ComboBox_SelectedItem, currentCulture) == new ValidationResult(true, null)
-                && (FechaDeExpiracion_CheckBox.IsChecked.Value == true && new FechaDeExpiracion().Validate(FechaDeExpiracion_DatePicker.SelectedDate, currentCulture) == new ValidationResult(true, null)  || FechaDeExpiracion_CheckBox.IsChecked.Value == false))
-            {
-                // No hay errores
-                return true;
-            }
-            // Hay errores
-            return false;
-        }
-
-        //
-        // Acceso directo Agregar Cliente
-        //
+        // ------------------------------------------------------ //
+        //             Acceso directo Agregar Cliente             //
+        // ------------------------------------------------------ //
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
