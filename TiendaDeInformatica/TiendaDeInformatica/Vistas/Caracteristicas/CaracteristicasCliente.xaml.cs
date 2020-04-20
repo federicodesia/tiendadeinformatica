@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,6 +45,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 // Cambiar el título y el botón
                 Titulo_TextBlock.Text = "Modificar cliente";
                 AgregarModificar_Button.Content = "MODIFICAR";
+                AgregarModificarClienteDuplicado_Button.Content = "MODIFICAR IGUAL";
 
                 if (_clienteModificar.Tipo == "Empresa")
                 {
@@ -71,25 +74,35 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (ObtenerResultadoReglasDeValidacion())
             {
                 // No hay errores
-                if (_clienteModificar == null)
+                bool clienteDuplicado = false;
+                string nombre;
+                List<Cliente> clientes = new List<Cliente>();
+
+                if (Persona_RadioButton.IsChecked.Value)
                 {
-                    // Crear cliente
-                    if (Persona_RadioButton.IsChecked == true)
-                        ControladorClientes.AgregarCliente(null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    else
-                        ControladorClientes.AgregarCliente(NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Cliente agregado correctamente!");
+                    nombre = Nombre_TextBox.Text.ToUpper() + " " + Apellido_TextBox_Text.ToUpper();
+                    clientes=ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona").ToList();
+                    Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró un cliente con el mismo nombre y apellido";
                 }
                 else
                 {
-                    // Modificar cliente
-                    if (Persona_RadioButton.IsChecked == true)
-                        ControladorClientes.ModificarCliente(_clienteModificar, null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    else
-                        ControladorClientes.ModificarCliente(_clienteModificar, NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Cliente modificado correctamente!");
+                    nombre = NombreDeLaEmpresa_TextBox.Text.ToUpper();
+                    clientes = ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa").ToList();
+                    Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró una empresa con el mismo nombre";
                 }
-                CerrarVentana();
+
+                foreach (Cliente cliente in clientes)
+                {
+                    if (cliente.MostrarNombre.ToUpper() == nombre)
+                    {
+                        clienteDuplicado = true;
+                        AlertaClienteDuplicado_Dialog.IsOpen = true;
+                        break;
+                    }
+                }
+
+                if (!clienteDuplicado)
+                    AgregarModificarCliente();
             }
             else
             {
@@ -119,6 +132,39 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         }
 
         // ------------------------------------------------------ //
+        //        Agregar o modificar cliente duplicado           //
+        // ------------------------------------------------------ //
+
+        private void AgregarModificarClienteDuplicado_Button_Click(object sender, RoutedEventArgs e)
+        {
+            AlertaClienteDuplicado_Dialog.IsOpen = false;
+            AgregarModificarCliente();
+        }
+
+        private void AgregarModificarCliente()
+        {
+            if (_clienteModificar == null)
+            {
+                // Crear cliente
+                if (Persona_RadioButton.IsChecked == true)
+                    ControladorClientes.AgregarCliente(null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                else
+                    ControladorClientes.AgregarCliente(NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                _ = _principal.MostrarMensajeEnSnackbar("Cliente agregado correctamente!");
+            }
+            else
+            {
+                // Modificar cliente
+                if (Persona_RadioButton.IsChecked == true)
+                    ControladorClientes.ModificarCliente(_clienteModificar, null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                else
+                    ControladorClientes.ModificarCliente(_clienteModificar, NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                _ = _principal.MostrarMensajeEnSnackbar("Cliente modificado correctamente!");
+            }
+            CerrarVentana();
+        }
+
+        // ------------------------------------------------------ //
         //                    Cerrar ventana                      //
         // ------------------------------------------------------ //
 
@@ -141,8 +187,6 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         // ------------------------------------------------------ //
         //   Alerta al cerrar la ventana sin guardar los cambios  //
         // ------------------------------------------------------ //
-
-
 
         private void VerificarCambiosAlCerrar()
         {

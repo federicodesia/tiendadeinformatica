@@ -104,7 +104,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         }
 
         // ------------------------------------------------------ //
-        //                  Crear marca duplicada                 //
+        //          Agregar o modificar marca duplicada           //
         // ------------------------------------------------------ //
 
         private void AgregarModificarMarcaDuplicada_Button_Click(object sender, RoutedEventArgs e)

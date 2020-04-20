@@ -222,6 +222,30 @@
                             </Grid>
                         </materialDesign:DialogHost.DialogContent>
                     </materialDesign:DialogHost>
+                    
+                    <!-- Alerta cliente duplicado -->
+                    <materialDesign:DialogHost x:Name="AlertaClienteDuplicado_Dialog">
+                        <materialDesign:DialogHost.DialogContent>
+                            <Grid Width="332" Height="172" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+
+                                <!-- Icono, Título y Descripción -->
+                                <StackPanel Orientation="Horizontal" Margin="16">
+                                    <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
+
+                                    <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
+                                        <TextBlock x:Name="Titulo_AlertaClienteDuplicado_TextBlock"  Foreground="Gray" TextWrapping="Wrap" Text="Se encontró un cliente con el mismo nombre y apellido" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
+                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Esto puede ocasionar muchos problemas y confusiones en el futuro." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Botones -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="VOLVER"/>
+                                    <Button x:Name="AgregarModificarClienteDuplicado_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="AGREGAR IGUAL" Click="AgregarModificarClienteDuplicado_Button_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
