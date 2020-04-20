@@ -25,8 +25,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         public string CUIT_TextBox_Text { get; set; }
 
         private bool _ejecutarOscurecerPantallaPrincipalAlCerrar { get; set; }
+        private bool _tipoCliente { get; set; }
 
-        public CaracteristicasCliente(Principal principal, Cliente clienteModificar, bool ejecutarOscurecerPantallaPrincipalAlCerrar)
+        public CaracteristicasCliente(Principal principal, Cliente clienteModificar, bool ejecutarOscurecerPantallaPrincipalAlCerrar, bool? tipoCliente)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -35,6 +36,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             _clienteModificar = clienteModificar;
 
             _ejecutarOscurecerPantallaPrincipalAlCerrar = ejecutarOscurecerPantallaPrincipalAlCerrar;
+
+            if(tipoCliente!=null)
+                _tipoCliente = (bool)tipoCliente;
         }
 
         private void CaracteristicasCliente_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -60,6 +64,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 Telefono_TextBox.Text = _clienteModificar.Telefono;
                 CUIT_TextBox.Text = _clienteModificar.CUIT;
             }
+            else if (!_tipoCliente)
+                Empresa_RadioButton.IsChecked = true;
 
             _principal.OscurecerCompletamente(true);
             Contenido_DialogHost.IsOpen = true;

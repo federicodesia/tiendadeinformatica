@@ -34,7 +34,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, null, true);
+            CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, null, true, FiltroPersona_RadioButton.IsChecked.Value);
             caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
             caracteristicasCliente.ShowDialog();
@@ -55,7 +55,7 @@ namespace TiendaDeInformatica.Vistas
 
             if (cliente != null)
             {
-                CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, cliente, true);
+                CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, cliente, true, null);
                 caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
                 caracteristicasCliente.ShowDialog();

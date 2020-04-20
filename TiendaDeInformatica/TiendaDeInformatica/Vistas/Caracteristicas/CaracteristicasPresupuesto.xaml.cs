@@ -227,7 +227,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, null, false);
+            CaracteristicasCliente caracteristicasCliente = new CaracteristicasCliente(_principal, null, false, true);
             caracteristicasCliente.Owner = Application.Current.MainWindow;
 
             caracteristicasCliente.ShowDialog();
