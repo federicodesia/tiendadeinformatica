@@ -38,7 +38,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             {
                 // Cambiar el título y el botón
                 Titulo_TextBlock.Text = "Modificar marca";
-                CrearModificar_Button.Content = "MODIFICAR";
+                AgregarModificar_Button.Content = "MODIFICAR";
 
                 // Cargar los datos de la marca
                 Nombre_TextBox.Text = _marcaModificar.Nombre;
@@ -53,60 +53,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             Contenido_DialogHost.IsOpen = true;
         }
 
-        //
-        // Cerrar
-        //
+        // ------------------------------------------------------ //
+        //              Agregar o Modificar una marca             //
+        // ------------------------------------------------------ //
 
-        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (_marcaModificar == null)
-            {
-                // Crear Marca
-                if (Nombre_TextBox.Text != "" || ImagenSeleccionada != null)
-                {
-                    // Se realizaron cambios
-                    AlertaAlCerrar_Dialog.IsOpen = true;
-                }
-                else
-                {
-                    CerrarVentana();
-                }
-            }
-            else
-            {
-                // Modificar Marca
-                if ((Nombre_TextBox.Text != _marcaModificar.Nombre)
-                    || (_marcaModificar.Imagen != ImagenSeleccionada))
-                {
-                    // Se realizaron cambios
-                    AlertaAlCerrar_Dialog.IsOpen = true;
-                }
-                else
-                {
-                    CerrarVentana();
-                }
-            }
-        }
-
-        private async void CerrarVentana()
-        {
-            _principal.OscurecerCompletamente(false);
-            Contenido_DialogHost.IsOpen = false;
-            await Task.Delay(300);
-            this.Close();
-        }
-
-        private void CerrarIgual_Button_Click(object sender, RoutedEventArgs e)
-        {
-            AlertaAlCerrar_Dialog.IsOpen = false;
-            CerrarVentana();
-        }
-
-        //
-        // Agregar o modificar marca
-        //
-
-        private void CrearModificar_Button_Click(object sender, RoutedEventArgs e)
+        private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
             if (new CampoVacio().Validate(Nombre_TextBox_Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
@@ -132,9 +83,58 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             }
         }
 
-        //
-        // Seleccionar imagen
-        //
+        // ------------------------------------------------------ //
+        //                     Cerrar ventana                     //
+        // ------------------------------------------------------ //
+
+        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (_marcaModificar == null)
+            {
+                // Se iba a crear una marca
+                if (Nombre_TextBox.Text != "" || ImagenSeleccionada != null)
+                {
+                    // Se realizaron cambios
+                    AlertaAlCerrar_Dialog.IsOpen = true;
+                }
+                else
+                    CerrarVentana();
+            }
+            else
+            {
+                // Se iba a modificar una marca
+                if ((Nombre_TextBox.Text != _marcaModificar.Nombre)
+                    || (_marcaModificar.Imagen != ImagenSeleccionada))
+                {
+                    // Se realizaron cambios
+                    AlertaAlCerrar_Dialog.IsOpen = true;
+                }
+                else
+                    CerrarVentana();
+            }
+        }
+
+        private async void CerrarVentana()
+        {
+            _principal.OscurecerCompletamente(false);
+            Contenido_DialogHost.IsOpen = false;
+            await Task.Delay(300);
+            this.Close();
+        }
+
+        // ------------------------------------------------------ //
+        //        Alerta al cerrar sin guardar los cambios        //
+        // ------------------------------------------------------ //
+
+        private void CerrarIgual_Button_Click(object sender, RoutedEventArgs e)
+        {
+            AlertaAlCerrar_Dialog.IsOpen = false;
+            CerrarVentana();
+        }
+
+        // ------------------------------------------------------ //
+        //                 Seleccionar una imagen                //
+        // ------------------------------------------------------ //
 
         private void SeleccionarImagen_Button_Click(object sender, RoutedEventArgs e)
         {

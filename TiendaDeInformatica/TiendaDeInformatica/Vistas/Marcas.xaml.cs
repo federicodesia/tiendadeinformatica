@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
-using TiendaDeInformatica.Vistas;
 using TiendaDeInformatica.Vistas.Caracteristicas;
 
 namespace TiendaDeInformatica.Vistas
@@ -23,13 +22,16 @@ namespace TiendaDeInformatica.Vistas
             InitializeComponent();
             _principal = principal;
 
-            RefrescarListaDeMarcas(true);
-
-
+            // Lista de CheckBoxs de TipoProducto (falta hacer el filtro)
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
             IEnumerable<TipoProducto> tipoProductosOrdenados = tipoProductos.OrderBy(v => v.ToString());
             TipoProducto_ListBox.ItemsSource = tipoProductosOrdenados;
             TipoProducto_ListBox.SelectAll();
+        }
+
+        private void Marcas_Vista_Loaded(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDeMarcas();
         }
 
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
@@ -38,13 +40,12 @@ namespace TiendaDeInformatica.Vistas
             caracteristicasMarca.Owner = Application.Current.MainWindow;
 
             caracteristicasMarca.ShowDialog();
-            RefrescarListaDeMarcas(false);
+            RefrescarListaDeMarcas();
         }
-        
 
-        //
-        // Ajustar las columnas y filas de la lista de marcas
-        //
+        // ------------------------------------------------------ //
+        //   Ajustar las columnas y filas de la lista de marcas   //
+        // ------------------------------------------------------ //
 
         private UniformGrid itemsGrid;
 
@@ -63,18 +64,24 @@ namespace TiendaDeInformatica.Vistas
         {
             if (itemsGrid != null)
             {
+                // Cantidad de columnas a partir del ancho
                 itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 200);
+
                 if (itemsGrid.Columns > 0)
+                    // Calcular la cantidad de filas dependiendo de la cantidad de columnas y marcas
                     itemsGrid.Rows = (int)Math.Ceiling((decimal)Marcas_ListBox.Items.Count / (decimal)itemsGrid.Columns);
                 else
+                    // Hay una sola columna. Filas iguales a la cantidad de marcas
                     itemsGrid.Rows = Marcas_ListBox.Items.Count;
+
+                // Alto de las filas para ajustar el ScrollBar vertical
                 itemsGrid.Height = itemsGrid.Rows * 80;
             }
         }
 
-        //
-        // Opciones al hacer click derecho sobre una marca
-        //
+        // ------------------------------------------------------ //
+        //     Opciones al hacer click derecho sobre una marca    //
+        // ------------------------------------------------------ //
 
         private void ModificarMarca_Click(object sender, RoutedEventArgs e)
         {
@@ -85,47 +92,47 @@ namespace TiendaDeInformatica.Vistas
                 caracteristicasMarca.Owner = Application.Current.MainWindow;
 
                 caracteristicasMarca.ShowDialog();
-                RefrescarListaDeMarcas(false);
+                RefrescarListaDeMarcas();
             }
         }
 
         private void EliminarMarca_Click(object sender, RoutedEventArgs e)
         {
             _principal.OscurecerCompletamente(true);
-            AlertaBorrarMarca_DialogHost.IsOpen = true;
+            AlertaEliminarMarca_DialogHost.IsOpen = true;
         }
 
         //
-        // Alerta
+        // Alerta al eliminar una marca
         //
 
-        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
+        private void CancelarEliminarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
             _principal.OscurecerCompletamente(false);
-            AlertaBorrarMarca_DialogHost.IsOpen = false;
+            AlertaEliminarMarca_DialogHost.IsOpen = false;
         }
 
-        private void EliminarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
+        private void EliminarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
             Marca marca = Marcas_ListBox.SelectedItem as Marca;
             if (marca != null)
             {
                 ControladorMarcas.EliminarMarca(marca);
-                RefrescarListaDeMarcas(false);
+                RefrescarListaDeMarcas();
 
-                AlertaBorrarMarca_DialogHost.IsOpen = false;
+                AlertaEliminarMarca_DialogHost.IsOpen = false;
                 _principal.OscurecerCompletamente(false);
                 _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
             }
         }
 
-        //
-        // Refrescar la lista de marcas
-        //
+        // ------------------------------------------------------ //
+        //              Refrescar la lista de marcas              //
+        // ------------------------------------------------------ //
 
-        private void RefrescarListaDeMarcas(bool saltearVerificacion)
+        private void RefrescarListaDeMarcas()
         {
-            if (Marcas_Vista.IsLoaded || saltearVerificacion)
+            if (Marcas_Vista.IsLoaded)
             {
                 Marcas_ListBox.Items.Clear();
 
@@ -136,16 +143,17 @@ namespace TiendaDeInformatica.Vistas
                     Marcas_ListBox.Items.Add(marca);
 
                 CantidadDeResultados_TextBlock.Text = Marcas_ListBox.Items.Count.ToString();
+                AjustarFilasColumnas();
             }
         }
 
-        //
-        // Buscar
-        //
+        // ------------------------------------------------------ //
+        //                      Buscar marca                      //
+        // ------------------------------------------------------ //
 
         private void BuscarMarca_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            RefrescarListaDeMarcas(false);
+            RefrescarListaDeMarcas();
         }
 
         private List<Marca> BuscarMarca(List<Marca> marcas, string busqueda)
@@ -164,18 +172,18 @@ namespace TiendaDeInformatica.Vistas
             return marcas;
         }
 
-        //
-        // Filtros
-        //
+        // ------------------------------------------------------ //
+        //                     Ordenar marcas                     //
+        // ------------------------------------------------------ //
 
         private void OrdenarMarcas_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefrescarListaDeMarcas(false);
+            RefrescarListaDeMarcas();
         }
 
         private void OrdenarMarcas_AscDesc_ToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
         {
-            RefrescarListaDeMarcas(false);
+            RefrescarListaDeMarcas();
         }
 
         private List<Marca> OrdenarMarcas(List<Marca> marcas)
@@ -204,19 +212,21 @@ namespace TiendaDeInformatica.Vistas
             }
 
             if (OrdenarMarcas_AscDesc_ToggleButton.IsChecked.Value)
-            {
                 marcas.Reverse();
-            }
+            
             return marcas;
         }
 
-        //
-        // Deshabilitar el uso del click derecho para seleccionar o deseleccionar un item del listbox
-        //
+        // ------------------------------------------------------ //
+        //                     Filtrar marcas                     //
+        // ------------------------------------------------------ //
 
-        private void Prueba_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TipoProducto_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            // Deshabilitar el click derecho para seleccionar o deseleccionar un item del ListBox
             e.Handled = true;
         }
+
+        // (Falta hacer el filtro de marcas por TipoProducto)
     }
 }

@@ -50,19 +50,16 @@
 
                             <!-- Caracteristicas -->
                             <StackPanel Grid.Row="0">
-                                <!-- Nombre y Apellido -->
+                                <!-- Nombre de la marca -->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="24"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-
-                                    <!-- Icono -->
+                                    
                                     <materialDesign:PackIcon Grid.Column="0" Kind="Ticket" Foreground="{Binding ElementName=Nombre_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
 
-                                    <!-- Nombre -->
                                     <TextBox x:Name="Nombre_TextBox" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nombre">
-
                                         <TextBox.Text>
                                             <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
                                                 <Binding.ValidationRules>
@@ -82,16 +79,13 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="48"/>
                                     </Grid.ColumnDefinitions>
-
-                                    <!-- Icono -->
+                                    
                                     <materialDesign:PackIcon Grid.Column="0" Kind="ImagePlus" Foreground="Gray" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
 
-                                    <!-- Seleccionar imagen -->
                                     <Button Grid.Column="1" x:Name="SeleccionarImagen_Button" Style="{StaticResource MaterialDesignOutlinedButton}" Content="Seleccionar imagen" VerticalAlignment="Bottom" Click="SeleccionarImagen_Button_Click"/>
 
                                     <TextBlock Grid.Column="3" Text="48px" VerticalAlignment="Bottom" Margin="0 0 6 0" Opacity="0.58"/>
 
-                                    <!-- Imagen -->
                                     <Border Grid.Column="4" BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}" Height="48" Width="48">
                                         <Grid>
                                             <Grid Background="{DynamicResource MaterialDesignDivider}" Opacity="0.2"/>
@@ -104,7 +98,7 @@
                             <!-- Botones -->
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 18 0 0">
                                 <Button x:Name="Cancelar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CANCELAR" Click="Cancelar_Button_Click"/>
-                                <Button x:Name="CrearModificar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CREAR" Click="CrearModificar_Button_Click"/>
+                                <Button x:Name="AgregarModificar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CREAR" Click="AgregarModificar_Button_Click"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -114,15 +108,12 @@
                         <materialDesign:DialogHost.DialogContent>
                             <Grid Width="332" Height="172" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
+                                <!-- Icono, Título y Descripción -->
                                 <StackPanel Orientation="Horizontal" Margin="16">
-                                    <!-- Icono -->
                                     <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
 
                                     <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                                        <!-- Titulo -->
                                         <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres salir?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-
-                                        <!-- Descripcion -->
                                         <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los cambios realizados automáticamente." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
                                     </StackPanel>
                                 </StackPanel>

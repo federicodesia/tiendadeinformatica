@@ -15,7 +15,7 @@
              FontSize="13"
              FontFamily="Roboto"
              
-             x:Name="Marcas_Vista" SizeChanged="Marcas_Vista_SizeChanged">
+             x:Name="Marcas_Vista" Loaded="Marcas_Vista_Loaded" SizeChanged="Marcas_Vista_SizeChanged">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,11 +29,11 @@
                     <ColumnDefinition Width="240"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Filtros -->
+                <!-- Menu derecho -->
                 <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
                     <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                        <StackPanel Margin="24" Width="192">
 
+                        <StackPanel Margin="24" Width="192">
                             <!-- Ordenar -->
                             <GroupBox BorderThickness="0" Header="Ordenar" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}">
                                 <Grid Margin="-4 0 -8 0">
@@ -63,7 +63,7 @@
 
                             <!-- Tipo de producto -->
                             <GroupBox BorderThickness="0" Header="Tipo de producto" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
-                                <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="Prueba_ListBox_PreviewMouseRightButtonDown">
+                                <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="TipoProducto_ListBox_PreviewMouseRightButtonDown">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
@@ -139,7 +139,7 @@
                     <!-- Contenido -->
                     <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
                         <ListBox x:Name="Marcas_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12">
-                            <!-- Opciones al hacer click derecho sobre un presupuesto -->
+                            <!-- Opciones al hacer click derecho sobre una marca -->
                             <ListBox.Resources>
                                 <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                     <ContextMenu.Items>
@@ -196,10 +196,11 @@
 
             <!-- Menú superior -->
             <materialDesign:ColorZone Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2" materialDesign:ShadowAssist.ShadowEdges="Bottom">
-                <!-- 104 píxeles de espacio para las opciones generales -->
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <!-- 104 píxeles de espacio para las opciones generales -->
                         <ColumnDefinition Width="104"/>
                     </Grid.ColumnDefinitions>
 
@@ -214,6 +215,7 @@
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            
                             <Button Height="56" x:Name="AgregarMarca_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="AgregarMarca_Button_Click">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
@@ -226,28 +228,26 @@
             </materialDesign:ColorZone>
         </Grid>
 
-        <!-- Alerta al eliminar un presupuesto -->
-        <materialDesign:DialogHost x:Name="AlertaBorrarMarca_DialogHost" Opacity="0" Margin="-240 0 0 0">
+        <!-- Alerta al eliminar una marca -->
+        <materialDesign:DialogHost x:Name="AlertaEliminarMarca_DialogHost" Opacity="0" Margin="-240 0 0 0">
+            
             <materialDesign:DialogHost.DialogContent>
                 <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
+                    <!-- Icono, Título y Descripción -->
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <!-- Icono -->
                         <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
-
+                        
                         <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                            <!-- Título -->
                             <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar esta marca?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-
-                            <!-- Descripción -->
                             <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los productos y presupuestos asociados a la misma." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Botones -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" x:Name="Cancelar_Button" Click="Cancelar_Button_Click"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" x:Name="EliminarPresupuesto_Button" Click="EliminarPresupuesto_Button_Click"/>
+                        <Button x:Name="CancelarEliminarMarca_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarEliminarMarca_Button_Click"/>
+                        <Button x:Name="EliminarMarca_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR"  Click="EliminarMarca_Button_Click"/>
                     </StackPanel>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
