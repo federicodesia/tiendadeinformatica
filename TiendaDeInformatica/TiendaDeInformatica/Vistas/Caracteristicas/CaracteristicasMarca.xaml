@@ -19,7 +19,7 @@
         x:Name="CaracteristicasMarca_Vista" Loaded="CaracteristicasMarca_Vista_Loaded" WindowStartupLocation="CenterOwner">
 
     <Grid>
-        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
+        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}" IsOpen="True">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Height="464" Width="416" Background="{DynamicResource MaterialDesignPaper}">
                     <Grid>
@@ -98,7 +98,7 @@
                             <!-- Botones -->
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 18 0 0">
                                 <Button x:Name="Cancelar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CANCELAR" Click="Cancelar_Button_Click"/>
-                                <Button x:Name="AgregarModificar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CREAR" Click="AgregarModificar_Button_Click"/>
+                                <Button x:Name="AgregarModificar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="AGREGAR" Click="AgregarModificar_Button_Click"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -122,6 +122,30 @@
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
                                     <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="VOLVER"/>
                                     <Button x:Name="CerrarIgual_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CERRAR IGUAL" Click="CerrarIgual_Button_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
+
+                    <!-- Alerta maraca duplicada -->
+                    <materialDesign:DialogHost x:Name="AlertaMarcaDuplicada_Dialog">
+                        <materialDesign:DialogHost.DialogContent>
+                            <Grid Width="332" Height="172" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+
+                                <!-- Icono, Título y Descripción -->
+                                <StackPanel Orientation="Horizontal" Margin="16">
+                                    <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
+
+                                    <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
+                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se encontró una marca con el mismo nombre" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
+                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Esto puede ocasionar muchos problemas y confusiones en el futuro." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Botones -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="VOLVER"/>
+                                    <Button x:Name="AgregarModificarMarcaDuplicada_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="AGREGAR IGUAL" Click="AgregarModificarMarcaDuplicada_Button_Click"/>
                                 </StackPanel>
                             </Grid>
                         </materialDesign:DialogHost.DialogContent>

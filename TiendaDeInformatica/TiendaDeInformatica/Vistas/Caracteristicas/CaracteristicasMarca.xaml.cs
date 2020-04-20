@@ -39,6 +39,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 // Cambiar el título y el botón
                 Titulo_TextBlock.Text = "Modificar marca";
                 AgregarModificar_Button.Content = "MODIFICAR";
+                AgregarModificarMarcaDuplicada_Button.Content = "MODIFICAR IGUAL";
 
                 // Cargar los datos de la marca
                 Nombre_TextBox.Text = _marcaModificar.Nombre;
@@ -62,25 +63,54 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (new CampoVacio().Validate(Nombre_TextBox_Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
                 // No hay errores
-                if (_marcaModificar == null)
+                bool marcaDuplicada = false;
+                string nombre = Nombre_TextBox.Text.ToUpper();
+
+                foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
                 {
-                    // Crear marca
-                    ControladorMarcas.AgregarMarca(Nombre_TextBox.Text, ImagenSeleccionada);
-                    _ = _principal.MostrarMensajeEnSnackbar("Marca agregada correctamente!");
+                    if (marca.Nombre.ToUpper() == nombre)
+                    {
+                        marcaDuplicada = true;
+                        AlertaMarcaDuplicada_Dialog.IsOpen = true;
+                        break;
+                    }
                 }
-                else
-                {
-                    // Modificar marca
-                    ControladorMarcas.ModificarMarca(_marcaModificar, Nombre_TextBox.Text, ImagenSeleccionada);
-                    _ = _principal.MostrarMensajeEnSnackbar("Marca modificada correctamente!");
-                }
-                CerrarVentana();
+
+                if (!marcaDuplicada)
+                    AgregarModificarMarca();
             }
             else
             {
                 // Hay errores. Actualizar los mensajes de error
                 Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
+        }
+
+        private void AgregarModificarMarca()
+        {
+            if (_marcaModificar == null)
+            {
+                // Crear marca
+                ControladorMarcas.AgregarMarca(Nombre_TextBox.Text, ImagenSeleccionada);
+                _ = _principal.MostrarMensajeEnSnackbar("Marca agregada correctamente!");
+            }
+            else
+            {
+                // Modificar marca
+                ControladorMarcas.ModificarMarca(_marcaModificar, Nombre_TextBox.Text, ImagenSeleccionada);
+                _ = _principal.MostrarMensajeEnSnackbar("Marca modificada correctamente!");
+            }
+            CerrarVentana();
+        }
+
+        // ------------------------------------------------------ //
+        //                  Crear marca duplicada                 //
+        // ------------------------------------------------------ //
+
+        private void AgregarModificarMarcaDuplicada_Button_Click(object sender, RoutedEventArgs e)
+        {
+            AlertaMarcaDuplicada_Dialog.IsOpen = false;
+            AgregarModificarMarca();
         }
 
         // ------------------------------------------------------ //
