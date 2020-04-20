@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -22,13 +21,16 @@ namespace TiendaDeInformatica.Vistas
         {
             InitializeComponent();
             _principal = principal;
-
-            RefrescarListaDeClientes(true);
         }
 
-        //
-        // Agregar cliente
-        //
+        private void Clientes_Vista_Loaded(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDeClientes();
+        }
+
+        // ------------------------------------------------------ //
+        //                   Agregar un cliente                   //
+        // ------------------------------------------------------ //
 
         private void AgregarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -36,20 +38,13 @@ namespace TiendaDeInformatica.Vistas
             caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
             caracteristicasCliente.ShowDialog();
-            RefrescarListaDeClientes(false);
+            RefrescarListaDeClientes();
         }
 
-        //
-        // Opciones al hacer click derecho sobre un cliente
-        //
+        // ------------------------------------------------------ //
+        //    Opciones al hacer click derecho sobre un cliente    //
+        // ------------------------------------------------------ //
 
-        private void EliminarCliente_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            _principal.OscurecerCompletamente(true);
-            AlertaBorrarCliente_DialogHost.IsOpen = true;
-        }
-
-        // Modificar
         private void ModificarCliente_MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Cliente cliente = new Cliente();
@@ -64,11 +59,23 @@ namespace TiendaDeInformatica.Vistas
                 caracteristicasCliente.Owner = System.Windows.Application.Current.MainWindow;
 
                 caracteristicasCliente.ShowDialog();
-                RefrescarListaDeClientes(false);
+                RefrescarListaDeClientes();
             }
         }
 
-        // Eliminar
+        private void EliminarCliente_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Enviar alerta al eliminar un cliente
+
+            _principal.OscurecerCompletamente(true);
+            AlertaEliminarCliente_DialogHost.IsOpen = true;
+        }
+
+
+        // ------------------------------------------------------ //
+        //             Alerta al eliminar un cliente              //
+        // ------------------------------------------------------ //
+
         private void EliminarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
             Cliente cliente = new Cliente();
@@ -80,42 +87,27 @@ namespace TiendaDeInformatica.Vistas
             if (cliente != null)
             {
                 ControladorClientes.EliminarCliente(cliente);
-                RefrescarListaDeClientes(false);
+                RefrescarListaDeClientes();
 
-                AlertaBorrarCliente_DialogHost.IsOpen = false;
+                AlertaEliminarCliente_DialogHost.IsOpen = false;
                 _principal.OscurecerCompletamente(false);
                 _ = _principal.MostrarMensajeEnSnackbar("Cliente eliminado correctamente!");
             }
-            
         }
 
-        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
+        private void CancelarEliminarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
             _principal.OscurecerCompletamente(false);
-            AlertaBorrarCliente_DialogHost.IsOpen = false;
+            AlertaEliminarCliente_DialogHost.IsOpen = false;
         }
 
-        //
-        // Buscar
-        //
+        // ------------------------------------------------------ //
+        //               Refrescar la lista de marcas             //
+        // ------------------------------------------------------ //
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void RefrescarListaDeClientes()
         {
-            RefrescarListaDeClientes(false);
-        }
-
-        //
-        // Filtros
-        //
-
-        private void FiltroTipoCliente_RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            RefrescarListaDeClientes(false);
-        }
-
-        private void RefrescarListaDeClientes(bool saltarVerificacion)
-        {
-            if (Clientes_Vista.IsLoaded || saltarVerificacion)
+            if (Clientes_Vista.IsLoaded)
             {
                 List<Cliente> clientes = ControladorClientes.ObtenerListaDeClientes().ToList();
                 List<Cliente> resultados = BuscarCliente(FiltrarPorTipoDeCliente(clientes), BuscarCliente_TextBox.Text);
@@ -141,6 +133,15 @@ namespace TiendaDeInformatica.Vistas
             }
         }
 
+        // ------------------------------------------------------ //
+        //                    Buscar cliente                      //
+        // ------------------------------------------------------ //
+
+        private void BuscarCliente_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RefrescarListaDeClientes();
+        }
+
         private List<Cliente> BuscarCliente(List<Cliente> clientes, string busqueda)
         {
             if (busqueda != "")
@@ -164,6 +165,15 @@ namespace TiendaDeInformatica.Vistas
             return clientes;
         }
 
+        // ------------------------------------------------------ //
+        //                     Filtrar clientes                   //
+        // ------------------------------------------------------ //
+
+        private void FiltroTipoCliente_RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDeClientes();
+        }
+
         private List<Cliente> FiltrarPorTipoDeCliente(List<Cliente> clientes)
         {
             if (FiltroPersona_RadioButton.IsChecked.Value == true)
@@ -173,9 +183,9 @@ namespace TiendaDeInformatica.Vistas
             return clientes.Where(c => c.Tipo == "Empresa").ToList();
         }
 
-        //
-        // Exporar lista de clientes
-        // 
+        // ------------------------------------------------------ //
+        //              Exportar la lista de clientes             //
+        // ------------------------------------------------------ //
 
         private void ExporarLista_Button_Click(object sender, RoutedEventArgs e)
         {

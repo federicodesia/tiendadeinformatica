@@ -42,7 +42,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             {
                 // Cambiar el título y el botón
                 Titulo_TextBlock.Text = "Modificar cliente";
-                CrearModificar_Button.Content = "MODIFICAR";
+                AgregarModificar_Button.Content = "MODIFICAR";
 
                 if (_clienteModificar.Tipo == "Empresa")
                 {
@@ -62,77 +62,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             Contenido_DialogHost.IsOpen = true;
         }
 
-        //
-        // Cerrar ventana
-        //
+        // ------------------------------------------------------ //
+        //              Agregar o modificar un cliente            //
+        // ------------------------------------------------------ //
 
-        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
-        {
-            MostrarAlerta();
-        }
-
-        private void MostrarAlerta()
-        {
-            if (_clienteModificar == null)
-            {
-                // Crear Cliente
-                if (NombreDeLaEmpresa_TextBox.Text != "" || Nombre_TextBox.Text != "" || Apellido_TextBox.Text != ""
-                    || Telefono_TextBox.Text != "" || CUIT_TextBox.Text != "")
-                {
-                    // Se realizaron cambios, y se mostrará la alerta
-                    AlertaAlCerrar_Dialog.IsOpen = true;
-                }
-                else
-                {
-                    // No se realizaron cambios, y se cerrará
-                    CerrarVentana();
-                }
-            }
-            else
-            {
-                // Modificar Cliente
-                if ((NombreDeLaEmpresa_TextBox.Text != "" && _clienteModificar.NombreDeLaEmpresa == null)
-                    || (NombreDeLaEmpresa_TextBox.Text != _clienteModificar.NombreDeLaEmpresa && _clienteModificar.Tipo == "Empresa")
-                    || (Nombre_TextBox.Text != _clienteModificar.Nombre)
-                    || (Apellido_TextBox.Text != _clienteModificar.Apellido)
-                    || (Telefono_TextBox.Text != "" && _clienteModificar.Telefono == null)
-                    || (Telefono_TextBox.Text != _clienteModificar.Telefono)
-                    || (CUIT_TextBox.Text != "" && _clienteModificar.CUIT == null)
-                    || (CUIT_TextBox.Text != _clienteModificar.CUIT))
-                {
-                    // Se realizaron cambios, y se mostrará la alerta
-                    AlertaAlCerrar_Dialog.IsOpen = true;
-                }
-                else
-                {
-                    // No se realizaron cambios, y se cerrará
-                    CerrarVentana();
-                }
-            }
-        }
-
-        private async void CerrarVentana()
-        {
-            if (_ejecutarOscurecerPantallaPrincipalAlCerrar)
-            {
-                _principal.OscurecerCompletamente(false);
-            }
-            Contenido_DialogHost.IsOpen = false;
-            await Task.Delay(300);
-            this.Close();
-        }
-
-        private void CerrarIgual_Button_Click(object sender, RoutedEventArgs e)
-        {
-            AlertaAlCerrar_Dialog.IsOpen = false;
-            CerrarVentana();
-        }
-
-        //
-        // Crear o Modificar cliente
-        //
-
-        private void CrearModificar_Button_Click(object sender, RoutedEventArgs e)
+        private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
             if (ObtenerResultadoReglasDeValidacion())
             {
@@ -141,30 +75,18 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 {
                     // Crear cliente
                     if (Persona_RadioButton.IsChecked == true)
-                    {
-                        // Persona
                         ControladorClientes.AgregarCliente(null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    }
                     else
-                    {
-                        // Empresa
                         ControladorClientes.AgregarCliente(NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    }
                     _ = _principal.MostrarMensajeEnSnackbar("Cliente agregado correctamente!");
                 }
                 else
                 {
                     // Modificar cliente
                     if (Persona_RadioButton.IsChecked == true)
-                    {
-                        // Persona
                         ControladorClientes.ModificarCliente(_clienteModificar, null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    }
                     else
-                    {
-                        // Empresa
                         ControladorClientes.ModificarCliente(_clienteModificar, NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                    }
                     _ = _principal.MostrarMensajeEnSnackbar("Cliente modificado correctamente!");
                 }
                 CerrarVentana();
@@ -194,6 +116,72 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             }
             // Hay errores
             return false;
+        }
+
+        // ------------------------------------------------------ //
+        //                    Cerrar ventana                      //
+        // ------------------------------------------------------ //
+
+        private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
+        {
+            VerificarCambiosAlCerrar();
+        }
+
+        private async void CerrarVentana()
+        {
+            if (_ejecutarOscurecerPantallaPrincipalAlCerrar)
+            {
+                _principal.OscurecerCompletamente(false);
+            }
+            Contenido_DialogHost.IsOpen = false;
+            await Task.Delay(300);
+            this.Close();
+        }
+
+        // ------------------------------------------------------ //
+        //   Alerta al cerrar la ventana sin guardar los cambios  //
+        // ------------------------------------------------------ //
+
+
+
+        private void VerificarCambiosAlCerrar()
+        {
+            if (_clienteModificar == null)
+            {
+                // Crear Cliente
+                if (NombreDeLaEmpresa_TextBox.Text != "" || Nombre_TextBox.Text != "" || Apellido_TextBox.Text != ""
+                    || Telefono_TextBox.Text != "" || CUIT_TextBox.Text != "")
+                {
+                    // Se realizaron cambios, y se mostrará la alerta
+                    AlertaAlCerrar_Dialog.IsOpen = true;
+                }
+                else
+                    CerrarVentana();
+            }
+            else
+            {
+                // Modificar Cliente
+                if ((NombreDeLaEmpresa_TextBox.Text != "" && _clienteModificar.NombreDeLaEmpresa == null)
+                    || (NombreDeLaEmpresa_TextBox.Text != _clienteModificar.NombreDeLaEmpresa && _clienteModificar.Tipo == "Empresa")
+                    || (Nombre_TextBox.Text != _clienteModificar.Nombre)
+                    || (Apellido_TextBox.Text != _clienteModificar.Apellido)
+                    || (Telefono_TextBox.Text != "" && _clienteModificar.Telefono == null)
+                    || (Telefono_TextBox.Text != _clienteModificar.Telefono)
+                    || (CUIT_TextBox.Text != "" && _clienteModificar.CUIT == null)
+                    || (CUIT_TextBox.Text != _clienteModificar.CUIT))
+                {
+                    // Se realizaron cambios, y se mostrará la alerta
+                    AlertaAlCerrar_Dialog.IsOpen = true;
+                }
+                else
+                    CerrarVentana();
+            }
+        }
+
+        private void CerrarIgual_Button_Click(object sender, RoutedEventArgs e)
+        {
+            AlertaAlCerrar_Dialog.IsOpen = false;
+            CerrarVentana();
         }
     }
 }

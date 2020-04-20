@@ -14,7 +14,7 @@
              FontSize="13"
              FontFamily="Roboto"
              
-             x:Name="Clientes_Vista">
+             x:Name="Clientes_Vista" Loaded="Clientes_Vista_Loaded">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -70,7 +70,7 @@
                                 <Button Style="{DynamicResource MaterialDesignToolButton}">
                                     <materialDesign:PackIcon Kind="Magnify"/>
                                 </Button>
-                                <TextBox Grid.Column="1" x:Name="BuscarCliente_TextBox" Margin="8 0 64 0" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" VerticalAlignment="Center" TextChanged="TextBox_TextChanged"/>
+                                <TextBox Grid.Column="1" x:Name="BuscarCliente_TextBox" Margin="8 0 64 0" materialDesign:HintAssist.Hint="Buscar cliente por nombre, apellido, teléfono o CUIT" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" VerticalAlignment="Center" TextChanged="BuscarCliente_TextBox_TextChanged"/>
                             </Grid>
                         </materialDesign:ColorZone>
 
@@ -194,10 +194,11 @@
 
             <!-- Menú superior -->
             <materialDesign:ColorZone Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2" materialDesign:ShadowAssist.ShadowEdges="Bottom">
-                <!-- 104 píxeles de espacio para las opciones generales -->
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <!-- 104 píxeles de espacio para las opciones generales -->
                         <ColumnDefinition Width="104"/>
                     </Grid.ColumnDefinitions>
 
@@ -212,6 +213,8 @@
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                            <!-- Exportar lista -->
                             <Button Height="56" x:Name="ExporarLista_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="ExporarLista_Button_Click">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Export" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
@@ -219,6 +222,7 @@
                                 </StackPanel>
                             </Button>
 
+                            <!-- Agregar cliente -->
                             <Button Height="56" x:Name="AgregarCliente_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="AgregarCliente_Button_Click">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
@@ -232,27 +236,24 @@
         </Grid>
 
         <!-- Alerta al eliminar un cliente -->
-        <materialDesign:DialogHost x:Name="AlertaBorrarCliente_DialogHost" Opacity="0" Margin="-240 0 0 0">
+        <materialDesign:DialogHost x:Name="AlertaEliminarCliente_DialogHost" Opacity="0" Margin="-240 0 0 0">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <!-- Icono -->
+                        <!-- Icono, Título y Descripcíón -->
                         <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
 
                         <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                            <!-- Título -->
                             <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar este cliente?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-
-                            <!-- Descripción -->
                             <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los presupuestos asociados al mismo." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Botones -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" x:Name="Cancelar_Button" Click="Cancelar_Button_Click"/>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" x:Name="EliminarCliente_Button" Click="EliminarCliente_Button_Click"/>
+                        <Button x:Name="CancelarEliminarCliente_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarEliminarCliente_Button_Click"/>
+                        <Button x:Name="EliminarCliente_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" Click="EliminarCliente_Button_Click"/>
                     </StackPanel>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
