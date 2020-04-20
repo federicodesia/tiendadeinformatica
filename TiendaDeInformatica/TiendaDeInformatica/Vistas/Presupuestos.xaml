@@ -245,7 +245,7 @@
                                                     <StackPanel Orientation="Vertical" Margin="8 0 0 0" VerticalAlignment="Center">
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="{Binding ClienteMostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-                                                            <TextBlock Margin="4 0 0 0" Text="{Binding NombreDelResponsable}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                                            <TextBlock Margin="4 0 0 0" Text="{Binding ClienteNombreDelResponsable}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
                                                         </StackPanel>
 
                                                         <TextBlock Text="{Binding ClienteDescripcion}">

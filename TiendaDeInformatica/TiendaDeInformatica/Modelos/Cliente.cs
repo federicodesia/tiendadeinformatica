@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TiendaDeInformatica.Modelos
+﻿namespace TiendaDeInformatica.Modelos
 {
     public class Cliente
     {
@@ -20,9 +14,7 @@ namespace TiendaDeInformatica.Modelos
             get
             {
                 if (NombreDeLaEmpresa != null)
-                {
                     return "Empresa";
-                }
                 return "Persona";
             }
         }
@@ -32,13 +24,9 @@ namespace TiendaDeInformatica.Modelos
             get
             {
                 if (Tipo == "Empresa")
-                {
                     return NombreDeLaEmpresa;
-                }
                 else
-                {
                     return $"{Nombre} {Apellido}";
-                }
             }
         }
 
@@ -47,9 +35,7 @@ namespace TiendaDeInformatica.Modelos
             get
             {
                 if (Tipo == "Empresa")
-                {
-                    return $"{Nombre} {Apellido}";
-                }
+                    return $"({Nombre} {Apellido})";
                 return null;
             }
         }
@@ -58,14 +44,10 @@ namespace TiendaDeInformatica.Modelos
         {
             get
             {
-                if (CUIT != null)
-                {
+                if (CUIT != "")
                     return CUIT;
-                }
-                else if (Telefono != null)
-                {
+                else if (Telefono != "")
                     return $"Tel. {Telefono}";
-                }
                 return null;
             }
         }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiendaDeInformatica.Controladores;
 
 namespace TiendaDeInformatica.Modelos
@@ -19,6 +16,14 @@ namespace TiendaDeInformatica.Modelos
 
         public List<PresupuestoProducto> Productos { get; set; }
 
+        public string ClienteTipo
+        {
+            get
+            {
+                return ControladorClientes.ObtenerCliente(ClienteId).Tipo;
+            }
+        }
+
         public string ClienteMostrarNombre
         {
             get
@@ -27,11 +32,11 @@ namespace TiendaDeInformatica.Modelos
             }
         }
 
-        public string ClienteTipo
+        public string ClienteNombreDelResponsable
         {
             get
             {
-                return ControladorClientes.ObtenerCliente(ClienteId).Tipo;
+                return ControladorClientes.ObtenerCliente(ClienteId).NombreDelResponsable;
             }
         }
 
