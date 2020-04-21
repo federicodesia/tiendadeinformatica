@@ -261,8 +261,8 @@
     <Compile Include="Vistas\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Vistas\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Vistas\Converters\InvertedBoolConverter.cs" />
-    <Compile Include="Vistas\Converters\PresupuestoCirculoColorConverter.cs" />
-    <Compile Include="Vistas\Converters\PresupuestoCirculoToolTipConverter.cs" />
+    <Compile Include="Vistas\Converters\PresupuestoBarraColorConverter.cs" />
+    <Compile Include="Vistas\Converters\PresupuestoBarraToolTipConverter.cs" />
     <Compile Include="Vistas\Principal.xaml.cs">
       <DependentUpon>Principal.xaml</DependentUpon>
     </Compile>

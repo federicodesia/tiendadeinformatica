@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace TiendaDeInformatica.Vistas.Converters
 {
-    public class PresupuestoCirculoToolTipConverter : IValueConverter
+    public class PresupuestoBarraToolTipConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

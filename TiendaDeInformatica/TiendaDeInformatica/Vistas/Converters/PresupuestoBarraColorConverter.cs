@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 
 namespace TiendaDeInformatica.Vistas.Converters
 {
-    public class PresupuestoCirculoColorConverter : IValueConverter
+    public class PresupuestoBarraColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -14,18 +13,13 @@ namespace TiendaDeInformatica.Vistas.Converters
                 DateTime fechaExpiracion = (DateTime)value;
                 TimeSpan tiempoRestante = (fechaExpiracion.Date) - DateTime.Now.Date;
 
-                if (tiempoRestante.Days < 3 && tiempoRestante.Days >= 0)
+                if (tiempoRestante.Days < 0)
                 {
                     // Naranja
-                    return "#FF6D00";
-                }
-                else if (tiempoRestante.Days < 0)
-                {
-                    // Rojo
-                    return "#D50000";
+                    return "#F9A825";
                 }
                 // Verde
-                return "#64DD17";
+                return "#4CAF50";
             }
             // Gris
             return "#707070";
