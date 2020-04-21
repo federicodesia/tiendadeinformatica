@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -99,7 +101,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
                 foreach (Cliente cliente in clientes)
                 {
-                    if (cliente.MostrarNombre.ToUpper() == nombre)
+                    if (QuitarTildes(cliente.MostrarNombre).ToUpper() == QuitarTildes(nombre))
                     {
                         clienteDuplicado = true;
                         AlertaClienteDuplicado_Dialog.IsOpen = true;
@@ -135,6 +137,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             }
             // Hay errores
             return false;
+        }
+
+        public string QuitarTildes(string texto)
+        {
+            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
         }
 
         // ------------------------------------------------------ //
