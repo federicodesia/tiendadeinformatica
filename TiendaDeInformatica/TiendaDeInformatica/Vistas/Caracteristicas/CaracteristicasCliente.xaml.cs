@@ -99,9 +99,10 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                     Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró una empresa con el mismo nombre";
                 }
 
+                nombre = QuitarTildes(nombre);
                 foreach (Cliente cliente in clientes)
                 {
-                    if (QuitarTildes(cliente.MostrarNombre).ToUpper() == QuitarTildes(nombre))
+                    if (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre)
                     {
                         clienteDuplicado = true;
                         AlertaClienteDuplicado_Dialog.IsOpen = true;

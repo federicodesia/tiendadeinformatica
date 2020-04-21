@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -64,11 +66,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             {
                 // No hay errores
                 bool marcaDuplicada = false;
-                string nombre = Nombre_TextBox.Text.ToUpper();
+                string nombre = QuitarTildes(Nombre_TextBox.Text).ToUpper();
 
                 foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
                 {
-                    if (marca.Nombre.ToUpper() == nombre)
+                    if (QuitarTildes(marca.Nombre).ToUpper() == nombre)
                     {
                         marcaDuplicada = true;
                         AlertaMarcaDuplicada_Dialog.IsOpen = true;
@@ -84,6 +86,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 // Hay errores. Actualizar los mensajes de error
                 Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
+        }
+
+        public string QuitarTildes(string texto)
+        {
+            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
         }
 
         private void AgregarModificarMarca()
