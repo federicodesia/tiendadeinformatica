@@ -70,7 +70,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
                 foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
                 {
-                    if (QuitarTildes(marca.Nombre).ToUpper() == nombre)
+                    if ((marca.Id != _marcaModificar.Id) && (QuitarTildes(marca.Nombre).ToUpper() == nombre))
                     {
                         marcaDuplicada = true;
                         AlertaMarcaDuplicada_Dialog.IsOpen = true;
