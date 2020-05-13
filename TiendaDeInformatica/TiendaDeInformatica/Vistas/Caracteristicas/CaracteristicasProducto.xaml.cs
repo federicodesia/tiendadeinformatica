@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,8 +34,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
             // Cargar el enum TipoProducto en el ComboBox
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            TipoProducto_ComboBox.ItemsSource = tipoProductos;
-            
+            List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
+            TipoProducto_ComboBox.ItemsSource = tipoProductosConEspacios;
 
             // Cargar la lista de marcas en el ComboBox
             Marca_ComboBox.ItemsSource = ControladorMarcas.ObtenerListaDeMarcas();
@@ -72,13 +74,13 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 if (_productoModificar == null)
                 {
                     // Crear producto
-                    ControladorProductos.AgregarProducto((TipoProducto)TipoProducto_ComboBox.SelectedItem, (Marca)Marca_ComboBox.SelectedItem, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), ImagenSeleccionada);
+                    ControladorProductos.AgregarProducto((TipoProducto)TipoProducto_ComboBox.SelectedIndex, (Marca)Marca_ComboBox.SelectedItem, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), ImagenSeleccionada);
                     _ = _principal.MostrarMensajeEnSnackbar("Producto agregado correctamente!");
                 }
                 else
                 {
                     // Modificar producto
-                    ControladorProductos.ModificarProducto(_productoModificar, (TipoProducto)TipoProducto_ComboBox.SelectedItem, (Marca)Marca_ComboBox.SelectedItem, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), ImagenSeleccionada);
+                    ControladorProductos.ModificarProducto(_productoModificar, (TipoProducto)TipoProducto_ComboBox.SelectedIndex, (Marca)Marca_ComboBox.SelectedItem, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), ImagenSeleccionada);
                     _ = _principal.MostrarMensajeEnSnackbar("Producto modificado correctamente!");
                 }
                 CerrarVentana();
@@ -97,9 +99,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         {
             CultureInfo currentCulture = CultureInfo.CurrentCulture;
             if (new TipoProductoSeleccionado().Validate(TipoProducto_ComboBox.SelectedItem, currentCulture) == new ValidationResult(true, null)
-                || new MarcaSeleccionada().Validate(Marca_ComboBox.SelectedItem, currentCulture) == new ValidationResult(true, null)
-                || new CampoVacio().Validate(Modelo_TextBox.Text, currentCulture) == new ValidationResult(true, null)
-                || new Precio().Validate(Precio_TextBox.Text, currentCulture) == new ValidationResult(true, null))
+                && new MarcaSeleccionada().Validate(Marca_ComboBox.SelectedItem, currentCulture) == new ValidationResult(true, null)
+                && new CampoVacio().Validate(Modelo_TextBox.Text, currentCulture) == new ValidationResult(true, null)
+                && new Precio().Validate(Precio_TextBox.Text, currentCulture) == new ValidationResult(true, null))
             {
                 // No hay errores
                 return true;

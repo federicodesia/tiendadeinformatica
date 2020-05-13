@@ -55,7 +55,13 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Titulo -->
-                        <TextBlock Grid.Column="0" Margin="24,0,0,0" Text="Productos" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center" TextBlock.FontSize="14" TextBlock.FontWeight="SemiBold" TextBlock.Foreground="White">
+                            <TextBlock Text="Productos"/>
+                            <StackPanel x:Name="TituloTipoProducto_StackPanel" Orientation="Horizontal" Visibility="Collapsed">
+                                <materialDesign:PackIcon Kind="MenuRight"/>
+                                <TextBlock x:Name="TituloTipoProducto_TextBlock" Text="TipoProducto"/>
+                            </StackPanel>
+                        </StackPanel>
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

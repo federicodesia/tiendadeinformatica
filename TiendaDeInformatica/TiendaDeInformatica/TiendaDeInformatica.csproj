@@ -186,6 +186,7 @@
     <Compile Include="Controladores\ControladorMarcas.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
     <Compile Include="Controladores\ControladorProductos.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml.cs">
       <DependentUpon>CaracteristicasProducto.xaml</DependentUpon>
     </Compile>

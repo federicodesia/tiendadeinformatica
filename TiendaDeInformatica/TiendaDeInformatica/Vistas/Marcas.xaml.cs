@@ -26,8 +26,9 @@ namespace TiendaDeInformatica.Vistas
 
             // Lista de CheckBoxs de TipoProducto (falta hacer el filtro)
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            IEnumerable<TipoProducto> tipoProductosOrdenados = tipoProductos.OrderBy(v => v.ToString());
-            TipoProducto_ListBox.ItemsSource = tipoProductosOrdenados;
+            List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
+
+            TipoProducto_ListBox.ItemsSource = tipoProductosConEspacios;
             TipoProducto_ListBox.SelectAll();
         }
 

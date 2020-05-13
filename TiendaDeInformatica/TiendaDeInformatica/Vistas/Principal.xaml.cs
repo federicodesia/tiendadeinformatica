@@ -2,6 +2,10 @@
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,11 +44,16 @@ namespace TiendaDeInformatica.Vistas
             byte[] logo = Properties.Settings.Default.Logo;
             if (logo != null) Logo_Image.Source = ConvertirImagen.ConvertByteArrayToImage(logo);
 
-            TipoProducto[] productos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            Productos_ListBox.ItemsSource = productos;
+            
+            // Cargar el enum TipoProducto en el ListBox con los valores en plural
+            TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+            foreach (TipoProducto tipoProducto in tipoProductos)
+                Productos_ListBox.Items.Add(tipoProducto.ToDescription());
 
             Contenido_Grid.Children.Add(new Presupuestos(this));
         }
+
+        
 
         // ------------------------------------------------------ //
         //                       Preferencias                     //
@@ -251,6 +260,8 @@ namespace TiendaDeInformatica.Vistas
             {
                 MenuIzquierdo.UnselectAll();
                 Contenido_Grid.Children.Clear();
+                Contenido_Grid.Children.Add(new Productos(this, (TipoProducto)Productos_ListBox.SelectedIndex));
+
             }
             Productos_Expander.IsExpanded = false;
         }
