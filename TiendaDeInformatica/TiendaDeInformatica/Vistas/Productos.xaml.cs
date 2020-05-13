@@ -12,11 +12,13 @@ namespace TiendaDeInformatica.Vistas
     public partial class Productos : UserControl
     {
         private Principal _principal;
+        TipoProducto? _tipoProducto;
 
         public Productos(Principal principal, TipoProducto? tipoProducto)
         {
             InitializeComponent();
             _principal = principal;
+            _tipoProducto = tipoProducto;
 
             if (tipoProducto != null)
             {
@@ -27,7 +29,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarProducto_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasProducto caracteristicasProducto = new CaracteristicasProducto(_principal, null);
+            CaracteristicasProducto caracteristicasProducto = new CaracteristicasProducto(_principal, null, _tipoProducto);
             caracteristicasProducto.Owner = Application.Current.MainWindow;
 
             caracteristicasProducto.ShowDialog();

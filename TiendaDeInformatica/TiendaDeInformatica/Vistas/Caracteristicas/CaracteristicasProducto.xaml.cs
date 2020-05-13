@@ -27,7 +27,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         public string Precio_TextBox_Text { get; set; }
         public byte[] ImagenSeleccionada { get; set; }
 
-        public CaracteristicasProducto(Principal principal, Producto productoModificar)
+        public CaracteristicasProducto(Principal principal, Producto productoModificar, TipoProducto? tipoProducto)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -36,6 +36,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
             List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
             TipoProducto_ComboBox.ItemsSource = tipoProductosConEspacios;
+
+            if (tipoProducto != null)
+                TipoProducto_ComboBox.SelectedIndex = (int)tipoProducto;
+            else
+                TipoProducto_ComboBox.SelectedIndex = -1;
 
             // Cargar la lista de marcas en el ComboBox
             Marca_ComboBox.ItemsSource = ControladorMarcas.ObtenerListaDeMarcas();
@@ -46,8 +51,6 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void CaracteristicasProducto_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            TipoProducto_ComboBox.SelectedIndex = -1;
-
             // Verificar si se va a crear o a modificar un producto
             if (_productoModificar != null)
             {
