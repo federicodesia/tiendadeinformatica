@@ -78,7 +78,7 @@
 
                                     <ComboBox Grid.Column="1" x:Name="TipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar tipo de producto" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False">
                                         <ComboBox.SelectedItem>
-                                            <Binding Path="TipoProducto_ComboBox_SelectedItem" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding Path="TipoProducto_ComboBox_SelectedItem" UpdateSourceTrigger="LostFocus">
                                                 <Binding.ValidationRules>
                                                     <reglasDeValidacion:TipoProductoSeleccionado/>
                                                 </Binding.ValidationRules>

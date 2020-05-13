@@ -14,7 +14,7 @@ namespace TiendaDeInformatica.Controladores
         {
             Productos = new List<Producto>();
         }
-        public static void AgregarProducto(Marca marca, string modelo, decimal precio, TipoProducto tipo, string imagen)
+        public static void AgregarProducto(TipoProducto tipo, Marca marca, string modelo, decimal precio, byte[] imagen)
         {
             using (var context = new MyDbContext())
             {
@@ -24,14 +24,14 @@ namespace TiendaDeInformatica.Controladores
                     Modelo = modelo,
                     Precio = precio,
                     Tipo = tipo,
-                    Imagen = ConvertirImagen.ConvertImageToByteArray(imagen),
+                    Imagen = imagen,
                     Valores=new List<ProductoValor>()
                 };
                 context.Productos.Add(producto);
                 context.SaveChanges();
             }
         }
-        public static void ModificarProducto(Producto producto, Marca marca, string modelo, decimal precio, TipoProducto tipo, string imagen)
+        public static void ModificarProducto(Producto producto, TipoProducto tipo, Marca marca, string modelo, decimal precio, byte[] imagen)
         {
             using (var context = new MyDbContext())
             {
@@ -40,7 +40,7 @@ namespace TiendaDeInformatica.Controladores
                 productoDb.Modelo = modelo;
                 productoDb.Precio = precio;
                 productoDb.Tipo = tipo;
-                productoDb.Imagen = ConvertirImagen.ConvertImageToByteArray(imagen);
+                productoDb.Imagen = imagen;
                 context.SaveChanges();
             }
         }
