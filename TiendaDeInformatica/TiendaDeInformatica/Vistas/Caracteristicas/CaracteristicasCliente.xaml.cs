@@ -102,7 +102,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 nombre = QuitarTildes(nombre);
                 foreach (Cliente cliente in clientes)
                 {
-                    if ((cliente.Id != _clienteModificar.Id) && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre))
+                    if (((_clienteModificar != null) && (_clienteModificar.Id != cliente.Id) && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre))
+                        || (_clienteModificar == null && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre)))
                     {
                         clienteDuplicado = true;
                         AlertaClienteDuplicado_Dialog.IsOpen = true;
