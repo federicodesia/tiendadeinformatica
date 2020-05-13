@@ -495,11 +495,40 @@
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
-                                <TextBlock Text="Productos" VerticalAlignment="Center"/>
-                            </StackPanel>
+                        <ListBoxItem x:Name="Productos_ListBoxItem" materialDesign:RippleAssist.IsDisabled="True" Padding="0" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                            <!-- 
+                            <ListBoxItem.Style>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Border Name="Border" BorderBrush="Transparent" BorderThickness="0" Background="Transparent">
+                                                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBoxItem.Style>-->
+
+                            <Expander x:Name="Productos_Expander" Background="Transparent" Width="240" materialDesign:ExpanderAssist.DownHeaderPadding="8 10 24 10" Expanded="Productos_Expander_Expanded" Collapsed="Productos_Expander_Collapsed">
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal" Margin="-8 -22 -64 -22">
+                                        <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="32 0 24 0" Opacity="0.9"/>
+                                        <TextBlock Text="Productos" VerticalAlignment="Center"/>
+
+                                        
+                                    </StackPanel>
+                                </Expander.Header>
+
+                                <ListBox x:Name="Productos_ListBox" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemMod}" Margin="24 8 24 8" materialDesign:RippleAssist.IsDisabled="False" SelectionChanged="Productos_ListBox_SelectionChanged">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Padding="8 0"/>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Expander>
                         </ListBoxItem>
 
                         <Separator Margin="-8 0 -8 0"/>

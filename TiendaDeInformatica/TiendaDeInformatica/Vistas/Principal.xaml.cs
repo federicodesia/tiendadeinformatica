@@ -40,6 +40,9 @@ namespace TiendaDeInformatica.Vistas
             byte[] logo = Properties.Settings.Default.Logo;
             if (logo != null) Logo_Image.Source = ConvertirImagen.ConvertByteArrayToImage(logo);
 
+            TipoProducto[] productos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+            Productos_ListBox.ItemsSource = productos;
+
             Contenido_Grid.Children.Add(new Presupuestos(this));
         }
 
@@ -211,25 +214,56 @@ namespace TiendaDeInformatica.Vistas
             if (Principal_Vista.IsLoaded)
             {
                 int index = MenuIzquierdo.SelectedIndex;
-                Contenido_Grid.Children.Clear();
                 switch (index)
                 {
                     case 0:
+                        Contenido_Grid.Children.Clear();
+                        Productos_ListBox.UnselectAll();
                         Contenido_Grid.Children.Add(new Presupuestos(this));
                         break;
                     case 1:
+                        Contenido_Grid.Children.Clear();
+                        Productos_ListBox.UnselectAll();
                         Contenido_Grid.Children.Add(new Clientes(this));
                         break;
                     case 2:
+                        Contenido_Grid.Children.Clear();
+                        Productos_ListBox.UnselectAll();
                         Contenido_Grid.Children.Add(new Marcas(this));
                         break;
-                    case 6:
-                        Contenido_Grid.Children.Add(new Productos(this));
+                    case 4:
+                        Contenido_Grid.Children.Clear();
+                        Productos_ListBox.UnselectAll();
+                        break;
+                    case 5:
+                        Contenido_Grid.Children.Clear();
+                        Productos_ListBox.UnselectAll();
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        private void Productos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Productos_ListBox.SelectedItems.Count == 1)
+            {
+                MenuIzquierdo.UnselectAll();
+                Contenido_Grid.Children.Clear();
+            }
+            Productos_Expander.IsExpanded = false;
+        }
+
+        private void Productos_Expander_Expanded(object sender, RoutedEventArgs e)
+        {
+            Productos_ListBoxItem.IsSelected = false;  
+        }
+
+        private void Productos_Expander_Collapsed(object sender, RoutedEventArgs e)
+        {
+            if (Productos_ListBox.SelectedItems.Count == 1)
+                Productos_ListBoxItem.IsSelected = true;
         }
 
         // ------------------------------------------------------ //
