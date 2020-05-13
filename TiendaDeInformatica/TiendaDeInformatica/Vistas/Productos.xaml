@@ -59,7 +59,7 @@
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Height="56" x:Name="AgregarProducto_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                            <Button Height="56" x:Name="AgregarProducto_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="AgregarProducto_Button_Click">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Add" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
                                     <TextBlock Text="Agregar producto" Foreground="White" VerticalAlignment="Center" FontWeight="Regular" FontSize="13" Margin="8 0 0 0"/>

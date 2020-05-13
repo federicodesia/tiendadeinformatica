@@ -10,9 +10,7 @@ namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
             string _string = value as string;
 
             if (_string == null || string.IsNullOrEmpty(_string))
-            {
                 return new ValidationResult(false, "Completa este campo");
-            }
             return new ValidationResult(true, null);
         }
     }

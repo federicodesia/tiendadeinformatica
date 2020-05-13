@@ -10,9 +10,7 @@ namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
             string _string = value as string;
 
             if (_string != null && System.Text.RegularExpressions.Regex.IsMatch(_string, "[^-0-9+()# *]"))
-            {
                 return new ValidationResult(false, "Teléfono incorrecto");
-            }
             return new ValidationResult(true, null);
         }
     }

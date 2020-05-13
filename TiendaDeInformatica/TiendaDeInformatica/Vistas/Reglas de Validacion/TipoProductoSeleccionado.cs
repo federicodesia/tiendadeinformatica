@@ -4,13 +4,13 @@ using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
 {
-    public class ClienteSeleccionado : ValidationRule
+    public class TipoProductoSeleccionado : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value is Cliente)
+            if (value is TipoProducto)
                 return new ValidationResult(true, null);
-            return new ValidationResult(false, "Selecciona un cliente");
+            return new ValidationResult(false, "Selecciona un tipo de producto");
         }
     }
 }

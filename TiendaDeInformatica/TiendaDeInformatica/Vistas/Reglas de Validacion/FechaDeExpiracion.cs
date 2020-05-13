@@ -13,9 +13,7 @@ namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
             {
                 DateTime time;
                 if (DateTime.TryParse((value ?? "").ToString(), CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal | DateTimeStyles.AllowWhiteSpaces, out time))
-                {
                     return new ValidationResult(true, null);
-                }
                 return new ValidationResult(false, "Ingresa una fecha de expiración");
             }
             return new ValidationResult(true, null);

@@ -186,6 +186,9 @@
     <Compile Include="Controladores\ControladorMarcas.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
     <Compile Include="Controladores\ControladorProductos.cs" />
+    <Compile Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml.cs">
+      <DependentUpon>CaracteristicasProducto.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Caracteristicas\CaracteristicasCliente.xaml.cs">
       <DependentUpon>CaracteristicasCliente.xaml</DependentUpon>
     </Compile>
@@ -204,12 +207,19 @@
     <Compile Include="Vistas\Productos.xaml.cs">
       <DependentUpon>Productos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Reglas de Validacion\TipoProductoSeleccionado.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\MarcaSeleccionada.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\Precio.cs" />
     <Compile Include="Vistas\Reglas de Validacion\CampoVacio.cs" />
     <Compile Include="Vistas\Reglas de Validacion\ClienteSeleccionado.cs" />
     <Compile Include="Vistas\Reglas de Validacion\CUIT.cs" />
     <Compile Include="Vistas\Reglas de Validacion\FechaDeExpiracion.cs" />
     <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
     <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
+    <Page Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Vistas\Caracteristicas\CaracteristicasCliente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
