@@ -21,26 +21,25 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         private Principal _principal { get; set; }
         private Producto _productoModificar { get; set; }
 
-        public TipoProducto TipoProducto_ComboBox_SelectedItem { get; set; }
+        private TipoProducto? _tipoProductoCrear { get; set; }
+
+        public TipoProducto? TipoProducto_ComboBox_SelectedItem { get; set; }
         public Marca Marca_ComboBox_SelectedItem { get; set; }
         public string Modelo_TextBox_Text { get; set; }
         public string Precio_TextBox_Text { get; set; }
         public byte[] ImagenSeleccionada { get; set; }
 
-        public CaracteristicasProducto(Principal principal, Producto productoModificar, TipoProducto? tipoProducto)
+        public CaracteristicasProducto(Principal principal, Producto productoModificar, TipoProducto? tipoProductoCrear)
         {
             InitializeComponent();
             this.DataContext = this;
+
+            _tipoProductoCrear = tipoProductoCrear;
 
             // Cargar el enum TipoProducto en el ComboBox
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
             List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
             TipoProducto_ComboBox.ItemsSource = tipoProductosConEspacios;
-
-            if (tipoProducto != null)
-                TipoProducto_ComboBox.SelectedIndex = (int)tipoProducto;
-            else
-                TipoProducto_ComboBox.SelectedIndex = -1;
 
             // Cargar la lista de marcas en el ComboBox
             Marca_ComboBox.ItemsSource = ControladorMarcas.ObtenerListaDeMarcas();
@@ -51,6 +50,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void CaracteristicasProducto_Vista_Loaded(object sender, RoutedEventArgs e)
         {
+            if (_tipoProductoCrear != null)
+                TipoProducto_ComboBox.SelectedIndex = (int)_tipoProductoCrear;
+            else
+                TipoProducto_ComboBox.SelectedIndex = -1;
+
             // Verificar si se va a crear o a modificar un producto
             if (_productoModificar != null)
             {
@@ -122,7 +126,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (_productoModificar == null)
             {
                 // Se iba a crear un producto
-                if (TipoProducto_ComboBox.SelectedItem != null
+                if ((_tipoProductoCrear == null && TipoProducto_ComboBox.SelectedItem != null)
+                    || (_tipoProductoCrear != null && (TipoProducto)TipoProducto_ComboBox.SelectedIndex != _tipoProductoCrear)
                     || Marca_ComboBox.SelectedItem != null
                     || Modelo_TextBox.Text != "" || Precio_TextBox.Text != ""
                     || ImagenSeleccionada != null)
