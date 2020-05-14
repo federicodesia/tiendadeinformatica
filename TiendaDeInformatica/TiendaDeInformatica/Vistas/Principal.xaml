@@ -359,6 +359,9 @@
                         </materialDesign:PopupBox>
                     </StackPanel>
                 </Grid>
+
+                <!-- Oscurecer contenido -->
+                <materialDesign:DialogHost x:Name="OscurecerContenido_DialogHost" Grid.Column="1" Opacity="0.25"/>
             </Grid>
 
             <!-- Menu Izquierdo -->
@@ -539,7 +542,7 @@
                                         </Style>
                                     </Grid.Style>
                                 </Grid>
-                                
+
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="32 0 24 0" Opacity="0.9"/>
                                     <TextBlock Text="Productos" VerticalAlignment="Center"/>

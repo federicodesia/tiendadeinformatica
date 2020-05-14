@@ -27,16 +27,18 @@ namespace TiendaDeInformatica.Controladores
                     Imagen = imagen,
                     Valores=new List<ProductoValor>()
                 };
+
                 context.Productos.Add(producto);
                 context.SaveChanges();
             }
         }
+
         public static void ModificarProducto(Producto producto, TipoProducto tipo, Marca marca, string modelo, decimal precio, byte[] imagen)
         {
             using (var context = new MyDbContext())
             {
                 Producto productoDb = context.Productos.Find(producto.Id);
-                productoDb.Marca = marca;
+                productoDb.MarcaId = marca.Id;
                 productoDb.Modelo = modelo;
                 productoDb.Precio = precio;
                 productoDb.Tipo = tipo;

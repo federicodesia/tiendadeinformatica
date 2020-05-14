@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TiendaDeInformatica.Controladores;
+using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
 using TiendaDeInformatica.Vistas.Caracteristicas;
 
@@ -112,16 +111,16 @@ namespace TiendaDeInformatica.Vistas
         {
             if (busqueda != "")
             {
-                busqueda = QuitarTildes(busqueda).ToUpper();
+                busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
                 List<Presupuesto> resultado = new List<Presupuesto>();
                 foreach (Presupuesto presupuesto in presupuestos)
                 {
                     Cliente cliente = ControladorClientes.ObtenerCliente(presupuesto.ClienteId);
-                    if ((cliente.NombreDelResponsable != null && QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
+                    if ((cliente.NombreDelResponsable != null && TextHelper.QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
                         || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
                         || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
-                        || QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
-                        || QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
+                        || TextHelper.QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
+                        || TextHelper.QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
                     {
                         resultado.Add(presupuesto);
                     }
@@ -129,11 +128,6 @@ namespace TiendaDeInformatica.Vistas
                 return resultado;
             }
             return presupuestos;
-        }
-
-        public string QuitarTildes(string texto)
-        {
-            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
         }
 
         // ------------------------------------------------------ //

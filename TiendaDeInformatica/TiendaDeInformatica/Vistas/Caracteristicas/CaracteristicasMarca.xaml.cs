@@ -20,17 +20,19 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
     {
         private Principal _principal { get; set; }
         private Marca _marcaModificar { get; set; }
+        private bool _ejecutarOscurecerPantallaPrincipalAlCerrar { get; set; }
 
         public string Nombre_TextBox_Text { get; set; }
         public byte[] ImagenSeleccionada { get; set; }
 
-        public CaracteristicasMarca(Principal principal, Marca marcaModificar)
+        public CaracteristicasMarca(Principal principal, Marca marcaModificar, bool ejecutarOscurecerPantallaPrincipalAlCerrar)
         {
             InitializeComponent();
             this.DataContext = this;
 
             _principal = principal;
             _marcaModificar = marcaModificar;
+            _ejecutarOscurecerPantallaPrincipalAlCerrar = ejecutarOscurecerPantallaPrincipalAlCerrar;
         }
 
         private void CaracteristicasMarca_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -66,12 +68,12 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             {
                 // No hay errores
                 bool marcaDuplicada = false;
-                string nombre = QuitarTildes(Nombre_TextBox.Text).ToUpper();
+                string nombre = TextHelper.QuitarTildes(Nombre_TextBox.Text).ToUpper();
 
                 foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
                 {
-                    if (((_marcaModificar != null) && (_marcaModificar.Id != marca.Id) && (QuitarTildes(marca.Nombre).ToUpper() == nombre))
-                        || (_marcaModificar == null && (QuitarTildes(marca.Nombre).ToUpper() == nombre)))
+                    if (((_marcaModificar != null) && (_marcaModificar.Id != marca.Id) && (TextHelper.QuitarTildes(marca.Nombre).ToUpper() == nombre))
+                        || (_marcaModificar == null && (TextHelper.QuitarTildes(marca.Nombre).ToUpper() == nombre)))
                     {
                         marcaDuplicada = true;
                         AlertaMarcaDuplicada_Dialog.IsOpen = true;
@@ -87,11 +89,6 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 // Hay errores. Actualizar los mensajes de error
                 Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
-        }
-
-        public string QuitarTildes(string texto)
-        {
-            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
         }
 
         private void AgregarModificarMarca()
@@ -154,7 +151,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private async void CerrarVentana()
         {
-            _principal.OscurecerCompletamente(false);
+            if (_ejecutarOscurecerPantallaPrincipalAlCerrar)
+                _principal.OscurecerCompletamente(false);
             Contenido_DialogHost.IsOpen = false;
             await Task.Delay(300);
             this.Close();

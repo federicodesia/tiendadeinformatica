@@ -21,9 +21,9 @@ namespace TiendaDeInformatica.Controladores
                 Marca marca = new Marca()
                 {
                     Nombre = nombre,
-                    Productos = new List<Producto>()
+                    Productos = new List<Producto>(),
+                    Imagen = imagen
                 };
-                marca.Imagen = imagen;
 
                 context.Marcas.Add(marca);
                 context.SaveChanges();

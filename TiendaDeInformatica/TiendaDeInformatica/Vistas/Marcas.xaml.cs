@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using TiendaDeInformatica.Controladores;
+using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
 using TiendaDeInformatica.Vistas.Caracteristicas;
 
@@ -39,7 +38,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null);
+            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null, true);
             caracteristicasMarca.Owner = Application.Current.MainWindow;
 
             caracteristicasMarca.ShowDialog();
@@ -91,7 +90,7 @@ namespace TiendaDeInformatica.Vistas
             Marca marca = Marcas_ListBox.SelectedItem as Marca;
             if (marca != null)
             {
-                CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, marca);
+                CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, marca, true);
                 caracteristicasMarca.Owner = Application.Current.MainWindow;
 
                 caracteristicasMarca.ShowDialog();
@@ -163,21 +162,16 @@ namespace TiendaDeInformatica.Vistas
         {
             if (busqueda != "")
             {
-                busqueda = QuitarTildes(busqueda).ToUpper();
+                busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
                 List<Marca> resultado = new List<Marca>();
                 foreach (Marca marca in marcas)
                 {
-                    if (QuitarTildes(marca.Nombre).ToUpper().StartsWith(busqueda))
+                    if (TextHelper.QuitarTildes(marca.Nombre).ToUpper().StartsWith(busqueda))
                         resultado.Add(marca);
                 }
                 return resultado;
             }
             return marcas;
-        }
-
-        public string QuitarTildes(string texto)
-        {
-            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
         }
 
         // ------------------------------------------------------ //

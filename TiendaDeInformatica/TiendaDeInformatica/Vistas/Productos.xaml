@@ -12,7 +12,9 @@
              Foreground="{DynamicResource MaterialDesignBody}"
              FontWeight="Regular"
              FontSize="13"
-             FontFamily="Roboto">
+             FontFamily="Roboto"
+             
+             x:Name="Vista_Productos" Loaded="Vista_Productos_Loaded" SizeChanged="Vista_Productos_SizeChanged">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -35,7 +37,116 @@
 
                 <!-- Contenido -->
                 <Grid Grid.Column="0" Margin="24">
-                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Barra de búqueda -->
+                        <materialDesign:ColorZone Grid.Column="0" Background="{DynamicResource MaterialDesignCardBackground}" HorizontalAlignment="Left" Padding="8 4 8 4" CornerRadius="2">
+                            <materialDesign:ColorZone.Effect>
+                                <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
+                            </materialDesign:ColorZone.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Magnify"/>
+                                </Button>
+                                <TextBox Grid.Column="1" x:Name="BuscarProducto_TextBox" Margin="8 0 172 0" materialDesign:HintAssist.Hint="Buscar producto por modelo" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" VerticalAlignment="Center" TextChanged="BuscarProducto_TextBox_TextChanged"/>
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                        <!-- Cantidad de resultados -->
+                        <StackPanel Grid.Column="2"  Orientation="Horizontal" VerticalAlignment="Center" Opacity="0.64">
+                            <TextBlock x:Name="CantidadDeResultados_TextBlock" Text="0"/>
+                            <TextBlock VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Text" Value=" resultados encontrados" />
+                                        <Style.Triggers>
+                                            <!-- Cambiar el texto dependiendo de la cantidad de resultados -->
+                                            <DataTrigger Binding="{Binding Text, ElementName=CantidadDeResultados_TextBlock}" Value="1">
+                                                <Setter Property="Text" Value=" resultado encontrado" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Contenido -->
+                    <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
+                        
+                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12">
+                            <!-- Opciones al hacer click derecho sobre un producto -->
+                            <ListBox.Resources>
+                                <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <ContextMenu.Items>
+                                        <MenuItem Header="Modificar" Click="ModificarProducto_Click">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="UserEdit" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Eliminar" Click="EliminarProducto_Click">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu.Items>
+                                </ContextMenu>
+                            </ListBox.Resources>
+
+                            <!-- Formato de cada item -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="190"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="96"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Grid.Row="0" Margin="16" Source="{Binding Imagen}"/>
+
+                                        <Separator Grid.Row="1" Opacity="0.25"/>
+
+                                        <Grid Grid.Row="2" Margin="16">
+                                            <TextBlock Text="{Binding Modelo}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                                <TextBlock Text="$" FontSize="16"/>
+                                                <TextBlock Text="{Binding Precio}" FontSize="16"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <!-- Items en horizontal -->
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid x:Name="Items_UniformGrid" Loaded="Items_UniformGrid_Loaded" VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignCardsListBoxItemMod}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource ItemMenu}" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </Grid>
 
@@ -76,5 +187,30 @@
                 </Grid>
             </materialDesign:ColorZone>
         </Grid>
+
+        <!-- Alerta al eliminar un producto -->
+        <materialDesign:DialogHost x:Name="AlertaEliminarProducto_DialogHost" Opacity="0" Margin="-240 0 0 0">
+
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+
+                    <!-- Icono, Título y Descripción -->
+                    <StackPanel Orientation="Horizontal" Margin="16">
+                        <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
+
+                        <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
+                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar este producto?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
+                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="También se eliminará de todos los presupuestos asociados al mismo." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Botones -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                        <Button x:Name="CancelarEliminarProducto_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarEliminarProducto_Button_Click"/>
+                        <Button x:Name="EliminarProducto_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" Click="EliminarProducto_Button_Click"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </UserControl>

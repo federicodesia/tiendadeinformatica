@@ -255,13 +255,19 @@ namespace TiendaDeInformatica.Vistas
             }
         }
 
-        private void MenuProductos_Popup_MouseLeave(object sender, MouseEventArgs e)
+        private async void MenuProductos_Popup_MouseLeave(object sender, MouseEventArgs e)
         {
-            MenuProductos_Popup.IsOpen = false;
+            await Task.Delay(50);
+            if (!Productos_ListBoxItem.IsMouseOver)
+            {
+                OscurecerContenido_DialogHost.IsOpen = false;
+                MenuProductos_Popup.IsOpen = false;
+            }
         }
 
         private void Productos_ListBoxItem_MouseEnter(object sender, MouseEventArgs e)
         {
+            OscurecerContenido_DialogHost.IsOpen = true;
             MenuProductos_Popup.IsOpen = true;
         }
 
@@ -269,7 +275,10 @@ namespace TiendaDeInformatica.Vistas
         {
             await Task.Delay(50);
             if (!MenuProductos_Popup.IsMouseOver)
+            {
+                OscurecerContenido_DialogHost.IsOpen = false;
                 MenuProductos_Popup.IsOpen = false;
+            }
         }
 
         // ------------------------------------------------------ //

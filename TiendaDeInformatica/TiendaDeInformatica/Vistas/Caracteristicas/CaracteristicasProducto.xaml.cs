@@ -23,7 +23,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private TipoProducto? _tipoProductoCrear { get; set; }
 
-        public TipoProducto? TipoProducto_ComboBox_SelectedItem { get; set; }
+        public int TipoProducto_ComboBox_SelectedIndex { get; set; }
         public Marca Marca_ComboBox_SelectedItem { get; set; }
         public string Modelo_TextBox_Text { get; set; }
         public string Precio_TextBox_Text { get; set; }
@@ -42,7 +42,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             TipoProducto_ComboBox.ItemsSource = tipoProductosConEspacios;
 
             // Cargar la lista de marcas en el ComboBox
-            Marca_ComboBox.ItemsSource = ControladorMarcas.ObtenerListaDeMarcas();
+            ActualizarListaDeMarcas();
 
             _principal = principal;
             _productoModificar = productoModificar;
@@ -50,11 +50,6 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void CaracteristicasProducto_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            if (_tipoProductoCrear != null)
-                TipoProducto_ComboBox.SelectedIndex = (int)_tipoProductoCrear;
-            else
-                TipoProducto_ComboBox.SelectedIndex = -1;
-
             // Verificar si se va a crear o a modificar un producto
             if (_productoModificar != null)
             {
@@ -63,6 +58,29 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 AgregarModificar_Button.Content = "MODIFICAR";
 
                 // Completar los datos del producto
+                TipoProducto_ComboBox.SelectedIndex = (int)_productoModificar.Tipo;
+
+                foreach (Marca marca in Marca_ComboBox.Items)
+                {
+                    if (marca.Id == _productoModificar.MarcaId)
+                        Marca_ComboBox.SelectedItem = marca;
+                }
+
+                Modelo_TextBox.Text = _productoModificar.Modelo;
+                Precio_TextBox.Text = _productoModificar.Precio.ToString();
+
+                if (_productoModificar.Imagen != null)
+                {
+                    ImagenSeleccionada = _productoModificar.Imagen;
+                    Imagen_Image.Source = ConvertirImagen.ConvertByteArrayToImage(ImagenSeleccionada);
+                }
+            }
+            else
+            {
+                if (_tipoProductoCrear != null)
+                    TipoProducto_ComboBox.SelectedIndex = (int)_tipoProductoCrear;
+                else
+                    TipoProducto_ComboBox.SelectedIndex = -1;
             }
 
             _principal.OscurecerCompletamente(true);
@@ -95,7 +113,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             else
             {
                 // Hay errores. Actualizar los mensajes de error
-                TipoProducto_ComboBox.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
+                TipoProducto_ComboBox.GetBindingExpression(ComboBox.SelectedIndexProperty).UpdateSource();
                 Marca_ComboBox.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource();
                 Modelo_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 Precio_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
@@ -105,7 +123,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         private bool ObtenerResultadoReglasDeValidacion()
         {
             CultureInfo currentCulture = CultureInfo.CurrentCulture;
-            if (new TipoProductoSeleccionado().Validate(TipoProducto_ComboBox.SelectedItem, currentCulture) == new ValidationResult(true, null)
+            if (TipoProducto_ComboBox.SelectedItem != null && (new TipoProductoSeleccionado().Validate(TipoProducto_ComboBox.SelectedIndex, currentCulture) == new ValidationResult(true, null))
                 && new MarcaSeleccionada().Validate(Marca_ComboBox.SelectedItem, currentCulture) == new ValidationResult(true, null)
                 && new CampoVacio().Validate(Modelo_TextBox.Text, currentCulture) == new ValidationResult(true, null)
                 && new Precio().Validate(Precio_TextBox.Text, currentCulture) == new ValidationResult(true, null))
@@ -115,6 +133,31 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             }
             // Hay errores
             return false;
+        }
+
+        // ------------------------------------------------------ //
+        //              Acceso directo Agregar Marca              //
+        // ------------------------------------------------------ //
+
+        private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null, false);
+            caracteristicasMarca.Owner = Application.Current.MainWindow;
+
+            caracteristicasMarca.ShowDialog();
+            if(Marca_ComboBox.Items.Count != ControladorMarcas.ObtenerListaDeMarcas().Count)
+                ActualizarListaDeMarcas();
+        }
+
+        // ------------------------------------------------------ //
+        //              Actualizar la lista de marcas             //
+        // ------------------------------------------------------ //
+
+        private void ActualizarListaDeMarcas()
+        {
+            Marca_ComboBox.Items.Clear();
+            foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
+                Marca_ComboBox.Items.Add(marca);
         }
 
         // ------------------------------------------------------ //
@@ -141,9 +184,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             else
             {
                 // Se iba a modificar un producto
-                if(TipoProducto_ComboBox.SelectedItem == null
-                    || ((TipoProducto)TipoProducto_ComboBox.SelectedItem != _productoModificar.Tipo)
-                    || Marca_ComboBox.SelectedItem != _productoModificar.Marca
+                Marca marcaSeleccionada = Marca_ComboBox.SelectedItem as Marca;
+                if (TipoProducto_ComboBox.SelectedItem == null
+                    || ((TipoProducto)TipoProducto_ComboBox.SelectedIndex != _productoModificar.Tipo)
+                    || marcaSeleccionada == null
+                    || marcaSeleccionada.Id != _productoModificar.MarcaId
                     || Modelo_TextBox.Text != _productoModificar.Modelo
                     || Precio_TextBox.Text != _productoModificar.Precio.ToString()
                     || ImagenSeleccionada != _productoModificar.Imagen)

@@ -191,9 +191,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         private async void CerrarVentana()
         {
             if (_ejecutarOscurecerPantallaPrincipalAlCerrar)
-            {
                 _principal.OscurecerCompletamente(false);
-            }
             Contenido_DialogHost.IsOpen = false;
             await Task.Delay(300);
             this.Close();

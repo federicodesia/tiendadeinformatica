@@ -9,8 +9,12 @@ namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value != null && Enum.TryParse(value.ToString(), out TipoProducto tipoProducto))
-                return new ValidationResult(true, null);
+            if (value != null)
+            {
+                int index = int.Parse(value.ToString());
+                if (Enum.IsDefined(typeof(TipoProducto), index))
+                    return new ValidationResult(true, null);
+            }
             return new ValidationResult(false, "Selecciona un tipo de producto");
         }
     }

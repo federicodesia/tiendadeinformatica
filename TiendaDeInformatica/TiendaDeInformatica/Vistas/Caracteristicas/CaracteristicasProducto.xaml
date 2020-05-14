@@ -77,13 +77,13 @@
                                     <materialDesign:PackIcon Grid.Column="0" Kind="PackageVariant" Foreground="{Binding ElementName=TipoProducto_ComboBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
 
                                     <ComboBox Grid.Column="1" x:Name="TipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar tipo de producto" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False">
-                                        <ComboBox.SelectedItem>
-                                            <Binding Path="TipoProducto_ComboBox_SelectedItem" UpdateSourceTrigger="LostFocus">
+                                        <ComboBox.SelectedIndex>
+                                            <Binding Path="TipoProducto_ComboBox_SelectedIndex" UpdateSourceTrigger="LostFocus">
                                                 <Binding.ValidationRules>
                                                     <reglasDeValidacion:TipoProductoSeleccionado/>
                                                 </Binding.ValidationRules>
                                             </Binding>
-                                        </ComboBox.SelectedItem>
+                                        </ComboBox.SelectedIndex>
                                     </ComboBox>
                                 </Grid>
 
@@ -117,7 +117,7 @@
                                     </ComboBox>
 
                                     <!-- Acceso directo Agregar Marca -->
-                                    <Button x:Name="AgregarMarca_Button" Grid.Column="2" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar marca" Height="38" Width="38" HorizontalAlignment="Right">
+                                    <Button x:Name="AgregarMarca_Button" Grid.Column="2" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar marca" Height="38" Width="38" HorizontalAlignment="Right" Click="AgregarMarca_Button_Click">
                                         <materialDesign:PackIcon Kind="Add"/>
                                     </Button>
                                 </Grid>

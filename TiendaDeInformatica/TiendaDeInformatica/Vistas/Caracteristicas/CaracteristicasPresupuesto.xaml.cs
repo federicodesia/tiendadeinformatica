@@ -215,7 +215,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             caracteristicasCliente.Owner = Application.Current.MainWindow;
 
             caracteristicasCliente.ShowDialog();
-            ActualizarListaDeClientes();
+            if(BuscarCliente_ComboBox.Items.Count != ControladorClientes.ObtenerListaDeClientes().Count)
+                ActualizarListaDeClientes();
         }
     }
 }
