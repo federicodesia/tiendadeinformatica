@@ -220,33 +220,25 @@ namespace TiendaDeInformatica.Vistas
 
         private void MenuIzquierdo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Principal_Vista.IsLoaded)
+            if (Principal_Vista.IsLoaded && MenuIzquierdo.SelectedItems.Count == 1)
             {
                 int index = MenuIzquierdo.SelectedIndex;
+                ProductosBackground_Grid.Visibility = Visibility.Hidden;
+                Productos_ListBox.UnselectAll();
+                Contenido_Grid.Children.Clear();
                 switch (index)
                 {
                     case 0:
-                        Contenido_Grid.Children.Clear();
-                        Productos_ListBox.UnselectAll();
                         Contenido_Grid.Children.Add(new Presupuestos(this));
                         break;
                     case 1:
-                        Contenido_Grid.Children.Clear();
-                        Productos_ListBox.UnselectAll();
                         Contenido_Grid.Children.Add(new Clientes(this));
                         break;
                     case 2:
-                        Contenido_Grid.Children.Clear();
-                        Productos_ListBox.UnselectAll();
                         Contenido_Grid.Children.Add(new Marcas(this));
                         break;
-                    case 4:
-                        Contenido_Grid.Children.Clear();
-                        Productos_ListBox.UnselectAll();
-                        break;
-                    case 5:
-                        Contenido_Grid.Children.Clear();
-                        Productos_ListBox.UnselectAll();
+                    case 6:
+                        Contenido_Grid.Children.Add(new Productos(this, null));
                         break;
                     default:
                         break;
@@ -258,23 +250,30 @@ namespace TiendaDeInformatica.Vistas
         {
             if (Productos_ListBox.SelectedItems.Count == 1)
             {
+                MenuProductos_Popup.IsOpen = false;
+                ProductosBackground_Grid.Visibility = Visibility.Visible;
                 MenuIzquierdo.UnselectAll();
+
                 Contenido_Grid.Children.Clear();
                 Contenido_Grid.Children.Add(new Productos(this, (TipoProducto)Productos_ListBox.SelectedIndex));
-
             }
-            Productos_Expander.IsExpanded = false;
         }
 
-        private void Productos_Expander_Expanded(object sender, RoutedEventArgs e)
+        private void MenuProductos_Popup_MouseLeave(object sender, MouseEventArgs e)
         {
-            Productos_ListBoxItem.IsSelected = false;  
+            MenuProductos_Popup.IsOpen = false;
         }
 
-        private void Productos_Expander_Collapsed(object sender, RoutedEventArgs e)
+        private void Productos_ListBoxItem_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (Productos_ListBox.SelectedItems.Count == 1)
-                Productos_ListBoxItem.IsSelected = true;
+            MenuProductos_Popup.IsOpen = true;
+        }
+
+        private async void Productos_ListBoxItem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            await Task.Delay(50);
+            if (!MenuProductos_Popup.IsMouseOver)
+                MenuProductos_Popup.IsOpen = false;
         }
 
         // ------------------------------------------------------ //

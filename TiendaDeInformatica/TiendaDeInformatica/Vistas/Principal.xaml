@@ -31,9 +31,33 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- Contenido -->
             <Grid Grid.Column="1">
-                <!-- Contenido -->
                 <Grid x:Name="Contenido_Grid"/>
+
+                <materialDesign:ComboBoxPopup x:Name="MenuProductos_Popup" PlacementTarget="{Binding ElementName=Productos_ListBoxItem}" Placement="Right" AllowsTransparency="True" MouseLeave="MenuProductos_Popup_MouseLeave" PopupAnimation="Fade">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="9"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:PackIcon Grid.Column="0" Kind="MenuLeft" Width="44" Height="44" Margin="-16 0 0 0" Foreground="{DynamicResource MaterialDesignCardBackground}" VerticalAlignment="Top"/>
+
+                        <materialDesign:Card Grid.Column="1" Width="196" MinHeight="150" Padding="0 8 0 8" Margin="0 0 16 16" Background="{DynamicResource MaterialDesignCardBackground}" materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                            <materialDesign:Card.Effect>
+                                <DropShadowEffect ShadowDepth="4" Opacity="0.08" BlurRadius="8"/>
+                            </materialDesign:Card.Effect>
+                            <ListBox x:Name="Productos_ListBox" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemMod}" SelectionChanged="Productos_ListBox_SelectionChanged">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Padding="16 3 16 3"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </materialDesign:Card>
+                    </Grid>
+                </materialDesign:ComboBoxPopup>
 
                 <!-- Menu superior -->
                 <Grid VerticalAlignment="Top" Height="56" HorizontalAlignment="Right" Background="{DynamicResource PrimaryHueMidBrush}" Width="108">
@@ -495,40 +519,32 @@
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem x:Name="Productos_ListBoxItem" materialDesign:RippleAssist.IsDisabled="True" Padding="0" Style="{StaticResource MaterialDesignListBoxItemMod}">
-                            <!-- 
-                            <ListBoxItem.Style>
-                                <Style TargetType="{x:Type ListBoxItem}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                <Border Name="Border" BorderBrush="Transparent" BorderThickness="0" Background="Transparent">
-                                                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBoxItem.Style>-->
-
-                            <Expander x:Name="Productos_Expander" Background="Transparent" Width="240" materialDesign:ExpanderAssist.DownHeaderPadding="8 10 24 10" Expanded="Productos_Expander_Expanded" Collapsed="Productos_Expander_Collapsed">
-                                <Expander.Header>
-                                    <StackPanel Orientation="Horizontal" Margin="-8 -22 -64 -22">
-                                        <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="32 0 24 0" Opacity="0.9"/>
-                                        <TextBlock Text="Productos" VerticalAlignment="Center"/>
-
-                                        
-                                    </StackPanel>
-                                </Expander.Header>
-
-                                <ListBox x:Name="Productos_ListBox" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemMod}" Margin="24 8 24 8" materialDesign:RippleAssist.IsDisabled="False" SelectionChanged="Productos_ListBox_SelectionChanged">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Padding="8 0"/>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Expander>
+                        <ListBoxItem x:Name="Productos_ListBoxItem" Height="44" Padding="0" Style="{StaticResource MaterialDesignListBoxItemMod}" MouseEnter="Productos_ListBoxItem_MouseEnter" MouseLeave="Productos_ListBoxItem_MouseLeave">
+                            <Grid Height="44" Width="240">
+                                <Grid x:Name="ProductosBackground_Grid" Background="{DynamicResource MaterialDesignDivider}">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Visibility" Value="Visible">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" VerticalAlignment="Center" Margin="32 0 24 0" Opacity="0.9"/>
+                                    <TextBlock Text="Productos" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
                         </ListBoxItem>
 
                         <Separator Margin="-8 0 -8 0"/>
