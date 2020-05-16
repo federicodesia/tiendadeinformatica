@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Helpers;
@@ -24,12 +25,11 @@ namespace TiendaDeInformatica.Controladores
                     Productos = new List<Producto>(),
                     Imagen = imagen
                 };
-
                 context.Marcas.Add(marca);
                 context.SaveChanges();
             }
-            
         }
+
         public static void ModificarMarca(Marca marca, string nombre, byte[] imagen)
         {
             using (var context = new MyDbContext())
@@ -40,6 +40,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void EliminarMarca(Marca marca)
         {
             using (var context = new MyDbContext())
@@ -49,11 +50,12 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static List<Marca> ObtenerListaDeMarcas()
         {
             using (var context = new MyDbContext())
             {
-                return context.Marcas.ToList();
+                return context.Marcas.Include(m => m.Productos).ToList();
             }
         }
     }
