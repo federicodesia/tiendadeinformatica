@@ -17,22 +17,31 @@ namespace TiendaDeInformatica.Vistas
     public partial class Marcas : UserControl
     {
         private Principal _principal;
+        private bool modificandoListBoxTipoProducto = false;
 
         public Marcas(Principal principal)
         {
             InitializeComponent();
             _principal = principal;
-
-            // Lista de CheckBoxs de TipoProducto (falta hacer el filtro)
-            TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
-
-            TipoProducto_ListBox.ItemsSource = tipoProductosConEspacios;
-            TipoProducto_ListBox.SelectAll();
         }
 
         private void Marcas_Vista_Loaded(object sender, RoutedEventArgs e)
         {
+            // Cargar los Tipos de Productos de las Marcas en el ListBox
+            modificandoListBoxTipoProducto = true;
+
+            List<TipoProducto?> tiposProductos = new List<TipoProducto?>();
+            foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
+            {
+                if (!tiposProductos.Contains(producto.Tipo))
+                    tiposProductos.Add(producto.Tipo);
+            }
+            foreach (TipoProducto tipoProducto in tiposProductos)
+                TipoProducto_ListBox.Items.Add(tipoProducto.ToDescription());
+
+            TipoProducto_ListBox.SelectAll();
+            modificandoListBoxTipoProducto = false;
+
             RefrescarListaDeMarcas();
         }
 
@@ -125,6 +134,32 @@ namespace TiendaDeInformatica.Vistas
                 AlertaEliminarMarca_DialogHost.IsOpen = false;
                 _principal.OscurecerCompletamente(false);
                 _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
+
+                modificandoListBoxTipoProducto = true;
+                // Items seleccionados anteriormente
+                List<TipoProducto?> tipoProductosSeleccionados = new List<TipoProducto?>();
+                foreach (string _string in TipoProducto_ListBox.SelectedItems)
+                    tipoProductosSeleccionados.Add(_string.GetEnumFromDescription<TipoProducto>());
+
+                // Nuevos tipos de producto
+                List<TipoProducto?> tiposProductos = new List<TipoProducto?>();
+                foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
+                {
+                    if (!tiposProductos.Contains(producto.Tipo))
+                        tiposProductos.Add(producto.Tipo);
+                }
+
+                // Cargar los nuevos tipos de productos
+                TipoProducto_ListBox.Items.Clear();
+                foreach (TipoProducto tipoProducto in tiposProductos)
+                {
+                    string descripcion = tipoProducto.ToDescription();
+                    TipoProducto_ListBox.Items.Add(descripcion);
+                    // Verificar si antes estaban seleccionados y seleccionarlos nuevamente
+                    if (tipoProductosSeleccionados.Contains(tipoProducto))
+                        TipoProducto_ListBox.SelectedItems.Add(descripcion);
+                }
+                modificandoListBoxTipoProducto = false;
             }
         }
 
@@ -139,7 +174,7 @@ namespace TiendaDeInformatica.Vistas
                 Marcas_ListBox.Items.Clear();
 
                 List<Marca> marcas = ControladorMarcas.ObtenerListaDeMarcas();
-                List<Marca> resultados = OrdenarMarcas(BuscarMarca(marcas, BuscarMarca_TextBox.Text));
+                List<Marca> resultados = OrdenarMarcas(FiltrarMarcasPorTipoProducto(BuscarMarca(marcas, BuscarMarca_TextBox.Text)));
 
                 foreach (Marca marca in resultados)
                     Marcas_ListBox.Items.Add(marca);
@@ -223,12 +258,39 @@ namespace TiendaDeInformatica.Vistas
         //                     Filtrar marcas                     //
         // ------------------------------------------------------ //
 
+        private List<Marca> FiltrarMarcasPorTipoProducto(List<Marca> marcas)
+        {
+            List<Marca> resultado = new List<Marca>();
+            List<TipoProducto?> tipoProductosSeleccionados = new List<TipoProducto?>();
+
+            foreach (string _string in TipoProducto_ListBox.SelectedItems)
+                tipoProductosSeleccionados.Add(_string.GetEnumFromDescription<TipoProducto>());
+
+            foreach(Marca marca in marcas)
+            {
+                foreach(Producto producto in marca.Productos)
+                {
+                    if (tipoProductosSeleccionados.Contains(producto.Tipo))
+                    {
+                        resultado.Add(marca);
+                        break;
+                    }
+                }
+            }
+
+            return resultado;
+        }
+
         private void TipoProducto_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Deshabilitar el click derecho para seleccionar o deseleccionar un item del ListBox
             e.Handled = true;
         }
 
-        // (Falta hacer el filtro de marcas por TipoProducto)
+        private void TipoProducto_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(!modificandoListBoxTipoProducto)
+                RefrescarListaDeMarcas();
+        }
     }
 }

@@ -62,15 +62,14 @@
                             </GroupBox>
 
                             <!-- Tipo de producto -->
-                            <GroupBox BorderThickness="0" Header="Tipo de producto" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
-                                <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="TipoProducto_ListBox_PreviewMouseRightButtonDown">
+                            <GroupBox BorderThickness="0" Header="Tipos de productos" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                                <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="TipoProducto_ListBox_PreviewMouseRightButtonDown" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text=" "/>
-                                                    <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"/>
-                                                    <TextBlock Text="                                "/>
+                                                    <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Padding="0 0 300 0"/>
                                                 </StackPanel>
                                             </CheckBox>
                                         </DataTemplate>
