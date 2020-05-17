@@ -29,16 +29,11 @@ namespace TiendaDeInformatica.Vistas
         {
             // Cargar los Tipos de Productos de las Marcas en el ListBox
             modificandoListBoxTipoProducto = true;
-
-            List<TipoProducto?> tiposProductos = new List<TipoProducto?>();
             foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
             {
-                if (!tiposProductos.Contains(producto.Tipo))
-                    tiposProductos.Add(producto.Tipo);
+                if (!TipoProducto_ListBox.Items.Contains(producto.Tipo))
+                   TipoProducto_ListBox.Items.Add(producto.Tipo);
             }
-            foreach (TipoProducto tipoProducto in tiposProductos)
-                TipoProducto_ListBox.Items.Add(tipoProducto.ToDescription());
-
             TipoProducto_ListBox.SelectAll();
             modificandoListBoxTipoProducto = false;
 
@@ -136,28 +131,27 @@ namespace TiendaDeInformatica.Vistas
                 _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
 
                 modificandoListBoxTipoProducto = true;
-                // Items seleccionados anteriormente
-                List<TipoProducto?> tipoProductosSeleccionados = new List<TipoProducto?>();
-                foreach (string _string in TipoProducto_ListBox.SelectedItems)
-                    tipoProductosSeleccionados.Add(_string.GetEnumFromDescription<TipoProducto>());
+                // Tipos de productos seleccionados anteriormente
+                List<TipoProducto?> tiposProductosAnteriores = new List<TipoProducto?>();
+                foreach (TipoProducto tipoProductoSeleccionado in TipoProducto_ListBox.SelectedItems)
+                    tiposProductosAnteriores.Add(tipoProductoSeleccionado);
 
-                // Nuevos tipos de producto
-                List<TipoProducto?> tiposProductos = new List<TipoProducto?>();
+                // Nuevos tipos de productos
+                List<TipoProducto?> tiposProductosNuevos = new List<TipoProducto?>();
                 foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
                 {
-                    if (!tiposProductos.Contains(producto.Tipo))
-                        tiposProductos.Add(producto.Tipo);
+                    if (!tiposProductosNuevos.Contains(producto.Tipo))
+                        tiposProductosNuevos.Add(producto.Tipo);
                 }
 
-                // Cargar los nuevos tipos de productos
+                // Mostrar los nuevos tipos de productos
                 TipoProducto_ListBox.Items.Clear();
-                foreach (TipoProducto tipoProducto in tiposProductos)
+                foreach (TipoProducto tipoProducto in tiposProductosNuevos)
                 {
-                    string descripcion = tipoProducto.ToDescription();
-                    TipoProducto_ListBox.Items.Add(descripcion);
+                    TipoProducto_ListBox.Items.Add(tipoProducto);
                     // Verificar si antes estaban seleccionados y seleccionarlos nuevamente
-                    if (tipoProductosSeleccionados.Contains(tipoProducto))
-                        TipoProducto_ListBox.SelectedItems.Add(descripcion);
+                    if (tiposProductosAnteriores.Contains(tipoProducto))
+                        TipoProducto_ListBox.SelectedItems.Add(tipoProducto);
                 }
                 modificandoListBoxTipoProducto = false;
             }
@@ -238,14 +232,7 @@ namespace TiendaDeInformatica.Vistas
             else if (OrdenarMarcas_ComboBox.SelectedIndex == 2)
             {
                 // Cantidad de productos
-                List<Marca> sinProductos = marcas.Where(m => m.Productos == null).ToList();
-                List<Marca> conProductos = marcas.Where(m => m.Productos != null).ToList();
-
-                sinProductos.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
-                conProductos.OrderBy(m => m.Productos.Count()).ToList();
-
-                marcas = sinProductos;
-                marcas.AddRange(conProductos);
+                marcas.OrderBy(m => m.Productos.Count()).ToList();
             }
 
             if (OrdenarMarcas_AscDesc_ToggleButton.IsChecked.Value)
@@ -261,23 +248,23 @@ namespace TiendaDeInformatica.Vistas
         private List<Marca> FiltrarMarcasPorTipoProducto(List<Marca> marcas)
         {
             List<Marca> resultado = new List<Marca>();
-            List<TipoProducto?> tipoProductosSeleccionados = new List<TipoProducto?>();
-
-            foreach (string _string in TipoProducto_ListBox.SelectedItems)
-                tipoProductosSeleccionados.Add(_string.GetEnumFromDescription<TipoProducto>());
 
             foreach(Marca marca in marcas)
             {
-                foreach(Producto producto in marca.Productos)
+                if (marca.Productos.Count > 0)
                 {
-                    if (tipoProductosSeleccionados.Contains(producto.Tipo))
+                    foreach (Producto producto in marca.Productos)
                     {
-                        resultado.Add(marca);
-                        break;
+                        if (TipoProducto_ListBox.SelectedItems.Contains(producto.Tipo))
+                        {
+                            resultado.Add(marca);
+                            break;
+                        }
                     }
                 }
+                else if (SinProductos_CheckBox.IsChecked == true)
+                    resultado.Add(marca);
             }
-
             return resultado;
         }
 
@@ -288,6 +275,12 @@ namespace TiendaDeInformatica.Vistas
         }
 
         private void TipoProducto_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(!modificandoListBoxTipoProducto)
+                RefrescarListaDeMarcas();
+        }
+
+        private void SinProductos_CheckBox_CheckedUnchecked(object sender, RoutedEventArgs e)
         {
             if(!modificandoListBoxTipoProducto)
                 RefrescarListaDeMarcas();

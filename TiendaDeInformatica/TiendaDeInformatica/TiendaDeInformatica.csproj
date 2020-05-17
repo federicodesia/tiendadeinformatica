@@ -200,6 +200,7 @@
     <Compile Include="Vistas\Clientes.xaml.cs">
       <DependentUpon>Clientes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Converters\EnumDescriptionConverter.cs" />
     <Compile Include="Vistas\Presupuestos.xaml.cs">
       <DependentUpon>Presupuestos.xaml</DependentUpon>
     </Compile>

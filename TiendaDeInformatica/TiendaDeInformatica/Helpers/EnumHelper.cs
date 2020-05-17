@@ -6,9 +6,9 @@ using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Helpers
 {
-    internal static class Extensions
+    public static class Extensions
     {
-        public static string ToDescription(this Enum value)
+        public static string GetEnumDescription(this Enum value)
         {
             FieldInfo field = value.GetType().GetField(value.ToString());
             DescriptionAttribute attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;

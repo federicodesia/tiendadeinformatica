@@ -44,7 +44,7 @@ namespace TiendaDeInformatica.Vistas
             // Cargar el enum TipoProducto en el ListBox con los valores en plural
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
             foreach (TipoProducto tipoProducto in tipoProductos)
-                Productos_ListBox.Items.Add(tipoProducto.ToDescription());
+                Productos_ListBox.Items.Add(tipoProducto.GetEnumDescription());
 
             Contenido_Grid.Children.Add(new Presupuestos(this));
         }

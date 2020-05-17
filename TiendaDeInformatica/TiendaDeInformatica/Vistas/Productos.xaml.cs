@@ -27,7 +27,7 @@ namespace TiendaDeInformatica.Vistas
 
             if (tipoProducto != null)
             {
-                TituloTipoProducto_TextBlock.Text = tipoProducto.ToDescription();
+                TituloTipoProducto_TextBlock.Text = tipoProducto.GetEnumDescription();
                 TituloTipoProducto_StackPanel.Visibility = Visibility.Visible;
             }
         }
@@ -117,7 +117,7 @@ namespace TiendaDeInformatica.Vistas
             if (itemsGrid != null)
             {
                 // Cantidad de columnas a partir del ancho
-                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 200);
+                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 180);
 
                 if (itemsGrid.Columns > 0)
                     // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos

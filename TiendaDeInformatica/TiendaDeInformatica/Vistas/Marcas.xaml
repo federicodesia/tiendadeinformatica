@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             
+             xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="569" d:DesignWidth="776"
              
@@ -17,6 +17,10 @@
              
              x:Name="Marcas_Vista" Loaded="Marcas_Vista_Loaded" SizeChanged="Marcas_Vista_SizeChanged">
     <Grid>
+        <Grid.Resources>
+            <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+        </Grid.Resources>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="56"/>
@@ -63,22 +67,25 @@
 
                             <!-- Tipo de producto -->
                             <GroupBox BorderThickness="0" Header="Tipos de productos" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
-                                <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="TipoProducto_ListBox_PreviewMouseRightButtonDown" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text=" "/>
-                                                    <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Padding="0 0 300 0"/>
-                                                </StackPanel>
-                                            </CheckBox>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
+                                <StackPanel>
+                                    <CheckBox x:Name="SinProductos_CheckBox" Margin="-6 0 0 12" FontWeight="Regular" Content=" Sin productos" IsChecked="True" Checked="SinProductos_CheckBox_CheckedUnchecked" Unchecked="SinProductos_CheckBox_CheckedUnchecked"/>
+                                    <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="TipoProducto_ListBox_PreviewMouseRightButtonDown" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text=" "/>
+                                                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource EnumDescriptionConverter}}" Padding="0 0 300 0"/>
+                                                    </StackPanel>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
 
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
-                                    </ListBox.ItemContainerStyle>
-                                </ListBox>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </StackPanel>
                             </GroupBox>
                         </StackPanel>
                     </ScrollViewer>

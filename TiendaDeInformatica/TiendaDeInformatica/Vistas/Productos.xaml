@@ -118,12 +118,12 @@
                                             <RowDefinition Height="96"/>
                                         </Grid.RowDefinitions>
 
-                                        <Image Grid.Row="0" Margin="16" Source="{Binding Imagen}"/>
+                                        <Image Grid.Row="0" Height="128" Width="128" Source="{Binding Imagen}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                                         <Separator Grid.Row="1" Opacity="0.25"/>
 
                                         <Grid Grid.Row="2" Margin="16">
-                                            <TextBlock Text="{Binding Modelo}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
+                                            <TextBlock Text="{Binding Modelo}" ToolTip="{Binding Modelo}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                                                 <TextBlock Text="$" FontSize="16"/>
                                                 <TextBlock Text="{Binding Precio}" FontSize="16"/>
