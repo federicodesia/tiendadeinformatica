@@ -34,7 +34,6 @@ namespace TiendaDeInformatica.Vistas
                 if (!TipoProducto_ListBox.Items.Contains(producto.Tipo))
                    TipoProducto_ListBox.Items.Add(producto.Tipo);
             }
-            TipoProducto_ListBox.SelectAll();
             modificandoListBoxTipoProducto = false;
 
             RefrescarListaDeMarcas();
@@ -232,7 +231,14 @@ namespace TiendaDeInformatica.Vistas
             else if (OrdenarMarcas_ComboBox.SelectedIndex == 2)
             {
                 // Cantidad de productos
-                marcas.OrderBy(m => m.Productos.Count()).ToList();
+                List<Marca> sinProductos = marcas.Where(m => m.Productos.Count == 0).ToList();
+                List<Marca> conProductos = marcas.Where(m => m.Productos.Count > 0).ToList();
+
+                sinProductos.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                conProductos.OrderBy(m => m.Productos.Count()).ToList();
+
+                marcas = conProductos;
+                marcas.AddRange(sinProductos);
             }
 
             if (OrdenarMarcas_AscDesc_ToggleButton.IsChecked.Value)
@@ -247,25 +253,28 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Marca> FiltrarMarcasPorTipoProducto(List<Marca> marcas)
         {
-            List<Marca> resultado = new List<Marca>();
-
-            foreach(Marca marca in marcas)
+            if (TipoProducto_ListBox.SelectedItem == null)
             {
-                if (marca.Productos.Count > 0)
-                {
-                    foreach (Producto producto in marca.Productos)
-                    {
-                        if (TipoProducto_ListBox.SelectedItems.Contains(producto.Tipo))
-                        {
-                            resultado.Add(marca);
-                            break;
-                        }
-                    }
-                }
-                else if (SinProductos_CheckBox.IsChecked == true)
-                    resultado.Add(marca);
+                if (SinProductos_CheckBox.IsChecked == true)
+                    return marcas.Where(m => m.Productos.Count == 0).ToList();
             }
-            return resultado;
+            else
+            {
+                if (TipoProducto_ListBox.SelectedItems.Count == TipoProducto_ListBox.Items.Count)
+                {
+                    if (SinProductos_CheckBox.IsChecked == false)
+                        return marcas.Where(m => m.Productos.Count > 0).ToList();
+                }
+                else
+                {
+                    List<Marca> resultado = new List<Marca>();
+                    if (SinProductos_CheckBox.IsChecked == true)
+                        resultado = marcas.Where(m => m.Productos.Count == 0).ToList();
+                    resultado.AddRange(marcas.Where(m => m.Productos.Any(p => TipoProducto_ListBox.SelectedItems.Contains(p.Tipo))).ToList());
+                    return resultado;
+                }
+            }
+            return marcas;
         }
 
         private void TipoProducto_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -282,8 +291,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void SinProductos_CheckBox_CheckedUnchecked(object sender, RoutedEventArgs e)
         {
-            if(!modificandoListBoxTipoProducto)
-                RefrescarListaDeMarcas();
+            RefrescarListaDeMarcas();
         }
     }
 }

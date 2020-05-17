@@ -68,7 +68,7 @@
                             <!-- Tipo de producto -->
                             <GroupBox BorderThickness="0" Header="Tipos de productos" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
                                 <StackPanel>
-                                    <CheckBox x:Name="SinProductos_CheckBox" Margin="-6 0 0 12" FontWeight="Regular" Content=" Sin productos" IsChecked="True" Checked="SinProductos_CheckBox_CheckedUnchecked" Unchecked="SinProductos_CheckBox_CheckedUnchecked"/>
+                                    <CheckBox x:Name="SinProductos_CheckBox" Margin="-6 0 0 12" FontWeight="Regular" Content=" Sin productos" Checked="SinProductos_CheckBox_CheckedUnchecked" Unchecked="SinProductos_CheckBox_CheckedUnchecked"/>
                                     <ListBox x:Name="TipoProducto_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="TipoProducto_ListBox_PreviewMouseRightButtonDown" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
