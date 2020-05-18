@@ -280,9 +280,9 @@
                                                 </StackPanel>
 
                                                 <!-- Precio total -->
-                                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                    <TextBlock Text="$" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
-                                                    <TextBlock Text="{Binding PrecioTotal}" FontSize="22" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" TextBlock.FontSize="22">
+                                                    <TextBlock Text="$" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </Grid>
                                         </StackPanel>

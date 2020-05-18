@@ -89,7 +89,7 @@
                     <!-- Contenido -->
                     <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
                         
-                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12">
+                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
                             <!-- Opciones al hacer click derecho sobre un producto -->
                             <ListBox.Resources>
                                 <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
@@ -134,15 +134,7 @@
                                         <Separator Grid.Row="1" Opacity="0.25"/>
 
                                         <Grid Grid.Row="2" Margin="16">
-                                            <TextBlock  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top">
-                                                <TextBlock.Text>
-                                                    <MultiBinding StringFormat="{}{0} {1} {2}">
-                                                        <Binding Path="MostrarTipoProducto" />
-                                                        <Binding Path="MostrarMarca" />
-                                                        <Binding Path="Modelo" />
-                                                    </MultiBinding>
-                                                </TextBlock.Text>
-                                            </TextBlock>
+                                            <TextBlock Text="{Binding MostrarTipoProductoMarcaModelo}"  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
 
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                                                 <TextBlock Text="$" FontSize="16"/>

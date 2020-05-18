@@ -117,7 +117,7 @@ namespace TiendaDeInformatica.Vistas
             if (itemsGrid != null)
             {
                 // Cantidad de columnas a partir del ancho
-                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 180);
+                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 190);
 
                 if (itemsGrid.Columns > 0)
                     // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
@@ -179,6 +179,16 @@ namespace TiendaDeInformatica.Vistas
                 return resultado;
             }
             return productos;
+        }
+
+        // ------------------------------------------------------ //
+        //              Agregar Producto a Presupuesto            //
+        // ------------------------------------------------------ //
+
+        private void Productos_ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (Productos_ListBox.SelectedItem is Producto)
+                _ = _principal.MostrarMensajeEnSnackbar("Se agregó el producto al presupuesto");
         }
     }
 }

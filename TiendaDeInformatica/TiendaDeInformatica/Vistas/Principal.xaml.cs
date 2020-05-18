@@ -316,31 +316,25 @@ namespace TiendaDeInformatica.Vistas
         public Presupuesto PresupuestoSeleccionado { get; set; }
         public void SeleccionarPresupuesto(Presupuesto presupuesto)
         {
-            // Seleccionar el presupuesto y cambiar el icono
             PresupuestoSeleccionado = presupuesto;
+            PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
             PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxTick;
 
-            // Agregar el presupuesto, y cambiar visibilidades
-            NoHayPresupuestoSeleccionado_StackPanel.Visibility = Visibility.Collapsed;
-            PresupuestoSeleccionado_ListBox.Items.Clear();
-            PresupuestoSeleccionado_ListBox.Items.Add(presupuesto);
-            PresupuestoSeleccionado_ListBox.Visibility = Visibility.Visible;
+            PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
+            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+                PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
 
             PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
         }
 
         private async void DeseleccionarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
-
-            // Deseleccionar el presupuesto y cambiar el icono
             PresupuestoSeleccionado = null;
             PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxRemove;
+            PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
 
-            // Esperar para cambiar visibilidades
             await Task.Delay(250);
-            NoHayPresupuestoSeleccionado_StackPanel.Visibility = Visibility.Visible;
-            PresupuestoSeleccionado_ListBox.Visibility = Visibility.Collapsed;
+            PresupuestoSelecciondo_StackPanel.DataContext = null;
         }
     }
 }

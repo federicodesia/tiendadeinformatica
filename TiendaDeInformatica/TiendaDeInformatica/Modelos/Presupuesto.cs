@@ -47,5 +47,13 @@ namespace TiendaDeInformatica.Modelos
                 return ControladorClientes.ObtenerCliente(ClienteId).Descripcion;
             }
         }
+
+        public string CantidadProductos
+        {
+            get
+            {
+                return Productos.Count.ToString();
+            }
+        }
     }
 }

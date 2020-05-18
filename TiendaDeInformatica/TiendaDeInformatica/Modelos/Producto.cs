@@ -21,19 +21,11 @@ namespace TiendaDeInformatica.Modelos
 
         public List<ProductoValor> Valores { get; set; }
 
-        public string MostrarMarca
+        public string MostrarTipoProductoMarcaModelo
         {
             get
             {
-                return ControladorMarcas.ObtenerMarca(MarcaId).Nombre.ToString();
-            }
-        }
-
-        public string MostrarTipoProducto
-        {
-            get
-            {
-                return Tipo.ToString().Replace("_", " ");
+                return Tipo.ToString().Replace("_", " ") + " " + ControladorMarcas.ObtenerMarca(MarcaId).Nombre + " " + Modelo;
             }
         }
     }

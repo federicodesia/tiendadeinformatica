@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TiendaDeInformatica.Datos;
@@ -59,7 +60,7 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                return context.Presupuestos.ToList();
+                return context.Presupuestos.Include(p => p.Productos).ToList();
             }
         }
 
