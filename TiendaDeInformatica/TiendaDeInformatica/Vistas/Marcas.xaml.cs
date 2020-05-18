@@ -266,13 +266,7 @@ namespace TiendaDeInformatica.Vistas
                         return marcas.Where(m => m.Productos.Count > 0).ToList();
                 }
                 else
-                {
-                    List<Marca> resultado = new List<Marca>();
-                    if (SinProductos_CheckBox.IsChecked == true)
-                        resultado = marcas.Where(m => m.Productos.Count == 0).ToList();
-                    resultado.AddRange(marcas.Where(m => m.Productos.Any(p => TipoProducto_ListBox.SelectedItems.Contains(p.Tipo))).ToList());
-                    return resultado;
-                }
+                    return marcas.Where(m => m.Productos.Any(p => TipoProducto_ListBox.SelectedItems.Contains(p.Tipo)) || (SinProductos_CheckBox.IsChecked == true && m.Productos.Count == 0)).ToList();
             }
             return marcas;
         }

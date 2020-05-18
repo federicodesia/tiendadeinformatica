@@ -214,36 +214,24 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Presupuesto> FiltrarPresupuestosPorTipoDeCliente(List<Presupuesto> presupuestos)
         {
-            if (FiltroCliente_Persona_CheckBox.IsChecked.Value == true && FiltroCliente_Empresa_CheckBox.IsChecked.Value == false)
+            if (FiltroCliente_Persona_CheckBox.IsChecked.Value != FiltroCliente_Empresa_CheckBox.IsChecked.Value)
             {
-                return presupuestos.Where(p => p.ClienteTipo == "Persona").ToList();
-            }
-            else if (FiltroCliente_Persona_CheckBox.IsChecked.Value == false && FiltroCliente_Empresa_CheckBox.IsChecked.Value == true)
-            {
+                if(FiltroCliente_Persona_CheckBox.IsChecked.Value == true)
+                    return presupuestos.Where(p => p.ClienteTipo == "Persona").ToList();
                 return presupuestos.Where(p => p.ClienteTipo == "Empresa").ToList();
             }
-            else if (FiltroCliente_Persona_CheckBox.IsChecked.Value == true && FiltroCliente_Empresa_CheckBox.IsChecked.Value == true)
-            {
-                return presupuestos;
-            }
-            return new List<Presupuesto>();
+            return presupuestos;
         }
 
         private List<Presupuesto> FiltrarPresupuestosPorEstado(List<Presupuesto> presupuestos)
         {
-            if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value == true && FiltroEstado_Expirados_CheckBox.IsChecked.Value == false)
+            if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value != FiltroEstado_Expirados_CheckBox.IsChecked.Value)
             {
-                return presupuestos.Where(p => p.FechaDeExpiracion == null || (p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days >= 0).ToList();
-            }
-            else if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value == false && FiltroEstado_Expirados_CheckBox.IsChecked.Value == true)
-            {
+                if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value == true)
+                    return presupuestos.Where(p => p.FechaDeExpiracion == null || (p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days >= 0).ToList();
                 return presupuestos.Where(p => p.FechaDeExpiracion != null && ((p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days < 0)).ToList();
             }
-            else if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value == true && FiltroEstado_Expirados_CheckBox.IsChecked.Value == true)
-            {
-                return presupuestos;
-            }
-            return new List<Presupuesto>();
+            return presupuestos;
         }
 
         private List<Presupuesto> FiltrarPresupuestosPorPrecio(List<Presupuesto> presupuestos)
