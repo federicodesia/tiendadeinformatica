@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TiendaDeInformatica.Controladores;
 
 namespace TiendaDeInformatica.Modelos
 {
@@ -19,6 +20,22 @@ namespace TiendaDeInformatica.Modelos
         public byte[] Imagen { get; set; }
 
         public List<ProductoValor> Valores { get; set; }
+
+        public string MostrarMarca
+        {
+            get
+            {
+                return ControladorMarcas.ObtenerMarca(MarcaId).Nombre.ToString();
+            }
+        }
+
+        public string MostrarTipoProducto
+        {
+            get
+            {
+                return Tipo.ToString().Replace("_", " ");
+            }
+        }
     }
 
     public enum TipoProducto

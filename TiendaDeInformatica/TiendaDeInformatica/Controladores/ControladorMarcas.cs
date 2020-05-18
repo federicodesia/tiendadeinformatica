@@ -58,5 +58,13 @@ namespace TiendaDeInformatica.Controladores
                 return context.Marcas.Include(m => m.Productos).ToList();
             }
         }
+
+        public static Marca ObtenerMarca(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Marcas.Find(id);
+            }
+        }
     }
 }
