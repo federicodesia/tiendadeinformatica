@@ -51,11 +51,19 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
-        public static List<Marca> ObtenerListaDeMarcas()
+        public static List<Marca> ObtenerListaDeMarcas() //Obtiene una lista de todos los productos asociados a una marca.
         {
             using (var context = new MyDbContext())
             {
                 return context.Marcas.Include(m => m.Productos).ToList();
+            }
+        }
+
+        public static List<Marca> ObtenerListaDeMarcasSinProductos()
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Marcas.ToList();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Modelos;
@@ -45,11 +46,18 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static List<Atributo> ObtenerListaDeAtributos()
+        public static List<Atributo> ObtenerListaDeAtributos() //Obtiene la lista de los atributos.
         {
             using (var context = new MyDbContext())
             {
                 return context.Atributos.ToList();
+            }
+        }
+        public static List<Atributo> ObtenerListaDeValoresAsociadosAAtributo() //Obtiene una lista de todos los valores asociados a un atributo.
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Atributos.Include(v => v.Valores).ToList();
             }
         }
         public static Valor AgregarValor(Atributo atributo, string nombre)
@@ -85,11 +93,18 @@ namespace TiendaDeInformatica.Controladores
             }
 
         }
-        public static List<Valor> ObtenerListaDeValores()
+        public static List<Valor> ObtenerListaDeValores() //Obtiene la lista de valores.
         {
             using (var context = new MyDbContext())
             {
                 return context.Valores.ToList();
+            }
+        }
+        public static List<Valor> ObtenerListaDeProductosAsociadosAValor() //Obtiene una lista de todos los productos asociados a un valor.
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Valores.Include(p => p.Productos).ToList();
             }
         }
         public static void EliminarValorDeAtributo(Valor valor)
