@@ -2,6 +2,7 @@
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -47,7 +48,8 @@ namespace TiendaDeInformatica.Vistas
             foreach (TipoProducto tipoProducto in tipoProductos)
                 Productos_ListBox.Items.Add(tipoProducto.GetEnumDescription());
 
-            Contenido_Grid.Children.Add(new Presupuestos(this));
+            presupuestosUserControl = new Presupuestos(this);
+            Contenido_Grid.Children.Add(presupuestosUserControl);
         }
 
         
@@ -317,12 +319,21 @@ namespace TiendaDeInformatica.Vistas
 
         Presupuestos presupuestosUserControl { get; set; }
         public int PresupuestoSeleccionadoId = -1;
+
         public void SeleccionarPresupuesto(Presupuesto presupuesto)
         {
             PresupuestoSeleccionadoId = presupuesto.Id;
             PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxTick;
+            PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
+        }
 
-            RefrescarListaPresupuestoProducto();
+        public void AgregarProductoAPresupuesto(Producto producto)
+        {
+            if (PresupuestoSeleccionadoId != -1)
+            {
+                Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
+                ControladorPresupuestos.AgregarPresupuestoProducto(presupuesto, producto);
+            }
             PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
         }
 
@@ -336,35 +347,85 @@ namespace TiendaDeInformatica.Vistas
             PresupuestoSelecciondo_StackPanel.DataContext = null;
         }
 
-        public void AgregarProductoAPresupuesto(Producto producto)
-        {
-            if (PresupuestoSeleccionadoId != -1)
-            {
-                ControladorPresupuestos.AgregarProductoAPresupuesto(ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId), producto, 1);
-                RefrescarListaPresupuestoProducto();
-            }
-            PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
-        }
-
         private void EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if(PresupuestoSeleccionado_Productos_ListBox.SelectedItem != null)
+            TextBlock textBlockSender = (TextBlock)sender;
+            if (textBlockSender.DataContext is PresupuestoProducto)
             {
-                PresupuestoProducto presupuestoProducto = PresupuestoSeleccionado_Productos_ListBox.SelectedItem as PresupuestoProducto;
-                ControladorPresupuestos.EliminarProductoDelPresupuesto(ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId), presupuestoProducto);
+                ControladorPresupuestos.EliminarPresupuestoProducto((PresupuestoProducto)textBlockSender.DataContext);
                 RefrescarListaPresupuestoProducto();
             }
         }
 
         private void RefrescarListaPresupuestoProducto()
         {
-            Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
-            PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
-            PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
-            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
-                PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
-            if (presupuestosUserControl != null)
-                presupuestosUserControl.RefrescarListaDePresupuestos();
+            if (PresupuestoSeleccionadoId != -1)
+            {
+                Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
+                PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
+
+                PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
+                foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+                    PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
+
+                if (presupuestosUserControl != null)
+                    presupuestosUserControl.RefrescarListaDePresupuestos();
+            }
+        }
+
+        // Botón Agregar o Eliminar Cantidad. TextBox de Cantidad.
+
+        private void AgregarCantidadPresupuestoProducto_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button buttonSender = (Button)sender;
+            if(buttonSender.DataContext is PresupuestoProducto)
+            {
+                PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
+                if(presupuestoProducto.Cantidad < 99)
+                {
+                    ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad += 1);
+                    RefrescarListaPresupuestoProducto();
+                }
+            }
+        }
+
+        private void EliminarCantidadPresupuestoProducto_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button buttonSender = (Button)sender;
+            if (buttonSender.DataContext is PresupuestoProducto)
+            {
+                PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
+                if(presupuestoProducto.Cantidad > 1)
+                {
+                    ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad -= 1);
+                    RefrescarListaPresupuestoProducto();
+                }
+            }
+        }
+
+        private async void CantidadPresupuestoProducto_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBoxSender = (TextBox)sender;
+            string texto = textBoxSender.Text;
+
+            await Task.Delay(100);
+            if (texto == textBoxSender.Text)
+            {
+                if (textBoxSender.DataContext is PresupuestoProducto)
+                {
+                    bool esInt = int.TryParse(((TextBox)sender).Text, out int cantidad);
+                    if (esInt && cantidad > 0 && cantidad <= 99)
+                    {
+                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto((PresupuestoProducto)textBoxSender.DataContext, cantidad);
+                        RefrescarListaPresupuestoProducto();
+                    }
+                }
+            }
+        }
+
+        private void PresupuestoSeleccionado_PopupBox_Opened(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaPresupuestoProducto();
         }
     }
 }

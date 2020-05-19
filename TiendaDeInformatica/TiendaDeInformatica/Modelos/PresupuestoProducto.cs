@@ -37,7 +37,7 @@ namespace TiendaDeInformatica.Modelos
         {
             get
             {
-                return ControladorProductos.ObtenerProducto(ProductoId).Precio;
+                return ControladorProductos.ObtenerProducto(ProductoId).Precio * Cantidad;
             }
         }
     }

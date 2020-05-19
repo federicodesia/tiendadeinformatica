@@ -19,7 +19,7 @@ namespace TiendaDeInformatica.Modelos
             {
                 decimal precioTotal = 0;
                 foreach(PresupuestoProducto presupuestoProducto in Productos)
-                    precioTotal += ControladorProductos.ObtenerProducto(presupuestoProducto.ProductoId).Precio;
+                    precioTotal += ControladorProductos.ObtenerProducto(presupuestoProducto.ProductoId).Precio * presupuestoProducto.Cantidad;
                 return precioTotal;
             }
         }
@@ -62,7 +62,10 @@ namespace TiendaDeInformatica.Modelos
         {
             get
             {
-                return Productos.Count;
+                int cantidad = 0;
+                foreach (PresupuestoProducto presupuestoProducto in Productos)
+                    cantidad += presupuestoProducto.Cantidad;
+                return cantidad;
             }
         }
     }

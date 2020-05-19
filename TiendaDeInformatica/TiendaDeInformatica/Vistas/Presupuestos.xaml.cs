@@ -26,6 +26,18 @@ namespace TiendaDeInformatica.Vistas
 
         private void Presupuestos_Vista_Loaded(object sender, RoutedEventArgs e)
         {
+            // Colocar el Slider del filtro de precio al valor máximo
+            List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
+            if (presupuestos.Count > 0)
+            {
+                double presupuestoMasAlto = double.Parse(presupuestos.Max(p => p.PrecioTotal.ToString()));
+                if (presupuestoMasAlto > 100000)
+                {
+                    FiltroPrecio_RangeSlider.Maximum = presupuestoMasAlto;
+                    FiltroPrecio_RangeSlider.UpperValue = presupuestoMasAlto;
+                }
+            }
+
             RefrescarListaDePresupuestos();
         }
 
@@ -146,6 +158,16 @@ namespace TiendaDeInformatica.Vistas
                     Presupuestos_ListBox.Items.Add(presupuesto);
 
                 CantidadDeResultados_TextBlock.Text = Presupuestos_ListBox.Items.Count.ToString();
+
+                // Cambiar el valor máximo del filtro de precio
+                if (presupuestos.Count > 0)
+                {
+                    int presupuestoMasAlto = (int)Math.Ceiling(presupuestos.Max(p => p.PrecioTotal));
+                    if (presupuestoMasAlto > 100000)
+                        FiltroPrecio_RangeSlider.Maximum = presupuestoMasAlto;
+                    else
+                        FiltroPrecio_RangeSlider.Maximum = 100000;
+                }
             }
         }
 

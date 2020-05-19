@@ -64,7 +64,7 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <!-- Presupuesto -->
-                        <materialDesign:PopupBox x:Name="PresupuestoSeleccionado_PopupBox" PlacementMode="BottomAndAlignRightEdges" Margin="10" StaysOpen="True">
+                        <materialDesign:PopupBox x:Name="PresupuestoSeleccionado_PopupBox" PlacementMode="BottomAndAlignRightEdges" Margin="10" StaysOpen="True" Opened="PresupuestoSeleccionado_PopupBox_Opened">
                             <materialDesign:PopupBox.ToggleContent>
                                 <materialDesign:PackIcon x:Name="PresupuestoSeleccionado_Icon" Width="24" Height="24" Foreground="White" Kind="FileDocumentBoxRemove"/>
                             </materialDesign:PopupBox.ToggleContent>
@@ -125,7 +125,7 @@
                                     </StackPanel>
 
                                     <!-- Productos -->
-                                    <ListBox x:Name="PresupuestoSeleccionado_Productos_ListBox" Padding="0 -1 -24 -1" BorderThickness="0" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemPresupuestoProducto}" materialDesign:RippleAssist.IsDisabled="True" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource MaterialDesignBody}">
+                                    <ListBox x:Name="PresupuestoSeleccionado_Productos_ListBox" Padding="0 -1 -24 -1" BorderThickness="0" MaxHeight="390" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemPresupuestoProducto}" FocusVisualStyle="{x:Null}" materialDesign:RippleAssist.IsDisabled="True" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource MaterialDesignBody}">
                                         <!-- Formato de cada item -->
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
@@ -151,11 +151,23 @@
                                                             <Grid Grid.Row="1" Margin="12 0 0 0">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="*"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
 
                                                                 <TextBlock Grid.Column="0" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" Text="Eliminar" VerticalAlignment="Center" MouseLeftButtonDown="EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown"/>
+
+                                                                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="28 0 0 0">
+                                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
+                                                                        <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
+                                                                    </Button>
+
+                                                                    <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12" TextChanged="CantidadPresupuestoProducto_TextBox_TextChanged"/>
+
+                                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
+                                                                        <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
+                                                                    </Button>
+                                                                </StackPanel>
 
                                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right" Margin="0 0 32 0">
                                                                     <TextBlock Text="$" VerticalAlignment="Center"/>
@@ -212,7 +224,7 @@
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
                                                 <TextBlock Text="Total: $"/>
-                                                <TextBlock Text="{Binding PrecioTotal, NotifyOnSourceUpdated=True, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}"/>
+                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>

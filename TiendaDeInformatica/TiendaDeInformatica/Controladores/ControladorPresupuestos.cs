@@ -63,27 +63,52 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
-        public static void AgregarProductoAPresupuesto(Presupuesto presupuesto, Producto producto, int cantidad)
+        public static void AgregarPresupuestoProducto(Presupuesto presupuesto, Producto producto)
         {
             using (var context = new MyDbContext())
             {
-                PresupuestoProducto presupuestoProducto = new PresupuestoProducto()
+                bool existiaAntes = false;
+                foreach(PresupuestoProducto pp in presupuesto.Productos)
                 {
-                    ProductoId = producto.Id,
-                    Cantidad = cantidad,
-                    PresupuestoId = presupuesto.Id
-                };
-                context.Add(presupuestoProducto);
-                context.SaveChanges();
+                    if(pp.ProductoId == producto.Id)
+                    {
+                        existiaAntes = true;
+                        PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(pp.Id);
+                        presupuestoProductoDb.Cantidad += 1;
+                        context.SaveChanges();
+                    }
+                }
+
+                if (!existiaAntes)
+                {
+                    PresupuestoProducto presupuestoProducto = new PresupuestoProducto()
+                    {
+                        ProductoId = producto.Id,
+                        PresupuestoId = presupuesto.Id,
+                        Cantidad = 1
+                    };
+                    context.Add(presupuestoProducto);
+                    context.SaveChanges();
+                }
             }
         }
         
-        public static void EliminarProductoDelPresupuesto(Presupuesto presupuesto, PresupuestoProducto presupuestoProducto)
+        public static void EliminarPresupuestoProducto(PresupuestoProducto presupuestoProducto)
         {
             using (var context = new MyDbContext())
             {
                 PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(presupuestoProducto.Id);
                 context.Remove(presupuestoProductoDb);
+                context.SaveChanges();
+            }
+        }
+
+        public static void ModificarCantidadPresupuestoProducto(PresupuestoProducto presupuestoProducto, int cantidad)
+        {
+            using (var context = new MyDbContext())
+            {
+                PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(presupuestoProducto.Id);
+                presupuestoProductoDb.Cantidad = cantidad;
                 context.SaveChanges();
             }
         }
