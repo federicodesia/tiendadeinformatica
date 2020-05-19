@@ -134,7 +134,7 @@ namespace TiendaDeInformatica.Vistas
         //            Refrescar la lista de presupuestos          //
         // ------------------------------------------------------ //
 
-        private void RefrescarListaDePresupuestos()
+        public void RefrescarListaDePresupuestos()
         {
             if (Presupuestos_Vista.IsLoaded)
             {

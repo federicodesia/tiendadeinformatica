@@ -188,7 +188,7 @@ namespace TiendaDeInformatica.Vistas
         private void Productos_ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Productos_ListBox.SelectedItem is Producto)
-                _ = _principal.MostrarMensajeEnSnackbar("Se agregó el producto al presupuesto");
+                _principal.AgregarProductoAPresupuesto(Productos_ListBox.SelectedItem as Producto);
         }
     }
 }

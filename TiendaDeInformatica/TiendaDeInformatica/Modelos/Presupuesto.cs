@@ -12,7 +12,17 @@ namespace TiendaDeInformatica.Modelos
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaModificacion { get; set; }
         public DateTime? FechaDeExpiracion { get; set; }
-        public decimal PrecioTotal { get; set; }
+
+        public decimal PrecioTotal
+        {
+            get
+            {
+                decimal precioTotal = 0;
+                foreach(PresupuestoProducto presupuestoProducto in Productos)
+                    precioTotal += ControladorProductos.ObtenerProducto(presupuestoProducto.ProductoId).Precio;
+                return precioTotal;
+            }
+        }
 
         public List<PresupuestoProducto> Productos { get; set; }
 
@@ -48,11 +58,11 @@ namespace TiendaDeInformatica.Modelos
             }
         }
 
-        public string CantidadProductos
+        public int CantidadProductos
         {
             get
             {
-                return Productos.Count.ToString();
+                return Productos.Count;
             }
         }
     }

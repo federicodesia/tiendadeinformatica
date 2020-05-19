@@ -26,7 +26,6 @@ namespace TiendaDeInformatica.Controladores
                     FechaCreacion = DateTime.Now,
                     FechaModificacion = DateTime.Now,
                     FechaDeExpiracion = fechaDeExpiracion,
-                    PrecioTotal = 0,
                     Productos = new List<PresupuestoProducto>()
                 };
                 context.Presupuestos.Add(presupuesto);
@@ -79,11 +78,11 @@ namespace TiendaDeInformatica.Controladores
             }
         }
         
-        public static void EliminarProductoDelPresupuesto(Presupuesto presupuesto, PresupuestoProducto presupuestoProducto, Producto producto)
+        public static void EliminarProductoDelPresupuesto(Presupuesto presupuesto, PresupuestoProducto presupuestoProducto)
         {
             using (var context = new MyDbContext())
             {
-                PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(producto.Id);
+                PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(presupuestoProducto.Id);
                 context.Remove(presupuestoProductoDb);
                 context.SaveChanges();
             }
@@ -93,7 +92,7 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                return context.Presupuestos.Find(id);
+                return ObtenerListaDePresupuestos().Find(p => p.Id == id);
             }
         }
     }

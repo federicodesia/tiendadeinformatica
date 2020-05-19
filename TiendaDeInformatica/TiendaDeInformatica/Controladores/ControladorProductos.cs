@@ -63,6 +63,14 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
+        public static Producto ObtenerProducto(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Productos.Find(id);
+            }
+        }
+
         public static void AgregarAtributoATipoProducto(Atributo atributo, TipoProducto tipoProducto)
         {
             using (var context = new MyDbContext())
@@ -86,6 +94,5 @@ namespace TiendaDeInformatica.Controladores
 
             }
         }
-        
     }
 }

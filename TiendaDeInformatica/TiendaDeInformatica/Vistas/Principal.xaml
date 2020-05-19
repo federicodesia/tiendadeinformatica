@@ -63,15 +63,15 @@
                 <Grid VerticalAlignment="Top" Height="56" HorizontalAlignment="Right" Background="{DynamicResource PrimaryHueMidBrush}" Width="108">
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <!-- Presupuesto seleccionado -->
+                        <!-- Presupuesto -->
                         <materialDesign:PopupBox x:Name="PresupuestoSeleccionado_PopupBox" PlacementMode="BottomAndAlignRightEdges" Margin="10" StaysOpen="True">
                             <materialDesign:PopupBox.ToggleContent>
                                 <materialDesign:PackIcon x:Name="PresupuestoSeleccionado_Icon" Width="24" Height="24" Foreground="White" Kind="FileDocumentBoxRemove"/>
                             </materialDesign:PopupBox.ToggleContent>
 
-                            <Grid>
+                            <Grid Width="364">
                                 <!-- No hay presupuesto seleccionado -->
-                                <TextBlock Margin="24 16 24 16" FontSize="14" Text="No hay ningún presupuesto seleccionado" HorizontalAlignment="Center">
+                                <TextBlock Margin="24 12 24 12" FontSize="14" Text="No hay ningún presupuesto seleccionado" HorizontalAlignment="Center">
                                     <TextBlock.Style>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -86,16 +86,16 @@
                                 </TextBlock>
 
                                 <!-- Presupuesto seleccionado -->
-                                <StackPanel x:Name="PresupuestoSelecciondo_StackPanel" Margin="24 12 24 12" Width="264">
+                                <StackPanel x:Name="PresupuestoSelecciondo_StackPanel">
                                     
                                     <!-- Presupuesto Id, Deseleccionar -->
-                                    <Grid>
+                                    <Grid Margin="24 12 24 12">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" TextBlock.FontSize="14" TextBlock.FontWeight="SemiBold">
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" TextBlock.FontSize="14" TextBlock.FontWeight="Medium">
                                             <TextBlock Text="Presupuesto #"/>
                                             <TextBlock Text="{Binding Id}"/>
                                         </StackPanel>
@@ -103,10 +103,10 @@
                                         <Button Grid.Column="1" x:Name="DeseleccionarPresupuesto_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="Deseleccionar" FontSize="13" VerticalAlignment="Bottom" Click="DeseleccionarPresupuesto_Button_Click"/>
                                     </Grid>
 
-                                    <Separator Margin="-24 12 -24 12" VerticalAlignment="Center"/>
+                                    <Separator Margin="-24 0 -24 0"/>
 
                                     <!-- No hay productos -->
-                                    <StackPanel HorizontalAlignment="Center">
+                                    <StackPanel HorizontalAlignment="Center" Margin="24 12 24 12">
 
                                         <materialDesign:PackIcon Kind="PackageVariant" Width="32" Height="32" HorizontalAlignment="Center" Opacity="0.9"/>
                                         <TextBlock Text="No hay productos en el presupuesto" FontSize="13" Margin="0 8 0 0"/>
@@ -116,7 +116,7 @@
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                                 <Style.Triggers>
                                                     <!-- Cambiar la visibilidad dependiendo de la cantidad de productos -->
-                                                    <DataTrigger Binding="{Binding Text, ElementName=PresupuestoSeleccionado_CantidadProductos_TextBlock}" Value="0">
+                                                    <DataTrigger Binding="{Binding HasItems, ElementName=PresupuestoSeleccionado_Productos_ListBox}" Value="False">
                                                         <Setter Property="Visibility" Value="Visible" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -125,29 +125,46 @@
                                     </StackPanel>
 
                                     <!-- Productos -->
-                                    <ListBox x:Name="PresupuestoSeleccionado_Productos_ListBox" Margin="-24 0 -24 0">
+                                    <ListBox x:Name="PresupuestoSeleccionado_Productos_ListBox" Padding="0 -1 -24 -1" BorderThickness="0" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemPresupuestoProducto}" materialDesign:RippleAssist.IsDisabled="True" Background="{DynamicResource MaterialDesignPaper}" Foreground="{DynamicResource MaterialDesignBody}">
                                         <!-- Formato de cada item -->
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid Margin="24 0 24 0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="64"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
+                                                <StackPanel Margin="0 0 0 8" Background="{DynamicResource MaterialDesignCardBackground}" Width="364" >
+                                                    <Grid Margin="0 12 0 12">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="80"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
 
-                                                    <!-- Imagen -->
-                                                    <Image Source="{Binding Imagen}" Grid.Column="0" Width="64" Height="64"/>
+                                                        <Image Grid.Column="0" Source="{Binding MostrarImagenProducto}" Width="64" Height="64" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
-                                                    <!-- Tipo de Producto, Marca y Modelo -->
-                                                    <TextBlock Grid.Column="1" Text="{Binding MostrarTipoProductoMarcaModelo}" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Margin="8 0 0 0"/>
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="64"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
 
-                                                    <!-- Precio -->
-                                                    <StackPanel Orientation="Horizontal" TextBlock.FontSize="16">
-                                                        <TextBlock Grid.Column="2" Text="$" VerticalAlignment="Center"/>
-                                                        <TextBlock Grid.Column="2" Text="{Binding Precio, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" VerticalAlignment="Center"/>
-                                                    </StackPanel>
-                                                </Grid>
+                                                            <!-- Tipo de Producto, Marca y Modelo -->
+                                                            <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center" Margin="12 0 32 0"/>
+
+                                                            <!-- Precio -->
+                                                            <Grid Grid.Row="1" Margin="12 0 0 0">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <TextBlock Grid.Column="0" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" Text="Eliminar" VerticalAlignment="Center" MouseLeftButtonDown="EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown"/>
+
+                                                                <StackPanel Grid.Column="2" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right" Margin="0 0 32 0">
+                                                                    <TextBlock Text="$" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
 
@@ -156,18 +173,18 @@
                                                 <Setter Property="Visibility" Value="Visible"/>
                                                 <Style.Triggers>
                                                     <!-- Cambiar la visibilidad dependiendo de la cantidad de productos -->
-                                                    <DataTrigger Binding="{Binding Text, ElementName=PresupuestoSeleccionado_CantidadProductos_TextBlock}" Value="0">
+                                                    <Trigger Property="HasItems" Value="False">
                                                         <Setter Property="Visibility" Value="Collapsed" />
-                                                    </DataTrigger>
+                                                    </Trigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </ListBox.Style>
                                     </ListBox>
 
-                                    <Separator Margin="-24 12 -24 12" VerticalAlignment="Center"/>
+                                    <Separator Margin="-24 0 -24 0"/>
 
                                     <!-- Resumen, Precio total -->
-                                    <Grid>
+                                    <Grid Margin="24 12 24 12">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
@@ -175,8 +192,8 @@
 
                                         <Button Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" Content="RESUMEN"/>
 
-                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                                            <StackPanel Orientation="Horizontal" TextBlock.FontSize="14">
+                                        <StackPanel Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.75">
                                                 <TextBlock x:Name="PresupuestoSeleccionado_CantidadProductos_TextBlock" Text="{Binding CantidadProductos}"/>
                                                 <TextBlock>
                                                     <TextBlock.Style>
@@ -195,7 +212,7 @@
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
                                                 <TextBlock Text="Total: $"/>
-                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}"/>
+                                                <TextBlock Text="{Binding PrecioTotal, NotifyOnSourceUpdated=True, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>

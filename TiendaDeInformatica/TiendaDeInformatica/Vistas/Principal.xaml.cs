@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
 
@@ -222,10 +223,12 @@ namespace TiendaDeInformatica.Vistas
                 ProductosBackground_Grid.Visibility = Visibility.Hidden;
                 Productos_ListBox.UnselectAll();
                 Contenido_Grid.Children.Clear();
+                presupuestosUserControl = null;
                 switch (index)
                 {
                     case 0:
-                        Contenido_Grid.Children.Add(new Presupuestos(this));
+                        presupuestosUserControl = new Presupuestos(this);
+                        Contenido_Grid.Children.Add(presupuestosUserControl);
                         break;
                     case 1:
                         Contenido_Grid.Children.Add(new Clientes(this));
@@ -312,29 +315,56 @@ namespace TiendaDeInformatica.Vistas
         //       Presupuesto seleccionado (falta completar)       //
         // ------------------------------------------------------ //
 
-
-        public Presupuesto PresupuestoSeleccionado { get; set; }
+        Presupuestos presupuestosUserControl { get; set; }
+        public int PresupuestoSeleccionadoId = -1;
         public void SeleccionarPresupuesto(Presupuesto presupuesto)
         {
-            PresupuestoSeleccionado = presupuesto;
-            PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
+            PresupuestoSeleccionadoId = presupuesto.Id;
             PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxTick;
 
-            PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
-            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
-                PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
-
+            RefrescarListaPresupuestoProducto();
             PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
         }
 
         private async void DeseleccionarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            PresupuestoSeleccionado = null;
+            PresupuestoSeleccionadoId = -1;
             PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxRemove;
             PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
 
             await Task.Delay(250);
             PresupuestoSelecciondo_StackPanel.DataContext = null;
+        }
+
+        public void AgregarProductoAPresupuesto(Producto producto)
+        {
+            if (PresupuestoSeleccionadoId != -1)
+            {
+                ControladorPresupuestos.AgregarProductoAPresupuesto(ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId), producto, 1);
+                RefrescarListaPresupuestoProducto();
+            }
+            PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
+        }
+
+        private void EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if(PresupuestoSeleccionado_Productos_ListBox.SelectedItem != null)
+            {
+                PresupuestoProducto presupuestoProducto = PresupuestoSeleccionado_Productos_ListBox.SelectedItem as PresupuestoProducto;
+                ControladorPresupuestos.EliminarProductoDelPresupuesto(ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId), presupuestoProducto);
+                RefrescarListaPresupuestoProducto();
+            }
+        }
+
+        private void RefrescarListaPresupuestoProducto()
+        {
+            Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
+            PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
+            PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
+            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+                PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
+            if (presupuestosUserControl != null)
+                presupuestosUserControl.RefrescarListaDePresupuestos();
         }
     }
 }

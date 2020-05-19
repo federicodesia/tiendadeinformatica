@@ -134,7 +134,7 @@
                                         <Separator Grid.Row="1" Opacity="0.25"/>
 
                                         <Grid Grid.Row="2" Margin="16">
-                                            <TextBlock Text="{Binding MostrarTipoProductoMarcaModelo}"  ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
+                                            <TextBlock Text="{Binding MostrarTipoProductoMarcaModelo}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
 
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                                                 <TextBlock Text="$" FontSize="16"/>
