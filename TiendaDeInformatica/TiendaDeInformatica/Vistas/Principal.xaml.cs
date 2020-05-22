@@ -317,8 +317,8 @@ namespace TiendaDeInformatica.Vistas
         //       Presupuesto seleccionado (falta completar)       //
         // ------------------------------------------------------ //
 
-        Presupuestos presupuestosUserControl { get; set; }
-        public int PresupuestoSeleccionadoId = -1;
+        private Presupuestos presupuestosUserControl { get; set; }
+        public static int PresupuestoSeleccionadoId = -1;
 
         public void SeleccionarPresupuesto(Presupuesto presupuesto)
         {

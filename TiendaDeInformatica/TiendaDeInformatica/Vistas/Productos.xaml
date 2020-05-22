@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="569" d:DesignWidth="776"
              
@@ -16,6 +17,10 @@
              
              x:Name="Vista_Productos" Loaded="Vista_Productos_Loaded" SizeChanged="Vista_Productos_SizeChanged">
     <Grid>
+        <Grid.Resources>
+            <converters:PresupuestoProductoVisibilityConverter x:Key="PresupuestoProductoVisibilityConverter"/>
+        </Grid.Resources>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="56"/>
@@ -94,6 +99,12 @@
                             <ListBox.Resources>
                                 <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                     <ContextMenu.Items>
+                                        <MenuItem Header="Agregar al presupuesto" Click="AgregarPresupuestoProducto_Click" Visibility="{Binding Converter={StaticResource PresupuestoProductoVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="FileDocumentBoxPlus"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <Separator Visibility="{Binding Converter={StaticResource PresupuestoProductoVisibilityConverter}}"/>
                                         <MenuItem Header="Modificar" Click="ModificarProducto_Click">
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon Kind="UserEdit" />

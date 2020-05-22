@@ -136,7 +136,18 @@
                                                             <ColumnDefinition Width="*"/>
                                                         </Grid.ColumnDefinitions>
 
-                                                        <Image Grid.Column="0" Source="{Binding MostrarImagenProducto}" Width="64" Height="64" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                                        <Image Grid.Column="0" Width="64" Height="64" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                                            <Image.Style>
+                                                                <Style TargetType="{x:Type Image}">
+                                                                    <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Imagen}" Value="{x:Null}">
+                                                                            <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
 
                                                         <Grid Grid.Column="1">
                                                             <Grid.RowDefinitions>

@@ -57,6 +57,12 @@ namespace TiendaDeInformatica.Vistas
         //    Opciones al hacer click derecho sobre un producto   //
         // ------------------------------------------------------ //
 
+        private void AgregarPresupuestoProducto_Click(object sender, RoutedEventArgs e)
+        {
+            if (Productos_ListBox.SelectedItem is Producto)
+                _principal.AgregarProductoAPresupuesto(Productos_ListBox.SelectedItem as Producto);
+        }
+
         private void ModificarProducto_Click(object sender, RoutedEventArgs e)
         {
             Producto producto = Productos_ListBox.SelectedItem as Producto;
