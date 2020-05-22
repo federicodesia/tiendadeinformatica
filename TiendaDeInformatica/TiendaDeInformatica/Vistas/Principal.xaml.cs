@@ -314,7 +314,7 @@ namespace TiendaDeInformatica.Vistas
         }
 
         // ------------------------------------------------------ //
-        //       Presupuesto seleccionado (falta completar)       //
+        //                 Presupuesto seleccionado               //
         // ------------------------------------------------------ //
 
         private Presupuestos presupuestosUserControl { get; set; }
@@ -426,6 +426,12 @@ namespace TiendaDeInformatica.Vistas
         private void PresupuestoSeleccionado_PopupBox_Opened(object sender, RoutedEventArgs e)
         {
             RefrescarListaPresupuestoProducto();
+        }
+
+        private void Resumen_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Contenido_Grid.Children.Clear();
+            Contenido_Grid.Children.Add(new ResumenPresupuesto(this, PresupuestoSeleccionadoId));
         }
     }
 }

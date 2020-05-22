@@ -202,6 +202,9 @@
     </Compile>
     <Compile Include="Vistas\Converters\PresupuestoProductoVisibilityConverter.cs" />
     <Compile Include="Vistas\Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Vistas\ResumenPresupuesto.xaml.cs">
+      <DependentUpon>ResumenPresupuesto.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Presupuestos.xaml.cs">
       <DependentUpon>Presupuestos.xaml</DependentUpon>
     </Compile>
@@ -237,6 +240,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vistas\Clientes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vistas\ResumenPresupuesto.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

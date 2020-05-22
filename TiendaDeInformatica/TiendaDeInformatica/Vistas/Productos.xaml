@@ -219,7 +219,7 @@
 
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                                                 <TextBlock Text="$" FontSize="16"/>
-                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" FontSize="16"/>
+                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" FontSize="16"/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>

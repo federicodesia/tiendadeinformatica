@@ -265,7 +265,7 @@ namespace TiendaDeInformatica.Vistas
                 List<Producto> resultado = new List<Producto>();
                 foreach (Producto producto in productos)
                 {
-                    if (TextHelper.QuitarTildes(producto.Modelo).ToUpper().Contains(busqueda))
+                    if (TextHelper.QuitarTildes(producto.MostrarTipoProductoMarcaModelo).ToUpper().Contains(busqueda))
                         resultado.Add(producto);
                 }
                 return resultado;

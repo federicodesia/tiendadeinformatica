@@ -158,7 +158,7 @@
                                                             <!-- Tipo de Producto, Marca y Modelo -->
                                                             <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center" Margin="12 0 32 0"/>
 
-                                                            <!-- Precio -->
+                                                            <!-- Precio, cantidad -->
                                                             <Grid Grid.Row="1" Margin="12 0 0 0">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="Auto"/>
@@ -182,7 +182,7 @@
 
                                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right" Margin="0 0 32 0">
                                                                     <TextBlock Text="$" VerticalAlignment="Center"/>
-                                                                    <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center"/>
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Grid>
@@ -213,7 +213,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" Content="RESUMEN"/>
+                                        <Button Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" Content="RESUMEN" Click="Resumen_Button_Click"/>
 
                                         <StackPanel Grid.Column="1">
                                             <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.75">
@@ -235,7 +235,7 @@
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
                                                 <TextBlock Text="Total: $"/>
-                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}"/>
+                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>
