@@ -66,6 +66,28 @@
                                 </Grid>
                             </GroupBox>
 
+                            <!-- Filtro por Marca -->
+                            <GroupBox x:Name="Marcas_GroupBox" BorderThickness="0" Header="Marca" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                                <StackPanel>
+                                    <ListBox x:Name="Marcas_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="Marcas_ListBox_PreviewMouseRightButtonDown" SelectionChanged="Marcas_ListBox_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text=" "/>
+                                                        <TextBlock Text="{Binding Nombre}" Padding="0 0 300 0"/>
+                                                    </StackPanel>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </StackPanel>
+                            </GroupBox>
+
                             <!-- Filtro por Precio -->
                             <GroupBox BorderThickness="0" Header="Precio" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
                                 <StackPanel Margin="-6 0 0 0">

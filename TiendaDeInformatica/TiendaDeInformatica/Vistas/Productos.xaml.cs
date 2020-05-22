@@ -17,7 +17,8 @@ namespace TiendaDeInformatica.Vistas
     public partial class Productos : UserControl
     {
         private Principal _principal;
-        TipoProducto? _tipoProducto;
+        private TipoProducto? _tipoProducto;
+        private bool modificandoListBoxMarcas = false;
 
         public Productos(Principal principal, TipoProducto? tipoProducto)
         {
@@ -34,22 +35,32 @@ namespace TiendaDeInformatica.Vistas
 
         private void Vista_Productos_Loaded(object sender, RoutedEventArgs e)
         {
-            // Colocar el Slider del filtro de precio al valor máximo
-            List<Producto> productos = new List<Producto>();
-            if (_tipoProducto == null)
-                productos = ControladorProductos.ObtenerListaDeProductos();
-            else
-                productos = ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
-
+            List<Producto> productos = ObtenerListaDeProductos();
             if (productos.Count > 0)
             {
+                // Colocar el Slider del filtro de precio al valor máximo
                 double productoMasAlto = double.Parse(productos.Max(p => p.Precio.ToString()));
                 if (productoMasAlto > 100000)
                 {
                     FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
                     FiltroPrecio_RangeSlider.UpperValue = productoMasAlto;
                 }
+
+                // Cargar las Marcas en el ListBox
+                modificandoListBoxMarcas = true;
+                List<Marca> marcas = new List<Marca>();
+                foreach (Producto producto in productos)
+                {
+                    if (!marcas.Contains(producto.Marca))
+                        marcas.Add(producto.Marca);
+                }
+                marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                Marcas_ListBox.Items.Add(marcas);
+                modificandoListBoxMarcas = false;
             }
+
+            if (Marcas_ListBox.Items.Count == 0)
+                Marcas_GroupBox.Visibility = Visibility.Collapsed;
 
             RefrescarListaDeProductos();
         }
@@ -66,9 +77,54 @@ namespace TiendaDeInformatica.Vistas
             caracteristicasProducto.Owner = Application.Current.MainWindow;
 
             caracteristicasProducto.ShowDialog();
+            RefrescarListBoxMarcas();
             RefrescarListaDeProductos();
         }
 
+        // ------------------------------------------------------ //
+        //             Funciones para no repetir código           //
+        // ------------------------------------------------------ //
+
+        private List<Producto> ObtenerListaDeProductos()
+        {
+            if (_tipoProducto == null)
+                return ControladorProductos.ObtenerListaDeProductos();
+            return ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
+        }
+
+        private void RefrescarListBoxMarcas()
+        {
+            modificandoListBoxMarcas = true;
+            // Marcas seleccionados anteriormente
+            List<int> marcasSeleccionadasAnteriores = new List<int>();
+            foreach (Marca marcaSeleccionada in Marcas_ListBox.SelectedItems)
+                marcasSeleccionadasAnteriores.Add(marcaSeleccionada.Id);
+
+            // Nuevos tipos de productos
+            List<Marca> marcasNuevas = new List<Marca>();
+            foreach (Producto producto in ObtenerListaDeProductos())
+            {
+                if (!marcasNuevas.Contains(producto.Marca))
+                    marcasNuevas.Add(producto.Marca);
+            }
+            marcasNuevas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+
+            // Mostrar las nuevas marcas
+            Marcas_ListBox.Items.Clear();
+            foreach (Marca marca in marcasNuevas)
+            {
+                Marcas_ListBox.Items.Add(marca);
+                // Verificar si antes estaban seleccionadas y seleccionarlas nuevamente
+                if (marcasSeleccionadasAnteriores.Contains(marca.Id))
+                    Marcas_ListBox.SelectedItems.Add(marca);
+            }
+
+            if (Marcas_ListBox.Items.Count == 0)
+                Marcas_GroupBox.Visibility = Visibility.Collapsed;
+            else
+                Marcas_GroupBox.Visibility = Visibility.Visible;
+            modificandoListBoxMarcas = false;
+        }
 
         // ------------------------------------------------------ //
         //    Opciones al hacer click derecho sobre un producto   //
@@ -89,6 +145,7 @@ namespace TiendaDeInformatica.Vistas
                 caracteristicasProducto.Owner = Application.Current.MainWindow;
 
                 caracteristicasProducto.ShowDialog();
+                RefrescarListBoxMarcas();
                 RefrescarListaDeProductos();
             }
         }
@@ -115,6 +172,7 @@ namespace TiendaDeInformatica.Vistas
             if (producto != null)
             {
                 ControladorProductos.EliminarProducto(producto);
+                RefrescarListBoxMarcas();
                 RefrescarListaDeProductos();
 
                 AlertaEliminarProducto_DialogHost.IsOpen = false;
@@ -169,14 +227,9 @@ namespace TiendaDeInformatica.Vistas
             if (Vista_Productos.IsLoaded)
             {
                 Productos_ListBox.Items.Clear();
+                List<Producto> productos = ObtenerListaDeProductos();
 
-                List<Producto> productos = new List<Producto>();
-                if (_tipoProducto==null)
-                    productos = ControladorProductos.ObtenerListaDeProductos();
-                else
-                    productos = ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
-
-                List<Producto> resultados = OrdenarProductos(FiltrarProductosPorPrecio(BuscarProducto(productos, BuscarProducto_TextBox.Text)));
+                List<Producto> resultados = OrdenarProductos(FiltrarProductosPorPrecio(FiltrarProductosPorMarca(BuscarProducto(productos, BuscarProducto_TextBox.Text))));
                 foreach (Producto producto in resultados)
                     Productos_ListBox.Items.Add(producto);
 
@@ -259,8 +312,38 @@ namespace TiendaDeInformatica.Vistas
         }
 
         // ------------------------------------------------------ //
-        //                    Filtrar presupuestos                //
+        //                     Filtrar productos                  //
         // ------------------------------------------------------ //
+
+        // Filtrar por Marca
+        private void Marcas_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Deshabilitar el click derecho para seleccionar o deseleccionar un item del ListBox
+            e.Handled = true;
+        }
+
+        private void Marcas_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(!modificandoListBoxMarcas)
+                RefrescarListaDeProductos();
+        }
+
+        private List<Producto> FiltrarProductosPorMarca(List<Producto> productos)
+        {
+            if (Marcas_ListBox.SelectedItem != null)
+            {
+                if (Marcas_ListBox.SelectedItems.Count != Marcas_ListBox.Items.Count)
+                {
+                    List<Producto> resultado = new List<Producto>();
+                    foreach (Marca marca in Marcas_ListBox.SelectedItems)
+                        resultado.AddRange(marca.Productos);
+                    return resultado;
+                }
+            }
+            return productos;
+        }
+
+        // Filtrar por Precio
 
         private void FiltroPrecio_RangeSlider_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
