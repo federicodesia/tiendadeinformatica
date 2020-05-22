@@ -34,6 +34,23 @@ namespace TiendaDeInformatica.Vistas
 
         private void Vista_Productos_Loaded(object sender, RoutedEventArgs e)
         {
+            // Colocar el Slider del filtro de precio al valor máximo
+            List<Producto> productos = new List<Producto>();
+            if (_tipoProducto == null)
+                productos = ControladorProductos.ObtenerListaDeProductos();
+            else
+                productos = ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
+
+            if (productos.Count > 0)
+            {
+                double productoMasAlto = double.Parse(productos.Max(p => p.Precio.ToString()));
+                if (productoMasAlto > 100000)
+                {
+                    FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
+                    FiltroPrecio_RangeSlider.UpperValue = productoMasAlto;
+                }
+            }
+
             RefrescarListaDeProductos();
         }
 
@@ -159,12 +176,22 @@ namespace TiendaDeInformatica.Vistas
                 else
                     productos = ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
 
-                List<Producto> resultados = OrdenarProductos(BuscarProducto(productos, BuscarProducto_TextBox.Text));
+                List<Producto> resultados = OrdenarProductos(FiltrarProductosPorPrecio(BuscarProducto(productos, BuscarProducto_TextBox.Text)));
                 foreach (Producto producto in resultados)
                     Productos_ListBox.Items.Add(producto);
 
                 CantidadDeResultados_TextBlock.Text = Productos_ListBox.Items.Count.ToString();
                 AjustarFilasColumnas();
+
+                // Cambiar el valor máximo del filtro de precio
+                if (productos.Count > 0)
+                {
+                    int productoMasAlto = (int)Math.Ceiling(productos.Max(p => p.Precio));
+                    if (productoMasAlto > 100000)
+                        FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
+                    else
+                        FiltroPrecio_RangeSlider.Maximum = 100000;
+                }
             }
         }
 
@@ -229,6 +256,21 @@ namespace TiendaDeInformatica.Vistas
                 productos.Reverse();
 
             return productos;
+        }
+
+        // ------------------------------------------------------ //
+        //                    Filtrar presupuestos                //
+        // ------------------------------------------------------ //
+
+        private void FiltroPrecio_RangeSlider_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            RefrescarListaDeProductos();
+        }
+
+        private List<Producto> FiltrarProductosPorPrecio(List<Producto> productos)
+        {
+            return productos.Where(p => p.Precio >= decimal.Parse(FiltroPrecio_RangeSlider.LowerValue.ToString())
+            && p.Precio <= decimal.Parse(FiltroPrecio_RangeSlider.UpperValue.ToString())).ToList();
         }
 
         // ------------------------------------------------------ //

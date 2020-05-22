@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="569" d:DesignWidth="776"
              
@@ -63,6 +64,25 @@
                                         </materialDesign:ToggleButtonAssist.OnContent>
                                     </ToggleButton>
                                 </Grid>
+                            </GroupBox>
+
+                            <!-- Filtro por Precio -->
+                            <GroupBox BorderThickness="0" Header="Precio" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                                <StackPanel Margin="-6 0 0 0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock x:Name="FiltroPrecioMinimo_TextBlock" Grid.Column="0" FontSize="13" Text="{Binding LowerValue, ElementName=FiltroPrecio_RangeSlider, StringFormat=N0}"/>
+                                        <TextBlock x:Name="FiltroPrecioMaximo_TextBlock" Grid.Column="2" FontSize="13" Text="{Binding UpperValue, ElementName=FiltroPrecio_RangeSlider, StringFormat=N0}" HorizontalAlignment="Right"/>
+                                    </Grid>
+
+                                    <mah:RangeSlider x:Name="FiltroPrecio_RangeSlider" Margin="0 6 0 0" MinRange="100" MinRangeWidth="0" Style="{StaticResource MaterialDesignRangeSlider}"
+                                    Minimum="0" Maximum="100000" LowerValue="0" UpperValue="100000" PreviewMouseUp="FiltroPrecio_RangeSlider_PreviewMouseUp"/>
+                                </StackPanel>
                             </GroupBox>
                         </StackPanel>
                     </ScrollViewer>
