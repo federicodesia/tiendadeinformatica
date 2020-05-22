@@ -37,6 +37,12 @@ namespace TiendaDeInformatica.Vistas
             RefrescarListaDeProductos();
         }
 
+        private void TituloProductos_Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if (_tipoProducto != null)
+                _principal.MenuIzquierdo.SelectedIndex = 6;
+        }
+
         private void AgregarProducto_Button_Click(object sender, RoutedEventArgs e)
         {
             CaracteristicasProducto caracteristicasProducto = new CaracteristicasProducto(_principal, null, _tipoProducto);

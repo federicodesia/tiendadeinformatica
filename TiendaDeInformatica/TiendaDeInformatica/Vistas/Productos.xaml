@@ -179,10 +179,16 @@
 
                         <!-- Titulo -->
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center" TextBlock.FontSize="14" TextBlock.FontWeight="SemiBold" TextBlock.Foreground="White">
-                            <TextBlock Text="Productos"/>
+                            <TextBlock>
+                                <Hyperlink x:Name="TituloProductos_Hyperlink" Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="TituloProductos_Hyperlink_Click">Productos</Hyperlink>
+                            </TextBlock>
                             <StackPanel x:Name="TituloTipoProducto_StackPanel" Orientation="Horizontal" Visibility="Collapsed">
                                 <materialDesign:PackIcon Kind="MenuRight"/>
-                                <TextBlock x:Name="TituloTipoProducto_TextBlock" Text="TipoProducto"/>
+                                <TextBlock>
+                                    <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold">
+                                        <TextBlock x:Name="TituloTipoProducto_TextBlock" Text="TipoProducto"/>
+                                    </Hyperlink>
+                                </TextBlock>
                             </StackPanel>
                         </StackPanel>
 
