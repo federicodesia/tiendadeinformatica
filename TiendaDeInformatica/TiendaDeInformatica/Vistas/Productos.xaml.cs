@@ -159,7 +159,7 @@ namespace TiendaDeInformatica.Vistas
                 else
                     productos = ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
 
-                List<Producto> resultados = BuscarProducto(productos, BuscarProducto_TextBox.Text);
+                List<Producto> resultados = OrdenarProductos(BuscarProducto(productos, BuscarProducto_TextBox.Text));
                 foreach (Producto producto in resultados)
                     Productos_ListBox.Items.Add(producto);
 
@@ -190,6 +190,44 @@ namespace TiendaDeInformatica.Vistas
                 }
                 return resultado;
             }
+            return productos;
+        }
+
+        // ------------------------------------------------------ //
+        //                    Ordenar productos                   //
+        // ------------------------------------------------------ //
+
+        private void OrdenarProductos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefrescarListaDeProductos();
+        }
+
+        private void OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDeProductos();
+        }
+
+        private List<Producto> OrdenarProductos(List<Producto> productos)
+        {
+            if (OrdenarProductos_ComboBox.SelectedIndex == 0)
+            {
+                // Precio
+                productos.OrderBy(p => p.Precio).Reverse();
+            }
+            else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
+            {
+                // Alfabéticamente
+                productos.Sort((x, y) => string.Compare(x.MostrarTipoProductoMarcaModelo, y.MostrarTipoProductoMarcaModelo));
+            }
+            else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
+            {
+                // Fecha de creación
+                productos.OrderBy(m => m.Id).ToList();
+            }
+
+            if (OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
+                productos.Reverse();
+
             return productos;
         }
 

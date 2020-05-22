@@ -35,9 +35,37 @@
 
                 <!-- Filtros -->
                 <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
-                    <StackPanel Margin="24">
-                        
-                    </StackPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+
+                        <StackPanel Margin="24" Width="192">
+                            <!-- Ordenar -->
+                            <GroupBox BorderThickness="0" Header="Ordenar" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}">
+                                <Grid Margin="-4 0 -8 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ComboBox Grid.Column="0" x:Name="OrdenarProductos_ComboBox" SelectedIndex="0" FontWeight="Normal" SelectionChanged="OrdenarProductos_ComboBox_SelectionChanged">
+                                        <ComboBoxItem Content="Precio"/>
+                                        <ComboBoxItem Content="Alfabéticamente"/>
+                                        <ComboBoxItem Content="Fecha de creación"/>
+                                    </ComboBox>
+
+                                    <ToggleButton Grid.Column="2" x:Name="OrdenarProductos_AscDesc_ToggleButton" Opacity=".68" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignActionToggleButtonVertical}" Background="Transparent" Checked="OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked" Unchecked="OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked">
+                                        <ToggleButton.Content>
+                                            <materialDesign:PackIcon Height="18" Width="18" Kind="SortDescending"/>
+                                        </ToggleButton.Content>
+
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <materialDesign:PackIcon Height="18" Width="18" Kind="SortAscending"/>
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                    </ToggleButton>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
 
                 <!-- Contenido -->
