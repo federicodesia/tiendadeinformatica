@@ -47,13 +47,13 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <ComboBox Grid.Column="0" x:Name="OrdenarProductos_ComboBox" SelectedIndex="0" FontWeight="Normal">
+                                    <ComboBox Grid.Column="0" x:Name="OrdenarProductos_ComboBox" SelectedIndex="0" FontWeight="Normal" SelectionChanged="OrdenarProductos_ComboBox_SelectionChanged">
                                         <ComboBoxItem Content="Incorporación"/>
                                         <ComboBoxItem Content="Precio"/>
                                         <ComboBoxItem Content="Unidades"/>
                                     </ComboBox>
 
-                                    <ToggleButton Grid.Column="2" x:Name="OrdenarProductos_AscDesc_ToggleButton" Opacity=".68" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignActionToggleButtonVertical}" Background="Transparent">
+                                    <ToggleButton Grid.Column="2" x:Name="OrdenarProductos_AscDesc_ToggleButton" Opacity=".68" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignActionToggleButtonVertical}" Background="Transparent" Checked="OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked" Unchecked="OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked">
                                         <ToggleButton.Content>
                                             <materialDesign:PackIcon Height="18" Width="18" Kind="SortDescending"/>
                                         </ToggleButton.Content>

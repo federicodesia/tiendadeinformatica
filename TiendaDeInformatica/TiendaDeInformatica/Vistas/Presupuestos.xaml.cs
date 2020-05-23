@@ -69,14 +69,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void ResumenPresupuesto_Click(object sender, RoutedEventArgs e)
         {
-            Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
-            if (presupuesto != null)
-            {
-                _principal.Contenido_Grid.Children.Clear();
-                ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(_principal, presupuesto.Id);
-                _principal.reumenPresupuestosUserControl = resumenPresupuesto;
-                _principal.Contenido_Grid.Children.Add(resumenPresupuesto);
-            }
+            AbrirResumenPresupuesto();
         }
 
         private void ModificarPresupuesto(object sender, RoutedEventArgs e)
@@ -96,6 +89,27 @@ namespace TiendaDeInformatica.Vistas
         {
             _principal.OscurecerCompletamente(true);
             AlertaBorrarPresupuesto_DialogHost.IsOpen = true;
+        }
+
+        // ------------------------------------------------------ //
+        //       Al hacer doble click sobre un presupuesto        //
+        // ------------------------------------------------------ //
+
+        private void Presupuestos_ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            AbrirResumenPresupuesto();
+        }
+
+        private void AbrirResumenPresupuesto()
+        {
+            Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
+            if (presupuesto != null)
+            {
+                _principal.Contenido_Grid.Children.Clear();
+                ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(_principal, presupuesto.Id);
+                _principal.reumenPresupuestosUserControl = resumenPresupuesto;
+                _principal.Contenido_Grid.Children.Add(resumenPresupuesto);
+            }
         }
 
         // ------------------------------------------------------ //

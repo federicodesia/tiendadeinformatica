@@ -223,6 +223,7 @@ namespace TiendaDeInformatica.Vistas
             {
                 int index = MenuIzquierdo.SelectedIndex;
 
+                PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
                 ProductosBackground_Grid.Visibility = Visibility.Hidden;
                 Productos_ListBox.UnselectAll();
 
@@ -439,6 +440,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void Resumen_Button_Click(object sender, RoutedEventArgs e)
         {
+            PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
             Contenido_Grid.Children.Clear();
             ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(this, PresupuestoSeleccionadoId);
             reumenPresupuestosUserControl = resumenPresupuesto;

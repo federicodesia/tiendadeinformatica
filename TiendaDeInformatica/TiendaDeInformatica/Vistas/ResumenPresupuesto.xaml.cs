@@ -49,11 +49,54 @@ namespace TiendaDeInformatica.Vistas
 
         public void RefrescarListaPresupuestoProducto()
         {
-            Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
-            this.DataContext = presupuesto;
-            Productos_ListBox.Items.Clear();
-            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
-                Productos_ListBox.Items.Add(presupuestoProducto);
+            if (ResumenPresupuesto_Vista.IsLoaded)
+            {
+                Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
+                this.DataContext = presupuesto;
+
+                List<PresupuestoProducto> productos = OrdenarProductos(presupuesto.Productos);
+                Productos_ListBox.Items.Clear();
+                foreach (PresupuestoProducto presupuestoProducto in productos)
+                    Productos_ListBox.Items.Add(presupuestoProducto);
+            }
+        }
+
+        // ------------------------------------------------------ //
+        //                     Ordenar productos                  //
+        // ------------------------------------------------------ //
+
+        private void OrdenarProductos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefrescarListaPresupuestoProducto();
+        }
+
+        private void OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaPresupuestoProducto();
+        }
+
+        private List<PresupuestoProducto> OrdenarProductos(List<PresupuestoProducto> productos)
+        {
+            if (OrdenarProductos_ComboBox.SelectedIndex == 0)
+            {
+                // Incorporación
+                productos.OrderBy(p => p.Id);
+            }
+            else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
+            {
+                // Precio
+                productos.OrderBy(p => p.MostrarPrecioProducto);
+            }
+            else if (OrdenarProductos_ComboBox.SelectedIndex == 2)
+            {
+                // Unidades
+                productos.OrderBy(p => p.Cantidad);
+            }
+
+            if (OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
+                productos.Reverse();
+
+            return productos;
         }
 
         // ------------------------------------------------------ //

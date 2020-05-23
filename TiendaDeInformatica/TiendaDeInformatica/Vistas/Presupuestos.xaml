@@ -159,7 +159,7 @@
 
                     <!-- Contenido -->
                     <Grid Grid.Row="1" Margin="0 18 0 0">
-                        <ListBox x:Name="Presupuestos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12">
+                        <ListBox x:Name="Presupuestos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" MouseDoubleClick="Presupuestos_ListBox_MouseDoubleClick">
 
                             <!-- Opciones al hacer click derecho sobre un presupuesto -->
                             <ListBox.Resources>
