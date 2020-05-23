@@ -80,20 +80,21 @@ namespace TiendaDeInformatica.Vistas
             if (OrdenarProductos_ComboBox.SelectedIndex == 0)
             {
                 // Incorporación
-                productos.OrderBy(p => p.Id);
+                productos.Sort((p1, p2) => p1.Id.CompareTo(p2.Id));
+                productos.Reverse();
             }
             else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
             {
                 // Precio
-                productos.OrderBy(p => p.MostrarPrecioProducto);
+                productos.Sort((p1, p2) => p1.MostrarPrecioProducto.CompareTo(p2.MostrarPrecioProducto));
             }
             else if (OrdenarProductos_ComboBox.SelectedIndex == 2)
             {
                 // Unidades
-                productos.OrderBy(p => p.Cantidad);
+                productos.Sort((p1, p2) => p1.Cantidad.CompareTo(p2.Cantidad));
             }
 
-            if (OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
+            if (!OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
                 productos.Reverse();
 
             return productos;

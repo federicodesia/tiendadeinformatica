@@ -237,7 +237,8 @@ namespace TiendaDeInformatica.Vistas
             else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 3)
             {
                 // Precio
-                presupuestos.OrderBy(p => p.PrecioTotal).Reverse();
+                presupuestos.Sort((p1, p2) => p1.PrecioTotal.CompareTo(p2.PrecioTotal));
+                presupuestos.Reverse();
             }
 
             if (OrdenarPresupuestos_AscDesc_ToggleButton.IsChecked.Value)
