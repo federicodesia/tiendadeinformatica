@@ -76,68 +76,72 @@
                     </Grid.RowDefinitions>
 
                     <!-- Productos -->
-                    <StackPanel Grid.Row="0">
-                        
-                        <ListBox x:Name="Productos_ListBox" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsListBoxItemMod}" ScrollViewer.CanContentScroll="False">
+                    <ListBox x:Name="Productos_ListBox" Grid.Row="0" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsListBoxItemMod}" ScrollViewer.CanContentScroll="False">
 
-                            <!-- Formato de cada item -->
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="24">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="64"/>
-                                            <ColumnDefinition Width="16"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="24"/>
-                                            <ColumnDefinition Width="128"/>
-                                            <ColumnDefinition Width="16"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                        <!-- Formato de cada item -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="24">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="64"/>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <!-- Imagen -->
-                                        <Image Grid.Column="0" Width="64" Height="64">
-                                            <Image.Style>
-                                                <Style TargetType="{x:Type Image}">
-                                                    <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding MostrarImagenProducto}" Value="{x:Null}">
-                                                            <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
+                                    <!-- Imagen -->
+                                    <Image Grid.Column="0" Width="64" Height="64">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding MostrarImagenProducto}" Value="{x:Null}">
+                                                        <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
 
-                                        <!-- Tipo de Producto, Marca y Modelo -->
-                                        <TextBlock Grid.Column="2" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center"/>
+                                    <!-- Tipo de Producto, Marca y Modelo -->
+                                    <Grid Grid.Column="1" Margin="16 0 0 0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
 
-                                        <!-- Cantidad -->
-                                        <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0">
-                                                <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
-                                            </Button>
-
-                                            <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" Height="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12"/>
-
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0">
-                                                <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
-                                            </Button>
-                                        </StackPanel>
-
-                                        <!-- Precio -->
-                                        <StackPanel Grid.Column="6" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right">
-                                            <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                            <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                        </StackPanel>
+                                        <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Row="1" Text="Eliminar" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" VerticalAlignment="Center" MouseLeftButtonDown="Eliminar_TextBlock_MouseLeftButtonDown"/>
                                     </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
+
+                                    <!-- Cantidad -->
+                                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
+                                            <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
+                                        </Button>
+
+                                        <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" Height="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12" TextChanged="CantidadPresupuestoProducto_TextBox_TextChanged"/>
+
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
+                                            <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <!-- Precio -->
+                                    <StackPanel Grid.Column="5" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right">
+                                        <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                        <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <!-- Precio total, cantidad de productos -->
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                        <Separator HorizontalAlignment="Stretch" Margin="0 0 0 24"/>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
+                        <Separator HorizontalAlignment="Stretch" Margin="0 12 0 24"/>
 
                         <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.75">
                             <TextBlock x:Name="PresupuestoSeleccionado_CantidadProductos_TextBlock" Text="{Binding CantidadProductos}"/>

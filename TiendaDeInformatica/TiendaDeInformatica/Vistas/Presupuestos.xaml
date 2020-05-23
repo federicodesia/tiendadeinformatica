@@ -170,7 +170,7 @@
                                                 <materialDesign:PackIcon Kind="FileDocumentBoxTick"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Resumen">
+                                        <MenuItem Header="Resumen" Click="ResumenPresupuesto_Click">
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon Kind="FileDocumentBox"/>
                                             </MenuItem.Icon>

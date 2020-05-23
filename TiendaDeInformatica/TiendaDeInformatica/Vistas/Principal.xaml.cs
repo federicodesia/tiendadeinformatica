@@ -222,10 +222,14 @@ namespace TiendaDeInformatica.Vistas
             if (Principal_Vista.IsLoaded && MenuIzquierdo.SelectedItems.Count == 1)
             {
                 int index = MenuIzquierdo.SelectedIndex;
+
                 ProductosBackground_Grid.Visibility = Visibility.Hidden;
                 Productos_ListBox.UnselectAll();
-                Contenido_Grid.Children.Clear();
+
+                PresupuestosBackground_Grid.Visibility = Visibility.Hidden;
                 presupuestosUserControl = null;
+
+                Contenido_Grid.Children.Clear();
                 switch (index)
                 {
                     case 0:
@@ -318,6 +322,8 @@ namespace TiendaDeInformatica.Vistas
         // ------------------------------------------------------ //
 
         private Presupuestos presupuestosUserControl { get; set; }
+        public ResumenPresupuesto reumenPresupuestosUserControl { get; set; }
+
         public static int PresupuestoSeleccionadoId = -1;
 
         public void SeleccionarPresupuesto(Presupuesto presupuesto)
@@ -370,6 +376,9 @@ namespace TiendaDeInformatica.Vistas
 
                 if (presupuestosUserControl != null)
                     presupuestosUserControl.RefrescarListaDePresupuestos();
+
+                if (reumenPresupuestosUserControl != null)
+                    reumenPresupuestosUserControl.RefrescarListaPresupuestoProducto();
             }
         }
 
@@ -431,7 +440,9 @@ namespace TiendaDeInformatica.Vistas
         private void Resumen_Button_Click(object sender, RoutedEventArgs e)
         {
             Contenido_Grid.Children.Clear();
-            Contenido_Grid.Children.Add(new ResumenPresupuesto(this, PresupuestoSeleccionadoId));
+            ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(this, PresupuestoSeleccionadoId);
+            reumenPresupuestosUserControl = resumenPresupuesto;
+            Contenido_Grid.Children.Add(resumenPresupuesto);
         }
     }
 }
