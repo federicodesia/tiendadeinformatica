@@ -618,7 +618,14 @@
                             </Grid>
                         </ListBoxItem>
 
-                        <Separator Margin="-8 0 -8 0"/>
+                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ProgressWrench" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
+                                <TextBlock Text="Atributos" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListBoxItem>
+
+                            <Separator Margin="-8 0 -8 0"/>
                     </ListBox>
                 </Grid>
             </Grid>
