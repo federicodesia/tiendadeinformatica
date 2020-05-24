@@ -174,7 +174,7 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <Button Grid.Column="1" VerticalAlignment="Top" Margin="0 8 8 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Modificar presupuesto">
+                                <Button Grid.Column="1" VerticalAlignment="Top" Margin="0 8 8 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Modificar presupuesto" Click="ModificarPresupuesto_Button_Click">
                                     <materialDesign:PackIcon Kind="Edit" Width="16" Height="16"/>
                                 </Button>
                             </Grid>
