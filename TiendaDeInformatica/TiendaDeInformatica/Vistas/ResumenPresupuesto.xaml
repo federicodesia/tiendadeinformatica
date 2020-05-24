@@ -19,6 +19,8 @@
     <Grid>
         <Grid.Resources>
             <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+            <converters:PresupuestoBarraColorConverter x:Key="PresupuestoBarraColorConverter"/>
+            <converters:PresupuestoBarraToolTipConverter x:Key="PresupuestoBarraToolTipConverter"/>
         </Grid.Resources>
 
         <Grid>
@@ -71,100 +73,230 @@
                 <!-- Contenido -->
                 <Grid Grid.Column="0" Margin="24">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Productos -->
-                    <ListBox x:Name="Productos_ListBox" Grid.Row="0" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsListBoxItemMod}" ScrollViewer.CanContentScroll="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                        <!-- Formato de cada item -->
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="24">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="64"/>
-                                        <ColumnDefinition Width="5*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
+                        <materialDesign:Card Grid.Column="0" materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                            <materialDesign:Card.Effect>
+                                <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
+                            </materialDesign:Card.Effect>
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                                    <!-- Imagen -->
-                                    <Image Grid.Column="0" Width="64" Height="64">
-                                        <Image.Style>
-                                            <Style TargetType="{x:Type Image}">
-                                                <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
+                                <!-- Barra de fecha de expiración -->
+                                <Grid Grid.Column="0" Background="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoBarraColorConverter}}" ToolTip="{Binding FechaDeExpiracion, Converter={StaticResource PresupuestoBarraToolTipConverter}}" ToolTipService.Placement="Mouse"/>
+
+                                <StackPanel Grid.Column="1" Margin="24 24 0 24">
+                                    <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Resumen" FontWeight="SemiBold" FontSize="14"/>
+
+                                    <!-- Fecha de creación -->
+                                    <StackPanel Orientation="Horizontal" Margin="0 16 0 0">
+                                        <TextBlock Text="Creado el "/>
+                                        <TextBlock Text="{Binding FechaCreacion, StringFormat='dd/MM/yyyy HH:mm'}"/>
+                                    </StackPanel>
+
+                                    <!-- Fecha de modificación -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Modificado por últ. vez el " Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding FechaModificacion, StringFormat='dd/MM/yyyy HH:mm'}" Style="{StaticResource MaterialDesignBody1TextBlock}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+
+                        <materialDesign:Card Grid.Column="2" materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                            <materialDesign:Card.Effect>
+                                <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
+                            </materialDesign:Card.Effect>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0" Margin="24 24 0 24">
+                                    <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Cliente" FontWeight="SemiBold" FontSize="14"/>
+                                    
+                                    <!-- Cliente -->
+                                    <StackPanel Orientation="Horizontal" Margin="0 16 0 0">
+                                        <Border CornerRadius="64" Height="32" Width="32" Background="DarkGray" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Width="22" Height="22" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">
+                                                <materialDesign:PackIcon.Style>
+                                                    <Style TargetType="{x:Type materialDesign:PackIcon}">
+                                                        <Setter Property="Kind" Value="Person" />
+                                                        <Style.Triggers>
+                                                            <!-- Cambiar el icono dependiendo del tipo de cliente -->
+                                                            <DataTrigger Binding="{Binding ClienteTipo}" Value="Empresa">
+                                                                <Setter Property="Kind" Value="OfficeBuilding" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </materialDesign:PackIcon.Style>
+                                            </materialDesign:PackIcon>
+                                        </Border>
+
+                                        <StackPanel Orientation="Vertical" Margin="8 0 0 0" VerticalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding ClienteMostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                                <TextBlock Margin="4 0 0 0" Text="{Binding ClienteNombreDelResponsable}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                            </StackPanel>
+
+                                            <TextBlock Text="{Binding ClienteDescripcion}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <!-- Cambiar el la visibilidad dependiendo de si hay descripción o no -->
+                                                            <DataTrigger Binding="{Binding ClienteDescripcion}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ClienteDescripcion}" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Button Grid.Column="1" VerticalAlignment="Top" Margin="0 8 8 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Modificar presupuesto">
+                                    <materialDesign:PackIcon Kind="Edit" Width="16" Height="16"/>
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <materialDesign:Card Grid.Row="1" materialDesign:ShadowAssist.ShadowDepth="Depth0" Margin="0 18 0 0" VerticalAlignment="Stretch">
+                        <materialDesign:Card.Effect>
+                            <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
+                        </materialDesign:Card.Effect>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Productos" FontWeight="SemiBold" Margin="24" FontSize="14"/>
+                                <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
+                            </StackPanel>
+
+                            <!-- Productos -->
+                            <ListBox x:Name="Productos_ListBox" HorizontalContentAlignment="Stretch" Grid.Row="1" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemPresupuestoProducto}" FocusVisualStyle="{x:Null}" materialDesign:RippleAssist.IsDisabled="True">
+
+                                <!-- Formato de cada item -->
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Grid Background="{DynamicResource MaterialDesignCardBackground}" Margin="24 12 24 12">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="64"/>
+                                                    <ColumnDefinition Width="5*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Imagen -->
+                                                <Image Grid.Column="0" Width="64" Height="64">
+                                                    <Image.Style>
+                                                        <Style TargetType="{x:Type Image}">
+                                                            <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding MostrarImagenProducto}" Value="{x:Null}">
+                                                                    <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+
+                                                <!-- Tipo de Producto, Marca y Modelo -->
+                                                <Grid Grid.Column="1" Margin="16 0 0 0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center"/>
+
+                                                    <StackPanel Grid.Row="1" HorizontalAlignment="Left">
+                                                        <TextBlock Text="Eliminar" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" VerticalAlignment="Center" MouseLeftButtonDown="Eliminar_TextBlock_MouseLeftButtonDown"/>
+                                                    </StackPanel>
+                                                </Grid>
+
+                                                <!-- Cantidad -->
+                                                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
+                                                        <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
+                                                    </Button>
+
+                                                    <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" Height="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12" TextChanged="CantidadPresupuestoProducto_TextBox_TextChanged"/>
+
+                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
+                                                        <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
+                                                    </Button>
+                                                </StackPanel>
+
+                                                <!-- Precio -->
+                                                <StackPanel Grid.Column="5" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right">
+                                                    <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                                    <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid Background="{DynamicResource MaterialDesignPaper}" Height="8"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <!-- Precio total, cantidad de productos -->
+                            <StackPanel Grid.Row="2" Margin="24 0 24 24">
+                                <Separator HorizontalAlignment="Stretch" Opacity="0.48" Margin="-24 0 -24 24"/>
+
+                                <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.78">
+                                    <TextBlock x:Name="PresupuestoSeleccionado_CantidadProductos_TextBlock" Text="{Binding CantidadProductos}"/>
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Text" Value=" productos" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding MostrarImagenProducto}" Value="{x:Null}">
-                                                        <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                    <!-- Cambiar el texto dependiendo de la cantidad de productos -->
+                                                    <DataTrigger Binding="{Binding Text, ElementName=PresupuestoSeleccionado_CantidadProductos_TextBlock}" Value="1">
+                                                        <Setter Property="Text" Value=" producto" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </Image.Style>
-                                    </Image>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
 
-                                    <!-- Tipo de Producto, Marca y Modelo -->
-                                    <Grid Grid.Column="1" Margin="16 0 0 0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-
-                                        <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Row="1" Text="Eliminar" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" VerticalAlignment="Center" MouseLeftButtonDown="Eliminar_TextBlock_MouseLeftButtonDown"/>
-                                    </Grid>
-
-                                    <!-- Cantidad -->
-                                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
-                                            <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
-                                        </Button>
-
-                                        <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" Height="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12" TextChanged="CantidadPresupuestoProducto_TextBox_TextChanged"/>
-
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
-                                            <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
-                                        </Button>
-                                    </StackPanel>
-
-                                    <!-- Precio -->
-                                    <StackPanel Grid.Column="5" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right">
-                                        <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                        <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <!-- Precio total, cantidad de productos -->
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
-                        <Separator HorizontalAlignment="Stretch" Margin="0 12 0 24"/>
-
-                        <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.75">
-                            <TextBlock x:Name="PresupuestoSeleccionado_CantidadProductos_TextBlock" Text="{Binding CantidadProductos}"/>
-                            <TextBlock>
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Text" Value=" productos" />
-                                        <Style.Triggers>
-                                            <!-- Cambiar el texto dependiendo de la cantidad de productos -->
-                                            <DataTrigger Binding="{Binding Text, ElementName=PresupuestoSeleccionado_CantidadProductos_TextBlock}" Value="1">
-                                                <Setter Property="Text" Value=" producto" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
-                            <TextBlock Text="Total: $"/>
-                            <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
-                        </StackPanel>
-                    </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
+                                    <TextBlock Text="Total: $"/>
+                                    <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
                 </Grid>
             </Grid>
 
