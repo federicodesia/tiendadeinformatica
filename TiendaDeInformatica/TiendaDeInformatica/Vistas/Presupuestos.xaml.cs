@@ -58,6 +58,20 @@ namespace TiendaDeInformatica.Vistas
         //  Opciones al hacer click derecho sobre un presupuesto  //
         // ------------------------------------------------------ //
 
+        private void SeleccionarPresupuesto(object sender, RoutedEventArgs e)
+        {
+            Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
+            if (presupuesto != null)
+            {
+                _principal.SeleccionarPresupuesto(presupuesto);
+            }
+        }
+
+        private void ResumenPresupuesto_Click(object sender, RoutedEventArgs e)
+        {
+            AbrirResumenPresupuesto();
+        }
+
         private void ModificarPresupuesto(object sender, RoutedEventArgs e)
         {
             Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
@@ -77,12 +91,24 @@ namespace TiendaDeInformatica.Vistas
             AlertaBorrarPresupuesto_DialogHost.IsOpen = true;
         }
 
-        private void SeleccionarPresupuesto(object sender, RoutedEventArgs e)
+        // ------------------------------------------------------ //
+        //       Al hacer doble click sobre un presupuesto        //
+        // ------------------------------------------------------ //
+
+        private void Presupuestos_ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            AbrirResumenPresupuesto();
+        }
+
+        private void AbrirResumenPresupuesto()
         {
             Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
             if (presupuesto != null)
             {
-                _principal.SeleccionarPresupuesto(presupuesto);
+                _principal.Contenido_Grid.Children.Clear();
+                ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(_principal, presupuesto.Id);
+                _principal.reumenPresupuestosUserControl = resumenPresupuesto;
+                _principal.Contenido_Grid.Children.Add(resumenPresupuesto);
             }
         }
 
@@ -211,7 +237,8 @@ namespace TiendaDeInformatica.Vistas
             else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 3)
             {
                 // Precio
-                presupuestos.OrderBy(p => p.PrecioTotal);
+                presupuestos.Sort((p1, p2) => p1.PrecioTotal.CompareTo(p2.PrecioTotal));
+                presupuestos.Reverse();
             }
 
             if (OrdenarPresupuestos_AscDesc_ToggleButton.IsChecked.Value)

@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="569" d:DesignWidth="776"
              
@@ -16,6 +18,10 @@
              
              x:Name="Vista_Productos" Loaded="Vista_Productos_Loaded" SizeChanged="Vista_Productos_SizeChanged">
     <Grid>
+        <Grid.Resources>
+            <converters:PresupuestoProductoVisibilityConverter x:Key="PresupuestoProductoVisibilityConverter"/>
+        </Grid.Resources>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="56"/>
@@ -30,9 +36,78 @@
 
                 <!-- Filtros -->
                 <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
-                    <StackPanel Margin="24">
-                        
-                    </StackPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+
+                        <StackPanel Margin="24" Width="192">
+                            <!-- Ordenar -->
+                            <GroupBox BorderThickness="0" Header="Ordenar" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}">
+                                <Grid Margin="-4 0 -8 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ComboBox Grid.Column="0" x:Name="OrdenarProductos_ComboBox" SelectedIndex="0" FontWeight="Normal" SelectionChanged="OrdenarProductos_ComboBox_SelectionChanged">
+                                        <ComboBoxItem Content="Precio"/>
+                                        <ComboBoxItem Content="Alfabéticamente"/>
+                                        <ComboBoxItem Content="Fecha de creación"/>
+                                    </ComboBox>
+
+                                    <ToggleButton Grid.Column="2" x:Name="OrdenarProductos_AscDesc_ToggleButton" Opacity=".68" Foreground="{DynamicResource MaterialDesignBody}" Style="{StaticResource MaterialDesignActionToggleButtonVertical}" Background="Transparent" Checked="OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked" Unchecked="OrdenarProductos_AscDesc_ToggleButton_CheckedUnchecked">
+                                        <ToggleButton.Content>
+                                            <materialDesign:PackIcon Height="18" Width="18" Kind="SortDescending"/>
+                                        </ToggleButton.Content>
+
+                                        <materialDesign:ToggleButtonAssist.OnContent>
+                                            <materialDesign:PackIcon Height="18" Width="18" Kind="SortAscending"/>
+                                        </materialDesign:ToggleButtonAssist.OnContent>
+                                    </ToggleButton>
+                                </Grid>
+                            </GroupBox>
+
+                            <!-- Filtro por Marca -->
+                            <GroupBox x:Name="Marcas_GroupBox" BorderThickness="0" Header="Marca" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                                <StackPanel>
+                                    <ListBox x:Name="Marcas_ListBox" SelectionMode="Multiple" Margin="-4 -12 -8 0" PreviewMouseRightButtonDown="Marcas_ListBox_PreviewMouseRightButtonDown" SelectionChanged="Marcas_ListBox_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text=" "/>
+                                                        <TextBlock Text="{Binding Nombre}" Padding="0 0 300 0"/>
+                                                    </StackPanel>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <!-- Filtro por Precio -->
+                            <GroupBox BorderThickness="0" Header="Precio" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                                <StackPanel Margin="-6 0 0 0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock x:Name="FiltroPrecioMinimo_TextBlock" Grid.Column="0" FontSize="13" Text="{Binding LowerValue, ElementName=FiltroPrecio_RangeSlider, StringFormat=N0}"/>
+                                        <TextBlock x:Name="FiltroPrecioMaximo_TextBlock" Grid.Column="2" FontSize="13" Text="{Binding UpperValue, ElementName=FiltroPrecio_RangeSlider, StringFormat=N0}" HorizontalAlignment="Right"/>
+                                    </Grid>
+
+                                    <mah:RangeSlider x:Name="FiltroPrecio_RangeSlider" Margin="0 6 0 0" MinRange="100" MinRangeWidth="0" Style="{StaticResource MaterialDesignRangeSlider}"
+                                    Minimum="0" Maximum="100000" LowerValue="0" UpperValue="100000" PreviewMouseUp="FiltroPrecio_RangeSlider_PreviewMouseUp"/>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
 
                 <!-- Contenido -->
@@ -94,6 +169,12 @@
                             <ListBox.Resources>
                                 <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                                     <ContextMenu.Items>
+                                        <MenuItem Header="Agregar al presupuesto" Click="AgregarPresupuestoProducto_Click" Visibility="{Binding Converter={StaticResource PresupuestoProductoVisibilityConverter}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="FileDocumentBoxPlus"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <Separator Visibility="{Binding Converter={StaticResource PresupuestoProductoVisibilityConverter}}"/>
                                         <MenuItem Header="Modificar" Click="ModificarProducto_Click">
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon Kind="UserEdit" />
@@ -138,7 +219,7 @@
 
                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                                                 <TextBlock Text="$" FontSize="16"/>
-                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" FontSize="16"/>
+                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" FontSize="16"/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -179,10 +260,16 @@
 
                         <!-- Titulo -->
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center" TextBlock.FontSize="14" TextBlock.FontWeight="SemiBold" TextBlock.Foreground="White">
-                            <TextBlock Text="Productos"/>
+                            <TextBlock>
+                                <Hyperlink x:Name="TituloProductos_Hyperlink" Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="TituloProductos_Hyperlink_Click">Productos</Hyperlink>
+                            </TextBlock>
                             <StackPanel x:Name="TituloTipoProducto_StackPanel" Orientation="Horizontal" Visibility="Collapsed">
                                 <materialDesign:PackIcon Kind="MenuRight"/>
-                                <TextBlock x:Name="TituloTipoProducto_TextBlock" Text="TipoProducto"/>
+                                <TextBlock>
+                                    <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold">
+                                        <TextBlock x:Name="TituloTipoProducto_TextBlock" Text="TipoProducto"/>
+                                    </Hyperlink>
+                                </TextBlock>
                             </StackPanel>
                         </StackPanel>
 

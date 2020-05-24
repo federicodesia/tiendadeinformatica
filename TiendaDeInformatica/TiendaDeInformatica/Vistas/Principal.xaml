@@ -136,7 +136,18 @@
                                                             <ColumnDefinition Width="*"/>
                                                         </Grid.ColumnDefinitions>
 
-                                                        <Image Grid.Column="0" Source="{Binding MostrarImagenProducto}" Width="64" Height="64" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                                        <Image Grid.Column="0" Width="64" Height="64" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                                            <Image.Style>
+                                                                <Style TargetType="{x:Type Image}">
+                                                                    <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding MostrarImagenProducto}" Value="{x:Null}">
+                                                                            <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
 
                                                         <Grid Grid.Column="1">
                                                             <Grid.RowDefinitions>
@@ -147,7 +158,7 @@
                                                             <!-- Tipo de Producto, Marca y Modelo -->
                                                             <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center" Margin="12 0 32 0"/>
 
-                                                            <!-- Precio -->
+                                                            <!-- Precio, cantidad -->
                                                             <Grid Grid.Row="1" Margin="12 0 0 0">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="Auto"/>
@@ -171,7 +182,7 @@
 
                                                                 <StackPanel Grid.Column="2" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right" Margin="0 0 32 0">
                                                                     <TextBlock Text="$" VerticalAlignment="Center"/>
-                                                                    <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding MostrarPrecioProducto, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center"/>
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Grid>
@@ -202,7 +213,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Button Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" Content="RESUMEN"/>
+                                        <Button Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" Content="RESUMEN" Click="Resumen_Button_Click"/>
 
                                         <StackPanel Grid.Column="1">
                                             <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.75">
@@ -224,7 +235,7 @@
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
                                                 <TextBlock Text="Total: $"/>
-                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}"/>
+                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </Grid>
@@ -553,13 +564,35 @@
                 <!-- Menú izquierdo -->
                 <Grid Grid.Row="1">
                     <ListBox x:Name="MenuIzquierdo" SelectionChanged="MenuIzquierdo_SelectionChanged" SelectedIndex="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" Padding="0 12 0 0">
-                        <ListViewItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FileDocumentBox" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
-                                <TextBlock Text="Presupuestos" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
 
+                        <ListBoxItem x:Name="Presupuestos_ListBoxItem" Height="44" Padding="0" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                            <Grid Height="44" Width="240">
+                                <Grid x:Name="PresupuestosBackground_Grid" Background="{DynamicResource MaterialDesignDivider}">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="Visibility" Value="Visible">
+                                                    <Trigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </Trigger.EnterActions>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FileDocumentBox" Width="24" Height="24" VerticalAlignment="Center" Margin="32 0 24 0" Opacity="0.9"/>
+                                    <TextBlock Text="Presupuestos" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </ListBoxItem>
+                        
                         <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ClipboardPerson" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>

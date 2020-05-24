@@ -217,7 +217,11 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Titulo -->
-                        <TextBlock Grid.Column="0" Margin="24,0,0,0" Text="Marcas" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center">
+                            <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White">
+                                <TextBlock Text="Marcas" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                            </Hyperlink>
+                        </TextBlock>
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">

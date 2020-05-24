@@ -67,6 +67,8 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
+                presupuesto.FechaModificacion = DateTime.Now;
+
                 bool existiaAntes = false;
                 foreach(PresupuestoProducto pp in presupuesto.Productos)
                 {

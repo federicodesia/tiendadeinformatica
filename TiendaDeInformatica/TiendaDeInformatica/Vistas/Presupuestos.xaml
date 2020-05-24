@@ -159,7 +159,7 @@
 
                     <!-- Contenido -->
                     <Grid Grid.Row="1" Margin="0 18 0 0">
-                        <ListBox x:Name="Presupuestos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12">
+                        <ListBox x:Name="Presupuestos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" MouseDoubleClick="Presupuestos_ListBox_MouseDoubleClick">
 
                             <!-- Opciones al hacer click derecho sobre un presupuesto -->
                             <ListBox.Resources>
@@ -170,7 +170,7 @@
                                                 <materialDesign:PackIcon Kind="FileDocumentBoxTick"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Header="Resumen">
+                                        <MenuItem Header="Resumen" Click="ResumenPresupuesto_Click">
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon Kind="FileDocumentBox"/>
                                             </MenuItem.Icon>
@@ -282,7 +282,7 @@
                                                 <!-- Precio total -->
                                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" TextBlock.FontSize="22">
                                                     <TextBlock Text="$" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
-                                                    <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,#.##}, ConverterCulture=es-AR}" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" Style="{StaticResource MaterialDesignHeadlineTextBlock}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                             </Grid>
                                         </StackPanel>
@@ -316,7 +316,12 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Titulo -->
-                        <TextBlock Grid.Column="0" Margin="24,0,0,0" Text="Presupuestos" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center">
+                            <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White">
+                                <TextBlock Text="Presupuestos" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                            </Hyperlink>
+                        </TextBlock>
+                        
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
