@@ -243,11 +243,17 @@ namespace TiendaDeInformatica.Vistas
                     case 2:
                         Contenido_Grid.Children.Add(new Marcas(this));
                         break;
+                    case 4:
+                        Contenido_Grid.Children.Add(new EquiposArmados(this));
+                        break;
+                    case 5:
+                        Contenido_Grid.Children.Add(new ConfiguracionGuiada(this));
+                        break;
                     case 6:
                         Contenido_Grid.Children.Add(new Productos(this, null));
                         break;
-                    case 7:
-                        Contenido_Grid.Children.Add(new Atributos());
+                    case 8:
+                        Contenido_Grid.Children.Add(new Atributos(this));
                         break;
                     default:
                         break;

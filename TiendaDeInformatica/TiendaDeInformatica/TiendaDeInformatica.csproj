@@ -188,8 +188,11 @@
     <Compile Include="Controladores\ControladorProductos.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
-    <Compile Include="Vistas\Atributos.xaml.cs">
-      <DependentUpon>Atributos.xaml</DependentUpon>
+    <Compile Include="Vistas\ConfiguracionGuiada.xaml.cs">
+      <DependentUpon>ConfiguracionGuiada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\EquiposArmados.xaml.cs">
+      <DependentUpon>EquiposArmados.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml.cs">
       <DependentUpon>CaracteristicasProducto.xaml</DependentUpon>
@@ -205,6 +208,9 @@
     </Compile>
     <Compile Include="Vistas\Converters\PresupuestoProductoVisibilityConverter.cs" />
     <Compile Include="Vistas\Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Vistas\Atributos.xaml.cs">
+      <DependentUpon>Atributos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\ResumenPresupuesto.xaml.cs">
       <DependentUpon>ResumenPresupuesto.xaml</DependentUpon>
     </Compile>
@@ -226,9 +232,13 @@
     <Compile Include="Vistas\Reglas de Validacion\FechaDeExpiracion.cs" />
     <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
     <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
-    <Page Include="Vistas\Atributos.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Vistas\ConfiguracionGuiada.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vistas\EquiposArmados.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -247,6 +257,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vistas\Clientes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vistas\Atributos.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

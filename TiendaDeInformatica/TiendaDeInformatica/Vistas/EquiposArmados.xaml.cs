@@ -14,17 +14,17 @@ namespace TiendaDeInformatica.Vistas
     /// <summary>
     /// Lógica de interacción para Clientes.xaml
     /// </summary>
-    public partial class Atributos : UserControl
+    public partial class EquiposArmados : UserControl
     {
         private Principal _principal;
 
-        public Atributos(Principal principal)
+        public EquiposArmados(Principal principal)
         {
             InitializeComponent();
             _principal = principal;
         }
 
-        private void Atributos_Vista_Loaded(object sender, RoutedEventArgs e)
+        private void EquiposArmados_Vista_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
