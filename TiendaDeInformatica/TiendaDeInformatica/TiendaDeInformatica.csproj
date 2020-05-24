@@ -188,6 +188,9 @@
     <Compile Include="Controladores\ControladorProductos.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Vistas\Atributos.xaml.cs">
+      <DependentUpon>Atributos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml.cs">
       <DependentUpon>CaracteristicasProducto.xaml</DependentUpon>
     </Compile>
@@ -223,6 +226,10 @@
     <Compile Include="Vistas\Reglas de Validacion\FechaDeExpiracion.cs" />
     <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
     <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
+    <Page Include="Vistas\Atributos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vistas\Caracteristicas\CaracteristicasProducto.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -246,6 +246,9 @@ namespace TiendaDeInformatica.Vistas
                     case 6:
                         Contenido_Grid.Children.Add(new Productos(this, null));
                         break;
+                    case 7:
+                        Contenido_Grid.Children.Add(new Atributos());
+                        break;
                     default:
                         break;
                 }

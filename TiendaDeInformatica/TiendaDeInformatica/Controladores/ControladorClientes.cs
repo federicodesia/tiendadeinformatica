@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Modelos;
@@ -29,7 +31,6 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-
         public static void ModificarCliente(Cliente cliente, string nombreDeLaEmpresa, string nombre, string apellido, string telefono, string cuit)
         {
             using (var context = new MyDbContext())
