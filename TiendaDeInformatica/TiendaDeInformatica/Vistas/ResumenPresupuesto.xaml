@@ -198,6 +198,25 @@
                                 <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
                             </StackPanel>
 
+                            <!-- No hay productos -->
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                                <materialDesign:PackIcon Kind="PackageVariant" Width="32" Height="32" HorizontalAlignment="Center" Opacity="0.9"/>
+                                <TextBlock Text="No hay productos en el presupuesto" FontSize="13" Margin="0 8 0 0" TextWrapping="Wrap" TextAlignment="Center" MaxHeight="32" TextTrimming="CharacterEllipsis"/>
+
+                                <StackPanel.Style>
+                                    <Style TargetType="{x:Type StackPanel}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <!-- Cambiar la visibilidad dependiendo de la cantidad de productos -->
+                                            <DataTrigger Binding="{Binding HasItems, ElementName=Productos_ListBox}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                            </StackPanel>
+
                             <!-- Productos -->
                             <ListBox x:Name="Productos_ListBox" HorizontalContentAlignment="Stretch" Grid.Row="1" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemPresupuestoProducto}" FocusVisualStyle="{x:Null}" materialDesign:RippleAssist.IsDisabled="True">
 
