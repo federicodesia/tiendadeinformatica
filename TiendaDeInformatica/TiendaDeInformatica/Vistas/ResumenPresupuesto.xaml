@@ -245,13 +245,13 @@
 
                                                 <!-- Cantidad -->
                                                 <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
+                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
                                                         <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
                                                     </Button>
 
                                                     <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" Height="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12" TextChanged="CantidadPresupuestoProducto_TextBox_TextChanged"/>
 
-                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
+                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
                                                         <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
                                                     </Button>
                                                 </StackPanel>
@@ -263,7 +263,7 @@
                                                 </StackPanel>
                                             </Grid>
 
-                                            <Grid Background="{DynamicResource MaterialDesignPaper}" Height="8"/>
+                                            <Grid Background="{DynamicResource MaterialDesignBody}" Opacity="0.02" Height="8"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

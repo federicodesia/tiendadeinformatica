@@ -207,7 +207,7 @@ namespace TiendaDeInformatica.Vistas
             if (itemsGrid != null)
             {
                 // Cantidad de columnas a partir del ancho
-                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 190);
+                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 184);
 
                 if (itemsGrid.Columns > 0)
                     // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
