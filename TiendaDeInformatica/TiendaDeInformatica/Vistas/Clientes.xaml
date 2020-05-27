@@ -14,6 +14,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="Clientes_Vista" Loaded="Clientes_Vista_Loaded">
     <Grid>
         <Grid>

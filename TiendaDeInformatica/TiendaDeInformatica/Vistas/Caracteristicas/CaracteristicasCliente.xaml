@@ -15,6 +15,9 @@
         FontSize="13"
         FontFamily="Roboto"
         
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        
         ShowInTaskbar="False"
         x:Name="CaracteristicasCliente_Vista" Loaded="CaracteristicasCliente_Vista_Loaded" WindowStartupLocation="CenterOwner">
 

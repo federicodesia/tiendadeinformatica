@@ -16,6 +16,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="Vista_Productos" Loaded="Vista_Productos_Loaded" SizeChanged="Vista_Productos_SizeChanged">
     <Grid>
         <Grid.Resources>

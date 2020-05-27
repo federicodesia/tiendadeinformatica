@@ -50,7 +50,7 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                return context.Atributos.ToList();
+                return context.Atributos.Include(a => a.TiposProductos).ToList();
             }
         }
         public static List<Atributo> ObtenerListaDeValoresAsociadosAAtributo() //Obtiene una lista de todos los valores asociados a un atributo.

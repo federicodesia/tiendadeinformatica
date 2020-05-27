@@ -15,6 +15,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="ResumenPresupuesto_Vista" Loaded="ResumenPresupuesto_Vista_Loaded">
     <Grid>
         <Grid.Resources>
@@ -194,7 +197,7 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0">
-                                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Productos" FontWeight="SemiBold" Margin="24" FontSize="14"/>
+                                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Productos" FontWeight="SemiBold" Margin="24 24 18 24" FontSize="14"/>
                                 <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
                             </StackPanel>
 

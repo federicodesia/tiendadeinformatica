@@ -15,6 +15,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="EquiposArmados_Vista" Loaded="EquiposArmados_Vista_Loaded">
     <Grid>
         <Grid>

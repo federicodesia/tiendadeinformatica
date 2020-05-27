@@ -15,6 +15,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="ConfiguracionGuiada_Vista" Loaded="ConfiguracionGuiada_Vista_Loaded">
     <Grid>
         <Grid>

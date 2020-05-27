@@ -11,6 +11,10 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:materialDesignColors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
         xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
+        
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        
         Foreground="{DynamicResource MaterialDesignBody}"
         Background="Black"
         TextElement.FontWeight="Regular"
