@@ -161,5 +161,14 @@ namespace TiendaDeInformatica.Vistas
                 }
             }
         }
+
+        private void ModificarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CaracteristicasPresupuesto caracteristicasPresupuesto = new CaracteristicasPresupuesto(_principal, ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId));
+            caracteristicasPresupuesto.Owner = Application.Current.MainWindow;
+
+            caracteristicasPresupuesto.ShowDialog();
+            this.DataContext = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
+        }
     }
 }

@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="TiendaDeInformatica.Vistas.ConfiguracionGuiada"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="569" d:DesignWidth="776"
+             
+             Background="Transparent"
+             Foreground="{DynamicResource MaterialDesignBody}"
+             FontWeight="Regular"
+             FontSize="13"
+             FontFamily="Roboto"
+             
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
+             x:Name="ConfiguracionGuiada_Vista" Loaded="ConfiguracionGuiada_Vista_Loaded">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="240"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Menu derecho -->
+                <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+
+                        <StackPanel Margin="24" Width="192">
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <!-- Contenido -->
+                <Grid Grid.Column="0" Margin="24">
+                </Grid>
+            </Grid>
+
+            <!-- Menú superior -->
+            <materialDesign:ColorZone Grid.Row="0" materialDesign:ShadowAssist.ShadowDepth="Depth2" materialDesign:ShadowAssist.ShadowEdges="Bottom" Height="56">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <!-- 104 píxeles de espacio para las opciones generales -->
+                        <ColumnDefinition Width="104"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="1" Background="{DynamicResource PrimaryHueMidBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Titulo -->
+                        <TextBlock Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center">
+                            <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White">
+                                <TextBlock Text="Configuración guiada" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
+                            </Hyperlink>
+                        </TextBlock>
+
+                        <!-- Opciones -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </materialDesign:ColorZone>
+        </Grid>
+    </Grid>
+</UserControl>

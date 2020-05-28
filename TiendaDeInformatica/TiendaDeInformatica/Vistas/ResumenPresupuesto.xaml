@@ -15,6 +15,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="ResumenPresupuesto_Vista" Loaded="ResumenPresupuesto_Vista_Loaded">
     <Grid>
         <Grid.Resources>
@@ -174,7 +177,7 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <Button Grid.Column="1" VerticalAlignment="Top" Margin="0 8 8 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Modificar presupuesto">
+                                <Button Grid.Column="1" VerticalAlignment="Top" Margin="0 8 8 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Modificar presupuesto" Click="ModificarPresupuesto_Button_Click">
                                     <materialDesign:PackIcon Kind="Edit" Width="16" Height="16"/>
                                 </Button>
                             </Grid>
@@ -194,8 +197,27 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0">
-                                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Productos" FontWeight="SemiBold" Margin="24" FontSize="14"/>
+                                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Productos" FontWeight="SemiBold" Margin="24 24 18 24" FontSize="14"/>
                                 <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
+                            </StackPanel>
+
+                            <!-- No hay productos -->
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                                <materialDesign:PackIcon Kind="PackageVariant" Width="32" Height="32" HorizontalAlignment="Center" Opacity="0.9"/>
+                                <TextBlock Text="No hay productos en el presupuesto" FontSize="13" Margin="0 8 0 0" TextWrapping="Wrap" TextAlignment="Center" MaxHeight="32" TextTrimming="CharacterEllipsis"/>
+
+                                <StackPanel.Style>
+                                    <Style TargetType="{x:Type StackPanel}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <!-- Cambiar la visibilidad dependiendo de la cantidad de productos -->
+                                            <DataTrigger Binding="{Binding HasItems, ElementName=Productos_ListBox}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
                             </StackPanel>
 
                             <!-- Productos -->
@@ -245,13 +267,13 @@
 
                                                 <!-- Cantidad -->
                                                 <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
+                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">
                                                         <materialDesign:PackIcon Kind="Remove" Height="12" Width="12"/>
                                                     </Button>
 
                                                     <TextBox Style="{StaticResource MaterialDesignFilledTextFieldTextBox}" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" materialDesign:TextFieldAssist.TextFieldCornerRadius="0" MaxLength="2" BorderBrush="Transparent" Text="{Binding Cantidad, UpdateSourceTrigger=Explicit}" Padding="-8 -12 -8 -4" Height="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" materialDesign:HintAssist.IsFloating="False" FontSize="12" TextChanged="CantidadPresupuestoProducto_TextBox_TextChanged"/>
 
-                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{StaticResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
+                                                    <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="0 4 4 0" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="AgregarCantidadPresupuestoProducto_Button_Click">
                                                         <materialDesign:PackIcon Kind="Add" Height="12" Width="12"/>
                                                     </Button>
                                                 </StackPanel>
@@ -263,7 +285,7 @@
                                                 </StackPanel>
                                             </Grid>
 
-                                            <Grid Background="{DynamicResource MaterialDesignPaper}" Height="8"/>
+                                            <Grid Background="{DynamicResource MaterialDesignBody}" Opacity="0.02" Height="8"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

@@ -15,6 +15,9 @@
              FontSize="13"
              FontFamily="Roboto"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="Marcas_Vista" Loaded="Marcas_Vista_Loaded" SizeChanged="Marcas_Vista_SizeChanged">
     <Grid>
         <Grid.Resources>

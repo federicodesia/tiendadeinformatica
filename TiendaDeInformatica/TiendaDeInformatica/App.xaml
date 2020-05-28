@@ -20,7 +20,7 @@
                 <Setter Property="VerticalAlignment" Value="Stretch" />
                 <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentBrush}" />
                 <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Background" Value="White"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="Cursor" Value="Hand"/>
                 <Setter Property="wpf:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignSnackbarRipple}" />
@@ -34,21 +34,13 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid x:Name="Root" Background="White">
+                            <Grid x:Name="Root" Background="{TemplateBinding Background}">
                                 <wpf:Ripple Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" Focusable="False"    
                                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                     Padding="{TemplateBinding Padding}" 
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" Value="{DynamicResource MaterialDesignSnackbarMouseOver}" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Opacity" Value="0.23"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -56,6 +48,11 @@
 
             <Style x:Key="MaterialDesignSnackbarActionMidButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignSnackbarActionButton}">
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+            </Style>
+
+            <Style x:Key="MaterialDesignSnackbarActionMidButtonCardBackground" TargetType="Button" BasedOn="{StaticResource MaterialDesignSnackbarActionButton}">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}"/>
             </Style>
 
             <Style TargetType="{x:Type Button}" x:Key="MaterialDesignPopupBoxButton">

@@ -226,7 +226,7 @@ namespace TiendaDeInformatica.Vistas
             else if (OrdenarMarcas_ComboBox.SelectedIndex == 1)
             {
                 // Fecha de creación
-                marcas.OrderBy(m => m.Id).ToList();
+                marcas.Sort((m1, m2) => m1.Id.CompareTo(m2.Id));
             }
             else if (OrdenarMarcas_ComboBox.SelectedIndex == 2)
             {
@@ -235,7 +235,8 @@ namespace TiendaDeInformatica.Vistas
                 List<Marca> conProductos = marcas.Where(m => m.Productos.Count > 0).ToList();
 
                 sinProductos.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
-                conProductos.OrderBy(m => m.Productos.Count()).ToList();
+                conProductos.Sort((m1, m2) => m1.Productos.Count.CompareTo(m2.Productos.Count));
+                conProductos.Reverse();
 
                 marcas = conProductos;
                 marcas.AddRange(sinProductos);

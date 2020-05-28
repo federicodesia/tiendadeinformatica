@@ -16,6 +16,9 @@
              FontFamily="Roboto"
              Background="Transparent"
              
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             
              x:Name="Presupuestos_Vista" Loaded="Presupuestos_Vista_Loaded">
     <Grid>
         <Grid.Resources>

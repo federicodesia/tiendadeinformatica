@@ -55,7 +55,10 @@ namespace TiendaDeInformatica.Vistas
                         marcas.Add(producto.Marca);
                 }
                 marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
-                Marcas_ListBox.Items.Add(marcas);
+
+                foreach(Marca marca in marcas)
+                    Marcas_ListBox.Items.Add(marca);
+
                 modificandoListBoxMarcas = false;
             }
 
@@ -204,7 +207,7 @@ namespace TiendaDeInformatica.Vistas
             if (itemsGrid != null)
             {
                 // Cantidad de columnas a partir del ancho
-                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 190);
+                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 184);
 
                 if (itemsGrid.Columns > 0)
                     // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
@@ -292,7 +295,7 @@ namespace TiendaDeInformatica.Vistas
             if (OrdenarProductos_ComboBox.SelectedIndex == 0)
             {
                 // Precio
-                productos.OrderBy(p => p.Precio).Reverse();
+                productos.Sort((p1, p2) => p1.Precio.CompareTo(p2.Precio));
             }
             else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
             {
@@ -302,7 +305,7 @@ namespace TiendaDeInformatica.Vistas
             else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
             {
                 // Fecha de creación
-                productos.OrderBy(m => m.Id).ToList();
+                productos.Sort((p1, p2) => p1.Id.CompareTo(p2.Id));
             }
 
             if (OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
