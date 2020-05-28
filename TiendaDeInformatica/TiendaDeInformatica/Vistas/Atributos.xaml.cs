@@ -134,7 +134,8 @@ namespace TiendaDeInformatica.Vistas
 
         private void TipoProducto_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
+            ControladorAtributos.ModificarAtributoTipoProducto(atributo);
         }
     }
 }

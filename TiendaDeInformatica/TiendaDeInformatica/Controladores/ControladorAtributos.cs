@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Modelos;
@@ -116,19 +117,30 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void ModificarAtributoTipoProducto(Atributo atributo, AtributoTipoProducto atributoTipoProducto)
+        public static void AgregarAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto)
         {
             using (var context = new MyDbContext())
             {
-                Atributo atributoDb = context.Atributos.Find(atributo.Id);
-                AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.Find(atributoTipoProducto.TipoProducto);
+                AtributoTipoProducto atributoTipoProducto = new AtributoTipoProducto()
                 {
-                    atributoDb = atributoTipoProducto.Atributo;
-                    atributoTipoProductoDb.TipoProducto = atributoTipoProducto.TipoProducto;
-                }
+                    Atributo = atributo,
+                    AtributoId = atributo.Id,
+                    TipoProducto = tipoProducto
+                };
+                context.AtributoTipoProductos.Add(atributoTipoProducto);
                 context.SaveChanges();
             }
         }
-
+        public static void EliminarAtributoTipoProducto(AtributoTipoProducto atributoTipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                {
+                    AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.Find(atributoTipoProducto.AtributoId);
+                    context.AtributoTipoProductos.Remove(atributoTipoProductoDb);
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }
