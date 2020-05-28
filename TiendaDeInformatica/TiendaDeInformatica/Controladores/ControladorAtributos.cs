@@ -116,6 +116,19 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+        public static void ModificarAtributoTipoProducto(Atributo atributo, AtributoTipoProducto atributoTipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                Atributo atributoDb = context.Atributos.Find(atributo.Id);
+                AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.Find(atributoTipoProducto.TipoProducto);
+                {
+                    atributoDb = atributoTipoProducto.Atributo;
+                    atributoTipoProductoDb.TipoProducto = atributoTipoProducto.TipoProducto;
+                }
+                context.SaveChanges();
+            }
+        }
 
     }
 }

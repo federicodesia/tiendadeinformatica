@@ -46,5 +46,6 @@ namespace TiendaDeInformatica.Datos
         public DbSet<Presupuesto> Presupuestos { get; set; }
         public DbSet<Atributo> Atributos { get; set; }
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<AtributoTipoProducto> AtributoTipoProductos { get; set; }
     }
 }

@@ -52,7 +52,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 });
 
             migrationBuilder.CreateTable(
-                name: "AtributoTipoProducto",
+                name: "AtributoTipoProductos",
                 columns: table => new
                 {
                     AtributoId = table.Column<int>(nullable: false),
@@ -60,9 +60,9 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AtributoTipoProducto", x => new { x.AtributoId, x.TipoProducto });
+                    table.PrimaryKey("PK_AtributoTipoProductos", x => new { x.AtributoId, x.TipoProducto });
                     table.ForeignKey(
-                        name: "FK_AtributoTipoProducto_Atributos_AtributoId",
+                        name: "FK_AtributoTipoProductos_Atributos_AtributoId",
                         column: x => x.AtributoId,
                         principalTable: "Atributos",
                         principalColumn: "Id",
@@ -98,8 +98,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     ClienteId = table.Column<int>(nullable: false),
                     FechaCreacion = table.Column<DateTime>(nullable: false),
                     FechaModificacion = table.Column<DateTime>(nullable: false),
-                    FechaDeExpiracion = table.Column<DateTime>(nullable: true),
-                    PrecioTotal = table.Column<decimal>(nullable: false)
+                    FechaDeExpiracion = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -220,7 +219,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AtributoTipoProducto");
+                name: "AtributoTipoProductos");
 
             migrationBuilder.DropTable(
                 name: "PresupuestoProducto");

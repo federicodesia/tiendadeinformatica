@@ -36,7 +36,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.HasKey("AtributoId", "TipoProducto");
 
-                    b.ToTable("AtributoTipoProducto");
+                    b.ToTable("AtributoTipoProductos");
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Cliente", b =>
@@ -85,8 +85,6 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.Property<DateTime?>("FechaDeExpiracion");
 
                     b.Property<DateTime>("FechaModificacion");
-
-                    b.Property<decimal>("PrecioTotal");
 
                     b.HasKey("Id");
 
