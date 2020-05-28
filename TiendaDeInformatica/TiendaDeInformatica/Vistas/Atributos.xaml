@@ -171,7 +171,7 @@
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
                                     </ListBox.ItemContainerStyle>
-                                    </ListBox>
+                                </ListBox>
                             </Grid>
                         </materialDesign:Card>
                     </Grid>

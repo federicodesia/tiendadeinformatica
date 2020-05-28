@@ -123,7 +123,6 @@ namespace TiendaDeInformatica.Controladores
             {
                 AtributoTipoProducto atributoTipoProducto = new AtributoTipoProducto()
                 {
-                    Atributo = atributo,
                     AtributoId = atributo.Id,
                     TipoProducto = tipoProducto
                 };
@@ -131,15 +130,21 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void EliminarAtributoTipoProducto(AtributoTipoProducto atributoTipoProducto)
+        public static void EliminarAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto)
         {
             using (var context = new MyDbContext())
             {
-                {
-                    AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.Find(atributoTipoProducto.AtributoId);
-                    context.AtributoTipoProductos.Remove(atributoTipoProductoDb);
-                    context.SaveChanges();
-                }
+                AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.ToList().Find(a => a.AtributoId == atributo.Id && a.TipoProducto == tipoProducto);
+                context.AtributoTipoProductos.Remove(atributoTipoProductoDb);
+                context.SaveChanges();
+            }
+        }
+
+        public static Atributo ObtenerAtributo(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return ObtenerListaDeAtributos().Find(a => a.Id == id);
             }
         }
     }

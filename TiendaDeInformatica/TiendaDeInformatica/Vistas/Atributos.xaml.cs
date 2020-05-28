@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -115,13 +116,19 @@ namespace TiendaDeInformatica.Vistas
         //                  Cambios de selección                  //
         // ------------------------------------------------------ //
 
+        private bool editandoListBoxTipoProducto = false;
+
         private void Atributos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            editandoListBoxTipoProducto = true;
             Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
             if (atributo != null)
             {
+                Atributo atributoActualizado = ControladorAtributos.ObtenerAtributo(atributo.Id);
+
                 // Seleccionar los TipoProducto del atributo seleccionado
-                foreach (AtributoTipoProducto atributoTipoProducto in atributo.TiposProductos)
+                TipoProducto_ListBox.UnselectAll();
+                foreach (AtributoTipoProducto atributoTipoProducto in atributoActualizado.TiposProductos)
                     TipoProducto_ListBox.SelectedItems.Add(atributoTipoProducto.TipoProducto);
                 TipoProducto_ListBox.IsEnabled = true;
             }
@@ -130,12 +137,25 @@ namespace TiendaDeInformatica.Vistas
                 TipoProducto_ListBox.UnselectAll();
                 TipoProducto_ListBox.IsEnabled = false;
             }
+            editandoListBoxTipoProducto = false;
         }
 
         private void TipoProducto_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
-            ControladorAtributos.ModificarAtributoTipoProducto(atributo);
+            if (!editandoListBoxTipoProducto)
+            {
+                Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
+
+                IList addedItems = e.AddedItems;
+                if (addedItems.Count > 0)
+                    ControladorAtributos.AgregarAtributoTipoProducto(atributo, (TipoProducto)addedItems[0]);
+                else
+                {
+                    IList removedItems = e.RemovedItems;
+                    if (removedItems.Count > 0)
+                        ControladorAtributos.EliminarAtributoTipoProducto(atributo, (TipoProducto)removedItems[0]);
+                }
+            }
         }
     }
 }
