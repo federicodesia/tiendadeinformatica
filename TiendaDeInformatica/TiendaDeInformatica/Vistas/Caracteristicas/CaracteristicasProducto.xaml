@@ -22,7 +22,7 @@
         x:Name="CaracteristicasProducto_Vista" Loaded="CaracteristicasProducto_Vista_Loaded" WindowStartupLocation="CenterOwner">
 
     <Grid>
-        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
+        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}" IsOpen="True">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Height="496" Width="416" Background="{DynamicResource MaterialDesignPaper}">
                     <Grid>
@@ -50,12 +50,12 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid Grid.Column="0" Height="42">
-                                        <RadioButton x:Name="Basico_RadioButton" Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="White" Height="44" Content="BÁSICO" IsChecked="{Binding IsChecked, ElementName=Valores_RadioButton, Converter={StaticResource InvertedBoolConverter}}"/>
+                                        <RadioButton x:Name="Basico_RadioButton" Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="White" Height="44" Content="BÁSICO" IsChecked="{Binding IsChecked, ElementName=Compatibilidad_RadioButton, Converter={StaticResource InvertedBoolConverter}}"/>
                                         <materialDesign:ColorZone x:Name="Basico_Indicador" Mode="PrimaryLight" Height="2" VerticalAlignment="Bottom" Visibility="{Binding IsChecked, ElementName=Basico_RadioButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                     </Grid>
                                     <Grid Grid.Column="1" Height="42">
-                                        <RadioButton x:Name="Valores_RadioButton" Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="White" Height="44" Content="VALORES"/>
-                                        <materialDesign:ColorZone x:Name="Valores_Indicador" Mode="PrimaryLight" Height="2" VerticalAlignment="Bottom" Visibility="{Binding IsChecked, ElementName=Valores_RadioButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <RadioButton x:Name="Compatibilidad_RadioButton" Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="White" Height="44" Content="COMPATIBILIDAD"/>
+                                        <materialDesign:ColorZone x:Name="Compatibilidad_Indicador" Mode="PrimaryLight" Height="2" VerticalAlignment="Bottom" Visibility="{Binding IsChecked, ElementName=Compatibilidad_RadioButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                     </Grid>
                                 </Grid>
                             </StackPanel>
@@ -79,7 +79,7 @@
 
                                     <materialDesign:PackIcon Grid.Column="0" Kind="PackageVariant" Foreground="{Binding ElementName=TipoProducto_ComboBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
 
-                                    <ComboBox Grid.Column="1" x:Name="TipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar tipo de producto" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False">
+                                    <ComboBox Grid.Column="1" x:Name="TipoProducto_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar tipo de producto" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" Selector.SelectionChanged="TipoProducto_ComboBox_SelectionChanged">
                                         <ComboBox.SelectedIndex>
                                             <Binding Path="TipoProducto_ComboBox_SelectedIndex" UpdateSourceTrigger="LostFocus">
                                                 <Binding.ValidationRules>
@@ -191,9 +191,67 @@
                                 </Grid>
                             </StackPanel>
 
-                            <!-- Valores -->
-                            <StackPanel Grid.Row="0" Visibility="{Binding IsChecked, ElementName=Valores_RadioButton, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            </StackPanel>
+                            <!-- Compatibilidad -->
+                            <Grid Grid.Row="0" Visibility="{Binding IsChecked, ElementName=Compatibilidad_RadioButton, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Atributos -->
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <materialDesign:PackIcon Grid.Column="0" Kind="Settings" Foreground="{Binding ElementName=TipoProducto_ComboBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
+
+                                    <ComboBox Grid.Column="1" x:Name="Atributos_ComboBox" Style="{StaticResource MaterialDesignFloatingHintComboBox}" materialDesign:HintAssist.Hint="Buscar atributo" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" DisplayMemberPath="Nombre" IsEnabled="False" SelectionChanged="Atributos_ComboBox_SelectionChanged"/>
+                                </Grid>
+
+                                <!-- Valores -->
+                                <Grid x:Name="Valores_Grid" Grid.Row="1" Margin="24 18 0 0" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="Valores" VerticalAlignment="Center"/>
+
+                                            <Button Grid.Column="1" x:Name="AgregarValor_Button" Height="38" Width="38" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar valor" Click="AgregarValor_Button_Click">
+                                                <materialDesign:PackIcon Kind="Add"/>
+                                            </Button>
+                                        </Grid>
+
+                                        <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
+                                    </StackPanel>
+
+                                    <ListBox x:Name="ValoresMultiples_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text=" "/>
+                                                        <TextBlock Text="{Binding Nombre}" Padding="0 0 300 0"/>
+                                                    </StackPanel>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </Grid>
+                            </Grid>
 
                             <!-- Botones -->
                             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 18 0 0">
@@ -224,6 +282,13 @@
                                     <Button x:Name="CerrarIgual_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CERRAR IGUAL" Click="CerrarIgual_Button_Click"/>
                                 </StackPanel>
                             </Grid>
+                        </materialDesign:DialogHost.DialogContent>
+                    </materialDesign:DialogHost>
+
+                    <!-- Oscurecer pantalla -->
+                    <materialDesign:DialogHost x:Name="OscurecerFondo_DialogHost">
+                        <materialDesign:DialogHost.DialogContent>
+                            <Grid x:Name="OscurecerFondo_Grid" Background="{DynamicResource MaterialDesignPaper}"/>
                         </materialDesign:DialogHost.DialogContent>
                     </materialDesign:DialogHost>
                 </Grid>

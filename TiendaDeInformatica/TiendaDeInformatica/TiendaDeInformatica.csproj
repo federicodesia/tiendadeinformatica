@@ -196,6 +196,9 @@
     <Compile Include="Vistas\Caracteristicas\CaracteristicasAtributo.xaml.cs">
       <DependentUpon>CaracteristicasAtributo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Caracteristicas\CaracteristicasValor.xaml.cs">
+      <DependentUpon>CaracteristicasValor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\ConfiguracionGuiada.xaml.cs">
       <DependentUpon>ConfiguracionGuiada.xaml</DependentUpon>
     </Compile>
@@ -241,6 +244,10 @@
     <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
     <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
     <Page Include="Vistas\Caracteristicas\CaracteristicasAtributo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vistas\Caracteristicas\CaracteristicasValor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

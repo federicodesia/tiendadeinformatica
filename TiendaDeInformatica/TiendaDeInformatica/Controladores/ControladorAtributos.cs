@@ -14,6 +14,10 @@ namespace TiendaDeInformatica.Controladores
         {
             Atributos = new List<Atributo>();
         }
+
+        //
+        // Atributos
+        //
         
         public static Atributo AgregarAtributo(string nombre)
         {
@@ -29,6 +33,7 @@ namespace TiendaDeInformatica.Controladores
                 return atributo;
             }
         }
+
         public static void ModificarAtributo(Atributo atributo, string nombre)
         {
             using (var context = new MyDbContext())
@@ -38,6 +43,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void EliminarAtributo(Atributo atributo)
         {
             using (var context = new MyDbContext())
@@ -47,20 +53,57 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static List<Atributo> ObtenerListaDeAtributos() //Obtiene la lista de los atributos.
+
+        public static List<Atributo> ObtenerListaDeAtributos()
         {
             using (var context = new MyDbContext())
             {
                 return context.Atributos.Include(a => a.TiposProductos).ToList();
             }
         }
-        public static List<Atributo> ObtenerListaDeValoresAsociadosAAtributo() //Obtiene una lista de todos los valores asociados a un atributo.
+
+        public static List<Atributo> ObtenerListaDeAtributosConValores()
         {
             using (var context = new MyDbContext())
             {
                 return context.Atributos.Include(v => v.Valores).ToList();
             }
         }
+
+        public static Atributo ObtenerAtributo(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return ObtenerListaDeAtributos().Find(a => a.Id == id);
+            }
+        }
+
+        public static Atributo ObtenerAtributoConValores(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return ObtenerListaDeAtributosConValores().Find(a => a.Id == id);
+            }
+        }
+
+        public static List<Atributo> ObtenerListaDeAtributosAsociadosATipoProducto(TipoProducto tipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                List<Atributo> atributos = new List<Atributo>();
+                foreach (AtributoTipoProducto atributoTipoProducto in context.AtributoTipoProductos.Include(atp => atp.Atributo.Valores))
+                {
+                    if (atributoTipoProducto.TipoProducto == tipoProducto)
+                        atributos.Add(atributoTipoProducto.Atributo);
+                }
+                return atributos;
+            }
+        }
+
+        //
+        // Valores
+        //
+
         public static Valor AgregarValor(Atributo atributo, string nombre)
         {
             using (var context = new MyDbContext())
@@ -75,6 +118,7 @@ namespace TiendaDeInformatica.Controladores
                 return valor;
             }
         }
+
         public static void ModificarValor(Valor valor, string nombre)
         {
             using (var context = new MyDbContext())
@@ -84,6 +128,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void EliminarValor(Valor valor)
         {
             using (var context = new MyDbContext())
@@ -92,31 +137,24 @@ namespace TiendaDeInformatica.Controladores
                 context.Valores.Remove(valorDb);
                 context.SaveChanges();
             }
-
         }
-        public static List<Valor> ObtenerListaDeValores() //Obtiene la lista de valores.
+
+        public static List<Valor> ObtenerListaDeValores()
         {
             using (var context = new MyDbContext())
             {
                 return context.Valores.ToList();
             }
         }
-        public static List<Valor> ObtenerListaDeProductosAsociadosAValor() //Obtiene una lista de todos los productos asociados a un valor.
+
+        public static List<Valor> ObtenerListaDeValoresConProductos()
         {
             using (var context = new MyDbContext())
             {
                 return context.Valores.Include(p => p.Productos).ToList();
             }
         }
-        public static void EliminarValorDeAtributo(Valor valor)
-        {
-            using (var context = new MyDbContext())
-            {
-                Valor valorDb = context.Valores.Find(valor.Id);
-                context.Valores.Remove(valorDb);
-                context.SaveChanges();
-            }
-        }
+
         public static void AgregarAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto)
         {
             using (var context = new MyDbContext())
@@ -137,14 +175,6 @@ namespace TiendaDeInformatica.Controladores
                 AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.ToList().Find(a => a.AtributoId == atributo.Id && a.TipoProducto == tipoProducto);
                 context.AtributoTipoProductos.Remove(atributoTipoProductoDb);
                 context.SaveChanges();
-            }
-        }
-
-        public static Atributo ObtenerAtributo(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                return ObtenerListaDeAtributos().Find(a => a.Id == id);
             }
         }
     }

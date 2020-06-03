@@ -29,6 +29,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         public string Precio_TextBox_Text { get; set; }
         public byte[] ImagenSeleccionada { get; set; }
 
+        public Atributo Atributos_ComboBox_SelectedItem { get; set; }
+
         public CaracteristicasProducto(Principal principal, Producto productoModificar, TipoProducto? tipoProductoCrear)
         {
             InitializeComponent();
@@ -221,7 +223,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         }
 
         // ------------------------------------------------------ //
-        //                 Seleccionar una imagen                //
+        //                 Seleccionar una imagen                 //
         // ------------------------------------------------------ //
 
         private void SeleccionarImagen_Button_Click(object sender, RoutedEventArgs e)
@@ -234,6 +236,73 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
             Imagen_Image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
             ImagenSeleccionada = ConvertirImagen.ConvertImageToByteArray(openFileDialog.FileName);
+        }
+
+        // ------------------------------------------------------ //
+        //                   Pestaña Compatibilidad               //
+        // ------------------------------------------------------ //
+
+        private void TipoProducto_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TipoProducto_ComboBox.SelectedIndex != -1)
+            {
+                TipoProducto tipoProducto = (TipoProducto)TipoProducto_ComboBox.SelectedIndex;
+                Atributos_ComboBox.Items.Clear();
+                foreach (Atributo atributo in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(tipoProducto))
+                    Atributos_ComboBox.Items.Add(atributo);
+                Atributos_ComboBox.IsEnabled = true;
+            }
+            else
+            {
+                Atributos_ComboBox.IsEnabled = false;
+            }
+        }
+
+        private void Atributos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefrescarListBoxValores();
+        }
+
+        private void RefrescarListBoxValores()
+        {
+            Atributo atributo = Atributos_ComboBox.SelectedItem as Atributo;
+            if (atributo != null)
+            {
+                // Falta realizar la verificación de Valores unicos o Valores multiples
+                // para mostrar los RadioButtons o CheckBoxs en el ListBox.
+
+                ValoresMultiples_ListBox.Items.Clear();
+                foreach (Valor valor in ControladorAtributos.ObtenerAtributoConValores(atributo.Id).Valores)
+                    ValoresMultiples_ListBox.Items.Add(valor);
+                Valores_Grid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Valores_Grid.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        //
+        // Agregar valor
+        //
+
+        private void AgregarValor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Atributo atributo = Atributos_ComboBox.SelectedItem as Atributo;
+            if (atributo != null)
+            {
+                OscurecerFondo(true);
+                CaracteristicasValor caracteristicasValor = new CaracteristicasValor(atributo, null, this);
+                caracteristicasValor.Owner = this;
+
+                caracteristicasValor.ShowDialog();
+                RefrescarListBoxValores();
+            }
+        }
+
+        public void OscurecerFondo(bool estado)
+        {
+            OscurecerFondo_DialogHost.IsOpen = estado;
         }
     }
 }

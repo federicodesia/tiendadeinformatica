@@ -156,7 +156,7 @@
                                     <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
                                 </StackPanel>
 
-                                <ListBox x:Name="TipoProducto_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple" Margin="24" Padding="0 -16 0 0" IsEnabled="False" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
+                                <ListBox x:Name="TipoProducto_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple" Margin="24 24 0 24" Padding="0 -16 0 0" IsEnabled="False" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
