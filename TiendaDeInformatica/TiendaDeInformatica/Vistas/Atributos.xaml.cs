@@ -44,11 +44,22 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarAtributo_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasAtributo caracteristicasAtributo = new CaracteristicasAtributo(_principal, null);
+            CaracteristicasAtributo caracteristicasAtributo = new CaracteristicasAtributo(_principal, this, null);
+            AbrirCaracteristicasAtributoCentrado(caracteristicasAtributo);
+
+            RefrescarListaDeAtributos();
+        }
+
+        private void AbrirCaracteristicasAtributoCentrado(CaracteristicasAtributo caracteristicasAtributo)
+        {
             caracteristicasAtributo.Owner = Application.Current.MainWindow;
 
+            caracteristicasAtributo.WindowStartupLocation = WindowStartupLocation.Manual;
+            Point point = Atributos_Card.PointToScreen(new Point(Atributos_Card.ActualWidth / 2, Atributos_Card.ActualHeight / 2));
+            caracteristicasAtributo.Left = point.X - (caracteristicasAtributo.Width / 2);
+            caracteristicasAtributo.Top = point.Y - (caracteristicasAtributo.Height / 2);
+
             caracteristicasAtributo.ShowDialog();
-            RefrescarListaDeAtributos();
         }
 
         // ------------------------------------------------------ //
@@ -74,29 +85,21 @@ namespace TiendaDeInformatica.Vistas
             Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
             if (atributo != null)
             {
-                CaracteristicasAtributo caracteristicasAtributo = new CaracteristicasAtributo(_principal, atributo);
-                caracteristicasAtributo.Owner = Application.Current.MainWindow;
+                CaracteristicasAtributo caracteristicasAtributo = new CaracteristicasAtributo(_principal, this, atributo);
+                AbrirCaracteristicasAtributoCentrado(caracteristicasAtributo);
 
-                caracteristicasAtributo.ShowDialog();
                 RefrescarListaDeAtributos();
             }
         }
 
         private void EliminarAtributo_Click(object sender, RoutedEventArgs e)
         {
-            _principal.OscurecerCompletamente(true);
             AlertaEliminarAtributo_DialogHost.IsOpen = true;
         }
 
         //
         // Alerta al eliminar un atributo
         //
-
-        private void CancelarEliminarAtributo_Button_Click(object sender, RoutedEventArgs e)
-        {
-            _principal.OscurecerCompletamente(false);
-            AlertaEliminarAtributo_DialogHost.IsOpen = false;
-        }
 
         private void EliminarAtributo_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -107,7 +110,6 @@ namespace TiendaDeInformatica.Vistas
                 RefrescarListaDeAtributos();
 
                 AlertaEliminarAtributo_DialogHost.IsOpen = false;
-                _principal.OscurecerCompletamente(false);
                 _ = _principal.MostrarMensajeEnSnackbar("Atributo eliminado correctamente!");
             }
         }
@@ -156,6 +158,15 @@ namespace TiendaDeInformatica.Vistas
                         ControladorAtributos.EliminarAtributoTipoProducto(atributo, (TipoProducto)removedItems[0]);
                 }
             }
+        }
+
+        // ------------------------------------------------------ //
+        //                       Oscurecer                        //
+        // ------------------------------------------------------ //
+
+        public void OscurecerFondoAtributos(bool estado)
+        {
+            OscurecerAtributos_DialogHost.IsOpen = estado;
         }
     }
 }

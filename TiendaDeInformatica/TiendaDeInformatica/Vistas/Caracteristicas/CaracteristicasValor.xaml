@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:reglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Reglas_de_Validacion"
         mc:Ignorable="d"
-        Height="536" Width="488" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
+        Height="220" Width="328" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
         
         Foreground="{DynamicResource MaterialDesignBody}"
         FontWeight="Regular"
@@ -21,7 +21,7 @@
         x:Name="CaracteristicasValor_Vista" Loaded="CaracteristicasValor_Vista_Loaded" WindowStartupLocation="CenterOwner">
 
     <Grid>
-        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
+        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}" IsOpen="True">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Width="256" Background="{DynamicResource MaterialDesignPaper}">
                     <Grid Margin="18">
@@ -35,7 +35,7 @@
                             <!-- Titulo -->
                             <TextBlock x:Name="Titulo_TextBlock" Text="Nuevo valor del atributo Atributo"/>
 
-                            <!-- Nombre del atributo -->
+                            <!-- Nombre del valor -->
                             <TextBox x:Name="Nombre_TextBox" Margin="0 8 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nombre">
                                 <TextBox.Text>
                                     <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">

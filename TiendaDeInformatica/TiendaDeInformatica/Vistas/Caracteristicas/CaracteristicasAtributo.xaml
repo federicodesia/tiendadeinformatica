@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TiendaDeInformatica.Vistas.Caracteristicas"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
         xmlns:reglasDeValidacion="clr-namespace:TiendaDeInformatica.Vistas.Reglas_de_Validacion"
         mc:Ignorable="d"
-        Height="536" Width="488" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
+        Height="220" Width="328" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Background="Transparent"
         
         Foreground="{DynamicResource MaterialDesignBody}"
         FontWeight="Regular"
@@ -19,115 +18,41 @@
         UseLayoutRounding="True"
         
         ShowInTaskbar="False"
-        x:Name="CaracteristicasAtributo_Vista" Loaded="CaracteristicasAtributo_Vista_Loaded" WindowStartupLocation="CenterOwner">
+        x:Name="CaracteristicasAtributo_Vista" Loaded="CaracteristicasAtributo_Vista_Loaded">
 
     <Grid>
         <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
             <materialDesign:DialogHost.DialogContent>
-                <Grid Height="464" Width="416" Background="{DynamicResource MaterialDesignPaper}">
-                    <Grid>
-                        <Grid.Resources>
-                            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-                            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
-                        </Grid.Resources>
-
+                <Grid Width="256" Background="{DynamicResource MaterialDesignPaper}">
+                    <Grid Margin="18">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Superior -->
-                        <materialDesign:ColorZone Background="{DynamicResource PrimaryHueMidBrush}" materialDesign:ShadowAssist.ShadowDepth="Depth1" materialDesign:ShadowAssist.ShadowEdges="Bottom">
-                            <StackPanel>
-                                <!-- Titulo -->
-                                <TextBlock x:Name="Titulo_TextBlock" Style="{StaticResource MaterialDesignTitleTextBlock}" Text="Nuevo atributo" FontSize="16" Margin="24" Foreground="White"/>
-                            </StackPanel>
-                        </materialDesign:ColorZone>
+                        <!-- Caracteristicas -->
+                        <StackPanel Grid.Row="0">
+                            <!-- Titulo -->
+                            <TextBlock x:Name="Titulo_TextBlock" Text="Nuevo atributo"/>
 
-                        <!-- Inferior -->
-                        <Grid Grid.Row="1" Margin="18">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                            <!-- Nombre del atributo -->
+                            <TextBox x:Name="Nombre_TextBox" Margin="0 8 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nombre">
+                                <TextBox.Text>
+                                    <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <reglasDeValidacion:AtributoValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
 
-                            <!-- Caracteristicas -->
-                            <StackPanel Grid.Row="0">
-                                <!-- Nombre de la marca -->
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <materialDesign:PackIcon Grid.Column="0" Kind="TextShort" Foreground="{Binding ElementName=Nombre_TextBox, Path=BorderBrush}" Width="16" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,6"/>
-
-                                    <TextBox x:Name="Nombre_TextBox" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nombre">
-                                        <TextBox.Text>
-                                            <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
-                                                <Binding.ValidationRules>
-                                                    <reglasDeValidacion:CampoVacio/>
-                                                </Binding.ValidationRules>
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                </Grid>
-                            </StackPanel>
-
-                            <!-- Botones -->
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 18 0 0">
-                                <Button x:Name="Cancelar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CANCELAR" Click="Cancelar_Button_Click"/>
-                                <Button x:Name="AgregarModificar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="AGREGAR" Click="AgregarModificar_Button_Click"/>
-                            </StackPanel>
-                        </Grid>
+                        <!-- Botones -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 18 0 0">
+                            <Button x:Name="Cancelar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="CANCELAR" Click="Cancelar_Button_Click"/>
+                            <Button x:Name="AgregarModificar_Button" Style="{StaticResource MaterialDesignFlatButton}" Content="AGREGAR" Click="AgregarModificar_Button_Click"/>
+                        </StackPanel>
                     </Grid>
-
-                    <!-- Alerta al cerrar la ventana -->
-                    <materialDesign:DialogHost x:Name="AlertaAlCerrar_Dialog">
-                        <materialDesign:DialogHost.DialogContent>
-                            <Grid Width="332" Height="172" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
-
-                                <!-- Icono, Título y Descripción -->
-                                <StackPanel Orientation="Horizontal" Margin="16">
-                                    <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
-
-                                    <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres salir?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los cambios realizados automáticamente." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Botones -->
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
-                                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="VOLVER"/>
-                                    <Button x:Name="CerrarIgual_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CERRAR IGUAL" Click="CerrarIgual_Button_Click"/>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:DialogHost.DialogContent>
-                    </materialDesign:DialogHost>
-
-                    <!-- Alerta atributo duplicado -->
-                    <materialDesign:DialogHost x:Name="AlertaAtributoDuplicado_Dialog">
-                        <materialDesign:DialogHost.DialogContent>
-                            <Grid Width="332" Height="172" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
-
-                                <!-- Icono, Título y Descripción -->
-                                <StackPanel Orientation="Horizontal" Margin="16">
-                                    <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
-
-                                    <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="No se pudo agregar el atributo" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-                                        <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se encontró un atributo con el mismo nombre, por favor revisa la lista." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Botones -->
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
-                                    <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="VOLVER"/>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:DialogHost.DialogContent>
-                    </materialDesign:DialogHost>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>

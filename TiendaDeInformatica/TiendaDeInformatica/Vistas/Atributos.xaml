@@ -23,7 +23,7 @@
         <Grid.Resources>
             <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
         </Grid.Resources>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="56"/>
@@ -83,60 +83,94 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <materialDesign:Card Grid.Column="0" materialDesign:ShadowAssist.ShadowDepth="Depth0" VerticalAlignment="Stretch" x:Name="Atributos_Grid">
+                        <materialDesign:Card Grid.Column="0" materialDesign:ShadowAssist.ShadowDepth="Depth0" VerticalAlignment="Stretch" x:Name="Atributos_Card">
                             <materialDesign:Card.Effect>
                                 <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
                             </materialDesign:Card.Effect>
 
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
 
-                                <StackPanel Grid.Row="0">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Atributos" FontWeight="SemiBold" Margin="24 24 24 18" FontSize="14"/>
+                                            <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Atributos" FontWeight="SemiBold" Margin="24 24 24 18" FontSize="14"/>
 
-                                        <Button Grid.Column="1" x:Name="AgregarAtributo_Button" VerticalAlignment="Center" Margin="0 0 6 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar atributo" Click="AgregarAtributo_Button_Click">
-                                            <materialDesign:PackIcon Kind="Add" Width="16" Height="16"/>
-                                        </Button>
-                                    </Grid>
+                                            <Button Grid.Column="1" x:Name="AgregarAtributo_Button" VerticalAlignment="Center" Margin="0 0 6 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar atributo" Click="AgregarAtributo_Button_Click">
+                                                <materialDesign:PackIcon Kind="Add" Width="16" Height="16"/>
+                                            </Button>
+                                        </Grid>
 
-                                    <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
-                                </StackPanel>
+                                        <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
+                                    </StackPanel>
 
-                                <ListBox x:Name="Atributos_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" DisplayMemberPath="Nombre" SelectionChanged="Atributos_ListBox_SelectionChanged">
-                                    <!-- Opciones al hacer click derecho sobre un atributo -->
-                                    <ListBox.Resources>
-                                        <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                                            <ContextMenu.Items>
-                                                <MenuItem x:Name="ModificarAtributo" Header="Modificar" Click="ModificarAtributo_Click">
-                                                    <MenuItem.Icon>
-                                                        <materialDesign:PackIcon Kind="Edit" />
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                                <MenuItem x:Name="EliminarAtributo" Header="Eliminar" Click="EliminarAtributo_Click">
-                                                    <MenuItem.Icon>
-                                                        <materialDesign:PackIcon Kind="Delete"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
-                                            </ContextMenu.Items>
-                                        </ContextMenu>
-                                    </ListBox.Resources>
+                                    <ListBox x:Name="Atributos_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" DisplayMemberPath="Nombre" SelectionChanged="Atributos_ListBox_SelectionChanged">
+                                        <!-- Opciones al hacer click derecho sobre un atributo -->
+                                        <ListBox.Resources>
+                                            <ContextMenu x:Key="ItemMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                                <ContextMenu.Items>
+                                                    <MenuItem x:Name="ModificarAtributo" Header="Modificar" Click="ModificarAtributo_Click">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Edit" />
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <MenuItem x:Name="EliminarAtributo" Header="Eliminar" Click="EliminarAtributo_Click">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Delete"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </ContextMenu.Items>
+                                            </ContextMenu>
+                                        </ListBox.Resources>
 
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                            <Setter Property="ContextMenu" Value="{StaticResource ItemMenu}" />
-                                            <Setter Property="Padding" Value="24 10 24 10" />
-                                        </Style>
-                                    </ListBox.ItemContainerStyle>
-                                </ListBox>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                                <Setter Property="ContextMenu" Value="{StaticResource ItemMenu}" />
+                                                <Setter Property="Padding" Value="24 10 24 10" />
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </Grid>
+
+                                <!-- Oscurecer atributos -->
+                                <materialDesign:DialogHost x:Name="OscurecerAtributos_DialogHost" Opacity="0.68">
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <Grid x:Name="OscurecerAtributos_Grid" Background="{DynamicResource MaterialDesignPaper}"/>
+                                    </materialDesign:DialogHost.DialogContent>
+                                </materialDesign:DialogHost>
+
+                                <!-- Alerta al eliminar un atributo -->
+                                <materialDesign:DialogHost x:Name="AlertaEliminarAtributo_DialogHost" Opacity="0.68">
+
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+
+                                            <!-- Icono, Título y Descripción -->
+                                            <StackPanel Orientation="Horizontal" Margin="16">
+                                                <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
+
+                                                <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
+                                                    <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar este atributo?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
+                                                    <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Afectará a la compatibilidad de los componentes y se perderán todos los valores asociados al mismo." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <!-- Botones -->
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                                                <Button x:Name="EliminarAtributo_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR"  Click="EliminarAtributo_Button_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </materialDesign:DialogHost.DialogContent>
+                                </materialDesign:DialogHost>
                             </Grid>
                         </materialDesign:Card>
 
@@ -204,30 +238,5 @@
                 </Grid>
             </materialDesign:ColorZone>
         </Grid>
-
-        <!-- Alerta al eliminar un atributo -->
-        <materialDesign:DialogHost x:Name="AlertaEliminarAtributo_DialogHost" Opacity="0" Margin="-240 0 0 0">
-
-            <materialDesign:DialogHost.DialogContent>
-                <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
-
-                    <!-- Icono, Título y Descripción -->
-                    <StackPanel Orientation="Horizontal" Margin="16">
-                        <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
-
-                        <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
-                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres eliminar este atributo?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
-                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Afectará a la compatibilidad de los componentes y se perderán todos los valores asociados al mismo." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
-                        </StackPanel>
-                    </StackPanel>
-
-                    <!-- Botones -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
-                        <Button x:Name="CancelarEliminarAtributo_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarEliminarAtributo_Button_Click"/>
-                        <Button x:Name="EliminarAtributo_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR"  Click="EliminarAtributo_Button_Click"/>
-                    </StackPanel>
-                </Grid>
-            </materialDesign:DialogHost.DialogContent>
-        </materialDesign:DialogHost>
     </Grid>
 </UserControl>
