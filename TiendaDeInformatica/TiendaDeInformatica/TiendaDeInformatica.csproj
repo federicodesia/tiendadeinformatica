@@ -222,6 +222,7 @@
     <Compile Include="Vistas\Atributos.xaml.cs">
       <DependentUpon>Atributos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Reglas de Validacion\ValorValidationRule.cs" />
     <Compile Include="Vistas\ResumenPresupuesto.xaml.cs">
       <DependentUpon>ResumenPresupuesto.xaml</DependentUpon>
     </Compile>

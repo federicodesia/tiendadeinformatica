@@ -40,7 +40,7 @@
                                 <TextBox.Text>
                                     <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <reglasDeValidacion:CampoVacio/>
+                                            <reglasDeValidacion:ValorValidationRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>

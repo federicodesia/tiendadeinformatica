@@ -304,5 +304,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         {
             OscurecerFondo_DialogHost.IsOpen = estado;
         }
+
+        private void ValoresMultiples_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Deshabilitar el click derecho para seleccionar o deseleccionar un item del ListBox
+            e.Handled = true;
+        }
     }
 }

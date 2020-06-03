@@ -14,8 +14,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
     /// </summary>
     public partial class CaracteristicasValor : Window
     {
-        private Atributo _atributo { get; set; }
-        private Valor _valorModificar { get; set; }
+        public static Atributo _atributo { get; set; }
+        public static Valor _valorModificar { get; set; }
 
         private CaracteristicasProducto _caracteristicasProducto { get; set; }
 
@@ -37,12 +37,14 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (_valorModificar != null)
             {
                 // Cambiar el título y el botón
-                Titulo_TextBlock.Text = "Modificar valor del atributo " + _valorModificar.Atributo.Nombre;
+                Titulo_TextBlock.Text = "Modificar valor del atributo " + _atributo.Nombre;
                 AgregarModificar_Button.Content = "MODIFICAR";
 
                 // Cargar los datos del valor
                 Nombre_TextBox.Text = _valorModificar.Nombre;
             }
+            else
+                Titulo_TextBlock.Text = "Agregar valor al atributo " + _atributo.Nombre;
             Contenido_DialogHost.IsOpen = true;
         }
 
@@ -52,39 +54,19 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (new CampoVacio().Validate(Nombre_TextBox_Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
+            if (new ValorValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
-                // No hay errores
-                bool valorDuplicado = false;
-                string nombre = TextHelper.QuitarTildes(Nombre_TextBox.Text).ToUpper();
-
-                foreach (Valor valor in _atributo.Valores)
-                {
-                    if (((_valorModificar != null) && (_valorModificar.Id != valor.Id) && (TextHelper.QuitarTildes(valor.Nombre).ToUpper() == nombre))
-                        || (_valorModificar == null && (TextHelper.QuitarTildes(valor.Nombre).ToUpper() == nombre)))
-                    {
-                        valorDuplicado = true;
-                        break;
-                    }
-                }
-
-                if (!valorDuplicado)
-                    AgregarModificarValor();
+                if (_valorModificar == null)
+                    ControladorAtributos.AgregarValor(_atributo, Nombre_TextBox.Text);
+                else
+                    ControladorAtributos.ModificarValor(_valorModificar, Nombre_TextBox.Text);
+                CerrarVentana();
             }
             else
             {
                 // Hay errores. Actualizar los mensajes de error
                 Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
             }
-        }
-
-        private void AgregarModificarValor()
-        {
-            if (_valorModificar == null)
-                ControladorAtributos.AgregarValor(_atributo, Nombre_TextBox.Text);
-            else
-                ControladorAtributos.ModificarValor(_valorModificar, Nombre_TextBox.Text);
-            CerrarVentana();
         }
 
         // ------------------------------------------------------ //

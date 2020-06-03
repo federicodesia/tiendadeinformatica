@@ -22,7 +22,7 @@
         x:Name="CaracteristicasProducto_Vista" Loaded="CaracteristicasProducto_Vista_Loaded" WindowStartupLocation="CenterOwner">
 
     <Grid>
-        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}" IsOpen="True">
+        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Height="496" Width="416" Background="{DynamicResource MaterialDesignPaper}">
                     <Grid>
@@ -234,7 +234,7 @@
                                         <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
                                     </StackPanel>
 
-                                    <ListBox x:Name="ValoresMultiples_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple">
+                                    <ListBox x:Name="ValoresMultiples_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple" PreviewMouseRightButtonDown="ValoresMultiples_ListBox_PreviewMouseRightButtonDown">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
