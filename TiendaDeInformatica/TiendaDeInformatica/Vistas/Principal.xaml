@@ -663,7 +663,7 @@
                         <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}" VerticalAlignment="Bottom">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Settings" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
-                                <TextBlock Text="Configurar atributos" VerticalAlignment="Center"/>
+                                <TextBlock Text="Configuración" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListBoxItem>
 

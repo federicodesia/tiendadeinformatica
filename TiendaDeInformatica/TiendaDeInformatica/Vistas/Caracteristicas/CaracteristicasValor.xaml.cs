@@ -17,18 +17,22 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         public static Atributo _atributo { get; set; }
         public static Valor _valorModificar { get; set; }
 
+        private Principal _principal { get; set; }
         private CaracteristicasProducto _caracteristicasProducto { get; set; }
+        private Configuracion _configuracion { get; set; }
 
         public string Nombre_TextBox_Text { get; set; }
 
-        public CaracteristicasValor(Atributo atributo, Valor valor, CaracteristicasProducto caracteristicasProducto)
+        public CaracteristicasValor(Principal principal, CaracteristicasProducto caracteristicasProducto, Configuracion configuracion, Atributo atributo, Valor valor)
         {
             InitializeComponent();
             this.DataContext = this;
 
+            _principal = principal;
+            _caracteristicasProducto = caracteristicasProducto;
+            _configuracion = configuracion;
             _valorModificar = valor;
             _atributo = atributo;
-            _caracteristicasProducto = caracteristicasProducto;
         }
 
         private void CaracteristicasValor_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -45,6 +49,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             }
             else
                 Titulo_TextBlock.Text = "Agregar valor al atributo " + _atributo.Nombre;
+
+            if (_configuracion != null)
+                _configuracion.OscurecerFondoValores(true);
             Contenido_DialogHost.IsOpen = true;
         }
 
@@ -57,9 +64,15 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (new ValorValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
                 if (_valorModificar == null)
+                {
                     ControladorAtributos.AgregarValor(_atributo, Nombre_TextBox.Text);
+                    _ = _principal.MostrarMensajeEnSnackbar("Valor agregado correctamente!");
+                }
                 else
+                {
                     ControladorAtributos.ModificarValor(_valorModificar, Nombre_TextBox.Text);
+                    _ = _principal.MostrarMensajeEnSnackbar("Valor modificado correctamente!");
+                }  
                 CerrarVentana();
             }
             else
@@ -82,6 +95,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         {
             if (_caracteristicasProducto != null)
                 _caracteristicasProducto.OscurecerFondo(false);
+            else if (_configuracion != null)
+                _configuracion.OscurecerFondoValores(false);
 
             Contenido_DialogHost.IsOpen = false;
             await Task.Delay(300);

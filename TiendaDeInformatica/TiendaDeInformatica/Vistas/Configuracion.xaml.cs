@@ -13,17 +13,17 @@ namespace TiendaDeInformatica.Vistas
     /// <summary>
     /// Lógica de interacción para Clientes.xaml
     /// </summary>
-    public partial class Atributos : UserControl
+    public partial class Configuracion : UserControl
     {
         private Principal _principal;
 
-        public Atributos(Principal principal)
+        public Configuracion(Principal principal)
         {
             InitializeComponent();
             _principal = principal;
         }
 
-        private void Atributos_Vista_Loaded(object sender, RoutedEventArgs e)
+        private void Configuracion_Vista_Loaded(object sender, RoutedEventArgs e)
         {
             TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
             foreach (TipoProducto tipoProducto in tipoProductos)
@@ -68,7 +68,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void RefrescarListaDeAtributos()
         {
-            if (Atributos_Vista.IsLoaded)
+            if (Configuracion_Vista.IsLoaded)
             {
                 Atributos_ListBox.Items.Clear();
                 foreach (Atributo atributo in ControladorAtributos.ObtenerListaDeAtributos())
@@ -141,10 +141,7 @@ namespace TiendaDeInformatica.Vistas
                 foreach (AtributoTipoProducto atributoTipoProducto in atributoActualizado.TiposProductos)
                     TipoProducto_ListBox.SelectedItems.Add(atributoTipoProducto.TipoProducto);
 
-                // Cargar los valores del atributo seleccionado en el ListBox
-                Valores_ListBox.Items.Clear();
-                foreach (Valor valor in atributoActualizado.Valores)
-                    Valores_ListBox.Items.Add(valor);
+                RefrescarListBoxValores();
 
                 TipoProducto_ListBox.IsEnabled = true;
                 Valores_Card.IsEnabled = true;
@@ -179,12 +176,104 @@ namespace TiendaDeInformatica.Vistas
         }
 
         // ------------------------------------------------------ //
+        //                      Agregar un valor                  //
+        // ------------------------------------------------------ //
+
+        private void AgregarValor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
+            if (atributo != null)
+            {
+                CaracteristicasValor caracteristicasValor = new CaracteristicasValor(_principal, null, this, atributo, null);
+                AbrirCaracteristicasValorCentrado(caracteristicasValor);
+
+                RefrescarListBoxValores();
+            }
+        }
+
+        private void AbrirCaracteristicasValorCentrado(CaracteristicasValor caracteristicasValor)
+        {
+            caracteristicasValor.Owner = Application.Current.MainWindow;
+
+            caracteristicasValor.WindowStartupLocation = WindowStartupLocation.Manual;
+            Point point = Valores_Card.PointToScreen(new Point(Valores_Card.ActualWidth / 2, Valores_Card.ActualHeight / 2));
+            caracteristicasValor.Left = point.X - (caracteristicasValor.Width / 2);
+            caracteristicasValor.Top = point.Y - (caracteristicasValor.Height / 2);
+
+            caracteristicasValor.ShowDialog();
+        }
+
+        private void RefrescarListBoxValores()
+        {
+            Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
+            if (atributo != null)
+            {
+                Atributo atributoActualizado = ControladorAtributos.ObtenerAtributo(atributo.Id);
+                Valores_ListBox.Items.Clear();
+                foreach (Valor valor in atributoActualizado.Valores)
+                    Valores_ListBox.Items.Add(valor);
+            }
+        }
+
+        // ------------------------------------------------------ //
+        //     Opciones al hacer click derecho sobre un valor     //
+        // ------------------------------------------------------ //
+
+        private void ModificarValor_Click(object sender, RoutedEventArgs e)
+        {
+            Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
+            Valor valor = Valores_ListBox.SelectedItem as Valor;
+            if (atributo != null && valor != null)
+            {
+                CaracteristicasValor caracteristicasValor = new CaracteristicasValor(_principal, null, this, atributo, valor);
+                AbrirCaracteristicasValorCentrado(caracteristicasValor);
+
+                RefrescarListBoxValores();
+            }
+        }
+
+        private void EliminarValor_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(true);
+            AlertaEliminarValor_DialogHost.IsOpen = true;
+        }
+
+        //
+        // Alerta al eliminar un valor
+        //
+
+        private void CancelarEliminarValor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(false);
+            AlertaEliminarValor_DialogHost.IsOpen = false;
+        }
+
+        private void EliminarValor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Valor valor = Valores_ListBox.SelectedItem as Valor;
+            if (valor != null)
+            {
+                ControladorAtributos.EliminarValor(valor);
+                RefrescarListBoxValores();
+
+                _principal.OscurecerCompletamente(false);
+                AlertaEliminarValor_DialogHost.IsOpen = false;
+                _ = _principal.MostrarMensajeEnSnackbar("Valor eliminado correctamente!");
+            }
+        }
+
+        // ------------------------------------------------------ //
         //                       Oscurecer                        //
         // ------------------------------------------------------ //
 
         public void OscurecerFondoAtributos(bool estado)
         {
             OscurecerAtributos_DialogHost.IsOpen = estado;
+        }
+
+        public void OscurecerFondoValores(bool estado)
+        {
+            OscurecerValores_DialogHost.IsOpen = estado;
         }
     }
 }

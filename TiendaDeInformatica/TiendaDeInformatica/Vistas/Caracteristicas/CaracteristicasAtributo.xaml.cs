@@ -15,18 +15,18 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
     {
         public static Atributo _atributoModificar { get; set; }
         private Principal _principal { get; set; }
-        private Atributos _atributos { get; set; }
+        private Configuracion _configuracion { get; set; }
 
         public string Nombre_TextBox_Text { get; set; }
 
-        public CaracteristicasAtributo(Principal principal, Atributos atributos, Atributo atributo)
+        public CaracteristicasAtributo(Principal principal, Configuracion configuracion, Atributo atributo)
         {
             InitializeComponent();
             this.DataContext = this;
 
             _principal = principal;
             _atributoModificar = atributo;
-            _atributos = atributos;
+            _configuracion = configuracion;
         }
 
         private void CaracteristicasAtributo_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -42,7 +42,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 Nombre_TextBox.Text = _atributoModificar.Nombre;
             }
 
-            _atributos.OscurecerFondoAtributos(true);
+            _configuracion.OscurecerFondoAtributos(true);
             Contenido_DialogHost.IsOpen = true;
         }
 
@@ -84,8 +84,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private async void CerrarVentana()
         {
-            if (_atributos != null)
-                _atributos.OscurecerFondoAtributos(false);
+            if (_configuracion != null)
+                _configuracion.OscurecerFondoAtributos(false);
 
             Contenido_DialogHost.IsOpen = false;
             await Task.Delay(300);

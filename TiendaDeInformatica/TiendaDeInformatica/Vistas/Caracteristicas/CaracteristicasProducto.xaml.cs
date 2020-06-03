@@ -292,7 +292,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             if (atributo != null)
             {
                 OscurecerFondo(true);
-                CaracteristicasValor caracteristicasValor = new CaracteristicasValor(atributo, null, this);
+                CaracteristicasValor caracteristicasValor = new CaracteristicasValor(_principal, this, null, atributo, null);
                 caracteristicasValor.Owner = this;
 
                 caracteristicasValor.ShowDialog();
