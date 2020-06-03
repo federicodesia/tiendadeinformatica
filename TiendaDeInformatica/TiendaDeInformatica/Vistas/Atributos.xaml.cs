@@ -94,12 +94,19 @@ namespace TiendaDeInformatica.Vistas
 
         private void EliminarAtributo_Click(object sender, RoutedEventArgs e)
         {
+            _principal.OscurecerCompletamente(true);
             AlertaEliminarAtributo_DialogHost.IsOpen = true;
         }
 
         //
         // Alerta al eliminar un atributo
         //
+
+        private void CancelarEliminarAtributo_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(false);
+            AlertaEliminarAtributo_DialogHost.IsOpen = false;
+        }
 
         private void EliminarAtributo_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -109,6 +116,7 @@ namespace TiendaDeInformatica.Vistas
                 ControladorAtributos.EliminarAtributo(atributo);
                 RefrescarListaDeAtributos();
 
+                _principal.OscurecerCompletamente(false);
                 AlertaEliminarAtributo_DialogHost.IsOpen = false;
                 _ = _principal.MostrarMensajeEnSnackbar("Atributo eliminado correctamente!");
             }
@@ -132,12 +140,22 @@ namespace TiendaDeInformatica.Vistas
                 TipoProducto_ListBox.UnselectAll();
                 foreach (AtributoTipoProducto atributoTipoProducto in atributoActualizado.TiposProductos)
                     TipoProducto_ListBox.SelectedItems.Add(atributoTipoProducto.TipoProducto);
+
+                // Cargar los valores del atributo seleccionado en el ListBox
+                Valores_ListBox.Items.Clear();
+                foreach (Valor valor in atributoActualizado.Valores)
+                    Valores_ListBox.Items.Add(valor);
+
                 TipoProducto_ListBox.IsEnabled = true;
+                Valores_Card.IsEnabled = true;
             }
             else
             {
                 TipoProducto_ListBox.UnselectAll();
+                Valores_ListBox.Items.Clear();
+
                 TipoProducto_ListBox.IsEnabled = false;
+                Valores_Card.IsEnabled = false;
             }
             editandoListBoxTipoProducto = false;
         }

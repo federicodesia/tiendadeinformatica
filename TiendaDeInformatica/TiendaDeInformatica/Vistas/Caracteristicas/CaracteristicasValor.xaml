@@ -21,7 +21,7 @@
         x:Name="CaracteristicasValor_Vista" Loaded="CaracteristicasValor_Vista_Loaded" WindowStartupLocation="CenterOwner">
 
     <Grid>
-        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}" IsOpen="True">
+        <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Width="256" Background="{DynamicResource MaterialDesignPaper}">
                     <Grid Margin="18">

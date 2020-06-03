@@ -272,7 +272,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 // para mostrar los RadioButtons o CheckBoxs en el ListBox.
 
                 ValoresMultiples_ListBox.Items.Clear();
-                foreach (Valor valor in ControladorAtributos.ObtenerAtributoConValores(atributo.Id).Valores)
+                foreach (Valor valor in ControladorAtributos.ObtenerAtributo(atributo.Id).Valores)
                     ValoresMultiples_ListBox.Items.Add(valor);
                 Valores_Grid.Visibility = Visibility.Visible;
             }

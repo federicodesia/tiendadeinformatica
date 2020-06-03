@@ -58,15 +58,7 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                return context.Atributos.Include(a => a.TiposProductos).ToList();
-            }
-        }
-
-        public static List<Atributo> ObtenerListaDeAtributosConValores()
-        {
-            using (var context = new MyDbContext())
-            {
-                return context.Atributos.Include(v => v.Valores).ToList();
+                return context.Atributos.Include(a => a.TiposProductos).Include(a => a.Valores).ToList();
             }
         }
 
@@ -75,14 +67,6 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 return ObtenerListaDeAtributos().Find(a => a.Id == id);
-            }
-        }
-
-        public static Atributo ObtenerAtributoConValores(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                return ObtenerListaDeAtributosConValores().Find(a => a.Id == id);
             }
         }
 
