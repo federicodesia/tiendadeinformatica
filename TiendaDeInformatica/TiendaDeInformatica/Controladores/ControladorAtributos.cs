@@ -123,7 +123,6 @@ namespace TiendaDeInformatica.Controladores
             {
                 AtributoTipoProducto atributoTipoProducto = new AtributoTipoProducto()
                 {
-                    Atributo = atributo,
                     AtributoId = atributo.Id,
                     TipoProducto = tipoProducto
                 };

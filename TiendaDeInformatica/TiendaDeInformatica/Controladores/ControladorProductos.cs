@@ -26,7 +26,7 @@ namespace TiendaDeInformatica.Controladores
                     Precio = precio,
                     Tipo = tipo,
                     Imagen = imagen,
-                    Valores=new List<ProductoValor>()
+                    Valores = new List<ProductoValor>()
                 };
 
                 context.Productos.Add(producto);
@@ -56,13 +56,6 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static List<Producto> ObtenerListaDeProductos()
-        {
-            using (var context = new MyDbContext())
-            {
-                return context.Productos.Include(p => p.Marca).ToList();
-            }
-        }
 
         public static Producto ObtenerProducto(int id)
         {
@@ -85,12 +78,35 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void BorrarAtributoDeTipoProducto(Atributo atributo, TipoProducto tipoProducto, AtributoTipoProducto atributoTipoProducto)
+        public static void BorrarAtributoDeTipoProducto(Atributo atributo, AtributoTipoProducto atributoTipoProducto)
         {
             using (var context = new MyDbContext())
             {
                 AtributoTipoProducto atributoTipoProductoDb = context.Set<AtributoTipoProducto>().Find(atributo.Id);
                 context.Remove(atributoTipoProductoDb);
+                context.SaveChanges();
+
+            }
+        }
+        public static void AgregarValorAProducto(Valor valor, Producto producto)
+        {
+            using (var context = new MyDbContext())
+            {
+                ProductoValor valorProducto = new ProductoValor()
+                {
+                    ValorId = valor.Id,
+                    ProductoId = producto.Id
+                };
+                context.Add(valorProducto);
+                context.SaveChanges();
+            }
+        }
+        public static void EliminarValorAProducto(ProductoValor valorProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                ProductoValor valorProductoDb = context.Set<ProductoValor>().Find(valorProducto.ValorId);
+                context.Remove(valorProductoDb);
                 context.SaveChanges();
 
             }
