@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiendaDeInformatica.Controladores;
 
 namespace TiendaDeInformatica.Modelos
 {
@@ -25,7 +19,7 @@ namespace TiendaDeInformatica.Modelos
         {
             get
             {
-                return Tipo.ToString().Replace("_", " ") + " " + ControladorMarcas.ObtenerMarca(MarcaId).Nombre + " " + Modelo;
+                return $"{Tipo.ToString().Replace("_", " ")} {Marca.Nombre} {Modelo}";
             }
         }
     }

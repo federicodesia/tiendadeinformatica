@@ -143,9 +143,9 @@
                                                         <Image Grid.Column="0" Width="64" Height="64" VerticalAlignment="Top" HorizontalAlignment="Right">
                                                             <Image.Style>
                                                                 <Style TargetType="{x:Type Image}">
-                                                                    <Setter Property="Source" Value="{Binding MostrarImagenProducto}" />
+                                                                    <Setter Property="Source" Value="{Binding Producto.Imagen}" />
                                                                     <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding MostrarImagenProducto}" Value="{x:Null}">
+                                                                        <DataTrigger Binding="{Binding Producto.Imagen}" Value="{x:Null}">
                                                                             <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
@@ -160,7 +160,7 @@
                                                             </Grid.RowDefinitions>
 
                                                             <!-- Tipo de Producto, Marca y Modelo -->
-                                                            <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center" Margin="12 0 32 0"/>
+                                                            <TextBlock Grid.Row="0" Text="{Binding Producto.MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center" Margin="12 0 32 0"/>
 
                                                             <!-- Precio, cantidad -->
                                                             <Grid Grid.Row="1" Margin="12 0 0 0">

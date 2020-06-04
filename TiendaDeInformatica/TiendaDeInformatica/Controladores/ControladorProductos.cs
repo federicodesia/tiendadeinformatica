@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TiendaDeInformatica.Datos;
-using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Controladores
@@ -15,6 +13,7 @@ namespace TiendaDeInformatica.Controladores
         {
             Productos = new List<Producto>();
         }
+
         public static void AgregarProducto(TipoProducto tipo, Marca marca, string modelo, decimal precio, byte[] imagen)
         {
             using (var context = new MyDbContext())
@@ -47,6 +46,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void EliminarProducto(Producto producto)
         {
             using (var context = new MyDbContext())
@@ -56,19 +56,12 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static List<Producto> ObtenerListaDeProductos()
         {
             using (var context = new MyDbContext())
             {
                 return context.Productos.Include(p => p.Marca).ToList();
-            }
-        }
-
-        public static Producto ObtenerProducto(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                return context.Productos.Find(id);
             }
         }
 
@@ -85,6 +78,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void BorrarAtributoDeTipoProducto(Atributo atributo, TipoProducto tipoProducto, AtributoTipoProducto atributoTipoProducto)
         {
             using (var context = new MyDbContext())

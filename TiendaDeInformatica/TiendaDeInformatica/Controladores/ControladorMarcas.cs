@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TiendaDeInformatica.Datos;
-using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Controladores
@@ -51,27 +50,11 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
-        public static List<Marca> ObtenerListaDeMarcas() //Obtiene una lista de todos los productos asociados a una marca.
+        public static List<Marca> ObtenerListaDeMarcas()
         {
             using (var context = new MyDbContext())
             {
                 return context.Marcas.Include(m => m.Productos).ToList();
-            }
-        }
-
-        public static List<Marca> ObtenerListaDeMarcasSinProductos()
-        {
-            using (var context = new MyDbContext())
-            {
-                return context.Marcas.ToList();
-            }
-        }
-
-        public static Marca ObtenerMarca(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                return context.Marcas.Find(id);
             }
         }
     }

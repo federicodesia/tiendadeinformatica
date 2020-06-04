@@ -248,7 +248,7 @@
                                                                     <Setter Property="Kind" Value="Person" />
                                                                     <Style.Triggers>
                                                                         <!-- Cambiar el icono dependiendo del tipo de cliente -->
-                                                                        <DataTrigger Binding="{Binding ClienteTipo}" Value="Empresa">
+                                                                        <DataTrigger Binding="{Binding Cliente.Tipo}" Value="Empresa">
                                                                             <Setter Property="Kind" Value="OfficeBuilding" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
@@ -259,20 +259,20 @@
 
                                                     <StackPanel Orientation="Vertical" Margin="8 0 0 0" VerticalAlignment="Center">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding ClienteMostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
-                                                            <TextBlock Margin="4 0 0 0" Text="{Binding ClienteNombreDelResponsable}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                                            <TextBlock Text="{Binding Cliente.MostrarNombre}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                                            <TextBlock Margin="4 0 0 0" Text="{Binding Cliente.NombreDelResponsable}" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
                                                         </StackPanel>
 
-                                                        <TextBlock Text="{Binding ClienteDescripcion}">
+                                                        <TextBlock Text="{Binding Cliente.Descripcion}">
                                                             <TextBlock.Style>
                                                                 <Style TargetType="{x:Type TextBlock}">
                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                     <Style.Triggers>
                                                                         <!-- Cambiar el la visibilidad dependiendo de si hay descripción o no -->
-                                                                        <DataTrigger Binding="{Binding ClienteDescripcion}" Value="{x:Null}">
+                                                                        <DataTrigger Binding="{Binding Cliente.Descripcion}" Value="{x:Null}">
                                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                                         </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding ClienteDescripcion}" Value="">
+                                                                        <DataTrigger Binding="{Binding Cliente.Descripcion}" Value="">
                                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>

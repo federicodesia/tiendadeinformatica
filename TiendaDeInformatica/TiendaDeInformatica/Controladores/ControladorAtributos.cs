@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Modelos;
@@ -152,6 +151,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void EliminarAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto)
         {
             using (var context = new MyDbContext())
