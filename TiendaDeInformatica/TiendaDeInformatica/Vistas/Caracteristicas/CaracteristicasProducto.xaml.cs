@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -242,6 +243,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         //                   Pestaña Compatibilidad               //
         // ------------------------------------------------------ //
 
+        private bool editandoListBoxValores = false;
+
         private void TipoProducto_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TipoProducto_ComboBox.SelectedIndex != -1)
@@ -265,6 +268,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void RefrescarListBoxValores()
         {
+            editandoListBoxValores = true;
             Atributo atributo = Atributos_ComboBox.SelectedItem as Atributo;
             if (atributo != null)
             {
@@ -279,6 +283,29 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             else
             {
                 Valores_Grid.Visibility = Visibility.Collapsed;
+            }
+            editandoListBoxValores = false;
+        }
+
+        private void ValoresMultiples_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!editandoListBoxValores)
+            {
+                Valor valor = ValoresMultiples_ListBox.SelectedItem as Valor;
+
+                IList addedItems = e.AddedItems;
+                if (addedItems.Count > 0)
+                {
+                    // Falta el método en el controlador
+                }
+                else
+                {
+                    IList removedItems = e.RemovedItems;
+                    if (removedItems.Count > 0)
+                    {
+                        // Falta el método en el controlador
+                    }
+                }
             }
         }
 
