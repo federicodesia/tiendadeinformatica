@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TiendaDeInformatica.Modelos
 {
@@ -21,8 +17,7 @@ namespace TiendaDeInformatica.Modelos
                 {
                     if (Productos.Count == 1)
                         return "1 producto";
-                    else
-                        return $"{Productos.Count.ToString()} productos";
+                    return $"{Productos.Count.ToString()} productos";
                 }
                 return "0 productos";
             }

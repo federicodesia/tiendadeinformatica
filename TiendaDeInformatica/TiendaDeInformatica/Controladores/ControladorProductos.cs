@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TiendaDeInformatica.Datos;
-using TiendaDeInformatica.Helpers;
 using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Controladores
@@ -15,6 +13,7 @@ namespace TiendaDeInformatica.Controladores
         {
             Productos = new List<Producto>();
         }
+
         public static void AgregarProducto(TipoProducto tipo, Marca marca, string modelo, decimal precio, byte[] imagen)
         {
             using (var context = new MyDbContext())
@@ -26,7 +25,7 @@ namespace TiendaDeInformatica.Controladores
                     Precio = precio,
                     Tipo = tipo,
                     Imagen = imagen,
-                    Valores = new List<ProductoValor>()
+                    Valores=new List<ProductoValor>()
                 };
 
                 context.Productos.Add(producto);
@@ -47,6 +46,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void EliminarProducto(Producto producto)
         {
             using (var context = new MyDbContext())
@@ -57,11 +57,11 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
-        public static Producto ObtenerProducto(int id)
+        public static List<Producto> ObtenerListaDeProductos()
         {
             using (var context = new MyDbContext())
             {
-                return context.Productos.Find(id);
+                return context.Productos.Include(p => p.Marca).ToList();
             }
         }
 
@@ -78,35 +78,13 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
-        public static void BorrarAtributoDeTipoProducto(Atributo atributo, AtributoTipoProducto atributoTipoProducto)
+
+        public static void BorrarAtributoDeTipoProducto(Atributo atributo, TipoProducto tipoProducto, AtributoTipoProducto atributoTipoProducto)
         {
             using (var context = new MyDbContext())
             {
                 AtributoTipoProducto atributoTipoProductoDb = context.Set<AtributoTipoProducto>().Find(atributo.Id);
                 context.Remove(atributoTipoProductoDb);
-                context.SaveChanges();
-
-            }
-        }
-        public static void AgregarValorAProducto(Valor valor, Producto producto)
-        {
-            using (var context = new MyDbContext())
-            {
-                ProductoValor valorProducto = new ProductoValor()
-                {
-                    ValorId = valor.Id,
-                    ProductoId = producto.Id
-                };
-                context.Add(valorProducto);
-                context.SaveChanges();
-            }
-        }
-        public static void EliminarValorAProducto(ProductoValor valorProducto)
-        {
-            using (var context = new MyDbContext())
-            {
-                ProductoValor valorProductoDb = context.Set<ProductoValor>().Find(valorProducto.ValorId);
-                context.Remove(valorProductoDb);
                 context.SaveChanges();
 
             }

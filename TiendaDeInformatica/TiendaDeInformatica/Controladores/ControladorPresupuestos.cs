@@ -59,7 +59,15 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                return context.Presupuestos.Include(p => p.Productos).ToList();
+                return context.Presupuestos.Include(p => p.Productos).ThenInclude(p => p.Producto).Include(p => p.Cliente).ToList();
+            }
+        }
+
+        public static Presupuesto ObtenerPresupuesto(int id)
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.Presupuestos.Include(p => p.Productos).ThenInclude(p => p.Producto).ThenInclude(p => p.Marca).Include(p => p.Cliente).ToList().Find(p => p.Id == id);
             }
         }
 
@@ -112,14 +120,6 @@ namespace TiendaDeInformatica.Controladores
                 PresupuestoProducto presupuestoProductoDb = context.Set<PresupuestoProducto>().Find(presupuestoProducto.Id);
                 presupuestoProductoDb.Cantidad = cantidad;
                 context.SaveChanges();
-            }
-        }
-
-        public static Presupuesto ObtenerPresupuesto(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                return ObtenerListaDePresupuestos().Find(p => p.Id == id);
             }
         }
     }

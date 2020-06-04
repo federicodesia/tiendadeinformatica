@@ -1,4 +1,4 @@
-﻿<Window x:Class="TiendaDeInformatica.Vistas.Caracteristicas.CaracteristicasAtributo"
+﻿<Window x:Class="TiendaDeInformatica.Vistas.Caracteristicas.CaracteristicasValor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -18,7 +18,7 @@
         UseLayoutRounding="True"
         
         ShowInTaskbar="False"
-        x:Name="CaracteristicasAtributo_Vista" Loaded="CaracteristicasAtributo_Vista_Loaded">
+        x:Name="CaracteristicasValor_Vista" Loaded="CaracteristicasValor_Vista_Loaded" WindowStartupLocation="CenterOwner">
 
     <Grid>
         <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
@@ -33,14 +33,14 @@
                         <!-- Caracteristicas -->
                         <StackPanel Grid.Row="0">
                             <!-- Titulo -->
-                            <TextBlock x:Name="Titulo_TextBlock" Text="Nuevo atributo"/>
+                            <TextBlock x:Name="Titulo_TextBlock" Text="Nuevo valor del atributo Atributo"/>
 
-                            <!-- Nombre del atributo -->
+                            <!-- Nombre del valor -->
                             <TextBox x:Name="Nombre_TextBox" Margin="0 8 0 0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nombre">
                                 <TextBox.Text>
                                     <Binding Path="Nombre_TextBox_Text" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
-                                            <reglasDeValidacion:AtributoValidationRule/>
+                                            <reglasDeValidacion:ValorValidationRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>

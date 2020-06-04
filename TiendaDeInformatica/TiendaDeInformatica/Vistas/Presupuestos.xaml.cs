@@ -153,7 +153,7 @@ namespace TiendaDeInformatica.Vistas
                 List<Presupuesto> resultado = new List<Presupuesto>();
                 foreach (Presupuesto presupuesto in presupuestos)
                 {
-                    Cliente cliente = ControladorClientes.ObtenerCliente(presupuesto.ClienteId);
+                    Cliente cliente = presupuesto.Cliente;
                     if ((cliente.NombreDelResponsable != null && TextHelper.QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
                         || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
                         || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
@@ -266,8 +266,8 @@ namespace TiendaDeInformatica.Vistas
             if (FiltroCliente_Persona_CheckBox.IsChecked.Value != FiltroCliente_Empresa_CheckBox.IsChecked.Value)
             {
                 if(FiltroCliente_Persona_CheckBox.IsChecked.Value == true)
-                    return presupuestos.Where(p => p.ClienteTipo == "Persona").ToList();
-                return presupuestos.Where(p => p.ClienteTipo == "Empresa").ToList();
+                    return presupuestos.Where(p => p.Cliente.Tipo == "Persona").ToList();
+                return presupuestos.Where(p => p.Cliente.Tipo == "Empresa").ToList();
             }
             return presupuestos;
         }

@@ -196,6 +196,9 @@
     <Compile Include="Vistas\Caracteristicas\CaracteristicasAtributo.xaml.cs">
       <DependentUpon>CaracteristicasAtributo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Caracteristicas\CaracteristicasValor.xaml.cs">
+      <DependentUpon>CaracteristicasValor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\ConfiguracionGuiada.xaml.cs">
       <DependentUpon>ConfiguracionGuiada.xaml</DependentUpon>
     </Compile>
@@ -216,9 +219,11 @@
     </Compile>
     <Compile Include="Vistas\Converters\PresupuestoProductoVisibilityConverter.cs" />
     <Compile Include="Vistas\Converters\EnumDescriptionConverter.cs" />
-    <Compile Include="Vistas\Atributos.xaml.cs">
-      <DependentUpon>Atributos.xaml</DependentUpon>
+    <Compile Include="Vistas\Configuracion.xaml.cs">
+      <DependentUpon>Configuracion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vistas\Reglas de Validacion\AtributoValidationRule.cs" />
+    <Compile Include="Vistas\Reglas de Validacion\ValorValidationRule.cs" />
     <Compile Include="Vistas\ResumenPresupuesto.xaml.cs">
       <DependentUpon>ResumenPresupuesto.xaml</DependentUpon>
     </Compile>
@@ -241,6 +246,10 @@
     <Compile Include="Vistas\Reglas de Validacion\SoloLetras.cs" />
     <Compile Include="Vistas\Reglas de Validacion\Telefono.cs" />
     <Page Include="Vistas\Caracteristicas\CaracteristicasAtributo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vistas\Caracteristicas\CaracteristicasValor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -272,7 +281,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Vistas\Atributos.xaml">
+    <Page Include="Vistas\Configuracion.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

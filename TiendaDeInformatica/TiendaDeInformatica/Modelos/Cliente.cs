@@ -25,8 +25,7 @@
             {
                 if (Tipo == "Empresa")
                     return NombreDeLaEmpresa;
-                else
-                    return $"{Nombre} {Apellido}";
+                return $"{Nombre} {Apellido}";
             }
         }
 

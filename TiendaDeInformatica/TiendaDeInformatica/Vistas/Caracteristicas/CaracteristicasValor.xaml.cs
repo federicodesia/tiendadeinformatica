@@ -9,61 +9,69 @@ using TiendaDeInformatica.Vistas.Reglas_de_Validacion;
 namespace TiendaDeInformatica.Vistas.Caracteristicas
 {
     /// <summary>
-    /// Lógica de interacción para CaracteristicasAtributo2.xaml
+    /// Lógica de interacción para CaracteristicasMarca.xaml
     /// </summary>
-    public partial class CaracteristicasAtributo : Window
+    public partial class CaracteristicasValor : Window
     {
-        public static Atributo _atributoModificar { get; set; }
+        public static Atributo _atributo { get; set; }
+        public static Valor _valorModificar { get; set; }
+
         private Principal _principal { get; set; }
+        private CaracteristicasProducto _caracteristicasProducto { get; set; }
         private Configuracion _configuracion { get; set; }
 
         public string Nombre_TextBox_Text { get; set; }
 
-        public CaracteristicasAtributo(Principal principal, Configuracion configuracion, Atributo atributo)
+        public CaracteristicasValor(Principal principal, CaracteristicasProducto caracteristicasProducto, Configuracion configuracion, Atributo atributo, Valor valor)
         {
             InitializeComponent();
             this.DataContext = this;
 
             _principal = principal;
-            _atributoModificar = atributo;
+            _caracteristicasProducto = caracteristicasProducto;
             _configuracion = configuracion;
+            _valorModificar = valor;
+            _atributo = atributo;
         }
 
-        private void CaracteristicasAtributo_Vista_Loaded(object sender, RoutedEventArgs e)
+        private void CaracteristicasValor_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            // Verificar si se va a crear o a modificar un atributo
-            if (_atributoModificar != null)
+            // Verificar si se va a crear o a modificar un valor
+            if (_valorModificar != null)
             {
                 // Cambiar el título y el botón
-                Titulo_TextBlock.Text = "Modificar el atributo " + _atributoModificar.Nombre;
+                Titulo_TextBlock.Text = "Modificar valor del atributo " + _atributo.Nombre;
                 AgregarModificar_Button.Content = "MODIFICAR";
 
                 // Cargar los datos del valor
-                Nombre_TextBox.Text = _atributoModificar.Nombre;
+                Nombre_TextBox.Text = _valorModificar.Nombre;
             }
+            else
+                Titulo_TextBlock.Text = "Agregar valor al atributo " + _atributo.Nombre;
 
-            _configuracion.OscurecerFondoAtributos(true);
+            if (_configuracion != null)
+                _configuracion.OscurecerFondoValores(true);
             Contenido_DialogHost.IsOpen = true;
         }
 
         // ------------------------------------------------------ //
-        //             Agregar o Modificar un atributo            //
+        //              Agregar o Modificar un valor              //
         // ------------------------------------------------------ //
 
         private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (new AtributoValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
+            if (new ValorValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
             {
-                if (_atributoModificar == null)
+                if (_valorModificar == null)
                 {
-                    ControladorAtributos.AgregarAtributo(Nombre_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Atributo agregado correctamente!");
+                    ControladorAtributos.AgregarValor(_atributo, Nombre_TextBox.Text);
+                    _ = _principal.MostrarMensajeEnSnackbar("Valor agregado correctamente!");
                 }
                 else
                 {
-                    ControladorAtributos.ModificarAtributo(_atributoModificar, Nombre_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Atributo modificado correctamente!");
-                }
+                    ControladorAtributos.ModificarValor(_valorModificar, Nombre_TextBox.Text);
+                    _ = _principal.MostrarMensajeEnSnackbar("Valor modificado correctamente!");
+                }  
                 CerrarVentana();
             }
             else
@@ -84,8 +92,10 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private async void CerrarVentana()
         {
-            if (_configuracion != null)
-                _configuracion.OscurecerFondoAtributos(false);
+            if (_caracteristicasProducto != null)
+                _caracteristicasProducto.OscurecerFondo(false);
+            else if (_configuracion != null)
+                _configuracion.OscurecerFondoValores(false);
 
             Contenido_DialogHost.IsOpen = false;
             await Task.Delay(300);

@@ -2,7 +2,6 @@
 using MaterialDesignColors.ColorManipulation;
 using MaterialDesignThemes.Wpf;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -253,7 +252,7 @@ namespace TiendaDeInformatica.Vistas
                         Contenido_Grid.Children.Add(new Productos(this, null));
                         break;
                     case 8:
-                        Contenido_Grid.Children.Add(new Atributos(this));
+                        Contenido_Grid.Children.Add(new Configuracion(this));
                         break;
                     default:
                         break;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         public string Modelo_TextBox_Text { get; set; }
         public string Precio_TextBox_Text { get; set; }
         public byte[] ImagenSeleccionada { get; set; }
+
+        public Atributo Atributos_ComboBox_SelectedItem { get; set; }
 
         public CaracteristicasProducto(Principal principal, Producto productoModificar, TipoProducto? tipoProductoCrear)
         {
@@ -221,7 +224,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         }
 
         // ------------------------------------------------------ //
-        //                 Seleccionar una imagen                //
+        //                 Seleccionar una imagen                 //
         // ------------------------------------------------------ //
 
         private void SeleccionarImagen_Button_Click(object sender, RoutedEventArgs e)
@@ -234,6 +237,105 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
             Imagen_Image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
             ImagenSeleccionada = ConvertirImagen.ConvertImageToByteArray(openFileDialog.FileName);
+        }
+
+        // ------------------------------------------------------ //
+        //                   Pestaña Compatibilidad               //
+        // ------------------------------------------------------ //
+
+        private bool editandoListBoxValores = false;
+
+        private void TipoProducto_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TipoProducto_ComboBox.SelectedIndex != -1)
+            {
+                TipoProducto tipoProducto = (TipoProducto)TipoProducto_ComboBox.SelectedIndex;
+                Atributos_ComboBox.Items.Clear();
+                foreach (Atributo atributo in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(tipoProducto))
+                    Atributos_ComboBox.Items.Add(atributo);
+                Atributos_ComboBox.IsEnabled = true;
+            }
+            else
+            {
+                Atributos_ComboBox.IsEnabled = false;
+            }
+        }
+
+        private void Atributos_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefrescarListBoxValores();
+        }
+
+        private void RefrescarListBoxValores()
+        {
+            editandoListBoxValores = true;
+            Atributo atributo = Atributos_ComboBox.SelectedItem as Atributo;
+            if (atributo != null)
+            {
+                // Falta realizar la verificación de Valores unicos o Valores multiples
+                // para mostrar los RadioButtons o CheckBoxs en el ListBox.
+
+                ValoresMultiples_ListBox.Items.Clear();
+                foreach (Valor valor in ControladorAtributos.ObtenerAtributo(atributo.Id).Valores)
+                    ValoresMultiples_ListBox.Items.Add(valor);
+                Valores_Grid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Valores_Grid.Visibility = Visibility.Collapsed;
+            }
+            editandoListBoxValores = false;
+        }
+
+        private void ValoresMultiples_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!editandoListBoxValores)
+            {
+                Valor valor = ValoresMultiples_ListBox.SelectedItem as Valor;
+
+                IList addedItems = e.AddedItems;
+                if (addedItems.Count > 0)
+                {
+                    // Falta el método en el controlador
+                }
+                else
+                {
+                    IList removedItems = e.RemovedItems;
+                    if (removedItems.Count > 0)
+                    {
+                        // Falta el método en el controlador
+                    }
+                }
+            }
+        }
+
+        //
+        // Agregar valor
+        //
+
+        private void AgregarValor_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Atributo atributo = Atributos_ComboBox.SelectedItem as Atributo;
+            if (atributo != null)
+            {
+                OscurecerFondo(true);
+                CaracteristicasValor caracteristicasValor = new CaracteristicasValor(_principal, this, null, atributo, null);
+                caracteristicasValor.Owner = this;
+
+                caracteristicasValor.ShowDialog();
+                RefrescarListBoxValores();
+            }
+        }
+
+        public void OscurecerFondo(bool estado)
+        {
+            OscurecerFondo_DialogHost.IsOpen = estado;
+        }
+
+        private void ValoresMultiples_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Deshabilitar el click derecho para seleccionar o deseleccionar un item del ListBox
+            e.Handled = true;
         }
     }
 }

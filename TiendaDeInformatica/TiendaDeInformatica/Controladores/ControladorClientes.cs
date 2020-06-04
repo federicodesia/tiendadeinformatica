@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TiendaDeInformatica.Datos;
 using TiendaDeInformatica.Modelos;
@@ -31,6 +29,7 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static void ModificarCliente(Cliente cliente, string nombreDeLaEmpresa, string nombre, string apellido, string telefono, string cuit)
         {
             using (var context = new MyDbContext())
@@ -45,6 +44,7 @@ namespace TiendaDeInformatica.Controladores
             }
 
         }
+
         public static void EliminarCliente(Cliente cliente)
         {
             using (var context = new MyDbContext())
@@ -54,19 +54,12 @@ namespace TiendaDeInformatica.Controladores
                 context.SaveChanges();
             }
         }
+
         public static List<Cliente> ObtenerListaDeClientes()
         {
             using (var context = new MyDbContext())
             {
                 return context.Clientes.ToList();
-            }
-        }
-
-        public static Cliente ObtenerCliente(int id)
-        {
-            using (var context = new MyDbContext())
-            {
-                return context.Clientes.Find(id);
             }
         }
 
@@ -83,19 +76,13 @@ namespace TiendaDeInformatica.Controladores
                     {
                         texto = texto + $"\r\n- {cliente.Nombre} {cliente.Apellido}";
                         if (cliente.Telefono != null)
-                        {
                             texto = texto + $", Teléfono: {cliente.Telefono}";
-                        }
                         if (cliente.CUIT != null)
-                        {
                             texto = texto + $", CUIT: {cliente.CUIT}";
-                        }
                     }
                 }
                 else
-                {
                     texto = texto + "\r\nNo hay personas en la lista de clientes.";
-                }
 
                 texto = texto + "\r\n\r\nLista de empresas:\r\n";
                 List<Cliente> empresas = context.Clientes.ToList().Where(c => c.Tipo == "Empresa").ToList();
@@ -105,19 +92,13 @@ namespace TiendaDeInformatica.Controladores
                     {
                         texto = texto + $"\r\n- {cliente.NombreDeLaEmpresa} (Responsable: {cliente.Nombre} {cliente.Apellido})";
                         if (cliente.Telefono != null)
-                        {
                             texto = texto + $", Teléfono: {cliente.Telefono}";
-                        }
                         if (cliente.CUIT != null)
-                        {
                             texto = texto + $", CUIT: {cliente.CUIT}";
-                        }
                     }
                 }
                 else
-                {
                     texto = texto + "\r\nNo hay empresas en la lista de clientes.";
-                }
             }
             return texto;
         }

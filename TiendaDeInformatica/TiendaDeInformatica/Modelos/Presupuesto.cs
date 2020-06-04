@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TiendaDeInformatica.Controladores;
 
 namespace TiendaDeInformatica.Modelos
 {
@@ -13,48 +12,16 @@ namespace TiendaDeInformatica.Modelos
         public DateTime FechaModificacion { get; set; }
         public DateTime? FechaDeExpiracion { get; set; }
 
+        public List<PresupuestoProducto> Productos { get; set; }
+
         public decimal PrecioTotal
         {
             get
             {
                 decimal precioTotal = 0;
                 foreach(PresupuestoProducto presupuestoProducto in Productos)
-                    precioTotal += ControladorProductos.ObtenerProducto(presupuestoProducto.ProductoId).Precio * presupuestoProducto.Cantidad;
+                    precioTotal += presupuestoProducto.MostrarPrecioProducto;
                 return precioTotal;
-            }
-        }
-
-        public List<PresupuestoProducto> Productos { get; set; }
-
-        public string ClienteTipo
-        {
-            get
-            {
-                return ControladorClientes.ObtenerCliente(ClienteId).Tipo;
-            }
-        }
-
-        public string ClienteMostrarNombre
-        {
-            get
-            {
-                return ControladorClientes.ObtenerCliente(ClienteId).MostrarNombre;
-            }
-        }
-
-        public string ClienteNombreDelResponsable
-        {
-            get
-            {
-                return ControladorClientes.ObtenerCliente(ClienteId).NombreDelResponsable;
-            }
-        }
-
-        public string ClienteDescripcion
-        {
-            get
-            {
-                return ControladorClientes.ObtenerCliente(ClienteId).Descripcion;
             }
         }
 
