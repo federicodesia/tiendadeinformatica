@@ -56,7 +56,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 columns: table => new
                 {
                     AtributoId = table.Column<int>(nullable: false),
-                    TipoProducto = table.Column<string>(nullable: false)
+                    TipoProducto = table.Column<string>(nullable: false),
+                    MultiplesValores = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,7 +163,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductoValor",
+                name: "ValorProducto",
                 columns: table => new
                 {
                     ProductoId = table.Column<int>(nullable: false),
@@ -170,15 +171,15 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductoValor", x => new { x.ValorId, x.ProductoId });
+                    table.PrimaryKey("PK_ValorProducto", x => new { x.ValorId, x.ProductoId });
                     table.ForeignKey(
-                        name: "FK_ProductoValor_Productos_ProductoId",
+                        name: "FK_ValorProducto_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductoValor_Valores_ValorId",
+                        name: "FK_ValorProducto_Valores_ValorId",
                         column: x => x.ValorId,
                         principalTable: "Valores",
                         principalColumn: "Id",
@@ -206,14 +207,14 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 column: "MarcaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductoValor_ProductoId",
-                table: "ProductoValor",
-                column: "ProductoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Valores_AtributoId",
                 table: "Valores",
                 column: "AtributoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ValorProducto_ProductoId",
+                table: "ValorProducto",
+                column: "ProductoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -225,7 +226,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 name: "PresupuestoProducto");
 
             migrationBuilder.DropTable(
-                name: "ProductoValor");
+                name: "ValorProducto");
 
             migrationBuilder.DropTable(
                 name: "Presupuestos");

@@ -34,6 +34,8 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<string>("TipoProducto");
 
+                    b.Property<bool>("MultiplesValores");
+
                     b.HasKey("AtributoId", "TipoProducto");
 
                     b.ToTable("AtributoTipoProductos");
@@ -145,7 +147,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.HasIndex("ProductoId");
 
-                    b.ToTable("ProductoValor");
+                    b.ToTable("ValorProducto");
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Valor", b =>

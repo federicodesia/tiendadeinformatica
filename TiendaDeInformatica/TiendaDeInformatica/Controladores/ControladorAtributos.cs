@@ -12,6 +12,7 @@ namespace TiendaDeInformatica.Controladores
         public ControladorAtributos()
         {
             Atributos = new List<Atributo>();
+
         }
 
         //
@@ -145,7 +146,8 @@ namespace TiendaDeInformatica.Controladores
                 AtributoTipoProducto atributoTipoProducto = new AtributoTipoProducto()
                 {
                     AtributoId = atributo.Id,
-                    TipoProducto = tipoProducto
+                    TipoProducto = tipoProducto,
+                    MultiplesValores = false
                 };
                 context.AtributoTipoProductos.Add(atributoTipoProducto);
                 context.SaveChanges();
