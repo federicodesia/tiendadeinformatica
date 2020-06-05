@@ -90,7 +90,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Atributos" FontWeight="SemiBold" Margin="24 24 24 18" FontSize="14"/>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Atributos" FontWeight="SemiBold" Margin="24 24 24 20" FontSize="14"/>
 
                                         <Button Grid.Column="1" x:Name="AgregarAtributo_Button" VerticalAlignment="Center" Margin="0 0 6 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar atributo" Click="AgregarAtributo_Button_Click">
                                             <materialDesign:PackIcon Kind="Add" Width="16" Height="16"/>
@@ -150,26 +150,78 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0">
-                                <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Tipos de producto" FontWeight="SemiBold" Margin="24 24 24 18" FontSize="14"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="74"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Tipos de producto" FontWeight="SemiBold" Margin="24 24 8 20" FontSize="14"/>
+
+                                    <TextBlock Grid.Column="1" Text="Múltiples valores" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" Margin="0 4 18 0" FontSize="12" Opacity="0.79">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <!-- Cambiar la visibilidad -->
+                                                    <DataTrigger Binding="{Binding Path=SelectedItems.Count, ElementName=TipoProducto_ListBox}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+
                                 <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
                             </StackPanel>
 
-                            <ListBox x:Name="TipoProducto_ListBox" Grid.Row="1" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple" Margin="24 24 0 24" Padding="0 -16 0 0" IsEnabled="False" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text=" "/>
-                                                <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource EnumDescriptionConverter}}" Padding="0 0 300 0"/>
-                                            </StackPanel>
-                                        </CheckBox>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
+                            <ScrollViewer Grid.Row="1" CanContentScroll="False">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
+                                    <ListBox x:Name="TipoProducto_ListBox" Grid.Column="0" SelectionMode="Multiple" Margin="24 24 0 24" Padding="0 -16 0 0" IsEnabled="False" SelectionChanged="TipoProducto_ListBox_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" FontWeight="Regular">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text=" "/>
+                                                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource EnumDescriptionConverter}}" Padding="0 0 300 0"/>
+                                                    </StackPanel>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+
+                                    <ListBox x:Name="MultiplesValores_ListBox" Grid.Column="1" HorizontalAlignment="Center" SelectionMode="Multiple" Margin="0 24 6 0" Padding="0 -16 0 0" SelectionChanged="MultiplesValores_ListBox_SelectionChanged">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <ToggleButton Height="44" Margin="14 0 14 0" Padding="0" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"/>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}">
+                                                <Setter Property="Margin" Value="0 0 0 -7" />
+                                                
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Content" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </Grid>
+                            </ScrollViewer>
                         </Grid>
                     </materialDesign:Card>
 
@@ -193,7 +245,7 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Valores" FontWeight="SemiBold" Margin="24 24 24 18" FontSize="14"/>
+                                        <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Valores" FontWeight="SemiBold" Margin="24 24 24 20" FontSize="14"/>
 
                                         <Button Grid.Column="1" x:Name="AgregarValor_Button" VerticalAlignment="Center" Margin="0 0 6 0" Style="{StaticResource MaterialDesignIconButton}" ToolTip="Agregar valor" Click="AgregarValor_Button_Click">
                                             <materialDesign:PackIcon Kind="Add" Width="16" Height="16"/>

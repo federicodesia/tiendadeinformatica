@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using TiendaDeInformatica.Controladores;
@@ -15,6 +16,8 @@ namespace TiendaDeInformatica.Vistas
     {
         private Principal _principal;
 
+        private TipoProducto[] tipoProductos;
+
         public Configuracion(Principal principal)
         {
             InitializeComponent();
@@ -23,7 +26,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void Configuracion_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+            tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
             foreach (TipoProducto tipoProducto in tipoProductos)
                 TipoProducto_ListBox.Items.Add(tipoProducto);
 
@@ -129,26 +132,39 @@ namespace TiendaDeInformatica.Vistas
         private void Atributos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             editandoListBoxTipoProducto = true;
+
+            TipoProducto_ListBox.UnselectAll();
+            MultiplesValores_ListBox.Items.Clear();
+            foreach (TipoProducto tipoProducto in tipoProductos)
+                MultiplesValores_ListBox.Items.Add(null);
+
             Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
             if (atributo != null)
             {
                 Atributo atributoActualizado = ControladorAtributos.ObtenerAtributo(atributo.Id);
 
-                // Seleccionar los TipoProducto del atributo seleccionado
-                TipoProducto_ListBox.UnselectAll();
                 foreach (AtributoTipoProducto atributoTipoProducto in atributoActualizado.TiposProductos)
-                    TipoProducto_ListBox.SelectedItems.Add(atributoTipoProducto.TipoProducto);
+                {
+                    TipoProducto tipoProducto = atributoTipoProducto.TipoProducto;
+
+                    // Seleccionar los TipoProducto del atributo seleccionado
+                    TipoProducto_ListBox.SelectedItems.Add(tipoProducto);
+
+                    // Agregar el ToggleButton de Multiples Valores
+                    MultiplesValores_ListBox.Items.RemoveAt((int)tipoProducto);
+                    MultiplesValores_ListBox.Items.Insert((int)tipoProducto, tipoProducto);
+
+                    // Seleccionar el ToggleButton de Multiples Valores del atributo seleccionado
+                    if (atributoTipoProducto.MultiplesValores)
+                       MultiplesValores_ListBox.SelectedItems.Add(tipoProducto);
+                }
 
                 RefrescarListBoxValores();
-
                 TipoProducto_ListBox.IsEnabled = true;
                 Valores_Card.IsEnabled = true;
             }
             else
             {
-                TipoProducto_ListBox.UnselectAll();
-                Valores_ListBox.Items.Clear();
-
                 TipoProducto_ListBox.IsEnabled = false;
                 Valores_Card.IsEnabled = false;
             }
@@ -159,16 +175,50 @@ namespace TiendaDeInformatica.Vistas
         {
             if (!editandoListBoxTipoProducto)
             {
+                editandoListBoxTipoProducto = true;
                 Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
 
                 IList addedItems = e.AddedItems;
                 if (addedItems.Count > 0)
-                    ControladorAtributos.AgregarAtributoTipoProducto(atributo, (TipoProducto)addedItems[0]);
+                {
+                    TipoProducto tipoProducto = (TipoProducto)addedItems[0];
+                    ControladorAtributos.AgregarAtributoTipoProducto(atributo, tipoProducto);
+
+                    // Agregar el ToggleButton de Multiples Valores
+                    MultiplesValores_ListBox.Items.RemoveAt((int)tipoProducto);
+                    MultiplesValores_ListBox.Items.Insert((int)tipoProducto, tipoProducto);
+                }
                 else
                 {
                     IList removedItems = e.RemovedItems;
                     if (removedItems.Count > 0)
-                        ControladorAtributos.EliminarAtributoTipoProducto(atributo, (TipoProducto)removedItems[0]);
+                    {
+                        TipoProducto tipoProducto = (TipoProducto)removedItems[0];
+                        ControladorAtributos.EliminarAtributoTipoProducto(atributo, tipoProducto);
+
+                        // Remover el ToggleButton de Multiples Valores 
+                        MultiplesValores_ListBox.Items.RemoveAt((int)tipoProducto);
+                        MultiplesValores_ListBox.Items.Insert((int)tipoProducto, null);
+                    }
+                }
+                editandoListBoxTipoProducto = false;
+            }
+        }
+
+        private void MultiplesValores_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!editandoListBoxTipoProducto)
+            {
+                Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
+
+                IList addedItems = e.AddedItems;
+                if (addedItems.Count > 0)
+                    ControladorAtributos.ModificarAtributoTipoProducto(atributo, (TipoProducto)addedItems[0], true);
+                else
+                {
+                    IList removedItems = e.RemovedItems;
+                    if (removedItems.Count > 0)
+                        ControladorAtributos.ModificarAtributoTipoProducto(atributo, (TipoProducto)removedItems[0], false);
                 }
             }
         }

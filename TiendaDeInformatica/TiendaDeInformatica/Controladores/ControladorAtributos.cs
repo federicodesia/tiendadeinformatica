@@ -154,6 +154,16 @@ namespace TiendaDeInformatica.Controladores
             }
         }
 
+        public static void ModificarAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto, bool multiplesValores)
+        {
+            using (var context = new MyDbContext())
+            {
+                AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.ToList().Find(a => a.AtributoId == atributo.Id && a.TipoProducto == tipoProducto);
+                atributoTipoProductoDb.MultiplesValores = multiplesValores;
+                context.SaveChanges();
+            }
+        }
+
         public static void EliminarAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto)
         {
             using (var context = new MyDbContext())
