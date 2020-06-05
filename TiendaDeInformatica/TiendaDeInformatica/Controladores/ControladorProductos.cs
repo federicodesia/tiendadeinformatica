@@ -25,7 +25,7 @@ namespace TiendaDeInformatica.Controladores
                     Precio = precio,
                     Tipo = tipo,
                     Imagen = imagen,
-                    Valores=new List<ProductoValor>()
+                    Valores = new List<ProductoValor>()
                 };
 
                 context.Productos.Add(producto);
@@ -71,6 +71,7 @@ namespace TiendaDeInformatica.Controladores
             {
                 AtributoTipoProducto atributoTipoProducto = new AtributoTipoProducto()
                 {
+                    Atributo = atributo,
                     TipoProducto = tipoProducto,
                     AtributoId = atributo.Id
                 };
@@ -87,6 +88,29 @@ namespace TiendaDeInformatica.Controladores
                 context.Remove(atributoTipoProductoDb);
                 context.SaveChanges();
 
+            }
+        }
+
+        public static void AgregarValorAProducto(Valor valor, Producto producto)
+        {
+            using (var context = new MyDbContext())
+            {
+                ProductoValor valorProducto = new ProductoValor()
+                {
+                    ProductoId = producto.Id,
+                    ValorId = valor.Id
+                };
+                context.Add(valorProducto);
+                context.SaveChanges();
+            }
+        }
+        public static void EliminarValorAProducto(Valor valor, Producto producto)
+        {
+            using (var context = new MyDbContext())
+            {
+                ProductoValor valorProductoDb = context.ValorProducto.ToList().Find(v => v.ValorId == valor.Id && v.ProductoId == producto.Id);
+                context.Remove(valorProductoDb);
+                context.SaveChanges();
             }
         }
     }
