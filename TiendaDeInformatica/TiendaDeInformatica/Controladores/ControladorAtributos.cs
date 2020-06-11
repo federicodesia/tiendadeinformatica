@@ -58,7 +58,7 @@ namespace TiendaDeInformatica.Controladores
         {
             using (var context = new MyDbContext())
             {
-                return context.Atributos.Include(a => a.TiposProductos).Include(a => a.Valores).ToList();
+                return context.Atributos.Include(a => a.TiposProductos).Include(a => a.Valores).ThenInclude(v => v.Productos).ToList();
             }
         }
 
@@ -171,6 +171,14 @@ namespace TiendaDeInformatica.Controladores
                 AtributoTipoProducto atributoTipoProductoDb = context.AtributoTipoProductos.ToList().Find(a => a.AtributoId == atributo.Id && a.TipoProducto == tipoProducto);
                 context.AtributoTipoProductos.Remove(atributoTipoProductoDb);
                 context.SaveChanges();
+            }
+        }
+
+        public static AtributoTipoProducto ObtenerAtributoTipoProducto(Atributo atributo, TipoProducto tipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                return context.AtributoTipoProductos.ToList().Find(a => a.AtributoId == atributo.Id && a.TipoProducto == tipoProducto);
             }
         }
     }

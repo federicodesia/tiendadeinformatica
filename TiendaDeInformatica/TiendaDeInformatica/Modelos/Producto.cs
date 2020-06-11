@@ -7,7 +7,7 @@ namespace TiendaDeInformatica.Modelos
     {
         public int Id { get; set; }
         public Marca Marca { get; set; }
-        public int MarcaId { get; set; }
+        public int? MarcaId { get; set; }
         public string Modelo { get; set; }
         public decimal Precio { get; set; }
         public TipoProducto? Tipo { get; set; }

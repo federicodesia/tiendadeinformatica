@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20200605005333_Inicial")]
+    [Migration("20200606204010_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,7 +124,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<byte[]>("Imagen");
 
-                    b.Property<int>("MarcaId");
+                    b.Property<int?>("MarcaId");
 
                     b.Property<string>("Modelo");
 
@@ -201,8 +201,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 {
                     b.HasOne("TiendaDeInformatica.Modelos.Marca", "Marca")
                         .WithMany("Productos")
-                        .HasForeignKey("MarcaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MarcaId");
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.ProductoValor", b =>

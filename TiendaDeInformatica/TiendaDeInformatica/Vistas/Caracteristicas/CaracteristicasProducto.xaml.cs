@@ -20,6 +20,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
     public partial class CaracteristicasProducto : Window
     {
         private Principal _principal { get; set; }
+
+        private Producto _productoCreado { get; set; }
         private Producto _productoModificar { get; set; }
 
         private TipoProducto? _tipoProductoCrear { get; set; }
@@ -48,7 +50,11 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             ActualizarListaDeMarcas();
 
             _principal = principal;
-            _productoModificar = productoModificar;
+
+            if (productoModificar != null)
+                _productoModificar = ControladorProductos.ObtenerProducto(productoModificar.Id);
+            else
+                _productoCreado = ControladorProductos.AgregarProductoVacio();
         }
 
         private void CaracteristicasProducto_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -102,7 +108,8 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 if (_productoModificar == null)
                 {
                     // Crear producto
-                    ControladorProductos.AgregarProducto((TipoProducto)TipoProducto_ComboBox.SelectedIndex, (Marca)Marca_ComboBox.SelectedItem, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), ImagenSeleccionada);
+                    ControladorProductos.ModificarProducto(_productoCreado, (TipoProducto)TipoProducto_ComboBox.SelectedIndex, (Marca)Marca_ComboBox.SelectedItem, Modelo_TextBox.Text, decimal.Parse(Precio_TextBox.Text), ImagenSeleccionada);
+                    _productoCreado = null;
                     _ = _principal.MostrarMensajeEnSnackbar("Producto agregado correctamente!");
                 }
                 else
@@ -207,6 +214,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private async void CerrarVentana()
         {
+            if (_productoCreado != null)
+                ControladorProductos.EliminarProducto(_productoCreado);
+
             _principal.OscurecerCompletamente(false);
             Contenido_DialogHost.IsOpen = false;
             await Task.Delay(300);
@@ -254,6 +264,9 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
                 foreach (Atributo atributo in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(tipoProducto))
                     Atributos_ComboBox.Items.Add(atributo);
                 Atributos_ComboBox.IsEnabled = true;
+
+                if (_productoCreado != null)
+                    _productoCreado = ControladorProductos.ModificarProductoVacio(_productoCreado, tipoProducto);
             }
             else
             {
@@ -272,12 +285,40 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             Atributo atributo = Atributos_ComboBox.SelectedItem as Atributo;
             if (atributo != null)
             {
-                // Falta realizar la verificación de Valores unicos o Valores multiples
-                // para mostrar los RadioButtons o CheckBoxs en el ListBox.
-
                 ValoresMultiples_ListBox.Items.Clear();
-                foreach (Valor valor in ControladorAtributos.ObtenerAtributo(atributo.Id).Valores)
-                    ValoresMultiples_ListBox.Items.Add(valor);
+                ValoresUnicos_ListBox.Items.Clear();
+
+                Atributo atributoActualizado = ControladorAtributos.ObtenerAtributo(atributo.Id);
+                Producto producto;
+                if (_productoCreado != null)
+                    producto = _productoCreado;
+                else
+                    producto = _productoModificar;
+
+                if (ControladorAtributos.ObtenerAtributoTipoProducto(atributoActualizado, (TipoProducto)TipoProducto_ComboBox.SelectedIndex).MultiplesValores)
+                {
+                    foreach (Valor valor in atributoActualizado.Valores)
+                    {
+                        ValoresMultiples_ListBox.Items.Add(valor);
+                        if (valor.Productos.Any(pv => pv.ValorId == valor.Id && pv.ProductoId == producto.Id))
+                            ValoresMultiples_ListBox.SelectedItems.Add(valor);
+                    }
+
+                    ValoresUnicos_ListBox.Visibility = Visibility.Collapsed;
+                    ValoresMultiples_ListBox.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    foreach (Valor valor in atributoActualizado.Valores)
+                    {
+                        ValoresUnicos_ListBox.Items.Add(valor);
+                        if (valor.Productos.Any(pv => pv.ValorId == valor.Id && pv.ProductoId == producto.Id))
+                            ValoresUnicos_ListBox.SelectedItem = valor;
+                    }
+
+                    ValoresMultiples_ListBox.Visibility = Visibility.Collapsed;
+                    ValoresUnicos_ListBox.Visibility = Visibility.Visible;
+                }
                 Valores_Grid.Visibility = Visibility.Visible;
             }
             else
@@ -287,24 +328,23 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             editandoListBoxValores = false;
         }
 
-        private void ValoresMultiples_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ValoresUnicosMultiples_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!editandoListBoxValores)
             {
-                Valor valor = ValoresMultiples_ListBox.SelectedItem as Valor;
-
                 IList addedItems = e.AddedItems;
                 if (addedItems.Count > 0)
                 {
-                    // Falta el método en el controlador
+                    if (_productoCreado != null)
+                        _productoCreado = ControladorProductos.AgregarValorAProducto((Valor)addedItems[0], _productoCreado);
+                    else
+                        _productoModificar = ControladorProductos.AgregarValorAProducto((Valor)addedItems[0], _productoModificar);
                 }
                 else
                 {
                     IList removedItems = e.RemovedItems;
                     if (removedItems.Count > 0)
-                    {
-                        // Falta el método en el controlador
-                    }
+                        _productoModificar = ControladorProductos.EliminarValorAProducto((Valor)removedItems[0], _productoModificar);
                 }
             }
         }
@@ -332,7 +372,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             OscurecerFondo_DialogHost.IsOpen = estado;
         }
 
-        private void ValoresMultiples_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ValoresUnicosMultiples_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Deshabilitar el click derecho para seleccionar o deseleccionar un item del ListBox
             e.Handled = true;

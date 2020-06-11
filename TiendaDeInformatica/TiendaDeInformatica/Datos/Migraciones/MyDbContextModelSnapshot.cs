@@ -122,7 +122,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
 
                     b.Property<byte[]>("Imagen");
 
-                    b.Property<int>("MarcaId");
+                    b.Property<int?>("MarcaId");
 
                     b.Property<string>("Modelo");
 
@@ -199,8 +199,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 {
                     b.HasOne("TiendaDeInformatica.Modelos.Marca", "Marca")
                         .WithMany("Productos")
-                        .HasForeignKey("MarcaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MarcaId");
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.ProductoValor", b =>

@@ -118,7 +118,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MarcaId = table.Column<int>(nullable: false),
+                    MarcaId = table.Column<int>(nullable: true),
                     Modelo = table.Column<string>(nullable: true),
                     Precio = table.Column<decimal>(nullable: false),
                     Tipo = table.Column<int>(nullable: true),
@@ -132,7 +132,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         column: x => x.MarcaId,
                         principalTable: "Marcas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

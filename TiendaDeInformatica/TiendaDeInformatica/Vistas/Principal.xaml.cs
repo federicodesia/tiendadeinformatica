@@ -47,6 +47,8 @@ namespace TiendaDeInformatica.Vistas
             foreach (TipoProducto tipoProducto in tipoProductos)
                 Productos_ListBox.Items.Add(tipoProducto.GetEnumDescription());
 
+            ControladorProductos.EliminarProductoVacio();
+
             presupuestosUserControl = new Presupuestos(this);
             Contenido_Grid.Children.Add(presupuestosUserControl);
         }
