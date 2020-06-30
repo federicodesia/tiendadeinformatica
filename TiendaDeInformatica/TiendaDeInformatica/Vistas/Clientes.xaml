@@ -35,7 +35,7 @@
                 <Grid Grid.Column="1" Background="{DynamicResource MaterialDesignCardBackground}">
                     <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
                         <StackPanel Margin="24">
-                            <GroupBox BorderThickness="0" Header="Tipo" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}">
+                            <GroupBox BorderThickness="0" Header="Tipo" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxFiltro}">
                                 <StackPanel Margin="-6 0 0 0">
                                     <RadioButton x:Name="FiltroPersona_RadioButton" FontWeight="Regular" Content=" Persona" IsChecked="True" Checked="FiltroTipoCliente_RadioButton_Checked"/>
                                     <RadioButton x:Name="FiltroEmpresa_RadioButton" FontWeight="Regular" Content=" Empresa" Margin="0 12 0 0" Checked="FiltroTipoCliente_RadioButton_Checked"/>

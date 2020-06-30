@@ -44,7 +44,7 @@
                         <StackPanel Margin="24" Width="192">
 
                             <!-- Ordenar -->
-                            <GroupBox BorderThickness="0" Header="Ordenar" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}">
+                            <GroupBox BorderThickness="0" Header="Ordenar" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxFiltro}">
                                 <Grid Margin="-4 0 -8 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -72,7 +72,7 @@
                             </GroupBox>
 
                             <!-- Filtro por Cliente -->
-                            <GroupBox BorderThickness="0" Header="Cliente" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                            <GroupBox BorderThickness="0" Header="Cliente" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxFiltro}" Margin="0 8 0 0">
                                 <StackPanel Margin="-6 0 0 0">
                                     <CheckBox x:Name="FiltroCliente_Persona_CheckBox" FontWeight="Regular" Content=" Persona" Checked="ActualizarFiltros" Unchecked="ActualizarFiltros"/>
                                     <CheckBox x:Name="FiltroCliente_Empresa_CheckBox" FontWeight="Regular" Content=" Empresa" Margin="0 12 0 0" Checked="ActualizarFiltros" Unchecked="ActualizarFiltros"/>
@@ -80,7 +80,7 @@
                             </GroupBox>
 
                             <!-- Filtro por Estado -->
-                            <GroupBox BorderThickness="0" Header="Estado" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                            <GroupBox BorderThickness="0" Header="Estado" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxFiltro}" Margin="0 8 0 0">
                                 <StackPanel Margin="-6 0 0 0">
                                     <CheckBox x:Name="FiltroEstado_Vigentes_CheckBox" FontWeight="Regular" Content=" Vigentes" Checked="ActualizarFiltros" Unchecked="ActualizarFiltros"/>
                                     <CheckBox x:Name="FiltroEstado_Expirados_CheckBox" FontWeight="Regular" Content=" Expirados" Margin="0 12 0 0" Checked="ActualizarFiltros" Unchecked="ActualizarFiltros"/>
@@ -88,7 +88,7 @@
                             </GroupBox>
 
                             <!-- Filtro por Precio -->
-                            <GroupBox BorderThickness="0" Header="Precio" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}" Margin="0 8 0 0">
+                            <GroupBox BorderThickness="0" Header="Precio" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxFiltro}" Margin="0 8 0 0">
                                 <StackPanel Margin="-6 0 0 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -294,7 +294,7 @@
                             </ListBox.ItemTemplate>
 
                             <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignCardsListBoxItemMod}">
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemCards}">
                                     <Setter Property="ContextMenu" Value="{StaticResource ItemMenu}" />
                                 </Style>
                             </ListBox.ItemContainerStyle>

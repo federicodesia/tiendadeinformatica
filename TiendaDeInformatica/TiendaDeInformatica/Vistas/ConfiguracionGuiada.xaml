@@ -69,7 +69,7 @@
                     </ListBox>
 
                     <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
-                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsListBoxItemMod}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
+                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
                             <!-- Formato de cada item -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>

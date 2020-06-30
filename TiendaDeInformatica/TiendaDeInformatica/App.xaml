@@ -16,6 +16,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- =========================================================================== -->
+            <!--                                     SnackBar                                -->
+            <!-- =========================================================================== -->
+
             <Style x:Key="MaterialDesignSnackbarActionButton" TargetType="Button">
                 <Setter Property="VerticalAlignment" Value="Stretch" />
                 <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentBrush}" />
@@ -54,6 +58,10 @@
                 <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
                 <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}"/>
             </Style>
+
+            <!-- =========================================================================== -->
+            <!--                                     PopUpBox                                -->
+            <!-- =========================================================================== -->
 
             <Style TargetType="{x:Type Button}" x:Key="MaterialDesignPopupBoxButton">
                 <Setter Property="VerticalContentAlignment" Value="Bottom" />
@@ -103,6 +111,10 @@
                 </Setter>
             </Style>
 
+            <!-- =========================================================================== -->
+            <!--                                Paleta de colores                            -->
+            <!-- =========================================================================== -->
+
             <Style x:Key="MaterialDesignRadioButtonPaletaColores" TargetType="{x:Type RadioButton}">
                 <Setter Property="Background" Value="#673AB7" />
                 <Setter Property="Foreground" Value="White" />
@@ -146,17 +158,10 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <Style x:Key="MaterialDesignListBoxItemMod" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                <Setter Property="FontWeight" Value="Normal" />
-                <Setter Property="FontFamily" Value="Roboto" />
-                <Style.Triggers>
-                    <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="FontWeight" Value="SemiBold" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
+            
+            <!-- =========================================================================== -->
+            <!--                                    ScrollBar                                -->
+            <!-- =========================================================================== -->
 
             <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -198,11 +203,9 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="GroupBoxMod" TargetType="{x:Type GroupBox}">
-                <Setter Property="Padding" Value="9"/>
-            </Style>
-
-
+            <!-- =========================================================================== -->
+            <!--                                   DialogHost                                -->
+            <!-- =========================================================================== -->
 
             <Style x:Key="MaterialDesignEmbeddedDialogHostMod" TargetType="{x:Type wpf:DialogHost}">
                 <Setter Property="wpf:ShadowAssist.ShadowDepth" Value="Depth5" />
@@ -390,126 +393,16 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
+            <!-- =========================================================================== -->
+            <!--                                   RangeSlider                               -->
+            <!-- =========================================================================== -->
 
-            <Style x:Key="MaterialDesignCardsListBoxItemMod" TargetType="{x:Type ListBoxItem}">
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="UseLayoutRounding" Value="True"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="Margin" Value="8 0 8 12"></Setter>
-                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <wpf:Card Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                              ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                      wpf:ShadowAssist.ShadowDepth="Depth0">
-
-                                <wpf:Card.Style>
-                                    <Style TargetType="{x:Type Control}">
-                                        <Setter Property="Effect">
-                                            <Setter.Value>
-                                                <DropShadowEffect ShadowDepth="4" Opacity="0.08" BlurRadius="8"/>
-                                            </Setter.Value>
-                                        </Setter>
-
-                                        <Style.Resources>
-                                            <Storyboard x:Key="MouseArriba">
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Effect).Opacity">
-                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.25"/>
-                                                </DoubleAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                            <Storyboard x:Key="MouseAbajo">
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Effect).Opacity">
-                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.08"/>
-                                                </DoubleAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </Style.Resources>
-
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Trigger.EnterActions>
-                                                    <BeginStoryboard Storyboard="{StaticResource MouseArriba}"/>
-                                                </Trigger.EnterActions>
-                                                <Trigger.ExitActions>
-                                                    <BeginStoryboard Storyboard="{StaticResource MouseAbajo}"/>
-                                                </Trigger.ExitActions>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </wpf:Card.Style>
-                            </wpf:Card>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="MaterialDesignCardsConfiguracionGuiadaListBoxItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignCardsListBoxItemMod}">
-                <Setter Property="Opacity" Value="0.56"/>
-                <Style.Triggers>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
-                            <Condition Binding="{Binding SelectedItems.Count, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="1"/>
-                        </MultiDataTrigger.Conditions>
-
-                        <MultiDataTrigger.EnterActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </MultiDataTrigger.EnterActions>
-
-                        <MultiDataTrigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.56" Duration="0:0:0.2"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </MultiDataTrigger.ExitActions>
-                    </MultiDataTrigger>
-                </Style.Triggers>
-            </Style>
-
-            <Style x:Key="MaterialDesignListBoxItemPresupuestoProducto" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                            <wpf:Ripple wpf:RippleAssist.IsDisabled="True" Feedback="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
-                                        Content="{TemplateBinding Content}"
-                                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                                        ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        Padding="{TemplateBinding Padding}"
-                                        RecognizesAccessKey="False"/>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-
-
-            <Style x:Key="MaterialDesign.RangeSlider.Thumb"
-           
-           TargetType="Thumb">
+            <Style x:Key="MaterialDesign.RangeSlider.Thumb" TargetType="Thumb">
                 <Setter Property="Template" Value="{StaticResource MaterialDesignSliderThumb}" />
             </Style>
 
-            <Style x:Key="MaterialDesign.RangeSlider.HorizontalMiddleThumb"
-           
-           TargetType="{x:Type controls:MetroThumb}">
+            <Style x:Key="MaterialDesign.RangeSlider.HorizontalMiddleThumb" TargetType="{x:Type controls:MetroThumb}">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="IsTabStop" Value="True" />
@@ -525,9 +418,7 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="MaterialDesign.RangeSlider.VerticalMiddleThumb"
-           
-           TargetType="{x:Type controls:MetroThumb}">
+            <Style x:Key="MaterialDesign.RangeSlider.VerticalMiddleThumb" TargetType="{x:Type controls:MetroThumb}">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type controls:MetroThumb}">
@@ -539,9 +430,7 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="MaterialDesign.RangeSlider.HorizontalTrack"
-           
-           TargetType="{x:Type RepeatButton}">
+            <Style x:Key="MaterialDesign.RangeSlider.HorizontalTrack" TargetType="{x:Type RepeatButton}">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Focusable" Value="False" />
                 <Setter Property="IsTabStop" Value="False" />
@@ -557,9 +446,7 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="MaterialDesign.RangeSlider.VerticalTrack"
-           
-           TargetType="{x:Type RepeatButton}">
+            <Style x:Key="MaterialDesign.RangeSlider.VerticalTrack" TargetType="{x:Type RepeatButton}">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -573,9 +460,7 @@
 
             <ControlTemplate x:Key="MaterialDesignMahAppsRangeSliderHorizontal"
                      TargetType="controls:RangeSlider">
-                <Grid x:Name="PART_Container"
-              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-              Background="{TemplateBinding Background}">
+                <Grid x:Name="PART_Container" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" MinHeight="{TemplateBinding controls:RangeSlider.MinHeight}" />
@@ -686,11 +571,8 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-            <ControlTemplate x:Key="MaterialDesignRangeSliderVertical"
-                     TargetType="controls:RangeSlider">
-                <Grid x:Name="PART_Container"
-              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-              Background="{TemplateBinding Background}">
+            <ControlTemplate x:Key="MaterialDesignRangeSliderVertical" TargetType="controls:RangeSlider">
+                <Grid x:Name="PART_Container" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Background="{TemplateBinding Background}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" MinWidth="{TemplateBinding controls:RangeSlider.MinWidth}" />
@@ -826,20 +708,10 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
+            <!-- =========================================================================== -->
+            <!--                                   ToggleButton                              -->
+            <!-- =========================================================================== -->
 
             <Style x:Key="MaterialDesignActionToggleButtonVertical" TargetType="{x:Type ToggleButton}">
                 <Style.Resources>
@@ -969,7 +841,21 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="MaterialDesignListBoxItemTipoProducto" TargetType="{x:Type ListBoxItem}">
+            <!-- =========================================================================== -->
+            <!--                                     ListBox                                 -->
+            <!-- =========================================================================== -->
+
+            <Style x:Key="MaterialDesignListBoxItemSeleccionadoNegrita" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontFamily" Value="Roboto" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="MaterialDesignListBoxItemSinEfectos" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -1038,6 +924,122 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesignListBoxItemCards" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="8 0 8 12"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <wpf:Card Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                              ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                      wpf:ShadowAssist.ShadowDepth="Depth0">
+
+                                <wpf:Card.Style>
+                                    <Style TargetType="{x:Type Control}">
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect ShadowDepth="4" Opacity="0.08" BlurRadius="8"/>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <Style.Resources>
+                                            <Storyboard x:Key="MouseArriba">
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Effect).Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.25"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                            <Storyboard x:Key="MouseAbajo">
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Effect).Opacity">
+                                                    <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.08"/>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </Style.Resources>
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Trigger.EnterActions>
+                                                    <BeginStoryboard Storyboard="{StaticResource MouseArriba}"/>
+                                                </Trigger.EnterActions>
+                                                <Trigger.ExitActions>
+                                                    <BeginStoryboard Storyboard="{StaticResource MouseAbajo}"/>
+                                                </Trigger.ExitActions>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </wpf:Card.Style>
+                            </wpf:Card>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MaterialDesignCardsConfiguracionGuiadaListBoxItem" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItemCards}">
+                <Setter Property="Opacity" Value="0.56"/>
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                            <Condition Binding="{Binding SelectedItems.Count, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="1"/>
+                        </MultiDataTrigger.Conditions>
+
+                        <MultiDataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiDataTrigger.EnterActions>
+
+                        <MultiDataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.56" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiDataTrigger.ExitActions>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="MaterialDesignListBoxItemPresupuestoProducto" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <wpf:Ripple wpf:RippleAssist.IsDisabled="True" Feedback="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Padding="{TemplateBinding Padding}"
+                                        RecognizesAccessKey="False"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <!-- =========================================================================== -->
+            <!--                                    GroupBox                                 -->
+            <!-- =========================================================================== -->
+            
+            <Style x:Key="GroupBoxFiltro" TargetType="{x:Type GroupBox}">
+                <Setter Property="Padding" Value="9"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

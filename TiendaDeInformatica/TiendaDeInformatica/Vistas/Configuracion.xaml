@@ -196,7 +196,7 @@
                                         </ListBox.ItemTemplate>
 
                                         <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}"/>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemSinEfectos}"/>
                                         </ListBox.ItemContainerStyle>
                                     </ListBox>
 
@@ -208,7 +208,7 @@
                                         </ListBox.ItemTemplate>
 
                                         <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemTipoProducto}">
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemSinEfectos}">
                                                 <Setter Property="Margin" Value="0 0 0 -7" />
                                                 
                                                 <Setter Property="Visibility" Value="Visible"/>

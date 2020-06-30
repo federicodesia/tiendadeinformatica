@@ -44,7 +44,7 @@
 
                         <StackPanel Margin="24" Width="192">
                             <!-- Ordenar productos -->
-                            <GroupBox BorderThickness="0" Header="Ordenar productos" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxMod}">
+                            <GroupBox BorderThickness="0" Header="Ordenar productos" FontSize="13" FontWeight="SemiBold" Style="{StaticResource GroupBoxFiltro}">
                                 <Grid Margin="-4 0 -8 0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>

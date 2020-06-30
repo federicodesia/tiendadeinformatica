@@ -52,7 +52,7 @@
                             <materialDesign:Card.Effect>
                                 <DropShadowEffect ShadowDepth="4" Opacity="0.08" BlurRadius="8"/>
                             </materialDesign:Card.Effect>
-                            <ListBox x:Name="Productos_ListBox" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemMod}" SelectionChanged="Productos_ListBox_SelectionChanged">
+                            <ListBox x:Name="Productos_ListBox" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}" SelectionChanged="Productos_ListBox_SelectionChanged">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Padding="16 3 16 3"/>
@@ -572,7 +572,7 @@
                 <Grid Grid.Row="1">
                     <ListBox x:Name="MenuIzquierdo" SelectionChanged="MenuIzquierdo_SelectionChanged" SelectedIndex="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" Padding="0 12 0 0">
 
-                        <ListBoxItem x:Name="Presupuestos_ListBoxItem" Height="44" Padding="0" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                        <ListBoxItem x:Name="Presupuestos_ListBoxItem" Height="44" Padding="0" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}">
                             <Grid Height="44" Width="240">
                                 <Grid x:Name="PresupuestosBackground_Grid" Background="{DynamicResource MaterialDesignDivider}">
                                     <Grid.Style>
@@ -599,15 +599,15 @@
                                 </StackPanel>
                             </Grid>
                         </ListBoxItem>
-                        
-                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
+
+                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ClipboardPerson" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
                                 <TextBlock Text="Clientes" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Ticket" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
                                 <TextBlock Text="Marcas" VerticalAlignment="Center"/>
@@ -616,21 +616,21 @@
 
                         <Separator Margin="-8 0 -8 0"/>
 
-                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ProgressCheck" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
                                 <TextBlock Text="Equipos armados" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}">
+                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ProgressWrench" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
                                 <TextBlock Text="Configuración guiada" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListBoxItem>
 
-                        <ListBoxItem x:Name="Productos_ListBoxItem" Height="44" Padding="0" Style="{StaticResource MaterialDesignListBoxItemMod}" MouseEnter="Productos_ListBoxItem_MouseEnter" MouseLeave="Productos_ListBoxItem_MouseLeave">
+                        <ListBoxItem x:Name="Productos_ListBoxItem" Height="44" Padding="0" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}" MouseEnter="Productos_ListBoxItem_MouseEnter" MouseLeave="Productos_ListBoxItem_MouseLeave">
                             <Grid Height="44" Width="240">
                                 <Grid x:Name="ProductosBackground_Grid" Background="{DynamicResource MaterialDesignDivider}">
                                     <Grid.Style>
@@ -660,7 +660,7 @@
 
                         <Separator Margin="-8 0 -8 0"/>
 
-                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemMod}" VerticalAlignment="Bottom">
+                        <ListBoxItem Height="44" Style="{StaticResource MaterialDesignListBoxItemSeleccionadoNegrita}" VerticalAlignment="Bottom">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Settings" Width="24" Height="24" VerticalAlignment="Center" Margin="24 0 24 0" Opacity="0.9"/>
                                 <TextBlock Text="Configuración" VerticalAlignment="Center"/>
