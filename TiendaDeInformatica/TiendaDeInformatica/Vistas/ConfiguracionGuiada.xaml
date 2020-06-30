@@ -47,6 +47,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- Alerta No hay presupuesto seleccionado -->
@@ -97,7 +98,7 @@
 
                     <!-- ListBox Productos -->
                     <Grid Grid.Row="2" x:Name="Contenido_Grid" Margin="0 18 0 0">
-                        <ListBox x:Name="Productos_ListBox" Margin="-8 0 -8 -12" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
+                        <ListBox x:Name="Productos_ListBox" Margin="-8 0 -8 -12" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick" SelectionChanged="Productos_ListBox_SelectionChanged">
                             <!-- Formato de cada item -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -143,6 +144,28 @@
                             </ListBox.ItemsPanel>
                         </ListBox>
                     </Grid>
+                </Grid>
+
+                <!-- ListBox TipoProducto -->
+                <Grid Grid.Row="3" Margin="24 18 24 24" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="Anterior_Button" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Click="Anterior_Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="NavigateBefore" Height="24" Width="24" Margin="-8 0 0 0"/>
+                            <TextBlock Text="ANTERIOR" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="SiguienteFinalizar_Button" Grid.Column="3" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Click="SiguienteFinalizar_Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="Siguiente_TextBlock" Text="SIGUIENTE" VerticalAlignment="Center"/>
+                            <materialDesign:PackIcon x:Name="Siguiente_PackIcon" Kind="NavigateNext" Height="24" Width="24" Margin="0 0 -8 0"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </Grid>
 
