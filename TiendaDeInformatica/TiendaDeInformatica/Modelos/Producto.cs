@@ -29,8 +29,8 @@ namespace TiendaDeInformatica.Modelos
         // Description: Tipo de Producto en plural
         // Value: Tipo de Producto en singular
 
-        [Description("Procesadores")] Procesador,
         [Description("Motherboards")] Motherboard,
+        [Description("Procesadores")] Procesador,
         [Description("Coolers")] Cooler,
         [Description("Memorias RAM")] Memoria_RAM,
         [Description("Placas de video")] Placa_de_video,

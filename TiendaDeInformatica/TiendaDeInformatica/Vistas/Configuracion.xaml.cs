@@ -116,6 +116,7 @@ namespace TiendaDeInformatica.Vistas
             {
                 ControladorAtributos.EliminarAtributo(atributo);
                 RefrescarListaDeAtributos();
+                RefrescarListBoxValores();
 
                 _principal.OscurecerCompletamente(false);
                 AlertaEliminarAtributo_DialogHost.IsOpen = false;
@@ -253,11 +254,11 @@ namespace TiendaDeInformatica.Vistas
 
         private void RefrescarListBoxValores()
         {
+            Valores_ListBox.Items.Clear();
             Atributo atributo = Atributos_ListBox.SelectedItem as Atributo;
             if (atributo != null)
             {
                 Atributo atributoActualizado = ControladorAtributos.ObtenerAtributo(atributo.Id);
-                Valores_ListBox.Items.Clear();
                 foreach (Valor valor in atributoActualizado.Valores)
                     Valores_ListBox.Items.Add(valor);
             }
