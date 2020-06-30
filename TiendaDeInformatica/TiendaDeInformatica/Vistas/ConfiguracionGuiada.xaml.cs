@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
 
 namespace TiendaDeInformatica.Vistas
@@ -16,12 +17,16 @@ namespace TiendaDeInformatica.Vistas
     public partial class ConfiguracionGuiada : UserControl
     {
         private Principal _principal;
+        public Presupuesto _presupuestoSeleccionado;
         private TipoProducto[] tipoProductos;
 
-        public ConfiguracionGuiada(Principal principal)
+        public ConfiguracionGuiada(Principal principal, int presupuestoSeleccionadoId)
         {
             InitializeComponent();
             _principal = principal;
+
+            if (presupuestoSeleccionadoId != -1)
+                _presupuestoSeleccionado = ControladorPresupuestos.ObtenerPresupuesto(presupuestoSeleccionadoId);
         }
 
         private void ConfiguracionGuiada_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -35,6 +40,20 @@ namespace TiendaDeInformatica.Vistas
             List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
             TipoProducto_ListBox.ItemsSource = tipoProductosConEspacios;
             TipoProducto_ListBox.SelectedIndex = 0;
+
+            if (_presupuestoSeleccionado == null)
+                CambiarEstadoAlertaPresupuestoSeleccionado(true);
+        }
+
+        private void Alerta_BotonEntendido_Click(object sender, RoutedEventArgs e)
+        {
+            CambiarEstadoAlertaPresupuestoSeleccionado(false);
+        }
+
+        public void CambiarEstadoAlertaPresupuestoSeleccionado(bool estado)
+        {
+            Alerta_Snackbar.IsActive = estado;
+            Espacio_Snackbar.IsActive = estado;
         }
 
         // ------------------------------------------------------ //

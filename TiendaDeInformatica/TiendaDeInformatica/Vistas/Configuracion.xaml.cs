@@ -10,7 +10,7 @@ using TiendaDeInformatica.Vistas.Caracteristicas;
 namespace TiendaDeInformatica.Vistas
 {
     /// <summary>
-    /// Lógica de interacción para Clientes.xaml
+    /// Lógica de interacción para Configuracion.xaml
     /// </summary>
     public partial class Configuracion : UserControl
     {

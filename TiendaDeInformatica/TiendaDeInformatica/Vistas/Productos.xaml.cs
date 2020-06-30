@@ -12,7 +12,7 @@ using TiendaDeInformatica.Vistas.Caracteristicas;
 namespace TiendaDeInformatica.Vistas
 {
     /// <summary>
-    /// Lógica de interacción para Clientes.xaml
+    /// Lógica de interacción para Productos.xaml
     /// </summary>
     public partial class Productos : UserControl
     {

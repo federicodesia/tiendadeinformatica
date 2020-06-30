@@ -230,6 +230,7 @@ namespace TiendaDeInformatica.Vistas
 
                 PresupuestosBackground_Grid.Visibility = Visibility.Hidden;
                 presupuestosUserControl = null;
+                configuracionGuiadaUserControl = null;
 
                 Contenido_Grid.Children.Clear();
                 switch (index)
@@ -248,7 +249,8 @@ namespace TiendaDeInformatica.Vistas
                         Contenido_Grid.Children.Add(new EquiposArmados(this));
                         break;
                     case 5:
-                        Contenido_Grid.Children.Add(new ConfiguracionGuiada(this));
+                        configuracionGuiadaUserControl = new ConfiguracionGuiada(this, PresupuestoSeleccionadoId);
+                        Contenido_Grid.Children.Add(configuracionGuiadaUserControl);
                         break;
                     case 6:
                         Contenido_Grid.Children.Add(new Productos(this, null));
@@ -332,6 +334,7 @@ namespace TiendaDeInformatica.Vistas
         //                 Presupuesto seleccionado               //
         // ------------------------------------------------------ //
 
+        private ConfiguracionGuiada configuracionGuiadaUserControl { get; set; }
         private Presupuestos presupuestosUserControl { get; set; }
         public ResumenPresupuesto reumenPresupuestosUserControl { get; set; }
 
@@ -362,6 +365,12 @@ namespace TiendaDeInformatica.Vistas
 
             await Task.Delay(250);
             PresupuestoSelecciondo_StackPanel.DataContext = null;
+
+            if (configuracionGuiadaUserControl != null)
+            {
+                _ = configuracionGuiadaUserControl._presupuestoSeleccionado == null;
+                configuracionGuiadaUserControl.CambiarEstadoAlertaPresupuestoSeleccionado(true);
+            }
         }
 
         private void EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -45,10 +45,37 @@
                 <Grid Grid.Column="0" Margin="24">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <ListBox Grid.Row="0" x:Name="TipoProducto_ListBox" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsConfiguracionGuiadaListBoxItem}" SelectionChanged="TipoProducto_ListBox_SelectionChanged"
+                    <!-- Alerta No hay presupuesto seleccionado -->
+                    <StackPanel Grid.Row="0">
+                        <materialDesign:Snackbar x:Name="Alerta_Snackbar" IsActive="False" HorizontalAlignment="Stretch" ActionButtonStyle="{DynamicResource MaterialDesignSnackbarActionMidButtonCardBackground}" Background="{DynamicResource MaterialDesignCardBackground}" Foreground="{DynamicResource MaterialDesignBody}">
+                            <materialDesign:SnackbarMessage ActionContent="ENTENDIDO" ActionClick="Alerta_BotonEntendido_Click">
+                                <materialDesign:SnackbarMessage.Content>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:PackIcon Grid.Column="0" Kind="AlertCircleOutline" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="24" Height="24"/>
+
+                                        <TextBlock Grid.Column="1" Margin="16 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="14" TextWrapping="Wrap" TextTrimming="WordEllipsis">
+                                        <Run Text="¡No hay ningún presupuesto seleccionado!" FontWeight="SemiBold"/>
+                                        <Run Text="Cuando termines la selección de los componentes no podrás guardar la configuración."/>
+                                        </TextBlock>
+                                    </Grid>
+                                </materialDesign:SnackbarMessage.Content>
+                            </materialDesign:SnackbarMessage>
+                        </materialDesign:Snackbar>
+
+                        <materialDesign:Snackbar x:Name="Espacio_Snackbar" IsActive="False" HorizontalAlignment="Stretch" Background="Transparent" Margin="0 0 0 -10"/>
+                    </StackPanel>
+
+                    <!-- ListBox TipoProducto -->
+                    <ListBox Grid.Row="1" x:Name="TipoProducto_ListBox" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsConfiguracionGuiadaListBoxItem}" SelectionChanged="TipoProducto_ListBox_SelectionChanged"
                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="TipoProducto_ListBox_PreviewMouseLeftButtonDown" PreviewMouseMove="TipoProducto_ListBox_PreviewMouseMove" PreviewMouseLeftButtonUp="TipoProducto_ListBox_PreviewMouseLeftButtonUp">
 
                         <!-- Formato de cada item -->
@@ -68,8 +95,9 @@
                         </ListBox.ItemsPanel>
                     </ListBox>
 
-                    <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
-                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
+                    <!-- ListBox Productos -->
+                    <Grid Grid.Row="2" x:Name="Contenido_Grid" Margin="0 18 0 0">
+                        <ListBox x:Name="Productos_ListBox" Margin="-8 0 -8 -12" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
                             <!-- Formato de cada item -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>

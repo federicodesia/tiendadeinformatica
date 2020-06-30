@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace TiendaDeInformatica.Vistas
 {
     /// <summary>
-    /// Lógica de interacción para Clientes.xaml
+    /// Lógica de interacción para EquiposArmados.xaml
     /// </summary>
     public partial class EquiposArmados : UserControl
     {
