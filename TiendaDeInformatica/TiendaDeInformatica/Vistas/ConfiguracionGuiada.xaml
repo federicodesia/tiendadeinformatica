@@ -18,7 +18,7 @@
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
              
-             x:Name="ConfiguracionGuiada_Vista" Loaded="ConfiguracionGuiada_Vista_Loaded">
+             x:Name="ConfiguracionGuiada_Vista" Loaded="ConfiguracionGuiada_Vista_Loaded" SizeChanged="ConfiguracionGuiada_Vista_SizeChanged">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -41,8 +41,80 @@
                     </ScrollViewer>
                 </Grid>
 
-                <!-- Contenido -->
+                <!-- Inferior -->
                 <Grid Grid.Column="0" Margin="24">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox Grid.Row="0" x:Name="TipoProducto_ListBox" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsConfiguracionGuiadaListBoxItem}" SelectionChanged="TipoProducto_ListBox_SelectionChanged"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="TipoProducto_ListBox_PreviewMouseLeftButtonDown" PreviewMouseMove="TipoProducto_ListBox_PreviewMouseMove" PreviewMouseLeftButtonUp="TipoProducto_ListBox_PreviewMouseLeftButtonUp">
+
+                        <!-- Formato de cada item -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="18">
+                                    <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" HorizontalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <!-- Items en horizontal -->
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid x:Name="TipoProducto_UniformGrid" Rows="1" Loaded="TipoProducto_UniformGrid_Loaded"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+
+                    <Grid Grid.Row="1" x:Name="Contenido_Grid" Margin="0 18 0 0">
+                        <ListBox x:Name="Productos_ListBox" ScrollViewer.CanContentScroll="False" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsListBoxItemMod}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick">
+                            <!-- Formato de cada item -->
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="190"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="96"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Grid.Row="0" Height="128" Width="128" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="Source" Value="{Binding Imagen}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Imagen}" Value="{x:Null}">
+                                                            <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+
+                                        <Separator Grid.Row="1" Opacity="0.25"/>
+
+                                        <Grid Grid.Row="2" Margin="16">
+                                            <TextBlock Text="{Binding MostrarTipoProductoMarcaModelo}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
+
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                                <TextBlock Text="$" FontSize="16"/>
+                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" FontSize="16"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <!-- Items en horizontal -->
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid x:Name="Productos_UniformGrid" Loaded="Productos_UniformGrid_Loaded" VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </Grid>
 
