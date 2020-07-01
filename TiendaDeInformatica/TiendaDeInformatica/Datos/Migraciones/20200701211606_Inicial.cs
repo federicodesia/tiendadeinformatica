@@ -186,6 +186,21 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Atributos",
+                columns: new[] { "Id", "Nombre" },
+                values: new object[] { 1, "Socket" });
+
+            migrationBuilder.InsertData(
+                table: "Valores",
+                columns: new[] { "Id", "AtributoId", "Nombre" },
+                values: new object[] { 1, 1, "1151" });
+
+            migrationBuilder.InsertData(
+                table: "Valores",
+                columns: new[] { "Id", "AtributoId", "Nombre" },
+                values: new object[] { 2, 1, "AM4" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_PresupuestoProducto_PresupuestoId",
                 table: "PresupuestoProducto",
