@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20200701213250_Inicial")]
+    [Migration("20200701220858_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
