@@ -24,6 +24,7 @@ namespace TiendaDeInformatica.Vistas
         {
             InitializeComponent();
             _principal = principal;
+            RefrescarProductos();
 
             if (presupuestoSeleccionadoId != -1)
                 _presupuestoSeleccionado = ControladorPresupuestos.ObtenerPresupuesto(presupuestoSeleccionadoId);
@@ -120,6 +121,7 @@ namespace TiendaDeInformatica.Vistas
                             element = VisualTreeHelper.GetParent(element);
 
                         (element as ListBoxItem).IsSelected = true;
+                        RefrescarProductos();
                     }
                 }
             }
@@ -153,11 +155,13 @@ namespace TiendaDeInformatica.Vistas
         private void Anterior_Button_Click(object sender, RoutedEventArgs e)
         {
             TipoProducto_ListBox.SelectedIndex -= 1;
+            RefrescarProductos();
         }
 
         private void SiguienteFinalizar_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            TipoProducto_ListBox.SelectedIndex += 1;
+            RefrescarProductos();
         }
 
         // ------------------------------------------------------ //
@@ -211,6 +215,19 @@ namespace TiendaDeInformatica.Vistas
 
                 // Alto de las filas para ajustar el ScrollBar vertical
                 productosUniformGrid.Height = productosUniformGrid.Rows * 298;
+            }
+        }
+
+
+        // --------------------------------- //
+        //          prueba                   //
+        // --------------------------------- //
+        private void RefrescarProductos()
+        {
+            Productos_ListBox.Items.Clear();
+            foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual))
+            {
+                Productos_ListBox.Items.Add(producto);
             }
         }
     }

@@ -9,7 +9,7 @@ using TiendaDeInformatica.Datos;
 namespace TiendaDeInformatica.Datos.Migraciones
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20200701211606_Inicial")]
+    [Migration("20200701213250_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,26 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.HasKey("AtributoId", "TipoProducto");
 
                     b.ToTable("AtributoTipoProductos");
+
+                    b.HasData(
+                        new
+                        {
+                            AtributoId = 1,
+                            TipoProducto = "Procesador",
+                            MultiplesValores = false
+                        },
+                        new
+                        {
+                            AtributoId = 1,
+                            TipoProducto = "Cooler",
+                            MultiplesValores = true
+                        },
+                        new
+                        {
+                            AtributoId = 1,
+                            TipoProducto = "Motherboard",
+                            MultiplesValores = false
+                        });
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Cliente", b =>

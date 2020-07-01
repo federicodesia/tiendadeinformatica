@@ -46,6 +46,26 @@ namespace TiendaDeInformatica.Datos.Migraciones
                     b.HasKey("AtributoId", "TipoProducto");
 
                     b.ToTable("AtributoTipoProductos");
+
+                    b.HasData(
+                        new
+                        {
+                            AtributoId = 1,
+                            TipoProducto = "Procesador",
+                            MultiplesValores = false
+                        },
+                        new
+                        {
+                            AtributoId = 1,
+                            TipoProducto = "Cooler",
+                            MultiplesValores = true
+                        },
+                        new
+                        {
+                            AtributoId = 1,
+                            TipoProducto = "Motherboard",
+                            MultiplesValores = false
+                        });
                 });
 
             modelBuilder.Entity("TiendaDeInformatica.Modelos.Cliente", b =>

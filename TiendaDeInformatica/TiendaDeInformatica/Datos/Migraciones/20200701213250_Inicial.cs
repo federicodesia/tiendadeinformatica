@@ -192,6 +192,21 @@ namespace TiendaDeInformatica.Datos.Migraciones
                 values: new object[] { 1, "Socket" });
 
             migrationBuilder.InsertData(
+                table: "AtributoTipoProductos",
+                columns: new[] { "AtributoId", "TipoProducto", "MultiplesValores" },
+                values: new object[] { 1, "Procesador", false });
+
+            migrationBuilder.InsertData(
+                table: "AtributoTipoProductos",
+                columns: new[] { "AtributoId", "TipoProducto", "MultiplesValores" },
+                values: new object[] { 1, "Cooler", true });
+
+            migrationBuilder.InsertData(
+                table: "AtributoTipoProductos",
+                columns: new[] { "AtributoId", "TipoProducto", "MultiplesValores" },
+                values: new object[] { 1, "Motherboard", false });
+
+            migrationBuilder.InsertData(
                 table: "Valores",
                 columns: new[] { "Id", "AtributoId", "Nombre" },
                 values: new object[] { 1, 1, "1151" });
