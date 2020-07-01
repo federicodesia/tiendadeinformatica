@@ -66,7 +66,10 @@ namespace TiendaDeInformatica.Vistas
         {
             int index = TipoProducto_ListBox.SelectedIndex;
             if (index != -1)
+            {
                 tipoProductoActual = (TipoProducto)index;
+                ActualizarBotones(false);
+            }
         }
 
         private void TipoProducto_UniformGrid_Loaded(object sender, RoutedEventArgs e)
@@ -123,12 +126,56 @@ namespace TiendaDeInformatica.Vistas
         }
 
         // ------------------------------------------------------ //
+        //         Botones Anterior, Siguiente y Finalizar        //
+        // ------------------------------------------------------ //
+
+        private void ActualizarBotones(bool productoSeleccionado)
+        {
+            if (tipoProductoActual == tipoProductos.First())
+                Anterior_Button.IsEnabled = false;
+            else
+            {
+                Anterior_Button.IsEnabled = true;
+                if (tipoProductoActual == tipoProductos.Last())
+                {
+                    Siguiente_PackIcon.Visibility = Visibility.Collapsed;
+                    Siguiente_TextBlock.Text = "FINALIZAR";
+                }
+                else
+                {
+                    Siguiente_PackIcon.Visibility = Visibility.Visible;
+                    Siguiente_TextBlock.Text = "SIGUIENTE";
+                }
+            }
+            SiguienteFinalizar_Button.IsEnabled = productoSeleccionado;
+        }
+
+        private void Anterior_Button_Click(object sender, RoutedEventArgs e)
+        {
+            TipoProducto_ListBox.SelectedIndex -= 1;
+        }
+
+        private void SiguienteFinalizar_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        // ------------------------------------------------------ //
         //                     ListBox Productos                  //
         // ------------------------------------------------------ //
 
+        private void Productos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Producto producto = Productos_ListBox.SelectedItem as Producto;
+            if (producto != null)
+                SiguienteFinalizar_Button.IsEnabled = true;
+            else
+                SiguienteFinalizar_Button.IsEnabled = false;
+        }
+
         private void Productos_ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            TipoProducto_ListBox.SelectedIndex += 1;
+            
         }
 
         // --------------------------------- //
