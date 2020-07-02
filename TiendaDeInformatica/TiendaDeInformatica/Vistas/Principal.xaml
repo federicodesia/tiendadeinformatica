@@ -170,7 +170,7 @@
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
 
-                                                                <TextBlock Grid.Column="0" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" Text="Eliminar" VerticalAlignment="Center" MouseLeftButtonDown="EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown"/>
+                                                                <TextBlock Grid.Column="0" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="13" Cursor="Hand" Text="Eliminar" VerticalAlignment="Center" MouseLeftButtonDown="EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown"/>
 
                                                                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="28 0 0 0">
                                                                     <Button Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ButtonAssist.CornerRadius="4 0 0 4" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Height="34" Padding="6 0 6 0" Click="EliminarCantidadPresupuestoProducto_Button_Click">

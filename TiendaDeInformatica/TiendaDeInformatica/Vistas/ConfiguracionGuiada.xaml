@@ -43,95 +43,50 @@
 
                 <!-- Inferior -->
                 <Grid Grid.Column="0" Margin="24">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
 
-                    <!-- Alerta No hay presupuesto seleccionado -->
-                    <StackPanel Grid.Row="0">
-                        <materialDesign:Snackbar x:Name="Alerta_Snackbar" IsActive="False" HorizontalAlignment="Stretch" ActionButtonStyle="{DynamicResource MaterialDesignSnackbarActionMidButtonCardBackground}" Background="{DynamicResource MaterialDesignCardBackground}" Foreground="{DynamicResource MaterialDesignBody}">
-                            <materialDesign:SnackbarMessage ActionContent="ENTENDIDO" ActionClick="Alerta_BotonEntendido_Click">
-                                <materialDesign:SnackbarMessage.Content>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                    <!-- Seleccion de componentes -->
+                    <Grid x:Name="SeleccionComponentes_Grid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                                        <materialDesign:PackIcon Grid.Column="0" Kind="AlertCircleOutline" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="24" Height="24"/>
+                        <!-- Alerta No hay presupuesto seleccionado -->
+                        <StackPanel Grid.Row="0">
+                            <materialDesign:Snackbar x:Name="Alerta_Snackbar" IsActive="False" HorizontalAlignment="Stretch" ActionButtonStyle="{DynamicResource MaterialDesignSnackbarActionMidButtonCardBackground}" Background="{DynamicResource MaterialDesignCardBackground}" Foreground="{DynamicResource MaterialDesignBody}">
+                                <materialDesign:SnackbarMessage ActionContent="ENTENDIDO" ActionClick="Alerta_BotonEntendido_Click">
+                                    <materialDesign:SnackbarMessage.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Column="1" Margin="16 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="14" TextWrapping="Wrap" TextTrimming="WordEllipsis">
+                                            <materialDesign:PackIcon Grid.Column="0" Kind="AlertCircleOutline" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="24" Height="24"/>
+
+                                            <TextBlock Grid.Column="1" Margin="16 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="14" TextWrapping="Wrap" TextTrimming="WordEllipsis">
                                         <Run Text="¡No hay ningún presupuesto seleccionado!" FontWeight="SemiBold"/>
                                         <Run Text="Cuando termines la selección de los componentes no podrás guardar la configuración."/>
-                                        </TextBlock>
-                                    </Grid>
-                                </materialDesign:SnackbarMessage.Content>
-                            </materialDesign:SnackbarMessage>
-                        </materialDesign:Snackbar>
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:SnackbarMessage.Content>
+                                </materialDesign:SnackbarMessage>
+                            </materialDesign:Snackbar>
 
-                        <materialDesign:Snackbar x:Name="Espacio_Snackbar" IsActive="False" HorizontalAlignment="Stretch" Background="Transparent" Margin="0 0 0 -10"/>
-                    </StackPanel>
+                            <materialDesign:Snackbar x:Name="Espacio_Snackbar" IsActive="False" HorizontalAlignment="Stretch" Background="Transparent" Margin="0 0 0 -10"/>
+                        </StackPanel>
 
-                    <!-- ListBox TipoProducto -->
-                    <ListBox Grid.Row="1" x:Name="TipoProducto_ListBox" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsConfiguracionGuiadaListBoxItem}" SelectionChanged="TipoProducto_ListBox_SelectionChanged"
+                        <!-- ListBox TipoProducto -->
+                        <ListBox Grid.Row="1" x:Name="TipoProducto_ListBox" Margin="-8 0 -8 -12" ItemContainerStyle="{StaticResource MaterialDesignCardsConfiguracionGuiadaListBoxItem}" SelectionChanged="TipoProducto_ListBox_SelectionChanged"
                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseLeftButtonDown="TipoProducto_ListBox_PreviewMouseLeftButtonDown" PreviewMouseMove="TipoProducto_ListBox_PreviewMouseMove" PreviewMouseLeftButtonUp="TipoProducto_ListBox_PreviewMouseLeftButtonUp">
 
-                        <!-- Formato de cada item -->
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="18">
-                                    <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" HorizontalAlignment="Center"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                        <!-- Items en horizontal -->
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid x:Name="TipoProducto_UniformGrid" Rows="1" Loaded="TipoProducto_UniformGrid_Loaded"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-
-                    <!-- ListBox Productos -->
-                    <Grid Grid.Row="2" x:Name="Contenido_Grid" Margin="0 18 0 0">
-                        <ListBox x:Name="Productos_ListBox" Margin="-8 0 -8 -12" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick" SelectionChanged="Productos_ListBox_SelectionChanged">
                             <!-- Formato de cada item -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="190"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="96"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Image Grid.Row="0" Height="128" Width="128" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <Image.Style>
-                                                <Style TargetType="{x:Type Image}">
-                                                    <Setter Property="Source" Value="{Binding Imagen}" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Imagen}" Value="{x:Null}">
-                                                            <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
-
-                                        <Separator Grid.Row="1" Opacity="0.25"/>
-
-                                        <Grid Grid.Row="2" Margin="16">
-                                            <TextBlock Text="{Binding MostrarTipoProductoMarcaModelo}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
-
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                                                <TextBlock Text="$" FontSize="16"/>
-                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" FontSize="16"/>
-                                            </StackPanel>
-                                        </Grid>
+                                    <Grid Margin="18">
+                                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -139,33 +94,213 @@
                             <!-- Items en horizontal -->
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid x:Name="Productos_UniformGrid" Loaded="Productos_UniformGrid_Loaded" VerticalAlignment="Top"/>
+                                    <UniformGrid x:Name="TipoProducto_UniformGrid" Rows="1" Loaded="TipoProducto_UniformGrid_Loaded"/>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                         </ListBox>
+
+                        <!-- ListBox Productos -->
+                        <Grid Grid.Row="2" x:Name="Contenido_Grid" Margin="0 18 0 0">
+                            <ListBox x:Name="Productos_ListBox" Margin="-8 0 -8 -12" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemCards}" MouseDoubleClick="Productos_ListBox_MouseDoubleClick" SelectionChanged="Productos_ListBox_SelectionChanged">
+                                <!-- Formato de cada item -->
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="190"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="96"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Image Grid.Row="0" Height="128" Width="128" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                        <Setter Property="Source" Value="{Binding Imagen}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Imagen}" Value="{x:Null}">
+                                                                <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+
+                                            <Separator Grid.Row="1" Opacity="0.25"/>
+
+                                            <Grid Grid.Row="2" Margin="16">
+                                                <TextBlock Text="{Binding MostrarTipoProductoMarcaModelo}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Top"/>
+
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                                    <TextBlock Text="$" FontSize="16"/>
+                                                    <TextBlock Text="{Binding Precio, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" FontSize="16"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+                                <!-- Items en horizontal -->
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid x:Name="Productos_UniformGrid" Loaded="Productos_UniformGrid_Loaded" VerticalAlignment="Top"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                            </ListBox>
+                        </Grid>
+
+                        <!-- Botones Anterior, Siguiente y Finalizar -->
+                        <Grid Grid.Row="3" Margin="0 18 0 0" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="Anterior_Button" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Click="Anterior_Button_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="NavigateBefore" Height="24" Width="24" Margin="-8 0 0 0"/>
+                                    <TextBlock Text="ANTERIOR" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="SiguienteFinalizar_Button" Grid.Column="3" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Click="SiguienteFinalizar_Button_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="Siguiente_TextBlock" Text="SIGUIENTE" VerticalAlignment="Center"/>
+                                    <materialDesign:PackIcon x:Name="Siguiente_PackIcon" Kind="NavigateNext" Height="24" Width="24" Margin="0 0 -8 0"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
                     </Grid>
-                </Grid>
 
-                <!-- ListBox TipoProducto -->
-                <Grid Grid.Row="3" Margin="24 18 24 24" VerticalAlignment="Bottom">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    <!-- Configuracion finalizada -->
+                    <Grid x:Name="ConfiguracionFinalizada_Grid" Visibility="Collapsed">
+                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth0" VerticalAlignment="Stretch">
+                            <materialDesign:Card.Effect>
+                                <DropShadowEffect ShadowDepth="4" Opacity="0.05" BlurRadius="8"/>
+                            </materialDesign:Card.Effect>
 
-                    <Button x:Name="Anterior_Button" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Click="Anterior_Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="NavigateBefore" Height="24" Width="24" Margin="-8 0 0 0"/>
-                            <TextBlock Text="ANTERIOR" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                    <Button x:Name="SiguienteFinalizar_Button" Grid.Column="3" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Click="SiguienteFinalizar_Button_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="Siguiente_TextBlock" Text="SIGUIENTE" VerticalAlignment="Center"/>
-                            <materialDesign:PackIcon x:Name="Siguiente_PackIcon" Kind="NavigateNext" Height="24" Width="24" Margin="0 0 -8 0"/>
-                        </StackPanel>
-                    </Button>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0">
+                                    <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Configuración" FontWeight="SemiBold" Margin="24 24 18 24" FontSize="14"/>
+                                    <Separator HorizontalAlignment="Stretch" Opacity="0.48"/>
+                                </StackPanel>
+
+                                <!-- Productos -->
+                                <ListBox x:Name="ConfiguracionFinalizada_Productos_ListBox" HorizontalContentAlignment="Stretch" Grid.Row="1" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource MaterialDesignListBoxItemPresupuestoProducto}" FocusVisualStyle="{x:Null}" materialDesign:RippleAssist.IsDisabled="True">
+
+                                    <!-- Formato de cada item -->
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Grid Background="{DynamicResource MaterialDesignCardBackground}" Margin="24 12 24 12">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="64"/>
+                                                        <ColumnDefinition Width="5*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Imagen -->
+                                                    <Image Grid.Column="0" Width="64" Height="64">
+                                                        <Image.Style>
+                                                            <Style TargetType="{x:Type Image}">
+                                                                <Setter Property="Source" Value="{Binding Imagen}" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Imagen}" Value="{x:Null}">
+                                                                        <Setter Property="Source" Value="Imagenes/ImagenNoDisponible.png" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
+
+                                                    <!-- Tipo de Producto, Marca y Modelo -->
+                                                    <Grid Grid.Column="1" Margin="16 0 0 0">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <TextBlock Grid.Row="0" Text="{Binding MostrarTipoProductoMarcaModelo}" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis" MaxHeight="32" TextWrapping="Wrap" LineHeight="16" FontSize="13" VerticalAlignment="Center"/>
+
+                                                        <!-- Cantidad -->
+                                                        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+                                                            <TextBlock x:Name="ConfiguracionFinalizada_Unidades_TextBlock" Text="1"/>
+                                                            <TextBlock VerticalAlignment="Center">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="{x:Type TextBlock}">
+                                                                        <Setter Property="Text" Value=" unidades" />
+                                                                        <Style.Triggers>
+                                                                            <!-- Cambiar el texto dependiendo de la cantidad de resultados -->
+                                                                            <DataTrigger Binding="{Binding Text, ElementName=ConfiguracionFinalizada_Unidades_TextBlock}" Value="1">
+                                                                                <Setter Property="Text" Value=" unidad" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    
+                                                    <!-- Precio -->
+                                                    <StackPanel Grid.Column="3" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right">
+                                                        <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                                        <TextBlock Text="{Binding Precio, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                                    </StackPanel>
+                                                </Grid>
+
+                                                <Grid Background="{DynamicResource MaterialDesignBody}" Opacity="0.02" Height="8"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <!-- Inferior -->
+                                <StackPanel Grid.Row="2">
+                                    <Separator HorizontalAlignment="Stretch" Opacity="0.48" Margin="-24 0 -24 24"/>
+
+                                    <Grid Margin="24 0 24 24">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Precio total, cantidad de productos -->
+                                        <StackPanel Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.78">
+                                                <TextBlock x:Name="ConfiguracionFinalizada_CantidadProductos_TextBlock" Text="{Binding ElementName=ConfiguracionFinalizada_Productos_ListBox, Path=Items.Count}"/>
+                                                <TextBlock>
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Setter Property="Text" Value=" productos" />
+                                                            <Style.Triggers>
+                                                                <!-- Cambiar el texto dependiendo de la cantidad de productos -->
+                                                                <DataTrigger Binding="{Binding Text, ElementName=ConfiguracionFinalizada_CantidadProductos_TextBlock}" Value="1">
+                                                                    <Setter Property="Text" Value=" producto" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
+                                                <TextBlock Text="Total: $"/>
+                                                <TextBlock x:Name="ConfiguracionFinalizada_PrecioTotal_TextBlock" Text="{Binding Total, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <Button x:Name="ConfiguracionFinalizada_MoverAlPresupuesto_Button" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Content="MOVER AL PRESUPUESTO"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
                 </Grid>
             </Grid>
 

@@ -20,6 +20,8 @@ namespace TiendaDeInformatica.Vistas
         public Presupuesto _presupuestoSeleccionado;
         private TipoProducto[] tipoProductos;
 
+        private List<Producto> ProductosSeleccionados = new List<Producto>();
+
         public ConfiguracionGuiada(Principal principal, int presupuestoSeleccionadoId)
         {
             InitializeComponent();
@@ -44,6 +46,8 @@ namespace TiendaDeInformatica.Vistas
 
             if (_presupuestoSeleccionado == null)
                 CambiarEstadoAlertaPresupuestoSeleccionado(true);
+            else
+                ConfiguracionFinalizada_MoverAlPresupuesto_Button.IsEnabled = true;
         }
 
         private void Alerta_BotonEntendido_Click(object sender, RoutedEventArgs e)
@@ -55,6 +59,7 @@ namespace TiendaDeInformatica.Vistas
         {
             Alerta_Snackbar.IsActive = estado;
             Espacio_Snackbar.IsActive = estado;
+            ConfiguracionFinalizada_MoverAlPresupuesto_Button.IsEnabled = !estado;
         }
 
         // ------------------------------------------------------ //
@@ -160,8 +165,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void SiguienteFinalizar_Button_Click(object sender, RoutedEventArgs e)
         {
-            TipoProducto_ListBox.SelectedIndex += 1;
-            RefrescarProductos();
+            PasarAlSiguientePasoOFinalizar();
         }
 
         // ------------------------------------------------------ //
@@ -179,7 +183,30 @@ namespace TiendaDeInformatica.Vistas
 
         private void Productos_ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
+            PasarAlSiguientePasoOFinalizar();
+        }
+
+        private void PasarAlSiguientePasoOFinalizar()
+        {
+            Producto productoSeleccionado = Productos_ListBox.SelectedItem as Producto;
+            if (productoSeleccionado != null)
+            {
+                ProductosSeleccionados.Add(productoSeleccionado);
+                if (tipoProductoActual == tipoProductos.Last())
+                {
+                    SeleccionComponentes_Grid.Visibility = Visibility.Collapsed;
+                    ConfiguracionFinalizada_Grid.Visibility = Visibility.Visible;
+
+                    ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
+                    foreach (Producto producto in ProductosSeleccionados)
+                        ConfiguracionFinalizada_Productos_ListBox.Items.Add(producto);
+                }
+                else
+                {
+                    TipoProducto_ListBox.SelectedIndex += 1;
+                    RefrescarProductos();
+                }
+            }
         }
 
         // --------------------------------- //
