@@ -44,6 +44,7 @@ namespace TiendaDeInformatica.Vistas
             TipoProducto_ListBox.ItemsSource = tipoProductosConEspacios;
             TipoProducto_ListBox.SelectedIndex = 0;
 
+            // Cambiar el estado de la alerta si no hay un presupuesto seleccionado
             if (_presupuestoSeleccionado == null)
                 CambiarEstadoAlertaPresupuestoSeleccionado(true);
             else
@@ -52,6 +53,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void Alerta_BotonEntendido_Click(object sender, RoutedEventArgs e)
         {
+            // Cerrar alerta
             CambiarEstadoAlertaPresupuestoSeleccionado(false);
         }
 
@@ -139,26 +141,35 @@ namespace TiendaDeInformatica.Vistas
         private void ActualizarBotones(bool productoSeleccionado)
         {
             if (tipoProductoActual == tipoProductos.First())
+                // Primer TipoProducto, no se puede retroceder.
                 Anterior_Button.IsEnabled = false;
             else
             {
+                // Se puede retroceder.
                 Anterior_Button.IsEnabled = true;
                 if (tipoProductoActual == tipoProductos.Last())
                 {
+                    // Ultimo TipoProducto, se puede finalizar.
                     Siguiente_PackIcon.Visibility = Visibility.Collapsed;
                     Siguiente_TextBlock.Text = "FINALIZAR";
                 }
                 else
                 {
+                    // Se puede avanzar.
                     Siguiente_PackIcon.Visibility = Visibility.Visible;
                     Siguiente_TextBlock.Text = "SIGUIENTE";
                 }
             }
+
+            // Cambiar el estado del botón para avanzar o finalizar dependiendo si hay un producto seleccionado.
             SiguienteFinalizar_Button.IsEnabled = productoSeleccionado;
         }
 
         private void Anterior_Button_Click(object sender, RoutedEventArgs e)
         {
+            // Eliminar todos los productos del TipoProducto actual antes de retroceder.
+            ProductosSeleccionados.RemoveAll(p => p.Tipo == tipoProductoActual);
+
             TipoProducto_ListBox.SelectedIndex -= 1;
             RefrescarProductos();
         }
@@ -174,6 +185,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void Productos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Cambiar el estado del botón dependiendo si hay un producto seleccionado o no.
             Producto producto = Productos_ListBox.SelectedItem as Producto;
             if (producto != null)
                 SiguienteFinalizar_Button.IsEnabled = true;
@@ -191,21 +203,38 @@ namespace TiendaDeInformatica.Vistas
             Producto productoSeleccionado = Productos_ListBox.SelectedItem as Producto;
             if (productoSeleccionado != null)
             {
+                // Eliminar todos los productos del TipoProducto actual antes de avanzar.
+                ProductosSeleccionados.RemoveAll(p => p.Tipo == tipoProductoActual);
+
                 ProductosSeleccionados.Add(productoSeleccionado);
                 if (tipoProductoActual == tipoProductos.Last())
                 {
+                    // Cambiar al resumen de la configuración.
                     SeleccionComponentes_Grid.Visibility = Visibility.Collapsed;
                     ConfiguracionFinalizada_Grid.Visibility = Visibility.Visible;
 
                     ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
                     foreach (Producto producto in ProductosSeleccionados)
                         ConfiguracionFinalizada_Productos_ListBox.Items.Add(producto);
+
+                    TituloResumen_StackPanel.Visibility = Visibility.Visible;
                 }
                 else
                 {
+                    // Avanzar al siguiente TipoProducto.
                     TipoProducto_ListBox.SelectedIndex += 1;
                     RefrescarProductos();
                 }
+            }
+        }
+
+        private void TituloConfiguracionGuiada_Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if (ConfiguracionFinalizada_Grid.Visibility == Visibility.Visible)
+            {
+                TituloResumen_StackPanel.Visibility = Visibility.Collapsed;
+                ConfiguracionFinalizada_Grid.Visibility = Visibility.Collapsed;
+                SeleccionComponentes_Grid.Visibility = Visibility.Visible;
             }
         }
 

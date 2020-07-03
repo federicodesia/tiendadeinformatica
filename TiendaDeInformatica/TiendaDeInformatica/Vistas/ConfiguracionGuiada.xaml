@@ -321,11 +321,18 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Titulo -->
-                        <TextBlock Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center">
-                            <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White">
-                                <TextBlock Text="Configuración guiada" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
-                            </Hyperlink>
-                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="24,0,0,0" VerticalAlignment="Center" TextBlock.FontSize="14" TextBlock.FontWeight="SemiBold" TextBlock.Foreground="White">
+                            <TextBlock>
+                                <Hyperlink x:Name="TituloConfiguracionGuiada_Hyperlink" Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="TituloConfiguracionGuiada_Hyperlink_Click">Configuración guiada</Hyperlink>
+                            </TextBlock>
+                            
+                            <StackPanel x:Name="TituloResumen_StackPanel" Orientation="Horizontal" Visibility="Collapsed">
+                                <materialDesign:PackIcon Kind="MenuRight"/>
+                                <TextBlock>
+                                    <Hyperlink Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold">Resumen</Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
 
                         <!-- Opciones -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
