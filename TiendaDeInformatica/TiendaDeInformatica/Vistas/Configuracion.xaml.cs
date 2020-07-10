@@ -324,5 +324,31 @@ namespace TiendaDeInformatica.Vistas
         {
             OscurecerValores_DialogHost.IsOpen = estado;
         }
+
+        // ------------------------------------------------------ //
+        //         Restaurar configuración predeterminada         //
+        // ------------------------------------------------------ //
+
+        private void RestaurarConfiguracion_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(true);
+            AlertaRestaurarConfiguracion_DialogHost.IsOpen = true;
+        }
+
+        private void CancelarResturarConfiguracion_Button_Click(object sender, RoutedEventArgs e)
+        {
+            _principal.OscurecerCompletamente(false);
+            AlertaRestaurarConfiguracion_DialogHost.IsOpen = false;
+        }
+
+        private void AceptarRestaurarConfiguracion_Button_Click(object sender, RoutedEventArgs e)
+        {
+            RefrescarListaDeAtributos();
+            RefrescarListBoxValores();
+
+            // Cerrar la alerta después de resutar la configuración
+            _principal.OscurecerCompletamente(false);
+            AlertaRestaurarConfiguracion_DialogHost.IsOpen = false;
+        }
     }
 }
