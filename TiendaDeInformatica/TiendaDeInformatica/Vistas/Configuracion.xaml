@@ -155,7 +155,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="74"/>
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <TextBlock Grid.Column="0" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Tipos de producto" FontWeight="SemiBold" Margin="24 24 8 20" FontSize="14"/>
 
                                     <TextBlock Grid.Column="1" Text="Múltiples valores" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" Margin="0 4 18 0" FontSize="12" Opacity="0.79">
@@ -210,7 +210,7 @@
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItemSinEfectos}">
                                                 <Setter Property="Margin" Value="0 0 0 -7" />
-                                                
+
                                                 <Setter Property="Visibility" Value="Visible"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="Content" Value="{x:Null}">
@@ -316,6 +316,16 @@
                                 <TextBlock Text="Configuración" FontSize="14" FontWeight="SemiBold" Foreground="White"/>
                             </Hyperlink>
                         </TextBlock>
+
+                        <!-- Opciones -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Height="56" x:Name="RestaurarConfiguracion_Button" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="RestaurarConfiguracion_Button_Click">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Restore" Foreground="White" Height="24" Width="24" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Restaurar configuración" Foreground="White" VerticalAlignment="Center" FontWeight="Regular" FontSize="13" Margin="8 0 0 0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </materialDesign:ColorZone>
@@ -366,6 +376,31 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
                         <Button x:Name="CancelarEliminarValor_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarEliminarValor_Button_Click"/>
                         <Button x:Name="EliminarValor_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="ELIMINAR" Click="EliminarValor_Button_Click"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+        <!-- Alerta al restaurar configuración predeterminada -->
+        <materialDesign:DialogHost x:Name="AlertaRestaurarConfiguracion_DialogHost" Opacity="0" Margin="-240 0 0 0">
+
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Width="332" Height="172"  VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+
+                    <!-- Icono, Título y Descripción -->
+                    <StackPanel Orientation="Horizontal" Margin="16">
+                        <materialDesign:PackIcon Kind="Information" Foreground="{StaticResource PrimaryHueMidBrush}" Width="36" Height="36"/>
+
+                        <StackPanel Orientation="Vertical" Width="232" Margin="8 8">
+                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="¿Estás seguro que quieres restaurar la configuración predeterminada?" Style="{StaticResource MaterialDesignTitleTextBlock}" FontSize="14" Margin="0 0 0 8"/>
+                            <TextBlock Foreground="Gray" TextWrapping="Wrap" Text="Se perderán todos los atributos actuales, tipos de producto y valores." Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="13"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Botones -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="16">
+                        <Button x:Name="CancelarResturarConfiguracion_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="CANCELAR" Click="CancelarResturarConfiguracion_Button_Click"/>
+                        <Button x:Name="AceptarRestaurarConfiguracion_Button" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Center" Content="RESTAURAR" Click="AceptarRestaurarConfiguracion_Button_Click"/>
                     </StackPanel>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
