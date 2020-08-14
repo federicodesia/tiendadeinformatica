@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,18 +17,19 @@ namespace TiendaDeInformatica.Vistas
     {
         private Principal _principal;
         public Presupuesto _presupuestoSeleccionado;
-        private TipoProducto[] tipoProductos;
 
-        private List<Producto> ProductosSeleccionados = new List<Producto>();
+        private TipoProducto tipoProductoActual;
+        private TipoProducto[] tipoProductos;
 
         public ConfiguracionGuiada(Principal principal, int presupuestoSeleccionadoId)
         {
             InitializeComponent();
             _principal = principal;
-            RefrescarProductos();
 
             if (presupuestoSeleccionadoId != -1)
                 _presupuestoSeleccionado = ControladorPresupuestos.ObtenerPresupuesto(presupuestoSeleccionadoId);
+
+            RefrescarProductos();
         }
 
         private void ConfiguracionGuiada_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -40,8 +40,15 @@ namespace TiendaDeInformatica.Vistas
 
             // Cargar el enum TipoProducto en el ListBox
             tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            List<string> tipoProductosConEspacios = new List<string>(tipoProductos.Select(v => v.ToString().Replace("_", " ")));
-            TipoProducto_ListBox.ItemsSource = tipoProductosConEspacios;
+            foreach (TipoProducto tipoProducto in tipoProductos)
+            {
+                TipoProductoProducto tipoProductoProducto = new TipoProductoProducto()
+                {
+                    Tipo = tipoProducto,
+                    Producto = null
+                };
+                TipoProducto_ListBox.Items.Add(tipoProductoProducto);
+            }
             TipoProducto_ListBox.SelectedIndex = 0;
 
             // Cambiar el estado de la alerta si no hay un presupuesto seleccionado
@@ -68,15 +75,16 @@ namespace TiendaDeInformatica.Vistas
         //                    ListBox TipoProducto                //
         // ------------------------------------------------------ //
 
-        private TipoProducto tipoProductoActual;
-
         private void TipoProducto_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = TipoProducto_ListBox.SelectedIndex;
             if (index != -1)
             {
+                TipoProducto_ListBox.ScrollIntoView(TipoProducto_ListBox.Items[index]);
+
                 tipoProductoActual = (TipoProducto)index;
                 ActualizarBotones(false);
+                RefrescarProductos();
             }
         }
 
@@ -104,7 +112,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void TipoProducto_ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            // Mover la posicio horizontal del ListBox.
+            // Mover la posicion horizontal del ListBox.
             if (scrollViewerTipoProducto.IsMouseCaptured)
                 scrollViewerTipoProducto.ScrollToHorizontalOffset(horizontalOffset + (scrollMousePoint.X - e.GetPosition(scrollViewerTipoProducto).X));
         }
@@ -128,7 +136,7 @@ namespace TiendaDeInformatica.Vistas
                             element = VisualTreeHelper.GetParent(element);
 
                         (element as ListBoxItem).IsSelected = true;
-                        RefrescarProductos();
+                        ModificarTipoProductoProducto(null);
                     }
                 }
             }
@@ -167,16 +175,13 @@ namespace TiendaDeInformatica.Vistas
 
         private void Anterior_Button_Click(object sender, RoutedEventArgs e)
         {
-            // Eliminar todos los productos del TipoProducto actual antes de retroceder.
-            ProductosSeleccionados.RemoveAll(p => p.Tipo == tipoProductoActual);
-
             TipoProducto_ListBox.SelectedIndex -= 1;
-            RefrescarProductos();
+            ModificarTipoProductoProducto(null);
         }
 
         private void SiguienteFinalizar_Button_Click(object sender, RoutedEventArgs e)
         {
-            PasarAlSiguientePasoOFinalizar();
+            SeleccionarProducto();
         }
 
         // ------------------------------------------------------ //
@@ -195,36 +200,58 @@ namespace TiendaDeInformatica.Vistas
 
         private void Productos_ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PasarAlSiguientePasoOFinalizar();
+            SeleccionarProducto();
         }
 
-        private void PasarAlSiguientePasoOFinalizar()
+        private void SeleccionarProducto()
         {
             Producto productoSeleccionado = Productos_ListBox.SelectedItem as Producto;
             if (productoSeleccionado != null)
             {
-                // Eliminar todos los productos del TipoProducto actual antes de avanzar.
-                ProductosSeleccionados.RemoveAll(p => p.Tipo == tipoProductoActual);
+                ModificarTipoProductoProducto(productoSeleccionado);
+                PasarAlSiguientePasoOFinalizar();
+            }
+        }
 
-                ProductosSeleccionados.Add(productoSeleccionado);
-                if (tipoProductoActual == tipoProductos.Last())
-                {
-                    // Cambiar al resumen de la configuración.
-                    SeleccionComponentes_Grid.Visibility = Visibility.Collapsed;
-                    ConfiguracionFinalizada_Grid.Visibility = Visibility.Visible;
+        private void ModificarTipoProductoProducto(Producto producto)
+        {
+            int index = (int)tipoProductoActual;
 
-                    ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
-                    foreach (Producto producto in ProductosSeleccionados)
-                        ConfiguracionFinalizada_Productos_ListBox.Items.Add(producto);
+            // Eliminar todos los Productos de los siguientes TipoProductoProducto.
+            foreach (TipoProducto tipoProducto in tipoProductos.Where(tp => (int)tp > index))
+            {
+                int tipoProductoIndex = (int)tipoProducto;
+                TipoProductoProducto tipoProductoProducto1 = TipoProducto_ListBox.Items[tipoProductoIndex] as TipoProductoProducto;
+                tipoProductoProducto1.Producto = null;
+                TipoProducto_ListBox.Items[tipoProductoIndex] = tipoProductoProducto1;
+            }
 
-                    TituloResumen_StackPanel.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    // Avanzar al siguiente TipoProducto.
-                    TipoProducto_ListBox.SelectedIndex += 1;
-                    RefrescarProductos();
-                }
+            // Agregar el Producto al TipoProductoProducto correspondiente.
+            TipoProductoProducto tipoProductoProducto = TipoProducto_ListBox.Items[index] as TipoProductoProducto;
+            tipoProductoProducto.Producto = producto;
+            TipoProducto_ListBox.Items[index] = tipoProductoProducto;
+            TipoProducto_ListBox.SelectedIndex = index;
+            TipoProducto_ListBox.Items.Refresh();
+        }
+
+        private void PasarAlSiguientePasoOFinalizar()
+        {
+            if (tipoProductoActual == tipoProductos.Last())
+            {
+                // Cambiar al resumen de la configuración.
+                SeleccionComponentes_Grid.Visibility = Visibility.Collapsed;
+                ConfiguracionFinalizada_Grid.Visibility = Visibility.Visible;
+                TituloResumen_StackPanel.Visibility = Visibility.Visible;
+
+                // Mostrar los productos seleccionados en el ListBox.
+                ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
+                foreach (TipoProductoProducto tipoProductoProducto in TipoProducto_ListBox.Items)
+                    if (tipoProductoProducto.Producto != null) ConfiguracionFinalizada_Productos_ListBox.Items.Add(tipoProductoProducto.Producto);
+            }
+            else
+            {
+                // Avanzar al siguiente TipoProducto.
+                TipoProducto_ListBox.SelectedIndex += 1;
             }
         }
 
@@ -235,6 +262,7 @@ namespace TiendaDeInformatica.Vistas
                 TituloResumen_StackPanel.Visibility = Visibility.Collapsed;
                 ConfiguracionFinalizada_Grid.Visibility = Visibility.Collapsed;
                 SeleccionComponentes_Grid.Visibility = Visibility.Visible;
+                ModificarTipoProductoProducto(null);
             }
         }
 
@@ -273,7 +301,6 @@ namespace TiendaDeInformatica.Vistas
                 productosUniformGrid.Height = productosUniformGrid.Rows * 298;
             }
         }
-
 
         // --------------------------------- //
         //          prueba                   //

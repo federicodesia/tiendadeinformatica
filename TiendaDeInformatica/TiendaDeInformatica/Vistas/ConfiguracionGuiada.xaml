@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TiendaDeInformatica.Vistas"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:converters="clr-namespace:TiendaDeInformatica.Vistas.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="569" d:DesignWidth="776"
              
@@ -85,9 +84,10 @@
                             <!-- Formato de cada item -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Margin="18">
-                                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" HorizontalAlignment="Center"/>
-                                    </Grid>
+                                    <StackPanel Margin="18" Height="54" Width="148">
+                                        <TextBlock Text="{Binding MostrarTipoProducto}" FontWeight="Medium" Opacity="0.8"/>
+                                        <TextBlock Text="{Binding MostrarMarcaModeloProducto}" Margin="0 8 0 0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Height="32"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
 
@@ -246,7 +246,7 @@
                                                             </TextBlock>
                                                         </StackPanel>
                                                     </Grid>
-                                                    
+
                                                     <!-- Precio -->
                                                     <StackPanel Grid.Column="3" Orientation="Horizontal" TextBlock.FontSize="15" HorizontalAlignment="Right">
                                                         <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Right"/>
@@ -273,7 +273,7 @@
                                         <!-- Precio total, cantidad de productos -->
                                         <StackPanel Grid.Column="1">
                                             <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.78">
-                                                <TextBlock x:Name="ConfiguracionFinalizada_CantidadProductos_TextBlock" Text="{Binding ElementName=ConfiguracionFinalizada_Productos_ListBox, Path=Items.Count}"/>
+                                                <TextBlock x:Name="ConfiguracionFinalizada_CantidadProductos_TextBlock"/>
                                                 <TextBlock>
                                                     <TextBlock.Style>
                                                         <Style TargetType="{x:Type TextBlock}">
@@ -325,7 +325,7 @@
                             <TextBlock>
                                 <Hyperlink x:Name="TituloConfiguracionGuiada_Hyperlink" Style="{StaticResource MaterialDesignSubheadingHyperlink}" Foreground="White" FontSize="14" FontWeight="SemiBold" Click="TituloConfiguracionGuiada_Hyperlink_Click">Configuración guiada</Hyperlink>
                             </TextBlock>
-                            
+
                             <StackPanel x:Name="TituloResumen_StackPanel" Orientation="Horizontal" Visibility="Collapsed">
                                 <materialDesign:PackIcon Kind="MenuRight"/>
                                 <TextBlock>

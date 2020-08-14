@@ -194,6 +194,7 @@
     <Compile Include="Datos\ModelBuilderExtension.cs" />
     <Compile Include="Helpers\TextHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Modelos\TipoProductoProducto.cs" />
     <Compile Include="Vistas\Caracteristicas\CaracteristicasAtributo.xaml.cs">
       <DependentUpon>CaracteristicasAtributo.xaml</DependentUpon>
     </Compile>
