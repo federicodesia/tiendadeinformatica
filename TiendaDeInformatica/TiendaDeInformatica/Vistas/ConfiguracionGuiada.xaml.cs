@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using TiendaDeInformatica.Controladores;
 using TiendaDeInformatica.Modelos;
+using TiendaDeInformatica.Vistas.Reglas_de_Validacion;
 
 namespace TiendaDeInformatica.Vistas
 {
@@ -17,6 +20,8 @@ namespace TiendaDeInformatica.Vistas
     {
         private Principal _principal;
         public Presupuesto _presupuestoSeleccionado;
+
+        public Producto Motherboard;
 
         private TipoProducto tipoProductoActual;
         private TipoProducto[] tipoProductos;
@@ -208,9 +213,15 @@ namespace TiendaDeInformatica.Vistas
             Producto productoSeleccionado = Productos_ListBox.SelectedItem as Producto;
             if (productoSeleccionado != null)
             {
+                if (tipoProductoActual == tipoProductos.First())
+                {
+                    if (Productos_ListBox.SelectedItem != null)
+                        Motherboard = Productos_ListBox.SelectedItem as Producto;
+                }
                 ModificarTipoProductoProducto(productoSeleccionado);
                 PasarAlSiguientePasoOFinalizar();
             }
+            
         }
 
         private void ModificarTipoProductoProducto(Producto producto)
@@ -253,6 +264,7 @@ namespace TiendaDeInformatica.Vistas
                 // Avanzar al siguiente TipoProducto.
                 TipoProducto_ListBox.SelectedIndex += 1;
             }
+            
         }
 
         private void TituloConfiguracionGuiada_Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -308,10 +320,40 @@ namespace TiendaDeInformatica.Vistas
         private void RefrescarProductos()
         {
             Productos_ListBox.Items.Clear();
-            foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual))
+            foreach (Producto producto in Compatibilidad())
             {
                 Productos_ListBox.Items.Add(producto);
             }
+        }
+        private List<Producto> Compatibilidad()
+        {
+            List<Producto> productos = new List<Producto>();
+            if ((int)tipoProductoActual == 0)
+            {
+                return ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual).ToList();
+            }
+            else
+            {
+                foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual))
+                {
+                        foreach (ProductoValor productoValor in producto.Valores)
+                        {
+                            if (producto.Valores.Count() > 0)
+                            {
+                            if (Motherboard.Valores.Any(p => p.Valor.Nombre == productoValor.Valor.Nombre))
+                                if (productos.Contains(producto) == false)
+                                    productos.Add(producto);
+                            }
+                            else
+                            {
+                            productos.Add(producto);
+                            }
+                           
+                        }
+                }
+                return productos;
+            }
+            
         }
     }
 }

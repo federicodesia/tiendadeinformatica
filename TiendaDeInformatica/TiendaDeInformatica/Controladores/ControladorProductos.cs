@@ -103,7 +103,7 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 EliminarProductoVacio();
-                return context.Productos.Include(p => p.Marca).ToList();
+                return context.Productos.Include(p => p.Marca).Include(p => p.Valores).ThenInclude(v => v.Valor).ToList();
             }
         }
 
