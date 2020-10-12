@@ -23,7 +23,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
         public string Nombre_TextBox_Text { get; set; }
         public byte[] ImagenSeleccionada { get; set; }
 
-        public CaracteristicasMarca(Principal principal, Marca marcaModificar, bool ejecutarOscurecerPantallaPrincipalAlCerrar)
+        public CaracteristicasMarca(Principal principal, Marca marcaModificar, bool ejecutarOscurecerPantallaPrincipalAlCerrar, double? alturaContenido)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -31,6 +31,13 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             _principal = principal;
             _marcaModificar = marcaModificar;
             _ejecutarOscurecerPantallaPrincipalAlCerrar = ejecutarOscurecerPantallaPrincipalAlCerrar;
+
+            // Cambiar la altura de la ventana y su contenido, en el caso de un acceso directo
+            if (alturaContenido != null)
+            {
+                Contenido_Grid.Height = (double)alturaContenido;
+                CaracteristicasMarca_Vista.Height = Contenido_Grid.Height + 72;
+            }
         }
 
         private void CaracteristicasMarca_Vista_Loaded(object sender, RoutedEventArgs e)

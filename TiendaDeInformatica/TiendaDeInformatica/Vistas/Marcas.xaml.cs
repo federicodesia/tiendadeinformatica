@@ -41,7 +41,7 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null, true);
+            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null, true, null);
             caracteristicasMarca.Owner = Application.Current.MainWindow;
 
             caracteristicasMarca.ShowDialog();
@@ -93,7 +93,7 @@ namespace TiendaDeInformatica.Vistas
             Marca marca = Marcas_ListBox.SelectedItem as Marca;
             if (marca != null)
             {
-                CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, marca, true);
+                CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, marca, true, null);
                 caracteristicasMarca.Owner = Application.Current.MainWindow;
 
                 caracteristicasMarca.ShowDialog();

@@ -151,7 +151,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null, false);
+            CaracteristicasMarca caracteristicasMarca = new CaracteristicasMarca(_principal, null, false, Contenido_Grid.Height);
             caracteristicasMarca.Owner = Application.Current.MainWindow;
 
             caracteristicasMarca.ShowDialog();

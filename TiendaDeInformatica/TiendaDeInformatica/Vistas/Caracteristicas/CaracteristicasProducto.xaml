@@ -24,7 +24,7 @@
     <Grid>
         <materialDesign:DialogHost x:Name="Contenido_DialogHost" Style="{StaticResource MaterialDesignEmbeddedDialogHostMod}">
             <materialDesign:DialogHost.DialogContent>
-                <Grid Height="496" Width="416" Background="{DynamicResource MaterialDesignPaper}">
+                <Grid x:Name="Contenido_Grid" Height="496" Width="416" Background="{DynamicResource MaterialDesignPaper}">
                     <Grid>
                         <Grid.Resources>
                             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
