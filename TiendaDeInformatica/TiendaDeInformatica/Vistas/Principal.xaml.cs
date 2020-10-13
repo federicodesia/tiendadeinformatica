@@ -347,14 +347,14 @@ namespace TiendaDeInformatica.Vistas
             PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
         }
 
-        public void AgregarProductoAPresupuesto(Producto producto)
+        public void AgregarProductoAPresupuesto(Producto producto, bool abrirPopup)
         {
             if (PresupuestoSeleccionadoId != -1)
             {
                 Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
                 ControladorPresupuestos.AgregarPresupuestoProducto(presupuesto, producto);
             }
-            PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
+            if(abrirPopup) PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
         }
 
         private async void DeseleccionarPresupuesto_Button_Click(object sender, RoutedEventArgs e)

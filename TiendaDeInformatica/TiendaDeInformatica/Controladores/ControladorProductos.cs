@@ -103,7 +103,16 @@ namespace TiendaDeInformatica.Controladores
             using (var context = new MyDbContext())
             {
                 EliminarProductoVacio();
-                return context.Productos.Include(p => p.Marca).Include(p => p.Valores).ThenInclude(v => v.Valor).ToList();
+                return context.Productos.Include(p => p.Marca).ToList();
+            }
+        }
+
+        public static List<Producto> ObtenerListaDeProductosPorTipoProducto(TipoProducto tipoProducto)
+        {
+            using (var context = new MyDbContext())
+            {
+                EliminarProductoVacio();
+                return context.Productos.Where(p => p.Tipo == tipoProducto).Include(p => p.Marca).Include(p => p.Valores).ThenInclude(v => v.Valor).ThenInclude(v => v.Atributo).ToList();
             }
         }
 

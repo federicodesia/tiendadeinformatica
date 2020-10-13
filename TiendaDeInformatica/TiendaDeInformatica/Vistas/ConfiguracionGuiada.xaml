@@ -271,9 +271,9 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Precio total, cantidad de productos -->
-                                        <StackPanel Grid.Column="1">
+                                        <StackPanel x:Name="ConfiguracionFinalizada_Presupuesto" Grid.Column="1">
                                             <StackPanel Orientation="Horizontal" TextBlock.FontSize="14" HorizontalAlignment="Right" Opacity="0.78">
-                                                <TextBlock x:Name="ConfiguracionFinalizada_CantidadProductos_TextBlock"/>
+                                                <TextBlock Text="{Binding CantidadProductos}"/>
                                                 <TextBlock>
                                                     <TextBlock.Style>
                                                         <Style TargetType="{x:Type TextBlock}">
@@ -291,11 +291,11 @@
 
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" TextBlock.FontSize="16">
                                                 <TextBlock Text="Total: $"/>
-                                                <TextBlock x:Name="ConfiguracionFinalizada_PrecioTotal_TextBlock" Text="{Binding Total, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
+                                                <TextBlock Text="{Binding PrecioTotal, StringFormat={}{0:#,0.##}, ConverterCulture=es-AR}"/>
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <Button x:Name="ConfiguracionFinalizada_MoverAlPresupuesto_Button" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Content="MOVER AL PRESUPUESTO"/>
+                                        <Button x:Name="ConfiguracionFinalizada_MoverAlPresupuesto_Button" Grid.Column="0" Style="{StaticResource MaterialDesignFlatButton}" IsEnabled="False" Content="MOVER AL PRESUPUESTO" Click="ConfiguracionFinalizada_MoverAlPresupuesto_Button_Click"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>

@@ -21,7 +21,8 @@ namespace TiendaDeInformatica.Vistas
         private Principal _principal;
         public Presupuesto _presupuestoSeleccionado;
 
-        public Producto Motherboard;
+        private Producto motherboardSeleccionada;
+        private Presupuesto presupuesto;
 
         private TipoProducto tipoProductoActual;
         private TipoProducto[] tipoProductos;
@@ -34,7 +35,7 @@ namespace TiendaDeInformatica.Vistas
             if (presupuestoSeleccionadoId != -1)
                 _presupuestoSeleccionado = ControladorPresupuestos.ObtenerPresupuesto(presupuestoSeleccionadoId);
 
-            RefrescarProductos();
+            RefrescarListaDeProductos();
         }
 
         private void ConfiguracionGuiada_Vista_Loaded(object sender, RoutedEventArgs e)
@@ -89,7 +90,7 @@ namespace TiendaDeInformatica.Vistas
 
                 tipoProductoActual = (TipoProducto)index;
                 ActualizarBotones(false);
-                RefrescarProductos();
+                RefrescarListaDeProductos();
             }
         }
 
@@ -215,13 +216,11 @@ namespace TiendaDeInformatica.Vistas
             {
                 if (tipoProductoActual == tipoProductos.First())
                 {
-                    if (Productos_ListBox.SelectedItem != null)
-                        Motherboard = Productos_ListBox.SelectedItem as Producto;
+                    motherboardSeleccionada = Productos_ListBox.SelectedItem as Producto;
                 }
                 ModificarTipoProductoProducto(productoSeleccionado);
                 PasarAlSiguientePasoOFinalizar();
             }
-            
         }
 
         private void ModificarTipoProductoProducto(Producto producto)
@@ -255,16 +254,44 @@ namespace TiendaDeInformatica.Vistas
                 TituloResumen_StackPanel.Visibility = Visibility.Visible;
 
                 // Mostrar los productos seleccionados en el ListBox.
+                presupuesto = new Presupuesto()
+                {
+                    Productos = new List<PresupuestoProducto>()
+                };
+
                 ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
                 foreach (TipoProductoProducto tipoProductoProducto in TipoProducto_ListBox.Items)
-                    if (tipoProductoProducto.Producto != null) ConfiguracionFinalizada_Productos_ListBox.Items.Add(tipoProductoProducto.Producto);
+                {
+                    if (tipoProductoProducto.Producto != null)
+                    {
+                        PresupuestoProducto presupuestoProducto = new PresupuestoProducto()
+                        {
+                            Presupuesto = presupuesto,
+                            Producto = tipoProductoProducto.Producto,
+                            Cantidad = 1
+                        };
+                        presupuesto.Productos.Add(presupuestoProducto);
+                        ConfiguracionFinalizada_Productos_ListBox.Items.Add(presupuestoProducto.Producto);
+                    }
+                }
+                ConfiguracionFinalizada_Presupuesto.DataContext = presupuesto;
             }
             else
             {
                 // Avanzar al siguiente TipoProducto.
                 TipoProducto_ListBox.SelectedIndex += 1;
             }
-            
+        }
+
+        private void ConfiguracionFinalizada_MoverAlPresupuesto_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+            {
+                if(presupuestoProducto == presupuesto.Productos.Last())
+                    _principal.AgregarProductoAPresupuesto(presupuestoProducto.Producto, true);
+                else
+                    _principal.AgregarProductoAPresupuesto(presupuestoProducto.Producto, false);
+            }
         }
 
         private void TituloConfiguracionGuiada_Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -314,17 +341,17 @@ namespace TiendaDeInformatica.Vistas
             }
         }
 
-        // --------------------------------- //
-        //          prueba                   //
-        // --------------------------------- //
-        private void RefrescarProductos()
+        // ------------------------------------------------------ //
+        //      Refrescar la lista de productos compatibles       //
+        // ------------------------------------------------------ //
+
+        private void RefrescarListaDeProductos()
         {
             Productos_ListBox.Items.Clear();
-            foreach (Producto producto in Compatibilidad())
-            {
+            foreach (Producto producto in ObtenerProductosCompatibles())
                 Productos_ListBox.Items.Add(producto);
-            }
         }
+
         private List<Producto> Compatibilidad()
         {
             List<Producto> productos = new List<Producto>();
@@ -340,7 +367,7 @@ namespace TiendaDeInformatica.Vistas
                         {
                             if (producto.Valores.Count() > 0)
                             {
-                            if (Motherboard.Valores.Any(p => p.Valor.Nombre == productoValor.Valor.Nombre))
+                            if (motherboardSeleccionada.Valores.Any(p => p.Valor.Nombre == productoValor.Valor.Nombre))
                                 if (productos.Contains(producto) == false)
                                     productos.Add(producto);
                             }
@@ -348,12 +375,55 @@ namespace TiendaDeInformatica.Vistas
                             {
                             productos.Add(producto);
                             }
-                           
                         }
                 }
                 return productos;
             }
-            
+        }
+
+        private List<Producto> ObtenerProductosCompatibles()
+        {
+            if((int)tipoProductoActual != 0)
+            {
+                List<Producto> productosCompatibles = new List<Producto>();
+                if (motherboardSeleccionada != null)
+                {
+                    List<int> atributosMotherboard = new List<int>();
+                    foreach (Atributo atributoMotherboard in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(0))
+                        atributosMotherboard.Add(atributoMotherboard.Id);
+
+                    List<int> atributosTipoProductoActual = new List<int>();
+                    foreach (Atributo atributoTipoProductoActual in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(tipoProductoActual))
+                        atributosTipoProductoActual.Add(atributoTipoProductoActual.Id);
+
+                    List<int> atributosEnComun = atributosMotherboard.Intersect(atributosTipoProductoActual).ToList();
+
+                    List<Producto> productosTipoProductoActual = ControladorProductos.ObtenerListaDeProductosPorTipoProducto(tipoProductoActual);
+                    foreach (Producto producto in productosTipoProductoActual)
+                    {
+                        bool compatible = true;
+                        foreach (int atributoId in atributosEnComun)
+                        {
+                            List<int> valoresMotherboardId = new List<int>();
+                            foreach (ProductoValor productoValorMotherboard in motherboardSeleccionada.Valores.Where(v => v.Valor.AtributoId == atributoId))
+                                valoresMotherboardId.Add(productoValorMotherboard.ValorId);
+
+                            List<int> valoresProductoId = new List<int>();
+                            foreach (ProductoValor productoValor in producto.Valores.Where(v => v.Valor.AtributoId == atributoId))
+                                valoresProductoId.Add(productoValor.ValorId);
+
+                            List<int> valoresEnComun = valoresMotherboardId.Intersect(valoresProductoId).ToList();
+                            if (valoresEnComun.Count == 0)
+                                compatible = false;
+                        }
+
+                        if (compatible)
+                            productosCompatibles.Add(producto);
+                    }
+                }
+                return productosCompatibles;
+            }
+            return ControladorProductos.ObtenerListaDeProductosPorTipoProducto(tipoProductoActual);
         }
     }
 }

@@ -136,7 +136,7 @@ namespace TiendaDeInformatica.Vistas
         private void AgregarPresupuestoProducto_Click(object sender, RoutedEventArgs e)
         {
             if (Productos_ListBox.SelectedItem is Producto)
-                _principal.AgregarProductoAPresupuesto(Productos_ListBox.SelectedItem as Producto);
+                _principal.AgregarProductoAPresupuesto(Productos_ListBox.SelectedItem as Producto, true);
         }
 
         private void ModificarProducto_Click(object sender, RoutedEventArgs e)
@@ -366,7 +366,7 @@ namespace TiendaDeInformatica.Vistas
         private void Productos_ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Productos_ListBox.SelectedItem is Producto)
-                _principal.AgregarProductoAPresupuesto(Productos_ListBox.SelectedItem as Producto);
+                _principal.AgregarProductoAPresupuesto(Productos_ListBox.SelectedItem as Producto, true);
         }
     }
 }
