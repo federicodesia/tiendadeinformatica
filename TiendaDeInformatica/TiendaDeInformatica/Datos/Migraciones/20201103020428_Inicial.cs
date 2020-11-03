@@ -132,7 +132,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         column: x => x.MarcaId,
                         principalTable: "Marcas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,7 +177,7 @@ namespace TiendaDeInformatica.Datos.Migraciones
                         column: x => x.ProductoId,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ValorProducto_Valores_ValorId",
                         column: x => x.ValorId,

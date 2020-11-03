@@ -186,9 +186,9 @@
     <Compile Include="Controladores\ControladorMarcas.cs" />
     <Compile Include="Controladores\ControladorPresupuestos.cs" />
     <Compile Include="Controladores\ControladorProductos.cs" />
-    <Compile Include="Datos\Migraciones\20200701220858_Inicial.cs" />
-    <Compile Include="Datos\Migraciones\20200701220858_Inicial.designer.cs">
-      <DependentUpon>20200701220858_Inicial.cs</DependentUpon>
+    <Compile Include="Datos\Migraciones\20201103020428_Inicial.cs" />
+    <Compile Include="Datos\Migraciones\20201103020428_Inicial.designer.cs">
+      <DependentUpon>20201103020428_Inicial.cs</DependentUpon>
     </Compile>
     <Compile Include="Datos\Migraciones\MyDbContextModelSnapshot.cs" />
     <Compile Include="Datos\ModelBuilderExtension.cs" />

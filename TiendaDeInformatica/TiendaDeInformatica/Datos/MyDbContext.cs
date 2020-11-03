@@ -41,6 +41,21 @@ namespace TiendaDeInformatica.Datos
                 .HasOne(pv => pv.Valor)
                 .WithMany(p => p.Productos)
                 .HasForeignKey(v => v.ValorId);
+
+            modelBuilder.Entity<Producto>()
+                .HasOne(p => p.Marca)
+                .WithMany(m => m.Productos)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ProductoValor>()
+                .HasOne(p => p.Producto)
+                .WithMany(p => p.Valores)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Valor>()
+               .HasOne(v => v.Atributo)
+               .WithMany(a => a.Valores)
+               .OnDelete(DeleteBehavior.Cascade);
+
+
         }
 
         public DbSet<Cliente> Clientes { get; set; }
