@@ -32,36 +32,50 @@ namespace TiendaDeInformatica.Vistas
             InitializeComponent();
             _principal = principal;
 
-            if (presupuestoSeleccionadoId != -1)
-                _presupuestoSeleccionado = ControladorPresupuestos.ObtenerPresupuesto(presupuestoSeleccionadoId);
+            try
+            {
+                if (presupuestoSeleccionadoId != -1)
+                    _presupuestoSeleccionado = ControladorPresupuestos.ObtenerPresupuesto(presupuestoSeleccionadoId);
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
 
             RefrescarListaDeProductos();
         }
 
         private void ConfiguracionGuiada_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            // Obtener el ScrollViewer del ListBox TipoProducto
-            Border border = (Border)VisualTreeHelper.GetChild(TipoProducto_ListBox, 0);
-            scrollViewerTipoProducto = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
-
-            // Cargar el enum TipoProducto en el ListBox
-            tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            foreach (TipoProducto tipoProducto in tipoProductos)
+            try
             {
-                TipoProductoProducto tipoProductoProducto = new TipoProductoProducto()
-                {
-                    Tipo = tipoProducto,
-                    Producto = null
-                };
-                TipoProducto_ListBox.Items.Add(tipoProductoProducto);
-            }
-            TipoProducto_ListBox.SelectedIndex = 0;
+                // Obtener el ScrollViewer del ListBox TipoProducto
+                Border border = (Border)VisualTreeHelper.GetChild(TipoProducto_ListBox, 0);
+                scrollViewerTipoProducto = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
 
-            // Cambiar el estado de la alerta si no hay un presupuesto seleccionado
-            if (_presupuestoSeleccionado == null)
-                CambiarEstadoAlertaPresupuestoSeleccionado(true);
-            else
-                ConfiguracionFinalizada_MoverAlPresupuesto_Button.IsEnabled = true;
+                // Cargar el enum TipoProducto en el ListBox
+                tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+                foreach (TipoProducto tipoProducto in tipoProductos)
+                {
+                    TipoProductoProducto tipoProductoProducto = new TipoProductoProducto()
+                    {
+                        Tipo = tipoProducto,
+                        Producto = null
+                    };
+                    TipoProducto_ListBox.Items.Add(tipoProductoProducto);
+                }
+                TipoProducto_ListBox.SelectedIndex = 0;
+
+                // Cambiar el estado de la alerta si no hay un presupuesto seleccionado
+                if (_presupuestoSeleccionado == null)
+                    CambiarEstadoAlertaPresupuestoSeleccionado(true);
+                else
+                    ConfiguracionFinalizada_MoverAlPresupuesto_Button.IsEnabled = true;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void Alerta_BotonEntendido_Click(object sender, RoutedEventArgs e)
@@ -83,14 +97,21 @@ namespace TiendaDeInformatica.Vistas
 
         private void TipoProducto_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = TipoProducto_ListBox.SelectedIndex;
-            if (index != -1)
+            try
             {
-                TipoProducto_ListBox.ScrollIntoView(TipoProducto_ListBox.Items[index]);
+                int index = TipoProducto_ListBox.SelectedIndex;
+                if (index != -1)
+                {
+                    TipoProducto_ListBox.ScrollIntoView(TipoProducto_ListBox.Items[index]);
 
-                tipoProductoActual = (TipoProducto)index;
-                ActualizarBotones(false);
-                RefrescarListaDeProductos();
+                    tipoProductoActual = (TipoProducto)index;
+                    ActualizarBotones(false);
+                    RefrescarListaDeProductos();
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -110,41 +131,62 @@ namespace TiendaDeInformatica.Vistas
 
         private void TipoProducto_ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Guardar la posicion horizontal del ListBox, la posicion del mouse y capturar el ScrollViewer con el mouse.
-            scrollMousePoint = e.GetPosition(scrollViewerTipoProducto);
-            horizontalOffset = scrollViewerTipoProducto.HorizontalOffset;
-            scrollViewerTipoProducto.CaptureMouse();
+            try
+            {
+                // Guardar la posicion horizontal del ListBox, la posicion del mouse y capturar el ScrollViewer con el mouse.
+                scrollMousePoint = e.GetPosition(scrollViewerTipoProducto);
+                horizontalOffset = scrollViewerTipoProducto.HorizontalOffset;
+                scrollViewerTipoProducto.CaptureMouse();
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void TipoProducto_ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            // Mover la posicion horizontal del ListBox.
-            if (scrollViewerTipoProducto.IsMouseCaptured)
-                scrollViewerTipoProducto.ScrollToHorizontalOffset(horizontalOffset + (scrollMousePoint.X - e.GetPosition(scrollViewerTipoProducto).X));
+            try
+            {
+                // Mover la posicion horizontal del ListBox.
+                if (scrollViewerTipoProducto.IsMouseCaptured)
+                    scrollViewerTipoProducto.ScrollToHorizontalOffset(horizontalOffset + (scrollMousePoint.X - e.GetPosition(scrollViewerTipoProducto).X));
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void TipoProducto_ListBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // Remover la captura del mouse en el SrollViewer.
-            scrollViewerTipoProducto.ReleaseMouseCapture();
-
-            // Determinar a partir de la posicion inicial si fue un click sin movimiento.
-            if (scrollMousePoint == Mouse.GetPosition(scrollViewerTipoProducto))
+            try
             {
-                // Obtener el Item del ListBox que fue clickeado y seleccionarlo.
-                ListBox listBox = sender as ListBox;
-                if (listBox != null)
-                {
-                    var element = VisualTreeHelper.HitTest(listBox, scrollMousePoint).VisualHit;
-                    if (element.GetType() != typeof(ScrollViewer))
-                    {
-                        while (element.GetType() != typeof(ListBoxItem))
-                            element = VisualTreeHelper.GetParent(element);
+                // Remover la captura del mouse en el SrollViewer.
+                scrollViewerTipoProducto.ReleaseMouseCapture();
 
-                        (element as ListBoxItem).IsSelected = true;
-                        ModificarTipoProductoProducto(null);
+                // Determinar a partir de la posicion inicial si fue un click sin movimiento.
+                if (scrollMousePoint == Mouse.GetPosition(scrollViewerTipoProducto))
+                {
+                    // Obtener el Item del ListBox que fue clickeado y seleccionarlo.
+                    ListBox listBox = sender as ListBox;
+                    if (listBox != null)
+                    {
+                        var element = VisualTreeHelper.HitTest(listBox, scrollMousePoint).VisualHit;
+                        if (element.GetType() != typeof(ScrollViewer))
+                        {
+                            while (element.GetType() != typeof(ListBoxItem))
+                                element = VisualTreeHelper.GetParent(element);
+
+                            (element as ListBoxItem).IsSelected = true;
+                            ModificarTipoProductoProducto(null);
+                        }
                     }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -154,29 +196,36 @@ namespace TiendaDeInformatica.Vistas
 
         private void ActualizarBotones(bool productoSeleccionado)
         {
-            if (tipoProductoActual == tipoProductos.First())
-                // Primer TipoProducto, no se puede retroceder.
-                Anterior_Button.IsEnabled = false;
-            else
+            try
             {
-                // Se puede retroceder.
-                Anterior_Button.IsEnabled = true;
-                if (tipoProductoActual == tipoProductos.Last())
-                {
-                    // Ultimo TipoProducto, se puede finalizar.
-                    Siguiente_PackIcon.Visibility = Visibility.Collapsed;
-                    Siguiente_TextBlock.Text = "FINALIZAR";
-                }
+                if (tipoProductoActual == tipoProductos.First())
+                    // Primer TipoProducto, no se puede retroceder.
+                    Anterior_Button.IsEnabled = false;
                 else
                 {
-                    // Se puede avanzar.
-                    Siguiente_PackIcon.Visibility = Visibility.Visible;
-                    Siguiente_TextBlock.Text = "SIGUIENTE";
+                    // Se puede retroceder.
+                    Anterior_Button.IsEnabled = true;
+                    if (tipoProductoActual == tipoProductos.Last())
+                    {
+                        // Ultimo TipoProducto, se puede finalizar.
+                        Siguiente_PackIcon.Visibility = Visibility.Collapsed;
+                        Siguiente_TextBlock.Text = "FINALIZAR";
+                    }
+                    else
+                    {
+                        // Se puede avanzar.
+                        Siguiente_PackIcon.Visibility = Visibility.Visible;
+                        Siguiente_TextBlock.Text = "SIGUIENTE";
+                    }
                 }
-            }
 
-            // Cambiar el estado del botón para avanzar o finalizar dependiendo si hay un producto seleccionado.
-            SiguienteFinalizar_Button.IsEnabled = productoSeleccionado;
+                // Cambiar el estado del botón para avanzar o finalizar dependiendo si hay un producto seleccionado.
+                SiguienteFinalizar_Button.IsEnabled = productoSeleccionado;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void Anterior_Button_Click(object sender, RoutedEventArgs e)
@@ -196,12 +245,19 @@ namespace TiendaDeInformatica.Vistas
 
         private void Productos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Cambiar el estado del botón dependiendo si hay un producto seleccionado o no.
-            Producto producto = Productos_ListBox.SelectedItem as Producto;
-            if (producto != null)
-                SiguienteFinalizar_Button.IsEnabled = true;
-            else
-                SiguienteFinalizar_Button.IsEnabled = false;
+            try
+            {
+                // Cambiar el estado del botón dependiendo si hay un producto seleccionado o no.
+                Producto producto = Productos_ListBox.SelectedItem as Producto;
+                if (producto != null)
+                    SiguienteFinalizar_Button.IsEnabled = true;
+                else
+                    SiguienteFinalizar_Button.IsEnabled = false;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void Productos_ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -211,86 +267,114 @@ namespace TiendaDeInformatica.Vistas
 
         private void SeleccionarProducto()
         {
-            Producto productoSeleccionado = Productos_ListBox.SelectedItem as Producto;
-            if (productoSeleccionado != null)
+            try
             {
-                if (tipoProductoActual == tipoProductos.First())
+                Producto productoSeleccionado = Productos_ListBox.SelectedItem as Producto;
+                if (productoSeleccionado != null)
                 {
-                    motherboardSeleccionada = Productos_ListBox.SelectedItem as Producto;
+                    if (tipoProductoActual == tipoProductos.First())
+                    {
+                        motherboardSeleccionada = Productos_ListBox.SelectedItem as Producto;
+                    }
+                    ModificarTipoProductoProducto(productoSeleccionado);
+                    PasarAlSiguientePasoOFinalizar();
                 }
-                ModificarTipoProductoProducto(productoSeleccionado);
-                PasarAlSiguientePasoOFinalizar();
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void ModificarTipoProductoProducto(Producto producto)
         {
-            int index = (int)tipoProductoActual;
-
-            // Eliminar todos los Productos de los siguientes TipoProductoProducto.
-            foreach (TipoProducto tipoProducto in tipoProductos.Where(tp => (int)tp > index))
+            try
             {
-                int tipoProductoIndex = (int)tipoProducto;
-                TipoProductoProducto tipoProductoProducto1 = TipoProducto_ListBox.Items[tipoProductoIndex] as TipoProductoProducto;
-                tipoProductoProducto1.Producto = null;
-                TipoProducto_ListBox.Items[tipoProductoIndex] = tipoProductoProducto1;
-            }
+                int index = (int)tipoProductoActual;
 
-            // Agregar el Producto al TipoProductoProducto correspondiente.
-            TipoProductoProducto tipoProductoProducto = TipoProducto_ListBox.Items[index] as TipoProductoProducto;
-            tipoProductoProducto.Producto = producto;
-            TipoProducto_ListBox.Items[index] = tipoProductoProducto;
-            TipoProducto_ListBox.SelectedIndex = index;
-            TipoProducto_ListBox.Items.Refresh();
+                // Eliminar todos los Productos de los siguientes TipoProductoProducto.
+                foreach (TipoProducto tipoProducto in tipoProductos.Where(tp => (int)tp > index))
+                {
+                    int tipoProductoIndex = (int)tipoProducto;
+                    TipoProductoProducto tipoProductoProducto1 = TipoProducto_ListBox.Items[tipoProductoIndex] as TipoProductoProducto;
+                    tipoProductoProducto1.Producto = null;
+                    TipoProducto_ListBox.Items[tipoProductoIndex] = tipoProductoProducto1;
+                }
+
+                // Agregar el Producto al TipoProductoProducto correspondiente.
+                TipoProductoProducto tipoProductoProducto = TipoProducto_ListBox.Items[index] as TipoProductoProducto;
+                tipoProductoProducto.Producto = producto;
+                TipoProducto_ListBox.Items[index] = tipoProductoProducto;
+                TipoProducto_ListBox.SelectedIndex = index;
+                TipoProducto_ListBox.Items.Refresh();
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void PasarAlSiguientePasoOFinalizar()
         {
-            if (tipoProductoActual == tipoProductos.Last())
+            try
             {
-                // Cambiar al resumen de la configuración.
-                SeleccionComponentes_Grid.Visibility = Visibility.Collapsed;
-                ConfiguracionFinalizada_Grid.Visibility = Visibility.Visible;
-                TituloResumen_StackPanel.Visibility = Visibility.Visible;
-
-                // Mostrar los productos seleccionados en el ListBox.
-                presupuesto = new Presupuesto()
+                if (tipoProductoActual == tipoProductos.Last())
                 {
-                    Productos = new List<PresupuestoProducto>()
-                };
+                    // Cambiar al resumen de la configuración.
+                    SeleccionComponentes_Grid.Visibility = Visibility.Collapsed;
+                    ConfiguracionFinalizada_Grid.Visibility = Visibility.Visible;
+                    TituloResumen_StackPanel.Visibility = Visibility.Visible;
 
-                ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
-                foreach (TipoProductoProducto tipoProductoProducto in TipoProducto_ListBox.Items)
-                {
-                    if (tipoProductoProducto.Producto != null)
+                    // Mostrar los productos seleccionados en el ListBox.
+                    presupuesto = new Presupuesto()
                     {
-                        PresupuestoProducto presupuestoProducto = new PresupuestoProducto()
+                        Productos = new List<PresupuestoProducto>()
+                    };
+
+                    ConfiguracionFinalizada_Productos_ListBox.Items.Clear();
+                    foreach (TipoProductoProducto tipoProductoProducto in TipoProducto_ListBox.Items)
+                    {
+                        if (tipoProductoProducto.Producto != null)
                         {
-                            Presupuesto = presupuesto,
-                            Producto = tipoProductoProducto.Producto,
-                            Cantidad = 1
-                        };
-                        presupuesto.Productos.Add(presupuestoProducto);
-                        ConfiguracionFinalizada_Productos_ListBox.Items.Add(presupuestoProducto.Producto);
+                            PresupuestoProducto presupuestoProducto = new PresupuestoProducto()
+                            {
+                                Presupuesto = presupuesto,
+                                Producto = tipoProductoProducto.Producto,
+                                Cantidad = 1
+                            };
+                            presupuesto.Productos.Add(presupuestoProducto);
+                            ConfiguracionFinalizada_Productos_ListBox.Items.Add(presupuestoProducto.Producto);
+                        }
                     }
+                    ConfiguracionFinalizada_Presupuesto.DataContext = presupuesto;
                 }
-                ConfiguracionFinalizada_Presupuesto.DataContext = presupuesto;
+                else
+                {
+                    // Avanzar al siguiente TipoProducto.
+                    TipoProducto_ListBox.SelectedIndex += 1;
+                }
             }
-            else
+            catch (Exception error)
             {
-                // Avanzar al siguiente TipoProducto.
-                TipoProducto_ListBox.SelectedIndex += 1;
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void ConfiguracionFinalizada_MoverAlPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+            try
             {
-                if(presupuestoProducto == presupuesto.Productos.Last())
-                    _principal.AgregarProductoAPresupuesto(presupuestoProducto.Producto, true);
-                else
-                    _principal.AgregarProductoAPresupuesto(presupuestoProducto.Producto, false);
+                foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+                {
+                    if (presupuestoProducto == presupuesto.Productos.Last())
+                        _principal.AgregarProductoAPresupuesto(presupuestoProducto.Producto, true);
+                    else
+                        _principal.AgregarProductoAPresupuesto(presupuestoProducto.Producto, false);
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -324,20 +408,27 @@ namespace TiendaDeInformatica.Vistas
 
         private void AjustarFilasColumnas()
         {
-            if (productosUniformGrid != null)
+            try
             {
-                // Cantidad de columnas a partir del ancho
-                productosUniformGrid.Columns = (int)(Contenido_Grid.ActualWidth / 184);
+                if (productosUniformGrid != null)
+                {
+                    // Cantidad de columnas a partir del ancho
+                    productosUniformGrid.Columns = (int)(Contenido_Grid.ActualWidth / 184);
 
-                if (productosUniformGrid.Columns > 0)
-                    // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
-                    productosUniformGrid.Rows = (int)Math.Ceiling((decimal)Productos_ListBox.Items.Count / (decimal)productosUniformGrid.Columns);
-                else
-                    // Hay una sola columna. Filas iguales a la cantidad de productos
-                    productosUniformGrid.Rows = Productos_ListBox.Items.Count;
+                    if (productosUniformGrid.Columns > 0)
+                        // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
+                        productosUniformGrid.Rows = (int)Math.Ceiling((decimal)Productos_ListBox.Items.Count / (decimal)productosUniformGrid.Columns);
+                    else
+                        // Hay una sola columna. Filas iguales a la cantidad de productos
+                        productosUniformGrid.Rows = Productos_ListBox.Items.Count;
 
-                // Alto de las filas para ajustar el ScrollBar vertical
-                productosUniformGrid.Height = productosUniformGrid.Rows * 298;
+                    // Alto de las filas para ajustar el ScrollBar vertical
+                    productosUniformGrid.Height = productosUniformGrid.Rows * 298;
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -347,83 +438,107 @@ namespace TiendaDeInformatica.Vistas
 
         private void RefrescarListaDeProductos()
         {
-            Productos_ListBox.Items.Clear();
-            foreach (Producto producto in ObtenerProductosCompatibles())
-                Productos_ListBox.Items.Add(producto);
+            try
+            {
+                Productos_ListBox.Items.Clear();
+                foreach (Producto producto in ObtenerProductosCompatibles())
+                    Productos_ListBox.Items.Add(producto);
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private List<Producto> Compatibilidad()
         {
-            List<Producto> productos = new List<Producto>();
-            if ((int)tipoProductoActual == 0)
+            // Función no utilizada.
+            try
             {
-                return ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual).ToList();
-            }
-            else
-            {
-                foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual))
+                List<Producto> productos = new List<Producto>();
+                if ((int)tipoProductoActual == 0)
                 {
+                    return ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual).ToList();
+                }
+                else
+                {
+                    foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == tipoProductoActual))
+                    {
                         foreach (ProductoValor productoValor in producto.Valores)
                         {
                             if (producto.Valores.Count() > 0)
                             {
-                            if (motherboardSeleccionada.Valores.Any(p => p.Valor.Nombre == productoValor.Valor.Nombre))
-                                if (productos.Contains(producto) == false)
-                                    productos.Add(producto);
+                                if (motherboardSeleccionada.Valores.Any(p => p.Valor.Nombre == productoValor.Valor.Nombre))
+                                    if (productos.Contains(producto) == false)
+                                        productos.Add(producto);
                             }
                             else
                             {
-                            productos.Add(producto);
+                                productos.Add(producto);
                             }
                         }
+                    }
+                    return productos;
                 }
-                return productos;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
             }
         }
 
         private List<Producto> ObtenerProductosCompatibles()
         {
-            if((int)tipoProductoActual != 0)
+            try
             {
-                List<Producto> productosCompatibles = new List<Producto>();
-                if (motherboardSeleccionada != null)
+                if ((int)tipoProductoActual != 0)
                 {
-                    List<int> atributosMotherboard = new List<int>();
-                    foreach (Atributo atributoMotherboard in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(0))
-                        atributosMotherboard.Add(atributoMotherboard.Id);
-
-                    List<int> atributosTipoProductoActual = new List<int>();
-                    foreach (Atributo atributoTipoProductoActual in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(tipoProductoActual))
-                        atributosTipoProductoActual.Add(atributoTipoProductoActual.Id);
-
-                    List<int> atributosEnComun = atributosMotherboard.Intersect(atributosTipoProductoActual).ToList();
-
-                    List<Producto> productosTipoProductoActual = ControladorProductos.ObtenerListaDeProductosPorTipoProducto(tipoProductoActual);
-                    foreach (Producto producto in productosTipoProductoActual)
+                    List<Producto> productosCompatibles = new List<Producto>();
+                    if (motherboardSeleccionada != null)
                     {
-                        bool compatible = true;
-                        foreach (int atributoId in atributosEnComun)
+                        List<int> atributosMotherboard = new List<int>();
+                        foreach (Atributo atributoMotherboard in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(0))
+                            atributosMotherboard.Add(atributoMotherboard.Id);
+
+                        List<int> atributosTipoProductoActual = new List<int>();
+                        foreach (Atributo atributoTipoProductoActual in ControladorAtributos.ObtenerListaDeAtributosAsociadosATipoProducto(tipoProductoActual))
+                            atributosTipoProductoActual.Add(atributoTipoProductoActual.Id);
+
+                        List<int> atributosEnComun = atributosMotherboard.Intersect(atributosTipoProductoActual).ToList();
+
+                        List<Producto> productosTipoProductoActual = ControladorProductos.ObtenerListaDeProductosPorTipoProducto(tipoProductoActual);
+                        foreach (Producto producto in productosTipoProductoActual)
                         {
-                            List<int> valoresMotherboardId = new List<int>();
-                            foreach (ProductoValor productoValorMotherboard in motherboardSeleccionada.Valores.Where(v => v.Valor.AtributoId == atributoId))
-                                valoresMotherboardId.Add(productoValorMotherboard.ValorId);
+                            bool compatible = true;
+                            foreach (int atributoId in atributosEnComun)
+                            {
+                                List<int> valoresMotherboardId = new List<int>();
+                                foreach (ProductoValor productoValorMotherboard in motherboardSeleccionada.Valores.Where(v => v.Valor.AtributoId == atributoId))
+                                    valoresMotherboardId.Add(productoValorMotherboard.ValorId);
 
-                            List<int> valoresProductoId = new List<int>();
-                            foreach (ProductoValor productoValor in producto.Valores.Where(v => v.Valor.AtributoId == atributoId))
-                                valoresProductoId.Add(productoValor.ValorId);
+                                List<int> valoresProductoId = new List<int>();
+                                foreach (ProductoValor productoValor in producto.Valores.Where(v => v.Valor.AtributoId == atributoId))
+                                    valoresProductoId.Add(productoValor.ValorId);
 
-                            List<int> valoresEnComun = valoresMotherboardId.Intersect(valoresProductoId).ToList();
-                            if (valoresEnComun.Count == 0)
-                                compatible = false;
+                                List<int> valoresEnComun = valoresMotherboardId.Intersect(valoresProductoId).ToList();
+                                if (valoresEnComun.Count == 0)
+                                    compatible = false;
+                            }
+
+                            if (compatible)
+                                productosCompatibles.Add(producto);
                         }
-
-                        if (compatible)
-                            productosCompatibles.Add(producto);
                     }
+                    return productosCompatibles;
                 }
-                return productosCompatibles;
+                return ControladorProductos.ObtenerListaDeProductosPorTipoProducto(tipoProductoActual);
             }
-            return ControladorProductos.ObtenerListaDeProductosPorTipoProducto(tipoProductoActual);
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
+            }
         }
     }
 }

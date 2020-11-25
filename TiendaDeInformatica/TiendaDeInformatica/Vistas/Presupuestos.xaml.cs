@@ -27,15 +27,22 @@ namespace TiendaDeInformatica.Vistas
         private void Presupuestos_Vista_Loaded(object sender, RoutedEventArgs e)
         {
             // Colocar el Slider del filtro de precio al valor máximo
-            List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
-            if (presupuestos.Count > 0)
+            try
             {
-                double presupuestoMasAlto = double.Parse(presupuestos.Max(p => p.PrecioTotal.ToString()));
-                if (presupuestoMasAlto > 100000)
+                List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
+                if (presupuestos.Count > 0)
                 {
-                    FiltroPrecio_RangeSlider.Maximum = presupuestoMasAlto;
-                    FiltroPrecio_RangeSlider.UpperValue = presupuestoMasAlto;
+                    double presupuestoMasAlto = double.Parse(presupuestos.Max(p => p.PrecioTotal.ToString()));
+                    if (presupuestoMasAlto > 100000)
+                    {
+                        FiltroPrecio_RangeSlider.Maximum = presupuestoMasAlto;
+                        FiltroPrecio_RangeSlider.UpperValue = presupuestoMasAlto;
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
 
             RefrescarListaDePresupuestos();
@@ -118,15 +125,22 @@ namespace TiendaDeInformatica.Vistas
 
         private void EliminarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
-            if (presupuesto != null)
+            try
             {
-                ControladorPresupuestos.EliminarPresupuesto(presupuesto);
-                RefrescarListaDePresupuestos();
+                Presupuesto presupuesto = Presupuestos_ListBox.SelectedItem as Presupuesto;
+                if (presupuesto != null)
+                {
+                    ControladorPresupuestos.EliminarPresupuesto(presupuesto);
+                    RefrescarListaDePresupuestos();
 
-                AlertaBorrarPresupuesto_DialogHost.IsOpen = false;
-                _principal.OscurecerCompletamente(false);
-                _ = _principal.MostrarMensajeEnSnackbar("Presupuesto eliminado correctamente!");
+                    AlertaBorrarPresupuesto_DialogHost.IsOpen = false;
+                    _principal.OscurecerCompletamente(false);
+                    _ = _principal.MostrarMensajeEnSnackbar("Presupuesto eliminado correctamente!");
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -147,25 +161,33 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Presupuesto> BuscarPresupuestoPorCliente(List<Presupuesto> presupuestos, string busqueda)
         {
-            if (busqueda != "")
+            try
             {
-                busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
-                List<Presupuesto> resultado = new List<Presupuesto>();
-                foreach (Presupuesto presupuesto in presupuestos)
+                if (busqueda != "")
                 {
-                    Cliente cliente = presupuesto.Cliente;
-                    if ((cliente.NombreDelResponsable != null && TextHelper.QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
-                        || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
-                        || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
-                        || TextHelper.QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
-                        || TextHelper.QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
+                    busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
+                    List<Presupuesto> resultado = new List<Presupuesto>();
+                    foreach (Presupuesto presupuesto in presupuestos)
                     {
-                        resultado.Add(presupuesto);
+                        Cliente cliente = presupuesto.Cliente;
+                        if ((cliente.NombreDelResponsable != null && TextHelper.QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
+                            || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
+                            || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
+                            || TextHelper.QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
+                            || TextHelper.QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
+                        {
+                            resultado.Add(presupuesto);
+                        }
                     }
+                    return resultado;
                 }
-                return resultado;
+                return presupuestos;
             }
-            return presupuestos;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Presupuesto>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -174,26 +196,39 @@ namespace TiendaDeInformatica.Vistas
 
         public void RefrescarListaDePresupuestos()
         {
-            if (Presupuestos_Vista.IsLoaded)
+            try
             {
-                Presupuestos_ListBox.Items.Clear();
-                List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
-                List<Presupuesto> resultados = OrdenarPresupuestos(FiltrarPresupuestosPorPrecio(FiltrarPresupuestosPorEstado(FiltrarPresupuestosPorTipoDeCliente(BuscarPresupuestoPorCliente(presupuestos, BuscarPresupuestoPorCliente_TextBox.Text)))));
-
-                foreach (Presupuesto presupuesto in resultados)
-                    Presupuestos_ListBox.Items.Add(presupuesto);
-
-                CantidadDeResultados_TextBlock.Text = Presupuestos_ListBox.Items.Count.ToString();
-
-                // Cambiar el valor máximo del filtro de precio
-                if (presupuestos.Count > 0)
+                if (Presupuestos_Vista.IsLoaded)
                 {
-                    int presupuestoMasAlto = (int)Math.Ceiling(presupuestos.Max(p => p.PrecioTotal));
-                    if (presupuestoMasAlto > 100000)
-                        FiltroPrecio_RangeSlider.Maximum = presupuestoMasAlto;
-                    else
-                        FiltroPrecio_RangeSlider.Maximum = 100000;
+                    Presupuestos_ListBox.Items.Clear();
+                    List<Presupuesto> presupuestos = ControladorPresupuestos.ObtenerListaDePresupuestos().ToList();
+                    List<Presupuesto> resultados = OrdenarPresupuestos(FiltrarPresupuestosPorPrecio(FiltrarPresupuestosPorEstado(FiltrarPresupuestosPorTipoDeCliente(BuscarPresupuestoPorCliente(presupuestos, BuscarPresupuestoPorCliente_TextBox.Text)))));
+
+                    foreach (Presupuesto presupuesto in resultados)
+                        Presupuestos_ListBox.Items.Add(presupuesto);
+
+                    CantidadDeResultados_TextBlock.Text = Presupuestos_ListBox.Items.Count.ToString();
+
+                    // Cambiar el valor máximo del filtro de precio
+                    if (presupuestos.Count > 0)
+                    {
+                        int presupuestoMasAlto = (int)Math.Ceiling(presupuestos.Max(p => p.PrecioTotal));
+                        if (presupuestoMasAlto > 100000)
+                        {
+                            FiltroPrecio_RangeSlider.Maximum = presupuestoMasAlto;
+                            FiltroPrecio_RangeSlider.UpperValue = presupuestoMasAlto;
+                        }
+                        else
+                        {
+                            FiltroPrecio_RangeSlider.Maximum = 100000;
+                            FiltroPrecio_RangeSlider.UpperValue = presupuestoMasAlto;
+                        }
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -213,38 +248,46 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Presupuesto> OrdenarPresupuestos(List<Presupuesto> presupuestos)
         {
-            if (OrdenarPresupuestos_ComboBox.SelectedIndex == 0)
+            try
             {
-                // Fecha de creación
-                presupuestos.OrderBy(p => p.FechaCreacion);
+                if (OrdenarPresupuestos_ComboBox.SelectedIndex == 0)
+                {
+                    // Fecha de creación
+                    presupuestos.OrderBy(p => p.FechaCreacion);
+                }
+                else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 1)
+                {
+                    // Fecha de modificación
+                    presupuestos.OrderBy(p => p.FechaModificacion);
+                }
+                else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 2)
+                {
+                    // Fecha de expiración
+                    List<Presupuesto> sinFechaDeExpiracion = presupuestos.Where(p => p.FechaDeExpiracion == null).ToList();
+                    List<Presupuesto> conFechaDeExpiracion = presupuestos.Where(p => p.FechaDeExpiracion != null).ToList();
+
+                    conFechaDeExpiracion.OrderBy(p => p.FechaDeExpiracion);
+
+                    presupuestos = sinFechaDeExpiracion;
+                    presupuestos.AddRange(conFechaDeExpiracion);
+                }
+                else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 3)
+                {
+                    // Precio
+                    presupuestos.Sort((p1, p2) => p1.PrecioTotal.CompareTo(p2.PrecioTotal));
+                    presupuestos.Reverse();
+                }
+
+                if (OrdenarPresupuestos_AscDesc_ToggleButton.IsChecked.Value)
+                    presupuestos.Reverse();
+
+                return presupuestos;
             }
-            else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 1)
+            catch (Exception error)
             {
-                // Fecha de modificación
-                presupuestos.OrderBy(p => p.FechaModificacion);
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Presupuesto>();
             }
-            else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 2)
-            {
-                // Fecha de expiración
-                List<Presupuesto> sinFechaDeExpiracion = presupuestos.Where(p => p.FechaDeExpiracion == null).ToList();
-                List<Presupuesto> conFechaDeExpiracion = presupuestos.Where(p => p.FechaDeExpiracion != null).ToList();
-
-                conFechaDeExpiracion.OrderBy(p => p.FechaDeExpiracion);
-
-                presupuestos = sinFechaDeExpiracion;
-                presupuestos.AddRange(conFechaDeExpiracion);
-            }
-            else if (OrdenarPresupuestos_ComboBox.SelectedIndex == 3)
-            {
-                // Precio
-                presupuestos.Sort((p1, p2) => p1.PrecioTotal.CompareTo(p2.PrecioTotal));
-                presupuestos.Reverse();
-            }
-
-            if (OrdenarPresupuestos_AscDesc_ToggleButton.IsChecked.Value)
-                presupuestos.Reverse();
-
-            return presupuestos;
         }
 
         // ------------------------------------------------------ //
@@ -263,30 +306,54 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Presupuesto> FiltrarPresupuestosPorTipoDeCliente(List<Presupuesto> presupuestos)
         {
-            if (FiltroCliente_Persona_CheckBox.IsChecked.Value != FiltroCliente_Empresa_CheckBox.IsChecked.Value)
+            try
             {
-                if(FiltroCliente_Persona_CheckBox.IsChecked.Value == true)
-                    return presupuestos.Where(p => p.Cliente.Tipo == "Persona").ToList();
-                return presupuestos.Where(p => p.Cliente.Tipo == "Empresa").ToList();
+                if (FiltroCliente_Persona_CheckBox.IsChecked.Value != FiltroCliente_Empresa_CheckBox.IsChecked.Value)
+                {
+                    if (FiltroCliente_Persona_CheckBox.IsChecked.Value == true)
+                        return presupuestos.Where(p => p.Cliente.Tipo == "Persona").ToList();
+                    return presupuestos.Where(p => p.Cliente.Tipo == "Empresa").ToList();
+                }
+                return presupuestos;
             }
-            return presupuestos;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Presupuesto>();
+            }
         }
 
         private List<Presupuesto> FiltrarPresupuestosPorEstado(List<Presupuesto> presupuestos)
         {
-            if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value != FiltroEstado_Expirados_CheckBox.IsChecked.Value)
+            try
             {
-                if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value == true)
-                    return presupuestos.Where(p => p.FechaDeExpiracion == null || (p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days >= 0).ToList();
-                return presupuestos.Where(p => p.FechaDeExpiracion != null && ((p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days < 0)).ToList();
+                if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value != FiltroEstado_Expirados_CheckBox.IsChecked.Value)
+                {
+                    if (FiltroEstado_Vigentes_CheckBox.IsChecked.Value == true)
+                        return presupuestos.Where(p => p.FechaDeExpiracion == null || (p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days >= 0).ToList();
+                    return presupuestos.Where(p => p.FechaDeExpiracion != null && ((p.FechaDeExpiracion.GetValueOrDefault().Date - DateTime.Now.Date).Days < 0)).ToList();
+                }
+                return presupuestos;
             }
-            return presupuestos;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Presupuesto>();
+            }
         }
 
         private List<Presupuesto> FiltrarPresupuestosPorPrecio(List<Presupuesto> presupuestos)
         {
-            return presupuestos.Where(p => p.PrecioTotal >= decimal.Parse(FiltroPrecio_RangeSlider.LowerValue.ToString())
-            && p.PrecioTotal <= decimal.Parse(FiltroPrecio_RangeSlider.UpperValue.ToString())).ToList();
+            try
+            {
+                return presupuestos.Where(p => p.PrecioTotal >= decimal.Parse(FiltroPrecio_RangeSlider.LowerValue.ToString())
+                && p.PrecioTotal <= decimal.Parse(FiltroPrecio_RangeSlider.UpperValue.ToString())).ToList();
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Presupuesto>();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,24 +53,31 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (new AtributoValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
+            try
             {
-                if (_atributoModificar == null)
+                if (new AtributoValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
                 {
-                    ControladorAtributos.AgregarAtributo(Nombre_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Atributo agregado correctamente!");
+                    if (_atributoModificar == null)
+                    {
+                        ControladorAtributos.AgregarAtributo(Nombre_TextBox.Text);
+                        _ = _principal.MostrarMensajeEnSnackbar("Atributo agregado correctamente!");
+                    }
+                    else
+                    {
+                        ControladorAtributos.ModificarAtributo(_atributoModificar, Nombre_TextBox.Text);
+                        _ = _principal.MostrarMensajeEnSnackbar("Atributo modificado correctamente!");
+                    }
+                    CerrarVentana();
                 }
                 else
                 {
-                    ControladorAtributos.ModificarAtributo(_atributoModificar, Nombre_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Atributo modificado correctamente!");
+                    // Hay errores. Actualizar los mensajes de error
+                    Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 }
-                CerrarVentana();
             }
-            else
+            catch (Exception error)
             {
-                // Hay errores. Actualizar los mensajes de error
-                Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 

@@ -35,37 +35,44 @@ namespace TiendaDeInformatica.Vistas
 
         private void Vista_Productos_Loaded(object sender, RoutedEventArgs e)
         {
-            List<Producto> productos = ObtenerListaDeProductos();
-            if (productos.Count > 0)
+            try
             {
-                // Colocar el Slider del filtro de precio al valor máximo
-                double productoMasAlto = double.Parse(productos.Max(p => p.Precio.ToString()));
-                if (productoMasAlto > 100000)
+                List<Producto> productos = ObtenerListaDeProductos();
+                if (productos.Count > 0)
                 {
-                    FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
-                    FiltroPrecio_RangeSlider.UpperValue = productoMasAlto;
+                    // Colocar el Slider del filtro de precio al valor máximo
+                    double productoMasAlto = double.Parse(productos.Max(p => p.Precio.ToString()));
+                    if (productoMasAlto > 100000)
+                    {
+                        FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
+                        FiltroPrecio_RangeSlider.UpperValue = productoMasAlto;
+                    }
+
+                    // Cargar las Marcas en el ListBox
+                    modificandoListBoxMarcas = true;
+                    List<Marca> marcas = new List<Marca>();
+                    foreach (Producto producto in productos)
+                    {
+                        if (!marcas.Contains(producto.Marca))
+                            marcas.Add(producto.Marca);
+                    }
+                    marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+
+                    foreach (Marca marca in marcas)
+                        Marcas_ListBox.Items.Add(marca);
+
+                    modificandoListBoxMarcas = false;
                 }
 
-                // Cargar las Marcas en el ListBox
-                modificandoListBoxMarcas = true;
-                List<Marca> marcas = new List<Marca>();
-                foreach (Producto producto in productos)
-                {
-                    if (!marcas.Contains(producto.Marca))
-                        marcas.Add(producto.Marca);
-                }
-                marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                if (Marcas_ListBox.Items.Count == 0)
+                    Marcas_GroupBox.Visibility = Visibility.Collapsed;
 
-                foreach(Marca marca in marcas)
-                    Marcas_ListBox.Items.Add(marca);
-
-                modificandoListBoxMarcas = false;
+                RefrescarListaDeProductos();
             }
-
-            if (Marcas_ListBox.Items.Count == 0)
-                Marcas_GroupBox.Visibility = Visibility.Collapsed;
-
-            RefrescarListaDeProductos();
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void TituloProductos_Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -90,43 +97,58 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Producto> ObtenerListaDeProductos()
         {
-            if (_tipoProducto == null)
-                return ControladorProductos.ObtenerListaDeProductos();
-            return ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
+            try
+            {
+                if (_tipoProducto == null)
+                    return ControladorProductos.ObtenerListaDeProductos();
+                return ControladorProductos.ObtenerListaDeProductos().Where(p => p.Tipo == _tipoProducto).ToList();
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
+            }
         }
 
         private void RefrescarListBoxMarcas()
         {
-            modificandoListBoxMarcas = true;
-            // Marcas seleccionados anteriormente
-            List<int> marcasSeleccionadasAnteriores = new List<int>();
-            foreach (Marca marcaSeleccionada in Marcas_ListBox.SelectedItems)
-                marcasSeleccionadasAnteriores.Add(marcaSeleccionada.Id);
-
-            // Nuevos tipos de productos
-            List<Marca> marcasNuevas = new List<Marca>();
-            foreach (Producto producto in ObtenerListaDeProductos())
+            try
             {
-                if (!marcasNuevas.Contains(producto.Marca))
-                    marcasNuevas.Add(producto.Marca);
-            }
-            marcasNuevas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                modificandoListBoxMarcas = true;
+                // Marcas seleccionados anteriormente
+                List<int> marcasSeleccionadasAnteriores = new List<int>();
+                foreach (Marca marcaSeleccionada in Marcas_ListBox.SelectedItems)
+                    marcasSeleccionadasAnteriores.Add(marcaSeleccionada.Id);
 
-            // Mostrar las nuevas marcas
-            Marcas_ListBox.Items.Clear();
-            foreach (Marca marca in marcasNuevas)
+                // Nuevos tipos de productos
+                List<Marca> marcasNuevas = new List<Marca>();
+                foreach (Producto producto in ObtenerListaDeProductos())
+                {
+                    if (!marcasNuevas.Contains(producto.Marca))
+                        marcasNuevas.Add(producto.Marca);
+                }
+                marcasNuevas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+
+                // Mostrar las nuevas marcas
+                Marcas_ListBox.Items.Clear();
+                foreach (Marca marca in marcasNuevas)
+                {
+                    Marcas_ListBox.Items.Add(marca);
+                    // Verificar si antes estaban seleccionadas y seleccionarlas nuevamente
+                    if (marcasSeleccionadasAnteriores.Contains(marca.Id))
+                        Marcas_ListBox.SelectedItems.Add(marca);
+                }
+
+                if (Marcas_ListBox.Items.Count == 0)
+                    Marcas_GroupBox.Visibility = Visibility.Collapsed;
+                else
+                    Marcas_GroupBox.Visibility = Visibility.Visible;
+                modificandoListBoxMarcas = false;
+            }
+            catch (Exception error)
             {
-                Marcas_ListBox.Items.Add(marca);
-                // Verificar si antes estaban seleccionadas y seleccionarlas nuevamente
-                if (marcasSeleccionadasAnteriores.Contains(marca.Id))
-                    Marcas_ListBox.SelectedItems.Add(marca);
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
-
-            if (Marcas_ListBox.Items.Count == 0)
-                Marcas_GroupBox.Visibility = Visibility.Collapsed;
-            else
-                Marcas_GroupBox.Visibility = Visibility.Visible;
-            modificandoListBoxMarcas = false;
         }
 
         // ------------------------------------------------------ //
@@ -171,16 +193,23 @@ namespace TiendaDeInformatica.Vistas
 
         private void EliminarProducto_Button_Click(object sender, RoutedEventArgs e)
         {
-            Producto producto = Productos_ListBox.SelectedItem as Producto;
-            if (producto != null)
+            try
             {
-                ControladorProductos.EliminarProducto(producto);
-                RefrescarListBoxMarcas();
-                RefrescarListaDeProductos();
+                Producto producto = Productos_ListBox.SelectedItem as Producto;
+                if (producto != null)
+                {
+                    ControladorProductos.EliminarProducto(producto);
+                    RefrescarListBoxMarcas();
+                    RefrescarListaDeProductos();
 
-                AlertaEliminarProducto_DialogHost.IsOpen = false;
-                _principal.OscurecerCompletamente(false);
-                _ = _principal.MostrarMensajeEnSnackbar("Producto eliminado correctamente!");
+                    AlertaEliminarProducto_DialogHost.IsOpen = false;
+                    _principal.OscurecerCompletamente(false);
+                    _ = _principal.MostrarMensajeEnSnackbar("Producto eliminado correctamente!");
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -204,20 +233,27 @@ namespace TiendaDeInformatica.Vistas
 
         private void AjustarFilasColumnas()
         {
-            if (itemsGrid != null)
+            try
             {
-                // Cantidad de columnas a partir del ancho
-                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 184);
+                if (itemsGrid != null)
+                {
+                    // Cantidad de columnas a partir del ancho
+                    itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 184);
 
-                if (itemsGrid.Columns > 0)
-                    // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
-                    itemsGrid.Rows = (int)Math.Ceiling((decimal)Productos_ListBox.Items.Count / (decimal)itemsGrid.Columns);
-                else
-                    // Hay una sola columna. Filas iguales a la cantidad de productos
-                    itemsGrid.Rows = Productos_ListBox.Items.Count;
+                    if (itemsGrid.Columns > 0)
+                        // Calcular la cantidad de filas dependiendo de la cantidad de columnas y productos
+                        itemsGrid.Rows = (int)Math.Ceiling((decimal)Productos_ListBox.Items.Count / (decimal)itemsGrid.Columns);
+                    else
+                        // Hay una sola columna. Filas iguales a la cantidad de productos
+                        itemsGrid.Rows = Productos_ListBox.Items.Count;
 
-                // Alto de las filas para ajustar el ScrollBar vertical
-                itemsGrid.Height = itemsGrid.Rows * 298;
+                    // Alto de las filas para ajustar el ScrollBar vertical
+                    itemsGrid.Height = itemsGrid.Rows * 298;
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -227,27 +263,34 @@ namespace TiendaDeInformatica.Vistas
 
         private void RefrescarListaDeProductos()
         {
-            if (Vista_Productos.IsLoaded)
+            try
             {
-                Productos_ListBox.Items.Clear();
-                List<Producto> productos = ObtenerListaDeProductos();
-
-                List<Producto> resultados = OrdenarProductos(FiltrarProductosPorPrecio(FiltrarProductosPorMarca(BuscarProducto(productos, BuscarProducto_TextBox.Text))));
-                foreach (Producto producto in resultados)
-                    Productos_ListBox.Items.Add(producto);
-
-                CantidadDeResultados_TextBlock.Text = Productos_ListBox.Items.Count.ToString();
-                AjustarFilasColumnas();
-
-                // Cambiar el valor máximo del filtro de precio
-                if (productos.Count > 0)
+                if (Vista_Productos.IsLoaded)
                 {
-                    int productoMasAlto = (int)Math.Ceiling(productos.Max(p => p.Precio));
-                    if (productoMasAlto > 100000)
-                        FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
-                    else
-                        FiltroPrecio_RangeSlider.Maximum = 100000;
+                    Productos_ListBox.Items.Clear();
+                    List<Producto> productos = ObtenerListaDeProductos();
+
+                    List<Producto> resultados = OrdenarProductos(FiltrarProductosPorPrecio(FiltrarProductosPorMarca(BuscarProducto(productos, BuscarProducto_TextBox.Text))));
+                    foreach (Producto producto in resultados)
+                        Productos_ListBox.Items.Add(producto);
+
+                    CantidadDeResultados_TextBlock.Text = Productos_ListBox.Items.Count.ToString();
+                    AjustarFilasColumnas();
+
+                    // Cambiar el valor máximo del filtro de precio
+                    if (productos.Count > 0)
+                    {
+                        int productoMasAlto = (int)Math.Ceiling(productos.Max(p => p.Precio));
+                        if (productoMasAlto > 100000)
+                            FiltroPrecio_RangeSlider.Maximum = productoMasAlto;
+                        else
+                            FiltroPrecio_RangeSlider.Maximum = 100000;
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -262,18 +305,26 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Producto> BuscarProducto(List<Producto> productos, string busqueda)
         {
-            if (busqueda != "")
+            try
             {
-                busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
-                List<Producto> resultado = new List<Producto>();
-                foreach (Producto producto in productos)
+                if (busqueda != "")
                 {
-                    if (TextHelper.QuitarTildes(producto.MostrarTipoProductoMarcaModelo).ToUpper().Contains(busqueda))
-                        resultado.Add(producto);
+                    busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
+                    List<Producto> resultado = new List<Producto>();
+                    foreach (Producto producto in productos)
+                    {
+                        if (TextHelper.QuitarTildes(producto.MostrarTipoProductoMarcaModelo).ToUpper().Contains(busqueda))
+                            resultado.Add(producto);
+                    }
+                    return resultado;
                 }
-                return resultado;
+                return productos;
             }
-            return productos;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -292,26 +343,34 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Producto> OrdenarProductos(List<Producto> productos)
         {
-            if (OrdenarProductos_ComboBox.SelectedIndex == 0)
+            try
             {
-                // Precio
-                productos.Sort((p1, p2) => p1.Precio.CompareTo(p2.Precio));
-            }
-            else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
-            {
-                // Alfabéticamente
-                productos.Sort((x, y) => string.Compare(x.MostrarTipoProductoMarcaModelo, y.MostrarTipoProductoMarcaModelo));
-            }
-            else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
-            {
-                // Fecha de creación
-                productos.Sort((p1, p2) => p1.Id.CompareTo(p2.Id));
-            }
+                if (OrdenarProductos_ComboBox.SelectedIndex == 0)
+                {
+                    // Precio
+                    productos.Sort((p1, p2) => p1.Precio.CompareTo(p2.Precio));
+                }
+                else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
+                {
+                    // Alfabéticamente
+                    productos.Sort((x, y) => string.Compare(x.MostrarTipoProductoMarcaModelo, y.MostrarTipoProductoMarcaModelo));
+                }
+                else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
+                {
+                    // Fecha de creación
+                    productos.Sort((p1, p2) => p1.Id.CompareTo(p2.Id));
+                }
 
-            if (OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
-                productos.Reverse();
+                if (OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
+                    productos.Reverse();
 
-            return productos;
+                return productos;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -333,17 +392,25 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Producto> FiltrarProductosPorMarca(List<Producto> productos)
         {
-            if (Marcas_ListBox.SelectedItem != null)
+            try
             {
-                if (Marcas_ListBox.SelectedItems.Count != Marcas_ListBox.Items.Count)
+                if (Marcas_ListBox.SelectedItem != null)
                 {
-                    List<Producto> resultado = new List<Producto>();
-                    foreach (Marca marca in Marcas_ListBox.SelectedItems)
-                        resultado.AddRange(marca.Productos);
-                    return resultado;
+                    if (Marcas_ListBox.SelectedItems.Count != Marcas_ListBox.Items.Count)
+                    {
+                        List<Producto> resultado = new List<Producto>();
+                        foreach (Marca marca in Marcas_ListBox.SelectedItems)
+                            resultado.AddRange(marca.Productos);
+                        return resultado;
+                    }
                 }
+                return productos;
             }
-            return productos;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
+            }
         }
 
         // Filtrar por Precio
@@ -355,8 +422,16 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Producto> FiltrarProductosPorPrecio(List<Producto> productos)
         {
-            return productos.Where(p => p.Precio >= decimal.Parse(FiltroPrecio_RangeSlider.LowerValue.ToString())
-            && p.Precio <= decimal.Parse(FiltroPrecio_RangeSlider.UpperValue.ToString())).ToList();
+            try
+            {
+                return productos.Where(p => p.Precio >= decimal.Parse(FiltroPrecio_RangeSlider.LowerValue.ToString())
+                && p.Precio <= decimal.Parse(FiltroPrecio_RangeSlider.UpperValue.ToString())).ToList();
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Producto>();
+            }
         }
 
         // ------------------------------------------------------ //

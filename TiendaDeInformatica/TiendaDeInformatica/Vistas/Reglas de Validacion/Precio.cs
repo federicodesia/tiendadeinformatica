@@ -8,14 +8,21 @@ namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string _string = value as string;
+            try
+            {
+                string _string = value as string;
 
-            if (_string == null || string.IsNullOrEmpty(_string))
-                return new ValidationResult(false, "Completa este campo");
+                if (_string == null || string.IsNullOrEmpty(_string))
+                    return new ValidationResult(false, "Completa este campo");
 
-            if (Decimal.TryParse(_string, out decimal _decimal))
-                return new ValidationResult(true, null);
-            return new ValidationResult(false, "Ingresa solo números");
+                if (Decimal.TryParse(_string, out decimal _decimal))
+                    return new ValidationResult(true, null);
+                return new ValidationResult(false, "Ingresa solo números");
+            }
+            catch
+            {
+                return new ValidationResult(false, "Oops! ocurrió un error inesperado");
+            }
         }
     }
 }

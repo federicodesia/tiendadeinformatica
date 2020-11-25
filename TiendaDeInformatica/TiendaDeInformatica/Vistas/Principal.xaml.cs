@@ -24,33 +24,40 @@ namespace TiendaDeInformatica.Vistas
         {
             InitializeComponent();
 
-            // Cargar el tema de las preferencias del usuario
-            bool temaOscuro = Properties.Settings.Default.TemaOscuro;
-            ApplyBase(temaOscuro);
-            TemaOscuro_ToggleButton.IsChecked = temaOscuro;
+            try
+            {
+                // Cargar el tema de las preferencias del usuario
+                bool temaOscuro = Properties.Settings.Default.TemaOscuro;
+                ApplyBase(temaOscuro);
+                TemaOscuro_ToggleButton.IsChecked = temaOscuro;
 
-            // Cargar el color de las preferencias del usuario
-            Color colorTema = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.ColorTema);
-            ApplyColor(colorTema);
-            ColorTema_ColorPicker.Color = colorTema;
-            ColorHex_TextBox.Text = "#" + colorTema.ToString().Substring(3, colorTema.ToString().Length - 3);
+                // Cargar el color de las preferencias del usuario
+                Color colorTema = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.ColorTema);
+                ApplyColor(colorTema);
+                ColorTema_ColorPicker.Color = colorTema;
+                ColorHex_TextBox.Text = "#" + colorTema.ToString().Substring(3, colorTema.ToString().Length - 3);
 
-            CheckearRadioButtonsPaletaColores();
+                CheckearRadioButtonsPaletaColores();
 
-            // Cargar el logo de las preferencias del usuario
-            byte[] logo = Properties.Settings.Default.Logo;
-            if (logo != null) Logo_Image.Source = ConvertirImagen.ConvertByteArrayToImage(logo);
+                // Cargar el logo de las preferencias del usuario
+                byte[] logo = Properties.Settings.Default.Logo;
+                if (logo != null) Logo_Image.Source = ConvertirImagen.ConvertByteArrayToImage(logo);
 
-            
-            // Cargar el enum TipoProducto en el ListBox con los valores en plural
-            TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
-            foreach (TipoProducto tipoProducto in tipoProductos)
-                Productos_ListBox.Items.Add(tipoProducto.GetEnumDescription());
 
-            ControladorProductos.EliminarProductoVacio();
+                // Cargar el enum TipoProducto en el ListBox con los valores en plural
+                TipoProducto[] tipoProductos = (TipoProducto[])Enum.GetValues(typeof(TipoProducto));
+                foreach (TipoProducto tipoProducto in tipoProductos)
+                    Productos_ListBox.Items.Add(tipoProducto.GetEnumDescription());
 
-            presupuestosUserControl = new Presupuestos(this);
-            Contenido_Grid.Children.Add(presupuestosUserControl);
+                ControladorProductos.EliminarProductoVacio();
+
+                presupuestosUserControl = new Presupuestos(this);
+                Contenido_Grid.Children.Add(presupuestosUserControl);
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         
@@ -71,14 +78,21 @@ namespace TiendaDeInformatica.Vistas
 
         private void Preferencias_PopupBox_Closed(object sender, RoutedEventArgs e)
         {
-            // Guardar en las preferencias del usuario
-            Properties.Settings.Default.TemaOscuro = TemaOscuro_ToggleButton.IsChecked.Value;
-            Properties.Settings.Default.ColorTema = ColorTema_ColorPicker.Color.ToString();
-            Properties.Settings.Default.Save();
+            try
+            {
+                // Guardar en las preferencias del usuario
+                Properties.Settings.Default.TemaOscuro = TemaOscuro_ToggleButton.IsChecked.Value;
+                Properties.Settings.Default.ColorTema = ColorTema_ColorPicker.Color.ToString();
+                Properties.Settings.Default.Save();
 
-            TemaOscuro_Expander.IsExpanded = false;
-            PersonalizarTema_Expander.IsExpanded = false;
-            Colores_ToggleButton.IsChecked = false;
+                TemaOscuro_Expander.IsExpanded = false;
+                PersonalizarTema_Expander.IsExpanded = false;
+                Colores_ToggleButton.IsChecked = false;
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         //
@@ -87,20 +101,41 @@ namespace TiendaDeInformatica.Vistas
 
         private void TemaOscuro_ToggleButton_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            ApplyBase(TemaOscuro_ToggleButton.IsChecked.Value);
+            try
+            {
+                ApplyBase(TemaOscuro_ToggleButton.IsChecked.Value);
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
-        private static void ApplyBase(bool isDark)
+        private void ApplyBase(bool isDark)
         {
-            ModifyTheme(theme => theme.SetBaseTheme(isDark ? Theme.Dark : Theme.Light));
+            try
+            {
+                ModifyTheme(theme => theme.SetBaseTheme(isDark ? Theme.Dark : Theme.Light));
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
-        private static void ModifyTheme(Action<ITheme> modificationAction)
+        private void ModifyTheme(Action<ITheme> modificationAction)
         {
-            PaletteHelper paletteHelper = new PaletteHelper();
-            ITheme theme = paletteHelper.GetTheme();
-            modificationAction?.Invoke(theme);
-            paletteHelper.SetTheme(theme);
+            try
+            {
+                PaletteHelper paletteHelper = new PaletteHelper();
+                ITheme theme = paletteHelper.GetTheme();
+                modificationAction?.Invoke(theme);
+                paletteHelper.SetTheme(theme);
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         //
@@ -109,26 +144,40 @@ namespace TiendaDeInformatica.Vistas
 
         private void ColorTema_ColorPicker_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            Color color = ColorTema_ColorPicker.Color;
-            ApplyColor(color);
-            ColorHex_TextBox.Text = "#" + color.ToString().Substring(3, color.ToString().Length - 3);
+            try
+            {
+                Color color = ColorTema_ColorPicker.Color;
+                ApplyColor(color);
+                ColorHex_TextBox.Text = "#" + color.ToString().Substring(3, color.ToString().Length - 3);
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void ColorHex_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string hex = ColorHex_TextBox.Text;
-            hex = hex.Replace("#", "");
-            if ($"#FF{hex}" != ColorTema_ColorPicker.Color.ToString())
+            try
             {
-                if (hex.Length == 6 && !Regex.IsMatch(hex, "[^a-fA-F0-9]"))
+                string hex = ColorHex_TextBox.Text;
+                hex = hex.Replace("#", "");
+                if ($"#FF{hex}" != ColorTema_ColorPicker.Color.ToString())
                 {
-                    ColorHex_TextBox.Text = $"#{hex.ToUpper()}";
-                    Color color = (Color)ColorConverter.ConvertFromString($"#FF{hex}");
-                    ColorTema_ColorPicker.Color = color;
-                    ApplyColor(color);
-                    CheckearRadioButtonsPaletaColores();
-                    ColorHex_TextBox.Select(7, 0);
+                    if (hex.Length == 6 && !Regex.IsMatch(hex, "[^a-fA-F0-9]"))
+                    {
+                        ColorHex_TextBox.Text = $"#{hex.ToUpper()}";
+                        Color color = (Color)ColorConverter.ConvertFromString($"#FF{hex}");
+                        ColorTema_ColorPicker.Color = color;
+                        ApplyColor(color);
+                        CheckearRadioButtonsPaletaColores();
+                        ColorHex_TextBox.Select(7, 0);
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -136,11 +185,18 @@ namespace TiendaDeInformatica.Vistas
 
         private void ApplyColor(Color color)
         {
-            ITheme theme = paletteHelper.GetTheme();
-            theme.PrimaryLight = new ColorPair(color.Lighten(), theme.PrimaryLight.ForegroundColor);
-            theme.PrimaryMid = new ColorPair(color, theme.PrimaryMid.ForegroundColor);
-            theme.PrimaryDark = new ColorPair(color.Darken(), theme.PrimaryDark.ForegroundColor);
-            paletteHelper.SetTheme(theme);
+            try
+            {
+                ITheme theme = paletteHelper.GetTheme();
+                theme.PrimaryLight = new ColorPair(color.Lighten(), theme.PrimaryLight.ForegroundColor);
+                theme.PrimaryMid = new ColorPair(color, theme.PrimaryMid.ForegroundColor);
+                theme.PrimaryDark = new ColorPair(color.Darken(), theme.PrimaryDark.ForegroundColor);
+                paletteHelper.SetTheme(theme);
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         //
@@ -149,20 +205,27 @@ namespace TiendaDeInformatica.Vistas
 
         private void CambiarColorTema(object sender, RoutedEventArgs e)
         {
-            foreach (RadioButton radioButton in PaletaColores_WrapPanel.Children)
+            try
             {
-                if (radioButton.IsChecked.Value)
+                foreach (RadioButton radioButton in PaletaColores_WrapPanel.Children)
                 {
-                    Brush newColor = radioButton.Background;
-                    SolidColorBrush newBrush = (SolidColorBrush)newColor;
-                    Color myColorFromBrush = newBrush.Color;
+                    if (radioButton.IsChecked.Value)
+                    {
+                        Brush newColor = radioButton.Background;
+                        SolidColorBrush newBrush = (SolidColorBrush)newColor;
+                        Color myColorFromBrush = newBrush.Color;
 
-                    Color colorTema = myColorFromBrush;
-                    ApplyColor(colorTema);
-                    ColorTema_ColorPicker.Color = colorTema;
-                    ColorHex_TextBox.Text = "#" + colorTema.ToString().Substring(3, colorTema.ToString().Length - 3);
-                    break;
+                        Color colorTema = myColorFromBrush;
+                        ApplyColor(colorTema);
+                        ColorTema_ColorPicker.Color = colorTema;
+                        ColorHex_TextBox.Text = "#" + colorTema.ToString().Substring(3, colorTema.ToString().Length - 3);
+                        break;
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -173,18 +236,25 @@ namespace TiendaDeInformatica.Vistas
 
         private void CheckearRadioButtonsPaletaColores()
         {
-            Color colorTema = ColorTema_ColorPicker.Color;
-            var converter = new BrushConverter();
-            foreach (RadioButton radioButton in PaletaColores_WrapPanel.Children)
+            try
             {
-                var brush = (Brush)converter.ConvertFromString(colorTema.ToString());
-                if (radioButton.Background.ToString() == brush.ToString())
+                Color colorTema = ColorTema_ColorPicker.Color;
+                var converter = new BrushConverter();
+                foreach (RadioButton radioButton in PaletaColores_WrapPanel.Children)
                 {
-                    radioButton.IsChecked = true;
-                    break;
+                    var brush = (Brush)converter.ConvertFromString(colorTema.ToString());
+                    if (radioButton.Background.ToString() == brush.ToString())
+                    {
+                        radioButton.IsChecked = true;
+                        break;
+                    }
+                    else
+                        radioButton.IsChecked = false;
                 }
-                else
-                    radioButton.IsChecked = false;
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -194,24 +264,38 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarModificarLogo_Button_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.Filter = "PNG (*.png)|*.png";
-            var result = openFileDialog.ShowDialog();
-            if (result == false) return;
-            Logo_Image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
+            try
+            {
+                var openFileDialog = new Microsoft.Win32.OpenFileDialog();
+                openFileDialog.Filter = "PNG (*.png)|*.png";
+                var result = openFileDialog.ShowDialog();
+                if (result == false) return;
+                Logo_Image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
 
-            // Guardar en las preferencias del usuario
-            Properties.Settings.Default.Logo = ConvertirImagen.ConvertImageToByteArray(openFileDialog.FileName);
-            Properties.Settings.Default.Save();
+                // Guardar en las preferencias del usuario
+                Properties.Settings.Default.Logo = ConvertirImagen.ConvertImageToByteArray(openFileDialog.FileName);
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private void EliminarLogo_Button_Click(object sender, RoutedEventArgs e)
         {
-            Logo_Image.Source = null;
+            try
+            {
+                Logo_Image.Source = null;
 
-            // Eliminar de las preferencias del usuario
-            Properties.Settings.Default.Logo = null;
-            Properties.Settings.Default.Save();
+                // Eliminar de las preferencias del usuario
+                Properties.Settings.Default.Logo = null;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         // ------------------------------------------------------ //
@@ -220,70 +304,91 @@ namespace TiendaDeInformatica.Vistas
 
         private void MenuIzquierdo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Principal_Vista.IsLoaded && MenuIzquierdo.SelectedItems.Count == 1)
+            try
             {
-                int index = MenuIzquierdo.SelectedIndex;
-
-                PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
-                ProductosBackground_Grid.Visibility = Visibility.Hidden;
-                Productos_ListBox.UnselectAll();
-
-                PresupuestosBackground_Grid.Visibility = Visibility.Hidden;
-                presupuestosUserControl = null;
-                configuracionGuiadaUserControl = null;
-
-                Contenido_Grid.Children.Clear();
-                switch (index)
+                if (Principal_Vista.IsLoaded && MenuIzquierdo.SelectedItems.Count == 1)
                 {
-                    case 0:
-                        presupuestosUserControl = new Presupuestos(this);
-                        Contenido_Grid.Children.Add(presupuestosUserControl);
-                        break;
-                    case 1:
-                        Contenido_Grid.Children.Add(new Clientes(this));
-                        break;
-                    case 2:
-                        Contenido_Grid.Children.Add(new Marcas(this));
-                        break;
-                    case 4:
-                        Contenido_Grid.Children.Add(new EquiposArmados(this));
-                        break;
-                    case 5:
-                        configuracionGuiadaUserControl = new ConfiguracionGuiada(this, PresupuestoSeleccionadoId);
-                        Contenido_Grid.Children.Add(configuracionGuiadaUserControl);
-                        break;
-                    case 6:
-                        Contenido_Grid.Children.Add(new Productos(this, null));
-                        break;
-                    case 8:
-                        Contenido_Grid.Children.Add(new Configuracion(this));
-                        break;
-                    default:
-                        break;
+                    int index = MenuIzquierdo.SelectedIndex;
+
+                    PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
+                    ProductosBackground_Grid.Visibility = Visibility.Hidden;
+                    Productos_ListBox.UnselectAll();
+
+                    PresupuestosBackground_Grid.Visibility = Visibility.Hidden;
+                    presupuestosUserControl = null;
+                    configuracionGuiadaUserControl = null;
+
+                    Contenido_Grid.Children.Clear();
+                    switch (index)
+                    {
+                        case 0:
+                            presupuestosUserControl = new Presupuestos(this);
+                            Contenido_Grid.Children.Add(presupuestosUserControl);
+                            break;
+                        case 1:
+                            Contenido_Grid.Children.Add(new Clientes(this));
+                            break;
+                        case 2:
+                            Contenido_Grid.Children.Add(new Marcas(this));
+                            break;
+                        case 4:
+                            Contenido_Grid.Children.Add(new EquiposArmados(this));
+                            break;
+                        case 5:
+                            configuracionGuiadaUserControl = new ConfiguracionGuiada(this, PresupuestoSeleccionadoId);
+                            Contenido_Grid.Children.Add(configuracionGuiadaUserControl);
+                            break;
+                        case 6:
+                            Contenido_Grid.Children.Add(new Productos(this, null));
+                            break;
+                        case 8:
+                            Contenido_Grid.Children.Add(new Configuracion(this));
+                            break;
+                        default:
+                            break;
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void Productos_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Productos_ListBox.SelectedItems.Count == 1)
+            try
             {
-                MenuProductos_Popup.IsOpen = false;
-                ProductosBackground_Grid.Visibility = Visibility.Visible;
-                MenuIzquierdo.UnselectAll();
+                if (Productos_ListBox.SelectedItems.Count == 1)
+                {
+                    MenuProductos_Popup.IsOpen = false;
+                    ProductosBackground_Grid.Visibility = Visibility.Visible;
+                    MenuIzquierdo.UnselectAll();
 
-                Contenido_Grid.Children.Clear();
-                Contenido_Grid.Children.Add(new Productos(this, (TipoProducto)Productos_ListBox.SelectedIndex));
+                    Contenido_Grid.Children.Clear();
+                    Contenido_Grid.Children.Add(new Productos(this, (TipoProducto)Productos_ListBox.SelectedIndex));
+                }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private async void MenuProductos_Popup_MouseLeave(object sender, MouseEventArgs e)
         {
-            await Task.Delay(50);
-            if (!Productos_ListBoxItem.IsMouseOver)
+            try
             {
-                OscurecerContenido_DialogHost.IsOpen = false;
-                MenuProductos_Popup.IsOpen = false;
+                await Task.Delay(50);
+                if (!Productos_ListBoxItem.IsMouseOver)
+                {
+                    OscurecerContenido_DialogHost.IsOpen = false;
+                    MenuProductos_Popup.IsOpen = false;
+                }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -295,11 +400,18 @@ namespace TiendaDeInformatica.Vistas
 
         private async void Productos_ListBoxItem_MouseLeave(object sender, MouseEventArgs e)
         {
-            await Task.Delay(50);
-            if (!MenuProductos_Popup.IsMouseOver)
+            try
             {
-                OscurecerContenido_DialogHost.IsOpen = false;
-                MenuProductos_Popup.IsOpen = false;
+                await Task.Delay(50);
+                if (!MenuProductos_Popup.IsMouseOver)
+                {
+                    OscurecerContenido_DialogHost.IsOpen = false;
+                    MenuProductos_Popup.IsOpen = false;
+                }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -349,56 +461,84 @@ namespace TiendaDeInformatica.Vistas
 
         public void AgregarProductoAPresupuesto(Producto producto, bool abrirPopup)
         {
-            if (PresupuestoSeleccionadoId != -1)
+            try
             {
-                Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
-                ControladorPresupuestos.AgregarPresupuestoProducto(presupuesto, producto);
+                if (PresupuestoSeleccionadoId != -1)
+                {
+                    Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
+                    ControladorPresupuestos.AgregarPresupuestoProducto(presupuesto, producto);
+                }
+                if (abrirPopup) PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
             }
-            if(abrirPopup) PresupuestoSeleccionado_PopupBox.IsPopupOpen = true;
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         private async void DeseleccionarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            PresupuestoSeleccionadoId = -1;
-            PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxRemove;
-            PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
-
-            await Task.Delay(250);
-            PresupuestoSelecciondo_StackPanel.DataContext = null;
-
-            if (configuracionGuiadaUserControl != null)
+            try
             {
-                _ = configuracionGuiadaUserControl._presupuestoSeleccionado == null;
-                configuracionGuiadaUserControl.CambiarEstadoAlertaPresupuestoSeleccionado(true);
+                PresupuestoSeleccionadoId = -1;
+                PresupuestoSeleccionado_Icon.Kind = PackIconKind.FileDocumentBoxRemove;
+                PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
+
+                await Task.Delay(250);
+                PresupuestoSelecciondo_StackPanel.DataContext = null;
+
+                if (configuracionGuiadaUserControl != null)
+                {
+                    _ = configuracionGuiadaUserControl._presupuestoSeleccionado == null;
+                    configuracionGuiadaUserControl.CambiarEstadoAlertaPresupuestoSeleccionado(true);
+                }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void EliminarPresupuestoProducto_TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            TextBlock textBlockSender = (TextBlock)sender;
-            if (textBlockSender.DataContext is PresupuestoProducto)
+            try
             {
-                ControladorPresupuestos.EliminarPresupuestoProducto((PresupuestoProducto)textBlockSender.DataContext);
-                RefrescarListaPresupuestoProducto();
+                TextBlock textBlockSender = (TextBlock)sender;
+                if (textBlockSender.DataContext is PresupuestoProducto)
+                {
+                    ControladorPresupuestos.EliminarPresupuestoProducto((PresupuestoProducto)textBlockSender.DataContext);
+                    RefrescarListaPresupuestoProducto();
+                }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void RefrescarListaPresupuestoProducto()
         {
-            if (PresupuestoSeleccionadoId != -1)
+            try
             {
-                Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
-                PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
+                if (PresupuestoSeleccionadoId != -1)
+                {
+                    Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(PresupuestoSeleccionadoId);
+                    PresupuestoSelecciondo_StackPanel.DataContext = presupuesto;
 
-                PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
-                foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
-                    PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
+                    PresupuestoSeleccionado_Productos_ListBox.Items.Clear();
+                    foreach (PresupuestoProducto presupuestoProducto in presupuesto.Productos)
+                        PresupuestoSeleccionado_Productos_ListBox.Items.Add(presupuestoProducto);
 
-                if (presupuestosUserControl != null)
-                    presupuestosUserControl.RefrescarListaDePresupuestos();
+                    if (presupuestosUserControl != null)
+                        presupuestosUserControl.RefrescarListaDePresupuestos();
 
-                if (reumenPresupuestosUserControl != null)
-                    reumenPresupuestosUserControl.RefrescarListaPresupuestoProducto();
+                    if (reumenPresupuestosUserControl != null)
+                        reumenPresupuestosUserControl.RefrescarListaPresupuestoProducto();
+                }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -406,49 +546,70 @@ namespace TiendaDeInformatica.Vistas
 
         private void AgregarCantidadPresupuestoProducto_Button_Click(object sender, RoutedEventArgs e)
         {
-            Button buttonSender = (Button)sender;
-            if(buttonSender.DataContext is PresupuestoProducto)
+            try
             {
-                PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
-                if(presupuestoProducto.Cantidad < 99)
+                Button buttonSender = (Button)sender;
+                if (buttonSender.DataContext is PresupuestoProducto)
                 {
-                    ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad += 1);
-                    RefrescarListaPresupuestoProducto();
+                    PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
+                    if (presupuestoProducto.Cantidad < 99)
+                    {
+                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad += 1);
+                        RefrescarListaPresupuestoProducto();
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void EliminarCantidadPresupuestoProducto_Button_Click(object sender, RoutedEventArgs e)
         {
-            Button buttonSender = (Button)sender;
-            if (buttonSender.DataContext is PresupuestoProducto)
+            try
             {
-                PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
-                if(presupuestoProducto.Cantidad > 1)
+                Button buttonSender = (Button)sender;
+                if (buttonSender.DataContext is PresupuestoProducto)
                 {
-                    ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad -= 1);
-                    RefrescarListaPresupuestoProducto();
+                    PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
+                    if (presupuestoProducto.Cantidad > 1)
+                    {
+                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad -= 1);
+                        RefrescarListaPresupuestoProducto();
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private async void CantidadPresupuestoProducto_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBoxSender = (TextBox)sender;
-            string texto = textBoxSender.Text;
-
-            await Task.Delay(100);
-            if (texto == textBoxSender.Text)
+            try
             {
-                if (textBoxSender.DataContext is PresupuestoProducto)
+                TextBox textBoxSender = (TextBox)sender;
+                string texto = textBoxSender.Text;
+
+                await Task.Delay(100);
+                if (texto == textBoxSender.Text)
                 {
-                    bool esInt = int.TryParse(((TextBox)sender).Text, out int cantidad);
-                    if (esInt && cantidad > 0 && cantidad <= 99)
+                    if (textBoxSender.DataContext is PresupuestoProducto)
                     {
-                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto((PresupuestoProducto)textBoxSender.DataContext, cantidad);
-                        RefrescarListaPresupuestoProducto();
+                        bool esInt = int.TryParse(((TextBox)sender).Text, out int cantidad);
+                        if (esInt && cantidad > 0 && cantidad <= 99)
+                        {
+                            ControladorPresupuestos.ModificarCantidadPresupuestoProducto((PresupuestoProducto)textBoxSender.DataContext, cantidad);
+                            RefrescarListaPresupuestoProducto();
+                        }
                     }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -459,11 +620,18 @@ namespace TiendaDeInformatica.Vistas
 
         private void Resumen_Button_Click(object sender, RoutedEventArgs e)
         {
-            PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
-            Contenido_Grid.Children.Clear();
-            ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(this, PresupuestoSeleccionadoId);
-            reumenPresupuestosUserControl = resumenPresupuesto;
-            Contenido_Grid.Children.Add(resumenPresupuesto);
+            try
+            {
+                PresupuestoSeleccionado_PopupBox.IsPopupOpen = false;
+                Contenido_Grid.Children.Clear();
+                ResumenPresupuesto resumenPresupuesto = new ResumenPresupuesto(this, PresupuestoSeleccionadoId);
+                reumenPresupuestosUserControl = resumenPresupuesto;
+                Contenido_Grid.Children.Add(resumenPresupuesto);
+            }
+            catch (Exception error)
+            {
+                _ = MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
     }
 }

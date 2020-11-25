@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,22 +37,29 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void CaracteristicasValor_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            // Verificar si se va a crear o a modificar un valor
-            if (_valorModificar != null)
+            try
             {
-                // Cambiar el título y el botón
-                Titulo_TextBlock.Text = "Modificar valor del atributo " + _atributo.Nombre;
-                AgregarModificar_Button.Content = "MODIFICAR";
+                // Verificar si se va a crear o a modificar un valor
+                if (_valorModificar != null)
+                {
+                    // Cambiar el título y el botón
+                    Titulo_TextBlock.Text = "Modificar valor del atributo " + _atributo.Nombre;
+                    AgregarModificar_Button.Content = "MODIFICAR";
 
-                // Cargar los datos del valor
-                Nombre_TextBox.Text = _valorModificar.Nombre;
+                    // Cargar los datos del valor
+                    Nombre_TextBox.Text = _valorModificar.Nombre;
+                }
+                else
+                    Titulo_TextBlock.Text = "Agregar valor al atributo " + _atributo.Nombre;
+
+                if (_configuracion != null)
+                    _configuracion.OscurecerFondoValores(true);
+                Contenido_DialogHost.IsOpen = true;
             }
-            else
-                Titulo_TextBlock.Text = "Agregar valor al atributo " + _atributo.Nombre;
-
-            if (_configuracion != null)
-                _configuracion.OscurecerFondoValores(true);
-            Contenido_DialogHost.IsOpen = true;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         // ------------------------------------------------------ //
@@ -60,24 +68,31 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (new ValorValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
+            try
             {
-                if (_valorModificar == null)
+                if (new ValorValidationRule().Validate(Nombre_TextBox.Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
                 {
-                    ControladorAtributos.AgregarValor(_atributo, Nombre_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Valor agregado correctamente!");
+                    if (_valorModificar == null)
+                    {
+                        ControladorAtributos.AgregarValor(_atributo, Nombre_TextBox.Text);
+                        _ = _principal.MostrarMensajeEnSnackbar("Valor agregado correctamente!");
+                    }
+                    else
+                    {
+                        ControladorAtributos.ModificarValor(_valorModificar, Nombre_TextBox.Text);
+                        _ = _principal.MostrarMensajeEnSnackbar("Valor modificado correctamente!");
+                    }
+                    CerrarVentana();
                 }
                 else
                 {
-                    ControladorAtributos.ModificarValor(_valorModificar, Nombre_TextBox.Text);
-                    _ = _principal.MostrarMensajeEnSnackbar("Valor modificado correctamente!");
-                }  
-                CerrarVentana();
+                    // Hay errores. Actualizar los mensajes de error
+                    Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                }
             }
-            else
+            catch (Exception error)
             {
-                // Hay errores. Actualizar los mensajes de error
-                Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 

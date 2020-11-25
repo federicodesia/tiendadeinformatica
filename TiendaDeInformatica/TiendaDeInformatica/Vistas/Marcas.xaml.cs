@@ -28,13 +28,20 @@ namespace TiendaDeInformatica.Vistas
         private void Marcas_Vista_Loaded(object sender, RoutedEventArgs e)
         {
             // Cargar los Tipos de Productos de las Marcas en el ListBox
-            modificandoListBoxTipoProducto = true;
-            foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
+            try
             {
-                if (!TipoProducto_ListBox.Items.Contains(producto.Tipo))
-                   TipoProducto_ListBox.Items.Add(producto.Tipo);
+                modificandoListBoxTipoProducto = true;
+                foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
+                {
+                    if (!TipoProducto_ListBox.Items.Contains(producto.Tipo))
+                        TipoProducto_ListBox.Items.Add(producto.Tipo);
+                }
+                modificandoListBoxTipoProducto = false;
             }
-            modificandoListBoxTipoProducto = false;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
 
             RefrescarListaDeMarcas();
         }
@@ -67,20 +74,27 @@ namespace TiendaDeInformatica.Vistas
 
         private void AjustarFilasColumnas()
         {
-            if (itemsGrid != null)
+            try
             {
-                // Cantidad de columnas a partir del ancho
-                itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 200);
+                if (itemsGrid != null)
+                {
+                    // Cantidad de columnas a partir del ancho
+                    itemsGrid.Columns = (int)(Contenido_Grid.ActualWidth / 200);
 
-                if (itemsGrid.Columns > 0)
-                    // Calcular la cantidad de filas dependiendo de la cantidad de columnas y marcas
-                    itemsGrid.Rows = (int)Math.Ceiling((decimal)Marcas_ListBox.Items.Count / (decimal)itemsGrid.Columns);
-                else
-                    // Hay una sola columna. Filas iguales a la cantidad de marcas
-                    itemsGrid.Rows = Marcas_ListBox.Items.Count;
+                    if (itemsGrid.Columns > 0)
+                        // Calcular la cantidad de filas dependiendo de la cantidad de columnas y marcas
+                        itemsGrid.Rows = (int)Math.Ceiling((decimal)Marcas_ListBox.Items.Count / (decimal)itemsGrid.Columns);
+                    else
+                        // Hay una sola columna. Filas iguales a la cantidad de marcas
+                        itemsGrid.Rows = Marcas_ListBox.Items.Count;
 
-                // Alto de las filas para ajustar el ScrollBar vertical
-                itemsGrid.Height = itemsGrid.Rows * 80;
+                    // Alto de las filas para ajustar el ScrollBar vertical
+                    itemsGrid.Height = itemsGrid.Rows * 80;
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -119,40 +133,47 @@ namespace TiendaDeInformatica.Vistas
 
         private void EliminarMarca_Button_Click(object sender, RoutedEventArgs e)
         {
-            Marca marca = Marcas_ListBox.SelectedItem as Marca;
-            if (marca != null)
+            try
             {
-                ControladorMarcas.EliminarMarca(marca);
-                RefrescarListaDeMarcas();
-
-                AlertaEliminarMarca_DialogHost.IsOpen = false;
-                _principal.OscurecerCompletamente(false);
-                _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
-
-                modificandoListBoxTipoProducto = true;
-                // Tipos de productos seleccionados anteriormente
-                List<TipoProducto?> tiposProductosAnteriores = new List<TipoProducto?>();
-                foreach (TipoProducto tipoProductoSeleccionado in TipoProducto_ListBox.SelectedItems)
-                    tiposProductosAnteriores.Add(tipoProductoSeleccionado);
-
-                // Nuevos tipos de productos
-                List<TipoProducto?> tiposProductosNuevos = new List<TipoProducto?>();
-                foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
+                Marca marca = Marcas_ListBox.SelectedItem as Marca;
+                if (marca != null)
                 {
-                    if (!tiposProductosNuevos.Contains(producto.Tipo))
-                        tiposProductosNuevos.Add(producto.Tipo);
-                }
+                    ControladorMarcas.EliminarMarca(marca);
+                    RefrescarListaDeMarcas();
 
-                // Mostrar los nuevos tipos de productos
-                TipoProducto_ListBox.Items.Clear();
-                foreach (TipoProducto tipoProducto in tiposProductosNuevos)
-                {
-                    TipoProducto_ListBox.Items.Add(tipoProducto);
-                    // Verificar si antes estaban seleccionados y seleccionarlos nuevamente
-                    if (tiposProductosAnteriores.Contains(tipoProducto))
-                        TipoProducto_ListBox.SelectedItems.Add(tipoProducto);
+                    AlertaEliminarMarca_DialogHost.IsOpen = false;
+                    _principal.OscurecerCompletamente(false);
+                    _ = _principal.MostrarMensajeEnSnackbar("Marca eliminada correctamente!");
+
+                    modificandoListBoxTipoProducto = true;
+                    // Tipos de productos seleccionados anteriormente
+                    List<TipoProducto?> tiposProductosAnteriores = new List<TipoProducto?>();
+                    foreach (TipoProducto tipoProductoSeleccionado in TipoProducto_ListBox.SelectedItems)
+                        tiposProductosAnteriores.Add(tipoProductoSeleccionado);
+
+                    // Nuevos tipos de productos
+                    List<TipoProducto?> tiposProductosNuevos = new List<TipoProducto?>();
+                    foreach (Producto producto in ControladorProductos.ObtenerListaDeProductos())
+                    {
+                        if (!tiposProductosNuevos.Contains(producto.Tipo))
+                            tiposProductosNuevos.Add(producto.Tipo);
+                    }
+
+                    // Mostrar los nuevos tipos de productos
+                    TipoProducto_ListBox.Items.Clear();
+                    foreach (TipoProducto tipoProducto in tiposProductosNuevos)
+                    {
+                        TipoProducto_ListBox.Items.Add(tipoProducto);
+                        // Verificar si antes estaban seleccionados y seleccionarlos nuevamente
+                        if (tiposProductosAnteriores.Contains(tipoProducto))
+                            TipoProducto_ListBox.SelectedItems.Add(tipoProducto);
+                    }
+                    modificandoListBoxTipoProducto = false;
                 }
-                modificandoListBoxTipoProducto = false;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -162,18 +183,25 @@ namespace TiendaDeInformatica.Vistas
 
         private void RefrescarListaDeMarcas()
         {
-            if (Marcas_Vista.IsLoaded)
+            try
             {
-                Marcas_ListBox.Items.Clear();
+                if (Marcas_Vista.IsLoaded)
+                {
+                    Marcas_ListBox.Items.Clear();
 
-                List<Marca> marcas = ControladorMarcas.ObtenerListaDeMarcas();
-                List<Marca> resultados = OrdenarMarcas(FiltrarMarcasPorTipoProducto(BuscarMarca(marcas, BuscarMarca_TextBox.Text)));
+                    List<Marca> marcas = ControladorMarcas.ObtenerListaDeMarcas();
+                    List<Marca> resultados = OrdenarMarcas(FiltrarMarcasPorTipoProducto(BuscarMarca(marcas, BuscarMarca_TextBox.Text)));
 
-                foreach (Marca marca in resultados)
-                    Marcas_ListBox.Items.Add(marca);
+                    foreach (Marca marca in resultados)
+                        Marcas_ListBox.Items.Add(marca);
 
-                CantidadDeResultados_TextBlock.Text = Marcas_ListBox.Items.Count.ToString();
-                AjustarFilasColumnas();
+                    CantidadDeResultados_TextBlock.Text = Marcas_ListBox.Items.Count.ToString();
+                    AjustarFilasColumnas();
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -188,18 +216,26 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Marca> BuscarMarca(List<Marca> marcas, string busqueda)
         {
-            if (busqueda != "")
+            try
             {
-                busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
-                List<Marca> resultado = new List<Marca>();
-                foreach (Marca marca in marcas)
+                if (busqueda != "")
                 {
-                    if (TextHelper.QuitarTildes(marca.Nombre).ToUpper().StartsWith(busqueda))
-                        resultado.Add(marca);
+                    busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
+                    List<Marca> resultado = new List<Marca>();
+                    foreach (Marca marca in marcas)
+                    {
+                        if (TextHelper.QuitarTildes(marca.Nombre).ToUpper().StartsWith(busqueda))
+                            resultado.Add(marca);
+                    }
+                    return resultado;
                 }
-                return resultado;
+                return marcas;
             }
-            return marcas;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Marca>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -218,34 +254,42 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Marca> OrdenarMarcas(List<Marca> marcas)
         {
-            if (OrdenarMarcas_ComboBox.SelectedIndex == 0)
+            try
             {
-                // Alfabéticamente
-                marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                if (OrdenarMarcas_ComboBox.SelectedIndex == 0)
+                {
+                    // Alfabéticamente
+                    marcas.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                }
+                else if (OrdenarMarcas_ComboBox.SelectedIndex == 1)
+                {
+                    // Fecha de creación
+                    marcas.Sort((m1, m2) => m1.Id.CompareTo(m2.Id));
+                }
+                else if (OrdenarMarcas_ComboBox.SelectedIndex == 2)
+                {
+                    // Cantidad de productos
+                    List<Marca> sinProductos = marcas.Where(m => m.Productos.Count == 0).ToList();
+                    List<Marca> conProductos = marcas.Where(m => m.Productos.Count > 0).ToList();
+
+                    sinProductos.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
+                    conProductos.Sort((m1, m2) => m1.Productos.Count.CompareTo(m2.Productos.Count));
+                    conProductos.Reverse();
+
+                    marcas = conProductos;
+                    marcas.AddRange(sinProductos);
+                }
+
+                if (OrdenarMarcas_AscDesc_ToggleButton.IsChecked.Value)
+                    marcas.Reverse();
+
+                return marcas;
             }
-            else if (OrdenarMarcas_ComboBox.SelectedIndex == 1)
+            catch (Exception error)
             {
-                // Fecha de creación
-                marcas.Sort((m1, m2) => m1.Id.CompareTo(m2.Id));
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Marca>();
             }
-            else if (OrdenarMarcas_ComboBox.SelectedIndex == 2)
-            {
-                // Cantidad de productos
-                List<Marca> sinProductos = marcas.Where(m => m.Productos.Count == 0).ToList();
-                List<Marca> conProductos = marcas.Where(m => m.Productos.Count > 0).ToList();
-
-                sinProductos.Sort((x, y) => string.Compare(x.Nombre, y.Nombre));
-                conProductos.Sort((m1, m2) => m1.Productos.Count.CompareTo(m2.Productos.Count));
-                conProductos.Reverse();
-
-                marcas = conProductos;
-                marcas.AddRange(sinProductos);
-            }
-
-            if (OrdenarMarcas_AscDesc_ToggleButton.IsChecked.Value)
-                marcas.Reverse();
-            
-            return marcas;
         }
 
         // ------------------------------------------------------ //
@@ -254,22 +298,30 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Marca> FiltrarMarcasPorTipoProducto(List<Marca> marcas)
         {
-            if (TipoProducto_ListBox.SelectedItem == null)
+            try
             {
-                if (SinProductos_CheckBox.IsChecked == true)
-                    return marcas.Where(m => m.Productos.Count == 0).ToList();
-            }
-            else
-            {
-                if (TipoProducto_ListBox.SelectedItems.Count == TipoProducto_ListBox.Items.Count)
+                if (TipoProducto_ListBox.SelectedItem == null)
                 {
-                    if (SinProductos_CheckBox.IsChecked == false)
-                        return marcas.Where(m => m.Productos.Count > 0).ToList();
+                    if (SinProductos_CheckBox.IsChecked == true)
+                        return marcas.Where(m => m.Productos.Count == 0).ToList();
                 }
                 else
-                    return marcas.Where(m => m.Productos.Any(p => TipoProducto_ListBox.SelectedItems.Contains(p.Tipo)) || (SinProductos_CheckBox.IsChecked == true && m.Productos.Count == 0)).ToList();
+                {
+                    if (TipoProducto_ListBox.SelectedItems.Count == TipoProducto_ListBox.Items.Count)
+                    {
+                        if (SinProductos_CheckBox.IsChecked == false)
+                            return marcas.Where(m => m.Productos.Count > 0).ToList();
+                    }
+                    else
+                        return marcas.Where(m => m.Productos.Any(p => TipoProducto_ListBox.SelectedItems.Contains(p.Tipo)) || (SinProductos_CheckBox.IsChecked == true && m.Productos.Count == 0)).ToList();
+                }
+                return marcas;
             }
-            return marcas;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Marca>();
+            }
         }
 
         private void TipoProducto_ListBox_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

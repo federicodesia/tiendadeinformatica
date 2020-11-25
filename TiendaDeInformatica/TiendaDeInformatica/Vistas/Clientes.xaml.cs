@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -79,21 +80,29 @@ namespace TiendaDeInformatica.Vistas
 
         private void EliminarCliente_Button_Click(object sender, RoutedEventArgs e)
         {
-            Cliente cliente = new Cliente();
-            if (FiltroPersona_RadioButton.IsChecked.Value)
-                cliente = Personas_DataGrid.SelectedItem as Cliente;
-            else
-                cliente = Empresas_DataGrid.SelectedItem as Cliente;
-
-            if (cliente != null)
+            try
             {
-                ControladorClientes.EliminarCliente(cliente);
-                RefrescarListaDeClientes();
+                Cliente cliente = new Cliente();
+                if (FiltroPersona_RadioButton.IsChecked.Value)
+                    cliente = Personas_DataGrid.SelectedItem as Cliente;
+                else
+                    cliente = Empresas_DataGrid.SelectedItem as Cliente;
 
-                AlertaEliminarCliente_DialogHost.IsOpen = false;
-                _principal.OscurecerCompletamente(false);
-                _ = _principal.MostrarMensajeEnSnackbar("Cliente eliminado correctamente!");
+                if (cliente != null)
+                {
+                    ControladorClientes.EliminarCliente(cliente);
+                    RefrescarListaDeClientes();
+
+                    AlertaEliminarCliente_DialogHost.IsOpen = false;
+                    _principal.OscurecerCompletamente(false);
+                    _ = _principal.MostrarMensajeEnSnackbar("Cliente eliminado correctamente!");
+                }
             }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
+            
         }
 
         private void CancelarEliminarCliente_Button_Click(object sender, RoutedEventArgs e)
@@ -103,32 +112,39 @@ namespace TiendaDeInformatica.Vistas
         }
 
         // ------------------------------------------------------ //
-        //               Refrescar la lista de marcas             //
+        //              Refrescar la lista de clientes            //
         // ------------------------------------------------------ //
 
         private void RefrescarListaDeClientes()
         {
-            if (Clientes_Vista.IsLoaded)
+            try
             {
-                List<Cliente> clientes = ControladorClientes.ObtenerListaDeClientes().ToList();
-                List<Cliente> resultados = BuscarCliente(FiltrarPorTipoDeCliente(clientes), BuscarCliente_TextBox.Text);
-
-                if (FiltroPersona_RadioButton.IsChecked.Value)
+                if (Clientes_Vista.IsLoaded)
                 {
-                    Personas_DataGrid.Items.Clear();
-                    foreach (Cliente cliente in resultados)
-                        Personas_DataGrid.Items.Add(cliente);
+                    List<Cliente> clientes = ControladorClientes.ObtenerListaDeClientes().ToList();
+                    List<Cliente> resultados = BuscarCliente(FiltrarPorTipoDeCliente(clientes), BuscarCliente_TextBox.Text);
 
-                    CantidadDeResultados_TextBlock.Text = Personas_DataGrid.Items.Count.ToString();
-                }
-                else
-                {
-                    Empresas_DataGrid.Items.Clear();
-                    foreach (Cliente cliente in resultados)
-                        Empresas_DataGrid.Items.Add(cliente);
+                    if (FiltroPersona_RadioButton.IsChecked.Value)
+                    {
+                        Personas_DataGrid.Items.Clear();
+                        foreach (Cliente cliente in resultados)
+                            Personas_DataGrid.Items.Add(cliente);
 
-                    CantidadDeResultados_TextBlock.Text = Empresas_DataGrid.Items.Count.ToString();
+                        CantidadDeResultados_TextBlock.Text = Personas_DataGrid.Items.Count.ToString();
+                    }
+                    else
+                    {
+                        Empresas_DataGrid.Items.Clear();
+                        foreach (Cliente cliente in resultados)
+                            Empresas_DataGrid.Items.Add(cliente);
+
+                        CantidadDeResultados_TextBlock.Text = Empresas_DataGrid.Items.Count.ToString();
+                    }
                 }
+            }
+            catch(Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -143,24 +159,32 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Cliente> BuscarCliente(List<Cliente> clientes, string busqueda)
         {
-            if (busqueda != "")
+            try
             {
-                busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
-                List<Cliente> resultado = new List<Cliente>();
-                foreach (Cliente cliente in clientes)
+                if (busqueda != "")
                 {
-                    if ((cliente.NombreDelResponsable != null && TextHelper.QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
-                        || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
-                        || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
-                        || TextHelper.QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
-                        || TextHelper.QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
+                    busqueda = TextHelper.QuitarTildes(busqueda).ToUpper();
+                    List<Cliente> resultado = new List<Cliente>();
+                    foreach (Cliente cliente in clientes)
                     {
-                        resultado.Add(cliente);
+                        if ((cliente.NombreDelResponsable != null && TextHelper.QuitarTildes(cliente.NombreDelResponsable).ToUpper().StartsWith(busqueda))
+                            || (cliente.CUIT != null && cliente.CUIT.StartsWith(busqueda))
+                            || (cliente.Telefono != null && cliente.Telefono.StartsWith(busqueda)
+                            || TextHelper.QuitarTildes(cliente.MostrarNombre).ToUpper().StartsWith(busqueda)
+                            || TextHelper.QuitarTildes(cliente.Apellido).ToUpper().StartsWith(busqueda)))
+                        {
+                            resultado.Add(cliente);
+                        }
                     }
+                    return resultado;
                 }
-                return resultado;
+                return clientes;
             }
-            return clientes;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Cliente>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -174,11 +198,19 @@ namespace TiendaDeInformatica.Vistas
 
         private List<Cliente> FiltrarPorTipoDeCliente(List<Cliente> clientes)
         {
-            if (FiltroPersona_RadioButton.IsChecked.Value == true)
+            try
             {
-                return clientes.Where(c => c.Tipo == "Persona").ToList();
+                if (FiltroPersona_RadioButton.IsChecked.Value == true)
+                {
+                    return clientes.Where(c => c.Tipo == "Persona").ToList();
+                }
+                return clientes.Where(c => c.Tipo == "Empresa").ToList();
             }
-            return clientes.Where(c => c.Tipo == "Empresa").ToList();
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<Cliente>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -187,18 +219,25 @@ namespace TiendaDeInformatica.Vistas
 
         private void ExporarLista_Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog()
+            try
             {
-                Filter = "Archivos de texto (*.txt)|*.txt"
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                using (StreamWriter escritor = new StreamWriter(dialog.FileName))
+                SaveFileDialog dialog = new SaveFileDialog()
                 {
-                    escritor.Write(ControladorClientes.ExportarListaDeClientes());
+                    Filter = "Archivos de texto (*.txt)|*.txt"
+                };
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (StreamWriter escritor = new StreamWriter(dialog.FileName))
+                    {
+                        escritor.Write(ControladorClientes.ExportarListaDeClientes());
+                    }
+                    _ = _principal.MostrarMensajeEnSnackbar("Lista exportada correctamente!");
                 }
-                _ = _principal.MostrarMensajeEnSnackbar("Lista exportada correctamente!");
+            }
+            catch(Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
     }

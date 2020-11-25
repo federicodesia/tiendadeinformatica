@@ -45,32 +45,39 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void CaracteristicasCliente_Vista_Loaded(object sender, RoutedEventArgs e)
         {
-            // Verificar si se va a crear o a modificar un cliente
-            if (_clienteModificar != null)
+            try
             {
-                // Cambiar el título y el botón
-                Titulo_TextBlock.Text = "Modificar cliente";
-                AgregarModificar_Button.Content = "MODIFICAR";
-                AgregarModificarClienteDuplicado_Button.Content = "MODIFICAR IGUAL";
-
-                if (_clienteModificar.Tipo == "Empresa")
+                // Verificar si se va a crear o a modificar un cliente
+                if (_clienteModificar != null)
                 {
-                    // Seleccionar la pestaña y completar en nombre de la empresa
-                    Empresa_RadioButton.IsChecked = true;
-                    NombreDeLaEmpresa_TextBox.Text = _clienteModificar.NombreDeLaEmpresa;
+                    // Cambiar el título y el botón
+                    Titulo_TextBlock.Text = "Modificar cliente";
+                    AgregarModificar_Button.Content = "MODIFICAR";
+                    AgregarModificarClienteDuplicado_Button.Content = "MODIFICAR IGUAL";
+
+                    if (_clienteModificar.Tipo == "Empresa")
+                    {
+                        // Seleccionar la pestaña y completar en nombre de la empresa
+                        Empresa_RadioButton.IsChecked = true;
+                        NombreDeLaEmpresa_TextBox.Text = _clienteModificar.NombreDeLaEmpresa;
+                    }
+
+                    // Completar los datos del cliente
+                    Nombre_TextBox.Text = _clienteModificar.Nombre;
+                    Apellido_TextBox.Text = _clienteModificar.Apellido;
+                    Telefono_TextBox.Text = _clienteModificar.Telefono;
+                    CUIT_TextBox.Text = _clienteModificar.CUIT;
                 }
+                else if (!_tipoCliente)
+                    Empresa_RadioButton.IsChecked = true;
 
-                // Completar los datos del cliente
-                Nombre_TextBox.Text = _clienteModificar.Nombre;
-                Apellido_TextBox.Text = _clienteModificar.Apellido;
-                Telefono_TextBox.Text = _clienteModificar.Telefono;
-                CUIT_TextBox.Text = _clienteModificar.CUIT;
+                _principal.OscurecerCompletamente(true);
+                Contenido_DialogHost.IsOpen = true;
             }
-            else if (!_tipoCliente)
-                Empresa_RadioButton.IsChecked = true;
-
-            _principal.OscurecerCompletamente(true);
-            Contenido_DialogHost.IsOpen = true;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         // ------------------------------------------------------ //
@@ -79,71 +86,92 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ObtenerResultadoReglasDeValidacion())
+            try
             {
-                // No hay errores
-                bool clienteDuplicado = false;
-                string nombre;
-                List<Cliente> clientes = new List<Cliente>();
-
-                if (Persona_RadioButton.IsChecked.Value)
+                if (ObtenerResultadoReglasDeValidacion())
                 {
-                    nombre = Nombre_TextBox.Text.ToUpper() + " " + Apellido_TextBox_Text.ToUpper();
-                    clientes=ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona").ToList();
-                    Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró un cliente con el mismo nombre y apellido";
+                    // No hay errores
+                    bool clienteDuplicado = false;
+                    string nombre;
+                    List<Cliente> clientes = new List<Cliente>();
+
+                    if (Persona_RadioButton.IsChecked.Value)
+                    {
+                        nombre = Nombre_TextBox.Text.ToUpper() + " " + Apellido_TextBox_Text.ToUpper();
+                        clientes = ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Persona").ToList();
+                        Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró un cliente con el mismo nombre y apellido";
+                    }
+                    else
+                    {
+                        nombre = NombreDeLaEmpresa_TextBox.Text.ToUpper();
+                        clientes = ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa").ToList();
+                        Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró una empresa con el mismo nombre";
+                    }
+
+                    nombre = QuitarTildes(nombre);
+                    foreach (Cliente cliente in clientes)
+                    {
+                        if (((_clienteModificar != null) && (_clienteModificar.Id != cliente.Id) && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre))
+                            || (_clienteModificar == null && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre)))
+                        {
+                            clienteDuplicado = true;
+                            AlertaClienteDuplicado_Dialog.IsOpen = true;
+                            break;
+                        }
+                    }
+
+                    if (!clienteDuplicado)
+                        AgregarModificarCliente();
                 }
                 else
                 {
-                    nombre = NombreDeLaEmpresa_TextBox.Text.ToUpper();
-                    clientes = ControladorClientes.ObtenerListaDeClientes().Where(c => c.Tipo == "Empresa").ToList();
-                    Titulo_AlertaClienteDuplicado_TextBlock.Text = "Se encontró una empresa con el mismo nombre";
+                    // Hay errores. Actualizar los mensajes de error
+                    NombreDeLaEmpresa_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                    Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                    Apellido_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                    Telefono_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                    CUIT_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
                 }
-
-                nombre = QuitarTildes(nombre);
-                foreach (Cliente cliente in clientes)
-                {
-                    if (((_clienteModificar != null) && (_clienteModificar.Id != cliente.Id) && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre))
-                        || (_clienteModificar == null && (QuitarTildes(cliente.MostrarNombre).ToUpper() == nombre)))
-                    {
-                        clienteDuplicado = true;
-                        AlertaClienteDuplicado_Dialog.IsOpen = true;
-                        break;
-                    }
-                }
-
-                if (!clienteDuplicado)
-                    AgregarModificarCliente();
             }
-            else
+            catch (Exception error)
             {
-                // Hay errores. Actualizar los mensajes de error
-                NombreDeLaEmpresa_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                Apellido_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                Telefono_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
-                CUIT_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private bool ObtenerResultadoReglasDeValidacion()
         {
-            CultureInfo currentCulture = CultureInfo.CurrentCulture;
-            if (((Empresa_RadioButton.IsChecked == true && new CampoVacio().Validate(NombreDeLaEmpresa_TextBox.Text, currentCulture) == new ValidationResult(true, null)) || Empresa_RadioButton.IsChecked == false)
-                && new SoloLetras().Validate(Nombre_TextBox.Text, currentCulture) == new ValidationResult(true, null)
-                && new SoloLetras().Validate(Apellido_TextBox.Text, currentCulture) == new ValidationResult(true, null)
-                && new Telefono().Validate(Telefono_TextBox.Text, currentCulture) == new ValidationResult(true, null)
-                && new CUIT().Validate(CUIT_TextBox.Text, currentCulture) == new ValidationResult(true, null))
+            try
             {
-                // No hay errores
-                return true;
+                CultureInfo currentCulture = CultureInfo.CurrentCulture;
+                if (((Empresa_RadioButton.IsChecked == true && new CampoVacio().Validate(NombreDeLaEmpresa_TextBox.Text, currentCulture) == new ValidationResult(true, null)) || Empresa_RadioButton.IsChecked == false)
+                    && new SoloLetras().Validate(Nombre_TextBox.Text, currentCulture) == new ValidationResult(true, null)
+                    && new SoloLetras().Validate(Apellido_TextBox.Text, currentCulture) == new ValidationResult(true, null)
+                    && new Telefono().Validate(Telefono_TextBox.Text, currentCulture) == new ValidationResult(true, null)
+                    && new CUIT().Validate(CUIT_TextBox.Text, currentCulture) == new ValidationResult(true, null))
+                {
+                    // No hay errores
+                    return true;
+                }
+                // Hay errores
+                return false;
             }
-            // Hay errores
-            return false;
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         public string QuitarTildes(string texto)
         {
-            return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
+            try
+            {
+                return new String(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray()).Normalize(NormalizationForm.FormC);
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
 
         // ------------------------------------------------------ //
@@ -158,25 +186,32 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarModificarCliente()
         {
-            if (_clienteModificar == null)
+            try
             {
-                // Crear cliente
-                if (Persona_RadioButton.IsChecked == true)
-                    ControladorClientes.AgregarCliente(null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                if (_clienteModificar == null)
+                {
+                    // Crear cliente
+                    if (Persona_RadioButton.IsChecked == true)
+                        ControladorClientes.AgregarCliente(null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                    else
+                        ControladorClientes.AgregarCliente(NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                    _ = _principal.MostrarMensajeEnSnackbar("Cliente agregado correctamente!");
+                }
                 else
-                    ControladorClientes.AgregarCliente(NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                _ = _principal.MostrarMensajeEnSnackbar("Cliente agregado correctamente!");
+                {
+                    // Modificar cliente
+                    if (Persona_RadioButton.IsChecked == true)
+                        ControladorClientes.ModificarCliente(_clienteModificar, null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                    else
+                        ControladorClientes.ModificarCliente(_clienteModificar, NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
+                    _ = _principal.MostrarMensajeEnSnackbar("Cliente modificado correctamente!");
+                }
+                CerrarVentana();
             }
-            else
+            catch (Exception error)
             {
-                // Modificar cliente
-                if (Persona_RadioButton.IsChecked == true)
-                    ControladorClientes.ModificarCliente(_clienteModificar, null, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                else
-                    ControladorClientes.ModificarCliente(_clienteModificar, NombreDeLaEmpresa_TextBox.Text, Nombre_TextBox.Text, Apellido_TextBox.Text, Telefono_TextBox.Text, CUIT_TextBox.Text);
-                _ = _principal.MostrarMensajeEnSnackbar("Cliente modificado correctamente!");
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
-            CerrarVentana();
         }
 
         // ------------------------------------------------------ //
@@ -203,35 +238,42 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void VerificarCambiosAlCerrar()
         {
-            if (_clienteModificar == null)
+            try
             {
-                // Crear Cliente
-                if (NombreDeLaEmpresa_TextBox.Text != "" || Nombre_TextBox.Text != "" || Apellido_TextBox.Text != ""
-                    || Telefono_TextBox.Text != "" || CUIT_TextBox.Text != "")
+                if (_clienteModificar == null)
                 {
-                    // Se realizaron cambios, y se mostrará la alerta
-                    AlertaAlCerrar_Dialog.IsOpen = true;
+                    // Crear Cliente
+                    if (NombreDeLaEmpresa_TextBox.Text != "" || Nombre_TextBox.Text != "" || Apellido_TextBox.Text != ""
+                        || Telefono_TextBox.Text != "" || CUIT_TextBox.Text != "")
+                    {
+                        // Se realizaron cambios, y se mostrará la alerta
+                        AlertaAlCerrar_Dialog.IsOpen = true;
+                    }
+                    else
+                        CerrarVentana();
                 }
                 else
-                    CerrarVentana();
+                {
+                    // Modificar Cliente
+                    if ((NombreDeLaEmpresa_TextBox.Text != "" && _clienteModificar.NombreDeLaEmpresa == null)
+                        || (NombreDeLaEmpresa_TextBox.Text != _clienteModificar.NombreDeLaEmpresa && _clienteModificar.Tipo == "Empresa")
+                        || (Nombre_TextBox.Text != _clienteModificar.Nombre)
+                        || (Apellido_TextBox.Text != _clienteModificar.Apellido)
+                        || (Telefono_TextBox.Text != "" && _clienteModificar.Telefono == null)
+                        || (Telefono_TextBox.Text != _clienteModificar.Telefono)
+                        || (CUIT_TextBox.Text != "" && _clienteModificar.CUIT == null)
+                        || (CUIT_TextBox.Text != _clienteModificar.CUIT))
+                    {
+                        // Se realizaron cambios, y se mostrará la alerta
+                        AlertaAlCerrar_Dialog.IsOpen = true;
+                    }
+                    else
+                        CerrarVentana();
+                }
             }
-            else
+            catch (Exception error)
             {
-                // Modificar Cliente
-                if ((NombreDeLaEmpresa_TextBox.Text != "" && _clienteModificar.NombreDeLaEmpresa == null)
-                    || (NombreDeLaEmpresa_TextBox.Text != _clienteModificar.NombreDeLaEmpresa && _clienteModificar.Tipo == "Empresa")
-                    || (Nombre_TextBox.Text != _clienteModificar.Nombre)
-                    || (Apellido_TextBox.Text != _clienteModificar.Apellido)
-                    || (Telefono_TextBox.Text != "" && _clienteModificar.Telefono == null)
-                    || (Telefono_TextBox.Text != _clienteModificar.Telefono)
-                    || (CUIT_TextBox.Text != "" && _clienteModificar.CUIT == null)
-                    || (CUIT_TextBox.Text != _clienteModificar.CUIT))
-                {
-                    // Se realizaron cambios, y se mostrará la alerta
-                    AlertaAlCerrar_Dialog.IsOpen = true;
-                }
-                else
-                    CerrarVentana();
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 

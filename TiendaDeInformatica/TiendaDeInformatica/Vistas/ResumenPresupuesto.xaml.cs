@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,15 +46,22 @@ namespace TiendaDeInformatica.Vistas
 
         public void RefrescarListaPresupuestoProducto()
         {
-            if (ResumenPresupuesto_Vista.IsLoaded)
+            try
             {
-                Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
-                this.DataContext = presupuesto;
+                if (ResumenPresupuesto_Vista.IsLoaded)
+                {
+                    Presupuesto presupuesto = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
+                    this.DataContext = presupuesto;
 
-                List<PresupuestoProducto> productos = OrdenarProductos(presupuesto.Productos);
-                Productos_ListBox.Items.Clear();
-                foreach (PresupuestoProducto presupuestoProducto in productos)
-                    Productos_ListBox.Items.Add(presupuestoProducto);
+                    List<PresupuestoProducto> productos = OrdenarProductos(presupuesto.Productos);
+                    Productos_ListBox.Items.Clear();
+                    foreach (PresupuestoProducto presupuestoProducto in productos)
+                        Productos_ListBox.Items.Add(presupuestoProducto);
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -73,27 +81,35 @@ namespace TiendaDeInformatica.Vistas
 
         private List<PresupuestoProducto> OrdenarProductos(List<PresupuestoProducto> productos)
         {
-            if (OrdenarProductos_ComboBox.SelectedIndex == 0)
+            try
             {
-                // Incorporación
-                productos.Sort((p1, p2) => p1.Id.CompareTo(p2.Id));
-                productos.Reverse();
-            }
-            else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
-            {
-                // Precio
-                productos.Sort((p1, p2) => p1.MostrarPrecioProducto.CompareTo(p2.MostrarPrecioProducto));
-            }
-            else if (OrdenarProductos_ComboBox.SelectedIndex == 2)
-            {
-                // Unidades
-                productos.Sort((p1, p2) => p1.Cantidad.CompareTo(p2.Cantidad));
-            }
+                if (OrdenarProductos_ComboBox.SelectedIndex == 0)
+                {
+                    // Incorporación
+                    productos.Sort((p1, p2) => p1.Id.CompareTo(p2.Id));
+                    productos.Reverse();
+                }
+                else if (OrdenarProductos_ComboBox.SelectedIndex == 1)
+                {
+                    // Precio
+                    productos.Sort((p1, p2) => p1.MostrarPrecioProducto.CompareTo(p2.MostrarPrecioProducto));
+                }
+                else if (OrdenarProductos_ComboBox.SelectedIndex == 2)
+                {
+                    // Unidades
+                    productos.Sort((p1, p2) => p1.Cantidad.CompareTo(p2.Cantidad));
+                }
 
-            if (!OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
-                productos.Reverse();
+                if (!OrdenarProductos_AscDesc_ToggleButton.IsChecked.Value)
+                    productos.Reverse();
 
-            return productos;
+                return productos;
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return new List<PresupuestoProducto>();
+            }
         }
 
         // ------------------------------------------------------ //
@@ -102,69 +118,104 @@ namespace TiendaDeInformatica.Vistas
 
         private void Eliminar_TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            TextBlock textBlockSender = (TextBlock)sender;
-            if (textBlockSender.DataContext is PresupuestoProducto)
+            try
             {
-                ControladorPresupuestos.EliminarPresupuestoProducto((PresupuestoProducto)textBlockSender.DataContext);
-                RefrescarListaPresupuestoProducto();
+                TextBlock textBlockSender = (TextBlock)sender;
+                if (textBlockSender.DataContext is PresupuestoProducto)
+                {
+                    ControladorPresupuestos.EliminarPresupuestoProducto((PresupuestoProducto)textBlockSender.DataContext);
+                    RefrescarListaPresupuestoProducto();
+                }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void AgregarCantidadPresupuestoProducto_Button_Click(object sender, RoutedEventArgs e)
         {
-            Button buttonSender = (Button)sender;
-            if (buttonSender.DataContext is PresupuestoProducto)
+            try
             {
-                PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
-                if (presupuestoProducto.Cantidad < 99)
+                Button buttonSender = (Button)sender;
+                if (buttonSender.DataContext is PresupuestoProducto)
                 {
-                    ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad += 1);
-                    RefrescarListaPresupuestoProducto();
+                    PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
+                    if (presupuestoProducto.Cantidad < 99)
+                    {
+                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad += 1);
+                        RefrescarListaPresupuestoProducto();
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void EliminarCantidadPresupuestoProducto_Button_Click(object sender, RoutedEventArgs e)
         {
-            Button buttonSender = (Button)sender;
-            if (buttonSender.DataContext is PresupuestoProducto)
+            try
             {
-                PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
-                if (presupuestoProducto.Cantidad > 1)
+                Button buttonSender = (Button)sender;
+                if (buttonSender.DataContext is PresupuestoProducto)
                 {
-                    ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad -= 1);
-                    RefrescarListaPresupuestoProducto();
+                    PresupuestoProducto presupuestoProducto = (PresupuestoProducto)buttonSender.DataContext;
+                    if (presupuestoProducto.Cantidad > 1)
+                    {
+                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto(presupuestoProducto, presupuestoProducto.Cantidad -= 1);
+                        RefrescarListaPresupuestoProducto();
+                    }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private async void CantidadPresupuestoProducto_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBoxSender = (TextBox)sender;
-            string texto = textBoxSender.Text;
-
-            await Task.Delay(100);
-            if (texto == textBoxSender.Text)
+            try
             {
-                if (textBoxSender.DataContext is PresupuestoProducto)
+                TextBox textBoxSender = (TextBox)sender;
+                string texto = textBoxSender.Text;
+
+                await Task.Delay(100);
+                if (texto == textBoxSender.Text)
                 {
-                    bool esInt = int.TryParse(((TextBox)sender).Text, out int cantidad);
-                    if (esInt && cantidad > 0 && cantidad <= 99)
+                    if (textBoxSender.DataContext is PresupuestoProducto)
                     {
-                        ControladorPresupuestos.ModificarCantidadPresupuestoProducto((PresupuestoProducto)textBoxSender.DataContext, cantidad);
-                        RefrescarListaPresupuestoProducto();
+                        bool esInt = int.TryParse(((TextBox)sender).Text, out int cantidad);
+                        if (esInt && cantidad > 0 && cantidad <= 99)
+                        {
+                            ControladorPresupuestos.ModificarCantidadPresupuestoProducto((PresupuestoProducto)textBoxSender.DataContext, cantidad);
+                            RefrescarListaPresupuestoProducto();
+                        }
                     }
                 }
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void ModificarPresupuesto_Button_Click(object sender, RoutedEventArgs e)
         {
-            CaracteristicasPresupuesto caracteristicasPresupuesto = new CaracteristicasPresupuesto(_principal, ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId));
-            caracteristicasPresupuesto.Owner = Application.Current.MainWindow;
+            try
+            {
+                CaracteristicasPresupuesto caracteristicasPresupuesto = new CaracteristicasPresupuesto(_principal, ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId));
+                caracteristicasPresupuesto.Owner = Application.Current.MainWindow;
 
-            caracteristicasPresupuesto.ShowDialog();
-            this.DataContext = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
+                caracteristicasPresupuesto.ShowDialog();
+                this.DataContext = ControladorPresupuestos.ObtenerPresupuesto(_presupuestoId);
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
     }
 }

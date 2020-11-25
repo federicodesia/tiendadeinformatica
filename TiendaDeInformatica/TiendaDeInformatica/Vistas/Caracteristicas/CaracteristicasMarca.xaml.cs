@@ -69,48 +69,62 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void AgregarModificar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (new CampoVacio().Validate(Nombre_TextBox_Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
+            try
             {
-                // No hay errores
-                bool marcaDuplicada = false;
-                string nombre = TextHelper.QuitarTildes(Nombre_TextBox.Text).ToUpper();
-
-                foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
+                if (new CampoVacio().Validate(Nombre_TextBox_Text, CultureInfo.CurrentCulture) == new ValidationResult(true, null))
                 {
-                    if (((_marcaModificar != null) && (_marcaModificar.Id != marca.Id) && (TextHelper.QuitarTildes(marca.Nombre).ToUpper() == nombre))
-                        || (_marcaModificar == null && (TextHelper.QuitarTildes(marca.Nombre).ToUpper() == nombre)))
-                    {
-                        marcaDuplicada = true;
-                        AlertaMarcaDuplicada_Dialog.IsOpen = true;
-                        break;
-                    }
-                }
+                    // No hay errores
+                    bool marcaDuplicada = false;
+                    string nombre = TextHelper.QuitarTildes(Nombre_TextBox.Text).ToUpper();
 
-                if (!marcaDuplicada)
-                    AgregarModificarMarca();
+                    foreach (Marca marca in ControladorMarcas.ObtenerListaDeMarcas())
+                    {
+                        if (((_marcaModificar != null) && (_marcaModificar.Id != marca.Id) && (TextHelper.QuitarTildes(marca.Nombre).ToUpper() == nombre))
+                            || (_marcaModificar == null && (TextHelper.QuitarTildes(marca.Nombre).ToUpper() == nombre)))
+                        {
+                            marcaDuplicada = true;
+                            AlertaMarcaDuplicada_Dialog.IsOpen = true;
+                            break;
+                        }
+                    }
+
+                    if (!marcaDuplicada)
+                        AgregarModificarMarca();
+                }
+                else
+                {
+                    // Hay errores. Actualizar los mensajes de error
+                    Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                }
             }
-            else
+            catch (Exception error)
             {
-                // Hay errores. Actualizar los mensajes de error
-                Nombre_TextBox.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
         private void AgregarModificarMarca()
         {
-            if (_marcaModificar == null)
+            try
             {
-                // Crear marca
-                ControladorMarcas.AgregarMarca(Nombre_TextBox.Text, ImagenSeleccionada);
-                _ = _principal.MostrarMensajeEnSnackbar("Marca agregada correctamente!");
+                if (_marcaModificar == null)
+                {
+                    // Crear marca
+                    ControladorMarcas.AgregarMarca(Nombre_TextBox.Text, ImagenSeleccionada);
+                    _ = _principal.MostrarMensajeEnSnackbar("Marca agregada correctamente!");
+                }
+                else
+                {
+                    // Modificar marca
+                    ControladorMarcas.ModificarMarca(_marcaModificar, Nombre_TextBox.Text, ImagenSeleccionada);
+                    _ = _principal.MostrarMensajeEnSnackbar("Marca modificada correctamente!");
+                }
+                CerrarVentana();
             }
-            else
+            catch (Exception error)
             {
-                // Modificar marca
-                ControladorMarcas.ModificarMarca(_marcaModificar, Nombre_TextBox.Text, ImagenSeleccionada);
-                _ = _principal.MostrarMensajeEnSnackbar("Marca modificada correctamente!");
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
-            CerrarVentana();
         }
 
         // ------------------------------------------------------ //
@@ -129,28 +143,35 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void Cancelar_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (_marcaModificar == null)
+            try
             {
-                // Se iba a crear una marca
-                if (Nombre_TextBox.Text != "" || ImagenSeleccionada != null)
+                if (_marcaModificar == null)
                 {
-                    // Se realizaron cambios
-                    AlertaAlCerrar_Dialog.IsOpen = true;
+                    // Se iba a crear una marca
+                    if (Nombre_TextBox.Text != "" || ImagenSeleccionada != null)
+                    {
+                        // Se realizaron cambios
+                        AlertaAlCerrar_Dialog.IsOpen = true;
+                    }
+                    else
+                        CerrarVentana();
                 }
                 else
-                    CerrarVentana();
+                {
+                    // Se iba a modificar una marca
+                    if ((Nombre_TextBox.Text != _marcaModificar.Nombre)
+                        || (_marcaModificar.Imagen != ImagenSeleccionada))
+                    {
+                        // Se realizaron cambios
+                        AlertaAlCerrar_Dialog.IsOpen = true;
+                    }
+                    else
+                        CerrarVentana();
+                }
             }
-            else
+            catch (Exception error)
             {
-                // Se iba a modificar una marca
-                if ((Nombre_TextBox.Text != _marcaModificar.Nombre)
-                    || (_marcaModificar.Imagen != ImagenSeleccionada))
-                {
-                    // Se realizaron cambios
-                    AlertaAlCerrar_Dialog.IsOpen = true;
-                }
-                else
-                    CerrarVentana();
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
             }
         }
 
@@ -179,14 +200,21 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
 
         private void SeleccionarImagen_Button_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.Filter = "PNG (*.png)|*.png";
-            var result = openFileDialog.ShowDialog();
+            try
+            {
+                var openFileDialog = new Microsoft.Win32.OpenFileDialog();
+                openFileDialog.Filter = "PNG (*.png)|*.png";
+                var result = openFileDialog.ShowDialog();
 
-            if (result == false) return;
+                if (result == false) return;
 
-            Imagen_Image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
-            ImagenSeleccionada = ConvertirImagen.ConvertImageToByteArray(openFileDialog.FileName);
+                Imagen_Image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
+                ImagenSeleccionada = ConvertirImagen.ConvertImageToByteArray(openFileDialog.FileName);
+            }
+            catch (Exception error)
+            {
+                _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+            }
         }
     }
 }

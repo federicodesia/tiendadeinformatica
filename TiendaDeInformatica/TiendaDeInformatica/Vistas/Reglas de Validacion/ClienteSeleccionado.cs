@@ -8,9 +8,16 @@ namespace TiendaDeInformatica.Vistas.Reglas_de_Validacion
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value is Cliente)
-                return new ValidationResult(true, null);
-            return new ValidationResult(false, "Selecciona un cliente");
+            try
+            {
+                if (value is Cliente)
+                    return new ValidationResult(true, null);
+                return new ValidationResult(false, "Selecciona un cliente");
+            }
+            catch
+            {
+                return new ValidationResult(false, "Oops! ocurrió un error inesperado");
+            }
         }
     }
 }
