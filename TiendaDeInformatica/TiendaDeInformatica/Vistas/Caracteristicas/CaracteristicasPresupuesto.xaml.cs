@@ -131,6 +131,7 @@ namespace TiendaDeInformatica.Vistas.Caracteristicas
             catch (Exception error)
             {
                 _ = _principal.MostrarMensajeEnSnackbar("Oops! algo salió mal. Error: " + error);
+                return false;
             }
         }
 
