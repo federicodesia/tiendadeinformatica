@@ -10,7 +10,7 @@
   <li> Armado configurado de PCs. </li>
 </ul>
 
-<h4>Parcipantes.</h4>
+<h4>Participantes.</h4>
 <ul>
   <li> Facundo Aguel </li>
   <li> Federico De Sía.</li>
